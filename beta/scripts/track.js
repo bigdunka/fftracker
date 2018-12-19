@@ -77,6 +77,7 @@ var wackyspoon = true;
 var wackyfab = true;
 var wackyhuh = true;
 var wackyzeromus = true;
+var overridestarting = '';
 
 var disableitemtracker = '0';
 var disablelocationtracker = '0';
@@ -178,48 +179,6 @@ function SetModes() {
 			}
 		}
 		
-		//Starting character
-		if (flagsets[fs].indexOf('-START') > -1) {
-			switch (flagsets[fs]) {
-				case '-STARTCECIL':
-					SwapCharacter(0);
-					break;
-				case '-STARTKAIN':
-					SwapCharacter(1);
-					break;
-				case '-STARTRYDIA':
-					SwapCharacter(2);
-					break;
-				case '-STARTTELLAH':
-					SwapCharacter(3);
-					break;
-				case '-STARTEDWARD':
-					SwapCharacter(4);
-					break;
-				case '-STARTROSA':
-					SwapCharacter(5);
-					break;
-				case '-STARTYANG':
-					SwapCharacter(6);
-					break;
-				case '-STARTPALOM':
-					SwapCharacter(7);
-					break;
-				case '-STARTPOROM':
-					SwapCharacter(8);
-					break;
-				case '-STARTCID':
-					SwapCharacter(9);
-					break;
-				case '-STARTEDGE':
-					SwapCharacter(10);
-					break;
-				case '-STARTFUSOYA':
-					SwapCharacter(11);
-					break;
-			}
-		}
-		
 		//Exclude characters
 		if (flagsets[fs].indexOf('-NO') > -1 && flagsets[fs] != '-NODUPES') {
 			switch (flagsets[fs]) {
@@ -260,7 +219,61 @@ function SetModes() {
 					document.getElementById('character11_x').style.visibility = 'visible';
 					break;
 			}
-		}		
+		}
+
+		//Starting character
+		if (flagsets[fs].indexOf('-START') > -1) {
+			switch (flagsets[fs]) {
+				case '-STARTCECIL':
+					SwapCharacter(0);
+					overridestarting = 'CECIL';
+					break;
+				case '-STARTKAIN':
+					SwapCharacter(1);
+					overridestarting = 'KAIN';
+					break;
+				case '-STARTRYDIA':
+					SwapCharacter(2);
+					overridestarting = 'RYDIA';
+					break;
+				case '-STARTTELLAH':
+					SwapCharacter(3);
+					overridestarting = 'TELLAH';
+					break;
+				case '-STARTEDWARD':
+					SwapCharacter(4);
+					overridestarting = 'EDWARD';
+					break;
+				case '-STARTROSA':
+					SwapCharacter(5);
+					overridestarting = 'ROSA';
+					break;
+				case '-STARTYANG':
+					SwapCharacter(6);
+					overridestarting = 'YANG';
+					break;
+				case '-STARTPALOM':
+					SwapCharacter(7);
+					overridestarting = 'PALOM';
+					break;
+				case '-STARTPOROM':
+					SwapCharacter(8);
+					overridestarting = 'POROM';
+					break;
+				case '-STARTCID':
+					SwapCharacter(9);
+					overridestarting = 'CID';
+					break;
+				case '-STARTEDGE':
+					SwapCharacter(10);
+					overridestarting = 'EDGE';
+					break;
+				case '-STARTFUSOYA':
+					SwapCharacter(11);
+					overridestarting = 'FUSOYA';
+					break;
+			}
+		}
 		
 		if (flagsets[fs].indexOf('-NODUPES')) {
 			cnodupes = true;
@@ -444,6 +457,45 @@ function SetModes() {
 		if (flagsets[fs] === '-Z') {
 			wackyzeromus = true;
 		}
+	}
+
+	switch (overridestarting) {
+		case 'CECIL':
+			document.getElementById('character0_x').style.visibility = 'hidden';
+			break;
+		case 'KAIN':
+			document.getElementById('character1_x').style.visibility = 'hidden';
+			break;
+		case 'RYDIA':
+			document.getElementById('character2_x').style.visibility = 'hidden';
+			break;
+		case 'TELLAH':
+			document.getElementById('character3_x').style.visibility = 'hidden';
+			break;
+		case 'EDWARD':
+			document.getElementById('character4_x').style.visibility = 'hidden';
+			break;
+		case 'ROSA':
+			document.getElementById('character5_x').style.visibility = 'hidden';
+			break;
+		case 'YANG':
+			document.getElementById('character6_x').style.visibility = 'hidden';
+			break;
+		case 'PALOM':
+			document.getElementById('character7_x').style.visibility = 'hidden';
+			break;
+		case 'POROM':
+			document.getElementById('character8_x').style.visibility = 'hidden';
+			break;
+		case 'CID':
+			document.getElementById('character9_x').style.visibility = 'hidden';
+			break;
+		case 'EDGE':
+			document.getElementById('character10_x').style.visibility = 'hidden';
+			break;
+		case 'FUSOYA':
+			document.getElementById('character11_x').style.visibility = 'hidden';
+			break;
 	}
 	
 	//SET THE FLAGS TEXT

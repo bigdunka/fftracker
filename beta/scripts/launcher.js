@@ -1,19 +1,28 @@
+var version = '160b';
+
 function load_cookie() {
 	var c = document.cookie;
+	var cs = c.split(';');
 	
-	if (c.indexOf('settings') > -1) {
-		document.getElementById("remembersettings").checked = true;
-		if (c.indexOf('i-1') > -1) {
-			document.getElementById("itemswitch").checked = true;
-		}
-		if (c.indexOf('b-1') > -1) {
-			document.getElementById("bossswitch").checked = true;
-		}
-		if (c.indexOf('l-1') > -1) {
-			document.getElementById("locationswitch").checked = true;
-		}
-		if (c.indexOf('v-1') > -1) {
-			document.getElementById("verticalswitch").checked = true;
+	for (var co in cs) {
+		if (cs[co].indexOf('160b') > -1 && cs[co].indexOf('settings') > -1) {
+			document.getElementById("remembersettings").checked = true;
+			document.getElementById("itemswitch").checked = false;
+			document.getElementById("bossswitch").checked = false;
+			document.getElementById("locationswitch").checked = false;
+			document.getElementById("verticalswitch").checked = false;
+			if (cs[co].indexOf('i-1') > -1) {
+				document.getElementById("itemswitch").checked = true;
+			}
+			if (cs[co].indexOf('b-1') > -1) {
+				document.getElementById("bossswitch").checked = true;
+			}
+			if (cs[co].indexOf('l-1') > -1) {
+				document.getElementById("locationswitch").checked = true;
+			}
+			if (cs[co].indexOf('v-1') > -1) {
+				document.getElementById("verticalswitch").checked = true;
+			}
 		}
 	}
 }
@@ -46,7 +55,7 @@ function launch() {
 	}
 	
 	if (document.getElementById("remembersettings").checked == true) {
-		var settings = "i-" + itemtracking + "|b-" + bosstracking + "|l-" + locationtracking + "|v-" + verticallayout;
+		var settings = "i-" + itemtracking + "|b-" + bosstracking + "|l-" + locationtracking + "|v-" + verticallayout + '|ver=' + version;
 		document.cookie = "settings=" + settings + "; expires=Sat, 1 Jan 2023 12:00:00 UTC";
 	} else {
 		document.cookie = "settings=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
