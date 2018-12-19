@@ -924,9 +924,9 @@ function ApplyChecks(){
 		var l = 'item' + i.toString();
 		if (keyitems[i] === true) {		
 			//Check to see if Pass is a key item
-			if (pkey === true && i === 17) {
-				itemcount++;
-			}
+			//if (pkey === true && i === 17) {
+				//itemcount++;
+			//}
 			if (i != 17) {
 				itemcount++;
 			}
