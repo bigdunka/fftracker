@@ -15,6 +15,8 @@ var trappedchestmaxcounts = [3,1,1,1,1,1,4,7,1,9];
 var currentitemlist = 0;
 var items = [0,0,0,0,0,0,0,0,0,0];
 
+var partymembers = [-1,-1,-1,-1,-1];
+
 var maxitems = 17;
 
 var viewactivekeyitems = true;
@@ -82,6 +84,9 @@ var overridestarting = '';
 var disableitemtracker = '0';
 var disablelocationtracker = '0';
 var disablebosstracker = '0';
+
+var partyswap = 0;
+var ignoreswap = false;
 
 function getParameterByName(name, url) {
 	if (!url) url = window.location.href;
@@ -462,39 +467,51 @@ function SetModes() {
 	switch (overridestarting) {
 		case 'CECIL':
 			document.getElementById('character0_x').style.visibility = 'hidden';
+			document.getElementById('party0').style = 'background-image: url(\'images/character0_a.png\')';
 			break;
 		case 'KAIN':
 			document.getElementById('character1_x').style.visibility = 'hidden';
+			document.getElementById('party0').style = 'background-image: url(\'images/character1_a.png\')';
 			break;
 		case 'RYDIA':
 			document.getElementById('character2_x').style.visibility = 'hidden';
+			document.getElementById('party0').style = 'background-image: url(\'images/character2_a.png\')';
 			break;
 		case 'TELLAH':
 			document.getElementById('character3_x').style.visibility = 'hidden';
+			document.getElementById('party0').style = 'background-image: url(\'images/character3_a.png\')';
 			break;
 		case 'EDWARD':
 			document.getElementById('character4_x').style.visibility = 'hidden';
+			document.getElementById('party0').style = 'background-image: url(\'images/character4_a.png\')';
 			break;
 		case 'ROSA':
 			document.getElementById('character5_x').style.visibility = 'hidden';
+			document.getElementById('party0').style = 'background-image: url(\'images/character5_a.png\')';
 			break;
 		case 'YANG':
 			document.getElementById('character6_x').style.visibility = 'hidden';
+			document.getElementById('party0').style = 'background-image: url(\'images/character6_a.png\')';
 			break;
 		case 'PALOM':
 			document.getElementById('character7_x').style.visibility = 'hidden';
+			document.getElementById('party0').style = 'background-image: url(\'images/character7_a.png\')';
 			break;
 		case 'POROM':
 			document.getElementById('character8_x').style.visibility = 'hidden';
+			document.getElementById('party0').style = 'background-image: url(\'images/character8_a.png\')';
 			break;
 		case 'CID':
 			document.getElementById('character9_x').style.visibility = 'hidden';
+			document.getElementById('party0').style = 'background-image: url(\'images/character9_a.png\')';
 			break;
 		case 'EDGE':
 			document.getElementById('character10_x').style.visibility = 'hidden';
+			document.getElementById('party0').style = 'background-image: url(\'images/character10_a.png\')';
 			break;
 		case 'FUSOYA':
 			document.getElementById('character11_x').style.visibility = 'hidden';
+			document.getElementById('party0').style = 'background-image: url(\'images/character11_a.png\')';
 			break;
 	}
 	
@@ -571,7 +588,7 @@ function SetModes() {
 		document.getElementById('trackingtable').style.width = "510px";
 		document.getElementById('trackingtable').style.float = "left";
 		document.getElementById('trackingtable').style.marginLeft = "20px";
-		document.getElementById('toptable').style.margin = "0px 0px 20px 60px";
+		document.getElementById('leftdiv').style.margin = "0px 0px 20px 60px";
 		document.getElementById('itemModalInner').style.left = "60px";
 		document.getElementById('itemModalInner').style.top = "460px";
 		document.getElementById('flagsModalInner').style.left = "60px";
@@ -953,7 +970,7 @@ function ApplyChecks(){
 	}
 	
 	//Characters
-	for (var i = 0; i < 12; i++) {
+	/*for (var i = 0; i < 12; i++) {
 		var l = 'character' + i.toString();
 		if (characters[i] === true) {
 			if ((i === 0 && cecil) || (i === 2 && rydia)) { //If Cecil and Ordeals clear or If Rydia and Dwarf Castle clear
@@ -968,6 +985,31 @@ function ApplyChecks(){
 				document.getElementById(l).style = 'background-image: url(\'images/character' + i + '.png\')';
 			}
 		}
+	} */
+	
+	if (cecil) { //If Cecil and Ordeals
+		document.getElementById('character0').style = 'background-image: url(\'images/character0_2_a.png\')';
+	} else { //All Others
+		document.getElementById('character0').style = 'background-image: url(\'images/character0_a.png\')';
+	}
+	if (rydia) { //If Rydia and Dwarf Castle clear
+		document.getElementById('character2').style = 'background-image: url(\'images/character2_2_a.png\')';
+	} else { //All Others
+		document.getElementById('character2').style = 'background-image: url(\'images/character2_a.png\')';
+	}
+	
+	//Party Members
+	for (var i = 0; i < 5; i++) {
+		var l = 'characterempty';
+		var p = 'party' + i;
+		if (partymembers[i] != -1) {
+			if ((partymembers[i] === 0 && cecil) || (partymembers[i] === 2 && rydia)) { //If Cecil and Ordeals clear or if Rydia and Dwarf 
+				l = 'character' + partymembers[i] + '_2_a';
+			} else { //All Others
+				l = 'character' + partymembers[i] + '_a';
+			}
+		}
+		document.getElementById(p).style = 'background-image: url(\'images/' + l + '.png\')';
 	}
 	
 	//Items
@@ -982,9 +1024,9 @@ function ApplyChecks(){
 			if (i != 17) {
 				itemcount++;
 			}
-			document.getElementById(l).src = imagedir + 'item' + i + '_a.png'
+			document.getElementById(l).style = 'background-image: url(\'images/item' + i + '_a.png\')';
 		} else {
-			document.getElementById(l).src = imagedir + 'item' + i + '.png'
+			document.getElementById(l).style = 'background-image: url(\'images/item' + i + '.png\')';
 		}
 	}
 	
@@ -1289,8 +1331,25 @@ function SwapItem(i) {
 }				
 
 function SwapCharacter(i) {
-	characters[i] = !characters[i];
-	ApplyChecks();
+	if (i === 99) {
+		ignoreswap = true;
+	} else {
+		if (ignoreswap === true) {
+			ignoreswap = false;
+		} else {
+			characters[i] = !characters[i];
+			partymembers[partyswap] = i;
+			document.getElementById("partydiv").style.display = "block";
+			document.getElementById("characterdiv").style.display = "none";
+			ApplyChecks();
+		}
+	}
+}
+
+function SwapParty(i) {
+	document.getElementById("partydiv").style.display = "none";
+	document.getElementById("characterdiv").style.display = "block";
+	partyswap = i;
 }
 
 function LoadItems(i) {	
@@ -1708,9 +1767,9 @@ function ToggleMist() {
 	if (disablebosstracker === '1') {
 		mist = !mist;
 		if (mist) {
-			document.getElementById('misttoggle').src = imagedir + 'mistdragon.png'
+			document.getElementById('misttoggle').style = 'background-image: url(\'images/mistdragon.png\')';
 		} else {
-			document.getElementById('misttoggle').src = imagedir + 'mistdragon_2.png'
+			document.getElementById('misttoggle').style = 'background-image: url(\'images/mistdragon_2.png\')';
 		}
 		ApplyChecks();
 	} else {
