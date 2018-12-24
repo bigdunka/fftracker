@@ -15,6 +15,8 @@ var trappedchestmaxcounts = [3,1,1,1,1,1,4,7,1,9];
 var currentitemlist = 0;
 var items = [0,0,0,0,0,0,0,0,0,0];
 
+var partymembers = [-1,-1,-1,-1,-1];
+
 var maxitems = 17;
 
 var viewactivekeyitems = true;
@@ -29,26 +31,62 @@ var mist = false;
 
 var menutoggle = false;
 
-var vflag = 0;
-var jflag = 0;
-var kflag = 0;
-var pflag = 0;
-var cflag = 0;
-var tflag = 0;
-var sflag = 0;
-var bflag = 0;
-var fflag = 0;
-var nflag = 0;
-var eflag = 0;
-var mflag = 0;
-var xflag = 0;
-var yflag = 0;
-var gflag = 0;
-var wflag = 0;
-var zflag = 0;
+//NEW FLAGS
+var variant = 0;
+var jitems = false;
+var jspells = false;
+var jabilities = false;
+var krandomized = false;
+var ksummons = false;
+var kmoon = false;
+var ktrapped = false;
+var ksafety = false;
+var pshop = false;
+var pkey = false;
+var ptreasure = false;
+var cguaranteed = false;
+var crestrict = false;
+var cfive = false;
+var cnodupes = false;
+var crescue = false;
+var chobs = false;
+var treasures = 0;
+var tgp = false;
+var ttrapped = false;
+var shops = 0;
+var ssafety = false;
+var sfree = false;
+var sapples = false;
+var ssirens = false;
+var randombosses = false;
+var bosssafety = false;
+var wyvern = 0;
+var fuchallenge = false;
+var nflc = false;
+var nflk = false;
+var nflb = false;
+var enemyencounters = 0;
+var enemyforced = false;
+var enemyrun = false;
+var expsharing = false;
+var expkeyitems = false;
+var explowlevel = false;
+var expnoexp = false;
+var aagility = true;
+var noadamants = true;
+var wackymute = true;
+var wackyspoon = true;
+var wackyfab = true;
+var wackyhuh = true;
+var wackyzeromus = true;
+var overridestarting = '';
+
 var disableitemtracker = '0';
 var disablelocationtracker = '0';
 var disablebosstracker = '0';
+
+var partyswap = 0;
+var ignoreswap = false;
 
 function getParameterByName(name, url) {
 	if (!url) url = window.location.href;
@@ -80,279 +118,468 @@ function SetModes() {
 	
 	var flags = getParameterByName('f');
 	
-	document.getElementById('flagscontainer').innerHTML = 'Flags: ' + flags;
-	
-	document.getElementById('vflagmodal').innerHTML = '0: No Variants';
-	if (flags.indexOf('V') > -1) {
-		if (flags.indexOf('V2') > -1) {
-			vflag = 2;
-			document.getElementById('vflagmodal').innerHTML = '2: Giant %';
-		} else {
-			vflag = 1;
-			document.getElementById('vflagmodal').innerHTML = '1: Forge The Crystal';
+	var flagsets = flags.split('|');
+		
+	for (var fs in flagsets) {
+		
+		//Variants ****NEEDS TESTING****
+		if (flagsets[fs].indexOf('V1') > -1) {
+			variant = 1;
+		} else if (flagsets[fs].indexOf('V2') > -1) {
+			variant = 2;
+		}
+		
+		//Japanese Content ****NEEDS TESTING****
+		if (flagsets[fs].startsWith('J')) {
+			if (flagsets[fs].indexOf('I') > -1) {
+				jitems = true;
+			}
+			if (flagsets[fs].indexOf('S') > -1) {
+				jspells = true;
+			}
+			if (flagsets[fs].indexOf('A') > -1) {
+				jabilities = true;
+			}
+		}
+			
+		//Key Items/Pass
+		if (flagsets[fs].startsWith('K')) {
+			krandomized = true;
+			if (flagsets[fs].indexOf('Q') > -1) {
+				ksummons = true;
+			}
+			if (flagsets[fs].indexOf('M') > -1) {
+				kmoon = true;
+			}
+			if (flagsets[fs].indexOf('T') > -1) {
+				ktrapped = true;
+			}
+			if (flagsets[fs].indexOf('!') > -1) {
+				ksafety = true;
+			}
+		}		
+		
+		if (flagsets[fs].startsWith('P')) {
+			if (flagsets[fs].indexOf('S') > -1) {
+				pshop = true;
+			}
+			if (flagsets[fs].indexOf('K') > -1) {
+				pkey = true;
+			}
+			if (flagsets[fs].indexOf('T') > -1) {
+				ptreasure = true;
+			}
+		}
+		
+		//Characters
+		if (flagsets[fs].startsWith('C')) {
+			if (flagsets[fs].indexOf('N') > -1) {
+				cguaranteed = true;
+			}
+			if (flagsets[fs].indexOf('X') > -1) {
+				crestrict = true;
+			}
+			if (flagsets[fs].indexOf('5') > -1) {
+				cfive = true;
+			}
+		}
+		
+		//Exclude characters
+		if (flagsets[fs].indexOf('-NO') > -1 && flagsets[fs] != '-NODUPES') {
+			switch (flagsets[fs]) {
+				case '-NOCECIL':
+					document.getElementById('character0_x').style.visibility = 'visible';
+					break;
+				case '-NOKAIN':
+					document.getElementById('character1_x').style.visibility = 'visible';
+					break;
+				case '-NORYDIA':
+					document.getElementById('character2_x').style.visibility = 'visible';
+					break;
+				case '-NOTELLAH':
+					document.getElementById('character3_x').style.visibility = 'visible';
+					break;
+				case '-NOEDWARD':
+					document.getElementById('character4_x').style.visibility = 'visible';
+					break;
+				case '-NOROSA':
+					document.getElementById('character5_x').style.visibility = 'visible';
+					break;
+				case '-NOYANG':
+					document.getElementById('character6_x').style.visibility = 'visible';
+					break;
+				case '-NOPALOM':
+					document.getElementById('character7_x').style.visibility = 'visible';
+					break;
+				case '-NOPOROM':
+					document.getElementById('character8_x').style.visibility = 'visible';
+					break;
+				case '-NOCID':
+					document.getElementById('character9_x').style.visibility = 'visible';
+					break;
+				case '-NOEDGE':
+					document.getElementById('character10_x').style.visibility = 'visible';
+					break;
+				case '-NOFUSOYA':
+					document.getElementById('character11_x').style.visibility = 'visible';
+					break;
+			}
+		}
+
+		//Starting character
+		if (flagsets[fs].indexOf('-START') > -1) {
+			switch (flagsets[fs]) {
+				case '-STARTCECIL':
+					SwapCharacter(0);
+					overridestarting = 'CECIL';
+					break;
+				case '-STARTKAIN':
+					SwapCharacter(1);
+					overridestarting = 'KAIN';
+					break;
+				case '-STARTRYDIA':
+					SwapCharacter(2);
+					overridestarting = 'RYDIA';
+					break;
+				case '-STARTTELLAH':
+					SwapCharacter(3);
+					overridestarting = 'TELLAH';
+					break;
+				case '-STARTEDWARD':
+					SwapCharacter(4);
+					overridestarting = 'EDWARD';
+					break;
+				case '-STARTROSA':
+					SwapCharacter(5);
+					overridestarting = 'ROSA';
+					break;
+				case '-STARTYANG':
+					SwapCharacter(6);
+					overridestarting = 'YANG';
+					break;
+				case '-STARTPALOM':
+					SwapCharacter(7);
+					overridestarting = 'PALOM';
+					break;
+				case '-STARTPOROM':
+					SwapCharacter(8);
+					overridestarting = 'POROM';
+					break;
+				case '-STARTCID':
+					SwapCharacter(9);
+					overridestarting = 'CID';
+					break;
+				case '-STARTEDGE':
+					SwapCharacter(10);
+					overridestarting = 'EDGE';
+					break;
+				case '-STARTFUSOYA':
+					SwapCharacter(11);
+					overridestarting = 'FUSOYA';
+					break;
+			}
+		}
+		
+		if (flagsets[fs].indexOf('-NODUPES')) {
+			cnodupes = true;
+		}
+		
+		if (flagsets[fs].indexOf('-RESCUE')) {
+			crescue = true;
+		}
+		
+		if (flagsets[fs].indexOf('-HOBS')) {
+			chobs = true;
+		}
+		
+		//Treasures
+		if (flagsets[fs].indexOf('T1') > -1) {
+			treasures = 1;
+		} else if (flagsets[fs].indexOf('T2') > -1) {
+			treasures = 2;
+		} else if (flagsets[fs].indexOf('T3') > -1) {
+			treasures = 3;
+		} else if (flagsets[fs].indexOf('T4') > -1) {
+			treasures = 4;
+		} else if (flagsets[fs].indexOf('TX') > -1) {
+			treasures = 5;
+		}
+		
+		if (flagsets[fs].startsWith('T')) {
+			if (flagsets[fs].indexOf('G') > -1) {
+				tgp = true;
+			}
+			if (flagsets[fs].indexOf('R') > -1) {
+				ttrapped = true;
+			}
+		}
+		
+		//Shops
+		if (flagsets[fs].indexOf('S1') > -1) {
+			shops = 1;
+		} else if (flagsets[fs].indexOf('S2') > -1) {
+			shops = 2;
+		} else if (flagsets[fs].indexOf('S3') > -1) {
+			shops = 3;
+		} else if (flagsets[fs].indexOf('S4') > -1) {
+			shops = 4;
+		} else if (flagsets[fs].indexOf('SC') > -1) {
+			shops = 5;
+		} else if (flagsets[fs].indexOf('SX') > -1) {
+			shops = 6;
+		}
+		
+		if (flagsets[fs].startsWith('S')) {
+			if (flagsets[fs].indexOf('!') > -1) {
+				ssafety = true;
+			}
+			if (flagsets[fs].indexOf('F') > -1) {
+				sfree = true;
+			}
+		}
+
+		if (flagsets[fs] === '-NOAPPLES') {
+			sapples = true;
+		}
+		
+		if (flagsets[fs] === '-NOSIRENS') {
+			ssirens = true;
+		}
+		
+		//Bosses
+		if (flagsets[fs].startsWith('B')) {
+			randombosses = true;
+			if (flagsets[fs].indexOf('!') > -1) {
+				bosssafety = true;
+			}
+		}
+		
+		if (flagsets[fs].indexOf('-WHYBURN')) {
+			wyvern = 1;
+		} else if (flagsets[fs].indexOf('-WHICHBURN')) {
+			wyvern = 2;
+		}
+		
+		//Challenges
+		if (flagsets[fs] === 'F') {
+			fuchallenge = true;
+		}
+		
+		if (flagsets[fs].startsWith('N')) {
+			if (flagsets[fs].indexOf('C') > -1) {
+				nflc = true;
+			}
+			if (flagsets[fs].indexOf('K') > -1) {
+				nflk = true;
+			}
+			if (flagsets[fs].indexOf('B') > -1) {
+				nflb = true;
+			}
+		}
+		
+		//Battles
+		if (flagsets[fs].startsWith('E')) {
+			if (flagsets[fs].indexOf('T') > -1) {
+				enemyencounters = 0;
+			} else if (flagsets[fs].indexOf('R') > -1) {
+				enemyencounters = 1;
+			} else if (flagsets[fs].indexOf('X') > -1) {
+				enemyencounters = 2;
+			}
+			
+			if (flagsets[fs].indexOf('F') > -1) {
+				enemyforced = true;
+			}
+
+			if (flagsets[fs].indexOf('C') > -1) {
+				enemyrun = true;
+			}
+		}
+		
+		//Experience
+		if (flagsets[fs].startsWith('X')) {
+			if (flagsets[fs].indexOf('S') > -1) {
+				expsharing = true;
+			}
+
+			if (flagsets[fs].indexOf('B') > -1) {
+				expkeyitems = true;
+			}
+
+			if (flagsets[fs].indexOf('K') > -1) {
+				explowlevel = true;
+			}
+
+			if (flagsets[fs].indexOf('X') > -1) {
+				expnoexp = true;
+			}		
+		}
+		
+		//Tweaks
+		if (flagsets[fs].startsWith('G')) {
+			if (flagsets[fs].indexOf('D') > -1) {
+				gduplication = true;
+			}
+			if (flagsets[fs].indexOf('M') > -1) {
+				gunderflow = true;
+			}
+			if (flagsets[fs].indexOf('W') > -1) {
+				gdwarfwarp = true;
+			}
+			if (flagsets[fs].indexOf('L') > -1) {
+				glife = true;
+			}
+			if (flagsets[fs].indexOf('64') > -1) {
+				g64 = true;
+			}
+		}
+		
+		if (flagsets[fs] === '-AA') {
+			aagility = true;
+		}
+		
+		if (flagsets[fs] === '-NOADAMANTS') {
+			noadamants = true;
+		}
+		
+		//Wacky
+		if (flagsets[fs] === '-MUTE') {
+			wackymute = true;
+		}
+		
+		if (flagsets[fs] === '-SPOON') {
+			wackyspoon = true;
+		}
+		
+		if (flagsets[fs] === '-FAB') {
+			wackyfab = true;
+		}
+		
+		if (flagsets[fs] === '-HUH') {
+			wackyhuh = true;
+		}
+		
+		if (flagsets[fs] === '-Z') {
+			wackyzeromus = true;
 		}
 	}
+
+	switch (overridestarting) {
+		case 'CECIL':
+			document.getElementById('character0_x').style.visibility = 'hidden';
+			document.getElementById('party0').style = 'background-image: url(\'images/character0_a.png\')';
+			break;
+		case 'KAIN':
+			document.getElementById('character1_x').style.visibility = 'hidden';
+			document.getElementById('party0').style = 'background-image: url(\'images/character1_a.png\')';
+			break;
+		case 'RYDIA':
+			document.getElementById('character2_x').style.visibility = 'hidden';
+			document.getElementById('party0').style = 'background-image: url(\'images/character2_a.png\')';
+			break;
+		case 'TELLAH':
+			document.getElementById('character3_x').style.visibility = 'hidden';
+			document.getElementById('party0').style = 'background-image: url(\'images/character3_a.png\')';
+			break;
+		case 'EDWARD':
+			document.getElementById('character4_x').style.visibility = 'hidden';
+			document.getElementById('party0').style = 'background-image: url(\'images/character4_a.png\')';
+			break;
+		case 'ROSA':
+			document.getElementById('character5_x').style.visibility = 'hidden';
+			document.getElementById('party0').style = 'background-image: url(\'images/character5_a.png\')';
+			break;
+		case 'YANG':
+			document.getElementById('character6_x').style.visibility = 'hidden';
+			document.getElementById('party0').style = 'background-image: url(\'images/character6_a.png\')';
+			break;
+		case 'PALOM':
+			document.getElementById('character7_x').style.visibility = 'hidden';
+			document.getElementById('party0').style = 'background-image: url(\'images/character7_a.png\')';
+			break;
+		case 'POROM':
+			document.getElementById('character8_x').style.visibility = 'hidden';
+			document.getElementById('party0').style = 'background-image: url(\'images/character8_a.png\')';
+			break;
+		case 'CID':
+			document.getElementById('character9_x').style.visibility = 'hidden';
+			document.getElementById('party0').style = 'background-image: url(\'images/character9_a.png\')';
+			break;
+		case 'EDGE':
+			document.getElementById('character10_x').style.visibility = 'hidden';
+			document.getElementById('party0').style = 'background-image: url(\'images/character10_a.png\')';
+			break;
+		case 'FUSOYA':
+			document.getElementById('character11_x').style.visibility = 'hidden';
+			document.getElementById('party0').style = 'background-image: url(\'images/character11_a.png\')';
+			break;
+	}
 	
-	if (vflag === 0) {
+	//SET THE FLAGS TEXT
+	
+	if (variant === 0) {
 		document.getElementById('item4td').style.backgroundImage = 'url(\'./images/requireditem.png\')';
 		document.getElementById('item16td').style.backgroundImage = 'url(\'./images/requireditem.png\')';
 		document.getElementById('item17td').style.backgroundImage = 'url(\'./images/requireditem.png\')';
-	} else if (vflag === 1) {
+	} else if (variant === 1) {
 		document.getElementById('item4td').style.backgroundImage = 'url(\'./images/requireditem.png\')';
 		document.getElementById('item12td').style.backgroundImage = 'url(\'./images/requireditem.png\')';
 		document.getElementById('item13td').style.backgroundImage = 'url(\'./images/requireditem.png\')';
 		document.getElementById('item16td').style.backgroundImage = 'url(\'./images/requireditem.png\')';
 		document.getElementById('item17td').style.backgroundImage = 'url(\'./images/requireditem.png\')';
-	} else if (vflag === 2) {
+	} else if (variant === 2) {
 		document.getElementById('item4td').style.backgroundImage = 'url(\'./images/requireditem.png\')';
 	}
-		
-	document.getElementById('jflagmodal').innerHTML = '0: No Japanese Content';
-	if (flags.indexOf('J') > -1) {
-		if (flags.indexOf('J2') > -1) {
-			jflag = 2;
-			document.getElementById('jflagmodal').innerHTML = '2: Japanese Items and Abilities';
-		} else {
-			jflag = 1;
-			document.getElementById('jflagmodal').innerHTML = '1: Japanese Items';
-		}
-	}
-						
-	if (jflag === 0) {
+
+	if (jitems === false) {
 		document.getElementById('j1items').style.display = "none";
 		document.getElementById('j1itemstown').style.display = "none";
 	}
-	
-	document.getElementById('kflagmodal').innerHTML = '0: No Key Items';
-	if (flags.indexOf('K') > -1) {
-		if (flags.indexOf('K4') > -1) {
-			kflag = 4;
-			document.getElementById('kflagmodal').innerHTML = '4: Key Items/Summons + Lunar/Trapped/Any Path';
-		} else if (flags.indexOf('K3') > -1) {
-			kflag = 3;
-			document.getElementById('kflagmodal').innerHTML = '3: Key Items/Summons + Lunar/Trapped';
-		} else if (flags.indexOf('K2') > -1) {
-			kflag = 2;
-			document.getElementById('kflagmodal').innerHTML = '2: Key Items/Summons + Lunar';
-		} else {
-			kflag = 1;
-			document.getElementById('kflagmodal').innerHTML = '1: Key Items Shuffled';
-		}
-	}
-	
-	if (kflag < 3) {
+
+	if (ktrapped === false) {
 		document.getElementById('trappedchestsdiv').style.display = "none";
 		document.getElementById('trackingtable').style.fontSize = "24px";
 		document.getElementById('keyitemsdiv').style.width = "160px";
 		document.getElementById('charactersdiv').style.width = "160px";
 		document.getElementById('townsdiv').style.width = "160px";
 	}
-	if (kflag < 2) {
-		keyitemlocations[3] = 3;
-		keyitemlocations[15] = 3;
-		keyitemlocations[16] = 3;
-		keyitemlocations[20] = 3;
-		keyitemlocations[21] = 3;
-		keyitemlocations[22] = 3;
-		keyitemlocations[23] = 3;
-		keyitemlocations[24] = 3;
-		keyitemlocations[25] = 3;
-		keyitemlocations[26] = 3;
+	
+	if (ksummons === false) {
+		keyitemlocations[3] = 3; //Odin
+		keyitemlocations[15] = 3; //Asura
+		keyitemlocations[16] = 3; //Leva
+		keyitemlocations[20] = 3; //Slyph
+		keyitemlocations[21] = 3; //Bahamut
 	}
 	
-	document.getElementById('pflagmodal').innerHTML = '0: Pass in Shop';
-	if (flags.indexOf('P') > -1) {
-		if (flags.indexOf('P2') > -1) {
-			pflag = 2;
-			document.getElementById('pflagmodal').innerHTML = '2: 3 Passes in Random Chests (Not on Moon)';
-		} else {
-			pflag = 1;
-			document.getElementById('pflagmodal').innerHTML = '1: Pass Mixed with Key Items';
-		}
+	if (kmoon === false) {
+		keyitemlocations[22] = 3; //Lunar Crystal
+		keyitemlocations[23] = 3; //Lunar Masa
+		keyitemlocations[24] = 3; //Lunar Mura
+		keyitemlocations[25] = 3; //Lunar Ribbon
+		keyitemlocations[26] = 3; //Lunar White
 	}
 	
-	if (kflag > 1 && pflag === 1) {
-		maxitems = 18;
+	if (shops > 4) {
+		disableitemtracker = '1';
 	}
 	
-	document.getElementById('cflagmodal').innerHTML = '0: Characters Normal';
-	if (flags.indexOf('C') > -1) {
-		if (flags.indexOf('C3') > -1) {
-			cflag = 3;
-			document.getElementById('cflagmodal').innerHTML = '3: Five Unique Characters';
-		} else if (flags.indexOf('C2') > -1) {
-			cflag = 2;
-			document.getElementById('cflagmodal').innerHTML = '2: Characters Randomized';
-		} else {
-			cflag = 1;
-			document.getElementById('cflagmodal').innerHTML = '1: Characters Randomized/Edge + Fu Harder to Find';
-		}
+	if (nflc === true) {
+		characterlocations[2] = 3;
+		characterlocations[8] = 3;
+		characterlocations[9] = 3;
+		characterlocations[11] = 3;		
 	}
 	
-	document.getElementById('tflagmodal').innerHTML = '0: Treasures Normal';
-	if (flags.indexOf('T') > -1) {
-		if (flags.indexOf('T5') > -1) {
-			tflag = 5;
-			document.getElementById('tflagmodal').innerHTML = '5: Untrapped Chests are Empty';
-		} else if (flags.indexOf('T4') > -1) {
-			tflag = 4;
-			document.getElementById('tflagmodal').innerHTML = '4: Treasure Totally Randomized';
-		} else if (flags.indexOf('T3') > -1) {
-			tflag = 3;
-			document.getElementById('tflagmodal').innerHTML = '3: Treasure Randomized Excluding Highest Level';
-		} else if (flags.indexOf('T2') > -1) {
-			tflag = 2;
-			document.getElementById('tflagmodal').innerHTML = '2: Treasure Balanced Randomized';
-		} else {
-			tflag = 1;
-			document.getElementById('tflagmodal').innerHTML = '1: Trapped Shuffled/Biased Shuffle';
-		}
-	}
-	
-	document.getElementById('sflagmodal').innerHTML = '0: Shops Normal';
-	if (flags.indexOf('S') > -1) {
-		if (flags.indexOf('S5') > -1) {
-			sflag = 5;
-			document.getElementById('sflagmodal').innerHTML = '5: All Cabins, All The Time!';
-			disableitemtracker = '1';
-		} else if (flags.indexOf('S4') > -1) {
-			sflag = 4;
-			document.getElementById('sflagmodal').innerHTML = '4: Shops Totally Randomized';
-		} else if (flags.indexOf('S3') > -1) {
-			sflag = 3;
-			document.getElementById('sflagmodal').innerHTML = '3: Shops Totally Randomized Excluding Highest Level';
-		} else if (flags.indexOf('S2') > -1) {
-			sflag = 2;
-			document.getElementById('sflagmodal').innerHTML = '2: Shops Balanced Randomized';
-		} else {
-			sflag = 1;
-			document.getElementById('sflagmodal').innerHTML = '1: Shops Shuffled/Biased Shuffle';
-		}
-	}
-	
-	document.getElementById('bflagmodal').innerHTML = '0: Bosses Normal';
-	if (flags.indexOf('B') > -1) {
-		if (flags.indexOf('B2') > -1) {
-			bflag = 2;
-			document.getElementById('bflagmodal').innerHTML = '2: Complete Shuffle';
-		} else {
-			bflag = 1;
-			document.getElementById('bflagmodal').innerHTML = '1: Bosses Shuffled/Underworld Restricted';
-		}
-	}
-
-	document.getElementById('fflagmodal').innerHTML = '0: FuSoYa Full Powered';
-	if (flags.indexOf('F') > -1) {
-		if (flags.indexOf('F2') > -1) {
-			fflag = 2;
-			document.getElementById('fflagmodal').innerHTML = '2: FuSoYa Powered on Boss Kills';
-		} else {
-			fflag = 1;
-			document.getElementById('fflagmodal').innerHTML = '1: FuSoYa Powered at Ordeals';
-		}
-	}
-
-	document.getElementById('nflagmodal').innerHTML = '0: Free Office Lunch for Everybody';
-	if (flags.indexOf('N') > -1) {
-		if (flags.indexOf('N2') > -1) {
-			nflag = 2;
-			document.getElementById('nflagmodal').innerHTML = '2: No Free Lunches/No Alternate Win/Boss Bit';
-		} else {
-			nflag = 1;
-			document.getElementById('nflagmodal').innerHTML = '1: No Free Lunches';
-		}
-	}
-	
-	if (nflag === 0) {
+	if (nflk === true) {
+		keyitemlocations[12] = 3;
+	} else {
 		if (disablebosstracker === '1') {
 			document.getElementById('misttoggle').style.visibility = "hidden";
 		}
 		keyitemlocations[9] = 3;
-	} else {
-		keyitemlocations[12] = 3;
-		characterlocations[2] = 3;
-		characterlocations[8] = 3;
-		characterlocations[9] = 3;
-		characterlocations[11] = 3;
-	}
-	
-
-	document.getElementById('eflagmodal').innerHTML = '0: Normal Encounters';
-	if (flags.indexOf('E') > -1) {
-		if (flags.indexOf('E4') > -1) {
-			eflag = 4;
-			document.getElementById('eflagmodal').innerHTML = '4: Encounters Permanently Disabled';
-		} else if (flags.indexOf('E3') > -1) {
-			eflag = 3;
-			document.getElementById('eflagmodal').innerHTML = '3: Encounters Disabled/Can Be Toggled';
-		} else if (flags.indexOf('E2') > -1) {
-			eflag = 2;
-			document.getElementById('eflagmodal').innerHTML = '2: Encounters Reduced';
-		} else {
-			eflag = 1;
-			document.getElementById('eflagmodal').innerHTML = '1: Encounters Reduced/Trap Door + Behemoth Lowered';
-		}
 	}
 
-	document.getElementById('moneyflagmodal').innerHTML = '0: Money Normal';
-	if (flags.indexOf('$') > -1) {
-		if (flags.indexOf('$3') > -1) {
-			mflag = 3;
-			document.getElementById('moneyflagmodal').innerHTML = '3: Everything is FREE!';
-		} else if (flags.indexOf('$2') > -1) {
-			mflag = 2;
-			document.getElementById('moneyflagmodal').innerHTML = '2: Weak and Moderate turn to GP';
-		} else {
-			mflag = 1;
-			document.getElementById('moneyflagmodal').innerHTML = '1: Weak turn to GP';
-		}
-	}
-	
-	document.getElementById('xflagmodal').innerHTML = '0: Experience Normal (And Painful)';
-	if (flags.indexOf('X') > -1) {
-		if (flags.indexOf('X2') > -1) {
-			xflag = 2;
-			document.getElementById('xflagmodal').innerHTML = '2: XP Not Divided/2x at 10 Key Items';
-		} else {
-			xflag = 1;
-			document.getElementById('xflagmodal').innerHTML = '1: XP Not Divided';
-		}
-	}
-	
-	document.getElementById('yflagmodal').innerHTML = '0: Hold Y to Dash';
-	if (flags.indexOf('Y') > -1) {
-		if (flags.indexOf('Y2') > -1) {
-			yflag = 2;
-			document.getElementById('yflagmodal').innerHTML = '2: Dashing/Hold Y to Walk/Fast Battle + Message';
-		} else {
-			yflag = 1;
-			document.getElementById('yflagmodal').innerHTML = '1: Hold Y to Dash/Fast Battle + Message';
-		}
-	}
-	
-	document.getElementById('gflagmodal').innerHTML = '0: Glitches Enabled';
-	if (flags.indexOf('G') > -1) {
-		gflag = 1;
-		document.getElementById('gflagmodal').innerHTML = '1: Glitches Disabled';
-	}
-	
-	document.getElementById('wflagmodal').innerHTML = '0: Wyvern BURN! (The W is for WHY?!)';
-	if (flags.indexOf('W') > -1) {
-		if (flags.indexOf('W2') > -1) {
-			wflag = 2;
-			document.getElementById('wflagmodal').innerHTML = '2: Wyvern MegaNuke Randomized';
-		} else {
-			wflag = 1;
-			document.getElementById('wflagmodal').innerHTML = '1: Wyvern MegaNuke Disabled';
-		}
-	}
-	
-	document.getElementById('zflagmodal').innerHTML = '0: Zeromus is BORING';
-	if (flags.indexOf('Z') > -1) {
-		zflag = 1;
-		document.getElementById('zflagmodal').innerHTML = '1: Zeromus is FUN!';
-	}
-	
 	var verticallayout = getParameterByName('v');
 	
 	if (verticallayout === '1' && disablelocationtracker === '0') {
@@ -360,7 +587,7 @@ function SetModes() {
 		document.getElementById('trackingtable').style.width = "510px";
 		document.getElementById('trackingtable').style.float = "left";
 		document.getElementById('trackingtable').style.marginLeft = "20px";
-		document.getElementById('toptable').style.margin = "0px 0px 20px 60px";
+		document.getElementById('leftdiv').style.margin = "0px 0px 20px 60px";
 		document.getElementById('itemModalInner').style.left = "60px";
 		document.getElementById('itemModalInner').style.top = "460px";
 		document.getElementById('flagsModalInner').style.left = "60px";
@@ -742,44 +969,63 @@ function ApplyChecks(){
 	}
 	
 	//Characters
-	for (var i = 0; i < 12; i++) {
+	/*for (var i = 0; i < 12; i++) {
 		var l = 'character' + i.toString();
 		if (characters[i] === true) {
-			if (i === 0 && cecil) { //If Cecil and Ordeals clear
-				document.getElementById(l).src = imagedir + 'character' + i + '_2_a.png'
-			} else if (i === 2 && rydia) { //If Rydia and Dwarf Castle clear
-				document.getElementById(l).src = imagedir + 'character' + i + '_2_a.png'
+			if ((i === 0 && cecil) || (i === 2 && rydia)) { //If Cecil and Ordeals clear or If Rydia and Dwarf Castle clear
+				document.getElementById(l).style = 'background-image: url(\'images/character' + i + '_2_a.png\')';
 			} else { //All Others
-				document.getElementById(l).src = imagedir + 'character' + i + '_a.png'
+				document.getElementById(l).style = 'background-image: url(\'images/character' + i + '_a.png\')';
 			}
 		} else {
-			if (i === 0 && cecil) { //If Cecil and Ordeals clear
-				document.getElementById(l).src = imagedir + 'character' + i + '_2.png'
-			} else if (i === 2 && rydia) { //If Rydia and Dwarf Castle clear
-				document.getElementById(l).src = imagedir + 'character' + i + '_2.png'
+			if ((i === 0 && cecil) || (i === 2 && rydia)) { //If Cecil and Ordeals clear or If Rydia and Dwarf Castle clear
+				document.getElementById(l).style = 'background-image: url(\'images/character' + i + '_2.png\')';
 			} else { //All Others
-				document.getElementById(l).src = imagedir + 'character' + i + '.png'
+				document.getElementById(l).style = 'background-image: url(\'images/character' + i + '.png\')';
 			}
 		}
+	} */
+	
+	if (cecil) { //If Cecil and Ordeals
+		document.getElementById('character0').style = 'background-image: url(\'images/character0_2_a.png\')';
+	} else { //All Others
+		document.getElementById('character0').style = 'background-image: url(\'images/character0_a.png\')';
+	}
+	if (rydia) { //If Rydia and Dwarf Castle clear
+		document.getElementById('character2').style = 'background-image: url(\'images/character2_2_a.png\')';
+	} else { //All Others
+		document.getElementById('character2').style = 'background-image: url(\'images/character2_a.png\')';
+	}
+	
+	//Party Members
+	for (var i = 0; i < 5; i++) {
+		var l = 'characterempty';
+		var p = 'party' + i;
+		if (partymembers[i] != -1) {
+			if ((partymembers[i] === 0 && cecil) || (partymembers[i] === 2 && rydia)) { //If Cecil and Ordeals clear or if Rydia and Dwarf 
+				l = 'character' + partymembers[i] + '_2_a';
+			} else { //All Others
+				l = 'character' + partymembers[i] + '_a';
+			}
+		}
+		document.getElementById(p).style = 'background-image: url(\'images/' + l + '.png\')';
 	}
 	
 	//Items
 	var itemcount = 0;
 	for (var i = 0; i < 18; i++) {
 		var l = 'item' + i.toString();
-		if (keyitems[i] === true) {
-		
+		if (keyitems[i] === true) {		
 			//Check to see if Pass is a key item
-			if (pflag === 1 && i === 17) {
-				itemcount++;
-			}
+			//if (pkey === true && i === 17) {
+				//itemcount++;
+			//}
 			if (i != 17) {
 				itemcount++;
 			}
-			
-			document.getElementById(l).src = imagedir + 'item' + i + '_a.png'
+			document.getElementById(l).style = 'background-image: url(\'images/item' + i + '_a.png\')';
 		} else {
-			document.getElementById(l).src = imagedir + 'item' + i + '.png'
+			document.getElementById(l).style = 'background-image: url(\'images/item' + i + '.png\')';
 		}
 	}
 	
@@ -788,7 +1034,7 @@ function ApplyChecks(){
 	}
 	
 	document.getElementById('itemtracker').innerHTML = itemcount + '/' + maxitems;
-	if (itemcount > 9 && xflag === 2) {
+	if (itemcount > 9 && expkeyitems === true) {
 		document.getElementById('itemtracker').style.color = "#0F0";
 	}
 	
@@ -1084,7 +1330,34 @@ function SwapItem(i) {
 }				
 
 function SwapCharacter(i) {
-	characters[i] = !characters[i];
+	if (i === 99) {
+		ignoreswap = true;
+	} else {
+		if (ignoreswap === true) {
+			ignoreswap = false;
+		} else {
+			characters[i] = !characters[i];
+			partymembers[partyswap] = i;
+			document.getElementById("partydiv").style.display = "block";
+			document.getElementById("characterdiv").style.display = "none";
+			ApplyChecks();
+		}
+	}
+}
+
+function SwapParty(i) {
+	if (ignoreswap === true) {
+		ignoreswap = false;
+	} else {
+		document.getElementById("partydiv").style.display = "none";
+		document.getElementById("characterdiv").style.display = "block";
+		partyswap = i;
+	}
+}
+
+function PartyClear(i) {
+	partymembers[i] = -1;
+	ignoreswap = true;
 	ApplyChecks();
 }
 
@@ -1503,13 +1776,12 @@ function ToggleMist() {
 	if (disablebosstracker === '1') {
 		mist = !mist;
 		if (mist) {
-			document.getElementById('misttoggle').src = imagedir + 'mistdragon.png'
+			document.getElementById('misttoggle').style = 'background-image: url(\'images/mistdragon.png\')';
 		} else {
-			document.getElementById('misttoggle').src = imagedir + 'mistdragon_2.png'
+			document.getElementById('misttoggle').style = 'background-image: url(\'images/mistdragon_2.png\')';
 		}
 		ApplyChecks();
 	} else {
 		$('#bossModal').show();
-	}
-	
+	}	
 }

@@ -38,7 +38,9 @@ td {
 img {
 	cursor: pointer;
 }
-
+hr {
+	clear: both;
+}
 ::-webkit-scrollbar {
     width: 2px;
 }
@@ -128,6 +130,10 @@ input:checked + .slider:before {
 
 .characterPortrait {
 	width: 60px;
+	height: 60px;
+	margin: auto;
+	background-size: cover;
+	cursor: pointer;
 }
 
 .clickablediv {
@@ -137,4 +143,49 @@ input:checked + .slider:before {
 .bossmodalspan {
 	width: 130px;
     float: left;
+}
+
+.characterdiv {
+	float: left;
+	width: 400px;
+	padding-bottom: 15px;
+	height: 180px;
+}
+
+.itemdiv {
+	float: left;
+	width: 400px;
+	padding-bottom: 15px;
+}
+
+.charactercolumn {
+	float: left;
+	width: 100px;
+}
+
+.itemImage {
+    height: 32px;
+    margin: auto;
+    background-position: center center;
+    background-repeat: no-repeat;
+	cursor: pointer;
+	padding-bottom: 2px;
+}
+
+.partyPortrait {
+	width: 60px;
+	height: 60px;
+	margin: 5px 5px 0px 5px;
+	background-size: cover;
+	border-style: solid;
+    border-width: 1px;
+	float: left;
+}
+
+.partyClear {
+	text-align: right;
+    width: 58px;
+    position: fixed;
+	cursor: pointer;
+	font-weight: bold;
 }

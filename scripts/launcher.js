@@ -1,4 +1,4 @@
-var version = '155';
+var version = '160b';
 
 function load_cookie() {
 	var c = document.cookie;
@@ -27,9 +27,11 @@ function load_cookie() {
 	}
 }
 
-
 function launch() {
 	var flagsval = document.getElementById('flags').value;
+	//flagsval = flagsval.replace(' ','|');
+	flagsval = flagsval.replace(new RegExp(' ', 'g'), '|');
+	
 	var itemtracking = '0';
 	var bosstracking = '0';
 	var verticallayout = '0';
@@ -91,7 +93,7 @@ function launch() {
 		h = 440;
 	}
 	
-	open('tracker.html?f=' + document.getElementById('flags').value.toUpperCase() + '&d=' + itemtracking + '&s=' + bosstracking + '&l=' + locationtracking + '&v=' + verticallayout + '&b=' + browser,
+	open('tracker.html?f=' + flagsval.toUpperCase() + '&d=' + itemtracking + '&s=' + bosstracking + '&l=' + locationtracking + '&v=' + verticallayout + '&b=' + browser,
 		'',
 		'width=' + w + ',height=' + h + ',titlebar=0,menubar=0,toolbar=0,scrollbars=0,resizable=0');
 }
