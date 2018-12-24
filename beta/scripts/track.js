@@ -553,7 +553,6 @@ function SetModes() {
 	}
 	
 	if (kmoon === false) {
-		keyitemlocations[21] = 3; //Bahamut
 		keyitemlocations[22] = 3; //Lunar Crystal
 		keyitemlocations[23] = 3; //Lunar Masa
 		keyitemlocations[24] = 3; //Lunar Mura
