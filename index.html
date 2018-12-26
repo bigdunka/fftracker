@@ -1,7 +1,7 @@
 <html>
 	<body onload="load_cookie();" bgcolor="#000063">
 		<head>
-			<title>FFIV Free Enterprise Tracker Launcher - V1.6.2 - Created by BigDunka</title>
+			<title>FFIV Free Enterprise Tracker Launcher - V1.6.3 - Created by BigDunka</title>
 			<link rel="stylesheet" href="./styles/stylesheet.css">
 			<link rel="icon" type="image/png" href="images/favicon.png">
 			<style>
@@ -20,25 +20,30 @@
 			</script>			
 		</head>
 		<div style="width: 1000px; text-align: center; margin: auto;">
-			<span>Final Fantasy IV: Free Enterprise Tracker</span><span style="font-size: 15px;"> V1.6.2</span><br><br>
+			<span>Final Fantasy IV: Free Enterprise Tracker</span><span style="font-size: 15px;"> V1.6.3</span><br><br>
 			<textarea style="width: 450px; height: 50px;" placeholder="Paste Flags Here" id="flags" ></textarea><br><br>
 			<span style="font-size: 28px; text-decoration: underline;">Optional Flags</span><br>
-			<span style="font-size: 24px">Disable Item Tracking</span>
+			<span style="font-size: 24px">Disable Item Tracking</span> <span title="This disables the town enhanced item tracking" style="font-size: 16px; color: red; cursor: pointer;">[?]</span>
 			<label class="switch">
 				<input id="itemswitch" name="itemswitch" type="checkbox">
 				<span class="slider round"></span>
 			</label><br>
-			<span style="font-size: 24px">Disable Full Boss Tracking</span>
+			<span style="font-size: 24px">Disable Location Tracking</span> <span title="This disables the logic for each key item, character, town, and trapped chest, to give the ability to check off locations before they are accessable" style="font-size: 16px; color: red; cursor: pointer;">[?]</span>
+			<label class="switch">
+				<input id="locswitch" name="locswitch" type="checkbox">
+				<span class="slider round"></span>
+			</label><br>
+			<span style="font-size: 24px">Disable Full Boss Tracking</span> <span title="This disables the full checklist for all bosses (defaulted to disabled)" style="font-size: 16px; color: red; cursor: pointer;">[?]</span>
 			<label class="switch">
 				<input id="bossswitch" name="bossswitch" type="checkbox" checked>
 				<span class="slider round"></span>
 			</label><br>
-			<span style="font-size: 24px">Disable ALL Enhanced Tracking</span>
+			<span style="font-size: 24px">Disable ALL Enhanced Tracking</span> <span title="This disables all enhanced tracking features, leaving only the item and character trackers" style="font-size: 16px; color: red; cursor: pointer;">[?]</span>
 			<label class="switch">
 				<input id="locationswitch" name="locationswitch" type="checkbox">
 				<span class="slider round"></span>
 			</label><br>
-			<span style="font-size: 24px">Use Vertical Layout</span>
+			<span style="font-size: 24px">Use Vertical Layout</span> <span title="This sets the layout to be stacked vertically instead of horizontally" style="font-size: 16px; color: red; cursor: pointer;">[?]</span>
 			<label class="switch">
 				<input id="verticalswitch" name="verticalswitch" type="checkbox">
 				<span class="slider round"></span>

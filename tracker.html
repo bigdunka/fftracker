@@ -2,7 +2,7 @@
 	<body bgcolor="#000063">
 		<head>
 			<title>FFIV Free Enterprise Tracker - Created by BigDunka</title>
-			<link rel="stylesheet" href="./styles/stylesheet.css?v=162">
+			<link rel="stylesheet" href="./styles/stylesheet.css?v=163">
 			<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 			<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
 			<script src="./scripts/track.js?v=161"></script>
@@ -124,7 +124,7 @@
 					</div>
 				</div>
 				<hr>
-				<div id="flagstr" style="font-size: 27px; text-align: center;">-= View Flag Details =-
+				<div id="flagstr" style="font-size: 27px; text-align: center;" class="clickablediv" onclick="LoadFlags();">-= Click For Flag Details =-
 				</div>
 				<!-- <div id="flagscontainer" style="font-size: 27px; text-align: center;" class="clickablediv" onclick="LoadFlags();">-= Flag Details Temporarly Disabled =-
 				</div> -->
@@ -241,25 +241,145 @@
 		</div>
 		
 		<div class="modal fade" id="flagsModal" aria-hidden="true" onclick="CloseFlags();" style="width: 100%; height: 100%; background-color: rgba(51, 51, 51, 0.6); z-index: 2; position: absolute; top: 0px; left: 0px;">
-			<div id="flagsModalInner" onclick="IgnoreMenuClose();" style="position: absolute; top: 20px; z-index: 2; left: 450px; background: url(./images/itemmenu.png); width: 404px; height: 386px; font-size: 24px; padding: 10px;">
-				<span onclick="CloseFlags();" class="clickablediv">X Close</span><br><br>
-				V<span id="vflagmodal"></span><br>
-				J<span id="jflagmodal"></span><br>
-				K<span id="kflagmodal"></span><br>
-				P<span id="pflagmodal"></span><br>
-				C<span id="cflagmodal"></span><br>
-				T<span id="tflagmodal"></span><br>
-				S<span id="sflagmodal"></span><br>
-				B<span id="bflagmodal"></span><br>
-				F<span id="fflagmodal"></span><br>
-				N<span id="nflagmodal"></span><br>
-				E<span id="eflagmodal"></span><br>
-				$<span id="moneyflagmodal"></span><br>
-				X<span id="xflagmodal"></span><br>
-				Y<span id="yflagmodal"></span><br>
-				G<span id="gflagmodal"></span><br>
-				W<span id="wflagmodal"></span><br>
-				Z<span id="zflagmodal"></span><br>
+			<div id="flagsModalInner" onclick="IgnoreMenuClose();" style="position: absolute; top: 20px; z-index: 2; left: 450px; background: url(./images/itemmenu.png); width: 404px; height: 386px; font-size: 22px; padding: 10px;">
+				<div id="flagsselectdiv">
+					<span onclick="CloseFlags();" class="clickablediv">X Close</span><br><br>
+					<span>Click Category to Expand for Details</span><br><br>
+					<span onclick="ExpandFlags(0);" class="clickablediv">Variants</span><br>
+					<span onclick="ExpandFlags(1);" class="clickablediv">Japanese Content</span><br>
+					<span onclick="ExpandFlags(2);" class="clickablediv">Key Items/Pass</span><br>
+					<span onclick="ExpandFlags(3);" class="clickablediv">Characters</span><br>
+					<span onclick="ExpandFlags(4);" class="clickablediv">Treasures</span><br>
+					<span onclick="ExpandFlags(5);" class="clickablediv">Shops</span><br>
+					<span onclick="ExpandFlags(6);" class="clickablediv">Bosses</span><br>
+					<span onclick="ExpandFlags(7);" class="clickablediv">Challenges</span><br>
+					<span onclick="ExpandFlags(8);" class="clickablediv">Battles</span><br>
+					<span onclick="ExpandFlags(9);" class="clickablediv">Tweaks</span><br>
+					<span onclick="ExpandFlags(10);" class="clickablediv">Wacky</span><br>
+				</div>
+				<div id="flagdetail0" style="display: none">
+					<span onclick="CloseFlagDetail();" class="clickablediv">X Close</span><br><br>
+					<span><u>Variants</u></span><br><br>
+					<span id="variant0" style="display: block"><b>No Variant</b> - Kill Zeromous</span>
+					<span id="variant1" style="display: none"><b>V1 - Forge the Crystal</b> - When given the Legend Sword and the Adamant, Kokkol the Smith forges the Crystal instead of the Excalibur. (Conversely, the Excalibur is found in the key item pool instead of the Crystal.)</span>
+					<span id="variant2" style="display: none"><b>V2 - Giant%</b> - You win the game when you complete the Giant of Bab-il.</span>
+				</div>
+				<div id="flagdetail1" style="display: none">
+					<span onclick="CloseFlagDetail();" class="clickablediv">X Close</span><br><br>
+					<span><u>Japanese Content</u></span><br><br>
+					<span id="japanese0" style="display: block"><b>No Japanese Content</b></span>
+					<span id="japaneseI" style="display: none"><b>Ji</b> - Include J Version Items</span>
+					<span id="japaneseS" style="display: none"><b>Js</b> - Include J Version Spells</span>
+					<span id="japaneseA" style="display: none"><b>Ja</b> - Include J Version Abilities</span>
+				</div>
+				<div id="flagdetail2" style="display: none">
+					<span onclick="CloseFlagDetail();" class="clickablediv">X Close</span><br><br>
+					<span><u>Key Items/Pass</u></span><br><br>
+					<span id="keyitempass0" style="display: block"><b>No Randomization</b> - Key items are in their normal location.</span>
+					<span id="keyitempassR" style="display: none"><b>K - Randomized Key Items</b> - The locations of key items are shuffled amongst each other.</span>
+					<span id="keyitempassQ" style="display: none"><b>Kq - Mix with summon quest rewards</b> - Key items may be awarded by the Sylphs, the king and queen of the Feymarch, Odin's throne, and Cave Bahamut.</span>
+					<span id="keyitempassM" style="display: none"><b>Km - Mix with moon boss rewards</b> - Key items may be awarded by the bosses of the Lunar Subterrane.</span>
+					<span id="keyitempassT" style="display: none"><b>Kt - Mix with trapped chests</b> - Key items may be found in trapped monster chests.</span>
+					<span id="keyitempassSa" style="display: none"><b>K! - No safety checks</b> - Normally, you are guaranteed a path to the underworld that does not require first going to the moon. This flag removes that check.</span>
+					<span id="keyitempassS" style="display: none"><b>Ps - Include Pass in a shop</b></span>
+					<span id="keyitempassK" style="display: none"><b>Pk - Include Pass as a key item</b></span>
+					<span id="keyitempassTC" style="display: none"><b>Pt - Include Pass in treasure chests</b> - Passes are placed in three random treasure chests (not on the moon).</span>
+				</div>
+				<div id="flagdetail3" style="display: none">
+					<span onclick="CloseFlagDetail();" class="clickablediv">X Close</span><br><br>
+					<span><u>Characters</u></span><br><br>
+					<span id="characters0" style="display: block"><b>No Randomization</b> - Characters are in their normal location.</span>
+					<span id="charactersC" style="display: none"><b>C - Randomize characters</b> - Characters join your party in the same places as the original game, but the character you meet there is randomized.</span>
+					<span id="charactersN" style="display: none"><b>Cn - Characters not guaranteed</b> - Normally, the randomizer will try to include every eligible character in the game at least once. This flag removes that logic, meaning some eligible characters may not appear.</span>
+					<span id="charactersX" style="display: none"><b>Cx - Restrict access to Edge and Fusoya</b></span>
+					<span id="characters5" style="display: none"><b>C5 - Limit pool to 5 unique characters</b> - Note that if Cn is enabled, you may end up with less than five.</span>
+					<span id="charactersE" style="display: none"><b>Excluded Characters</b> - <span id="charactersExcluded"></span></span>
+					<span id="charactersS" style="display: none"><b>Starting Character</b> - <span id="characterStart"></span></span>
+					<span id="charactersD" style="display: none"><b>-nodupes - Disallow duplicate characters</b> - If a duplicate character tries to join your party, instead nothing happens.</span>
+					<span id="charactersR" style="display: none"><b>-rescue - Dismissed characters are retrievable</b> - Dismissed characters can be retrieved in the Mysidia crystal room and atop the Tower of Wishes.</span>
+					<span id="charactersH" style="display: none"><b>-hobs - Randomize Hobs spell</b> - Instead of Fire1, Rydia will learn a random summon spell at Mt. Hobs (other than Leviatan or Bahamut).</span>
+				</div>
+				<div id="flagdetail4" style="display: none">
+					<span onclick="CloseFlagDetail();" class="clickablediv">X Close</span><br><br>
+					<span><u>Treasures</u></span><br><br>
+					<span id="treasure0" style="display: block"><b>No Randomization</b> - Treasures are in their normal location.</span>
+					<span id="treasure1" style="display: none"><b>T1 - Shuffle</b>Treasure contents are the same as in original FF4, but their positions are shuffled.</span>
+					<span id="treasure2" style="display: none"><b>T2 - Randomize (balanced)</b></span>
+					<span id="treasure3" style="display: none"><b>T3 - Randomize (unbalanced)</b></span>
+					<span id="treasure4" style="display: none"><b>T4 - Randomize (wild)</b></span>
+					<span id="treasureX" style="display: none"><b>Tx - Empty</b>All treasure chests are empty.</span>
+					<span id="treasureG" style="display: none"><b>Tg - Replace "bad" chests with GP</b></span>
+					<span id="treasureR" style="display: none"><b>Tr - Relocate trapped chests</b> - Trapped chests are relocated to another treasure chest/pot within the same dungeon.</span>
+				</div>
+				<div id="flagdetail5" style="display: none">
+					<span onclick="CloseFlagDetail();" class="clickablediv">X Close</span><br><br>
+					<span><u>Shops</u></span><br><br>
+					<span id="shop0" style="display: block"><b>No Randomization</b> - Shops sell their normal items.</span>
+					<span id="shop1" style="display: none"><b>S1 - Shuffle</b>The same items are available for sale in shops as in original FF4, but their locations are shuffled.</span>
+					<span id="shop2" style="display: none"><b>S2 - Randomize (balanced)</b></span>
+					<span id="shop3" style="display: none"><b>S3 - Randomize (unbalanced)</b></span>
+					<span id="shop4" style="display: none"><b>S4 - Randomize (wild)</b></span>
+					<span id="shopC" style="display: none"><b>Sc - Shops sell only Cabins</b></span>
+					<span id="shopX" style="display: none"><b>Sx - Shops sell nothing</b></span>
+					<span id="shopSa" style="display: none"><b>S! - No safety checks</b> - Normally, the randomizer guarantees Life potions (and StarVeils, under Ji) are readily available, and that Cure2/3 potions are available in seeds without white mages. This flag removes those checks.</span>
+					<span id="shopSf" style="display: none"><b>Sf - Shop items are free</b></span>
+					<span id="shopA" style="display: none"><b>-noapples - No Apples/Soma Drops in shops</b></span>
+					<span id="shopS" style="display: none"><b>-nosirens - No Sirens in shops</b></span>
+				</div>
+				<div id="flagdetail6" style="display: none">
+					<span onclick="CloseFlagDetail();" class="clickablediv">X Close</span><br><br>
+					<span><u>Bosses</u></span><br><br>
+					<span id="bosses0" style="display: block"><b>No Randomization</b> - All bosses are in their normal location.</span>
+					<span id="bossesB" style="display: none"><b>B - Randomize bosses</b> - The positions of bosses are shuffled. Boss stats are roughly scaled to match the battle it's replacing. </span>
+					<span id="bossesX" style="display: none"><b>B! - No safety checks</b> - Normally, you are guaranteed a path to the underworld that does not require defeating the most difficult bosses. This flag removes that check.</span>
+					<span id="bossesWyvern" style="display: block"><b>Normal Wyvern</b> - Opens with MegaNuke</span>
+					<span id="bossesWhy" style="display: none"><b>-whyburn - Disable</b></span>
+					<span id="bossesWhich" style="display: none"><b>-whichburn - Replace with random attack</b> - Usually, what you get is better than a MegaNuke. Usually.</span>
+				</div>
+				<div id="flagdetail7" style="display: none">
+					<span onclick="CloseFlagDetail();" class="clickablediv">X Close</span><br><br>
+					<span><u>Challenges</u></span><br><br>
+					<span id="challengesF" style="display: none"><b>F - Fusoya Challenge</b> - Fusoya begins with only a random selection of low-level spells, and 500 HP. Each boss defeated will grant Fusoya three new spells and 100 more HP, to a maximum of 1400 total bonus HP.</span>
+					<span id="challenges0" style="display: block"><b>Free Lunches</b> - Certain Characters and Key Items can be found at starting locations without killing any bosses.</span>
+					<span id="challengesC" style="display: none"><b>Nc - No Free Characters</b> - Opens with MegaNuke</span>
+					<span id="challengesK" style="display: none"><b>Nk - No Free Key Item</b> - Edward in Toroia will not give you a key item. Instead, a key item may be earned from Rydia's mom in Mist, who will appear after you have found and defeated the Mist Dragon.</span>
+					<span id="challengesB" style="display: none"><b>Nb - No Free Bosses</b> - All boss battle enemies have the "boss bit" set. The alternate win conditions are removed from the D.Knight, Karate, K/Q.Eblan, and WaterHag fights.</span>
+				</div>
+				<div id="flagdetail8" style="display: none">
+					<span onclick="CloseFlagDetail();" class="clickablediv">X Close</span><br><br>
+					<span><u>Battles</u></span><br><br>
+					<span id="battles0" style="display: block"><b>Random Encounter Rate Normal</b></span>
+					<span id="battlesT" style="display: none"><b>Et - Random Encounter Rate Toggleable</b> - Encounters can be enabled/disabled from the in-game Custom menu.</span>
+					<span id="battlesR" style="display: none"><b>Er - Random Encounter Rate 50% reduction</b></span>
+					<span id="battlesX" style="display: none"><b>Ex - No Random Encounters</b></span>
+					<span id="battlesF" style="display: none"><b>Ef - Apply to forced encounters</b> - Applies the setting above to the TrapDoor fights in the Sealed Cave and the forced Behemoth fights in Cave Bahamut.</span>
+					<span id="battlesC" style="display: none"><b>Ec - Can't run from battles</b></span>
+					<span id="experience0" style="display: block"><b>Experience Normal</b></span>
+					<span id="experienceS" style="display: none"><b>Xs - Experience Sharing</b> - Earned experience points are not divided among your party members; each character receives the full amount (but must be alive at the time to receive them).</span>
+					<span id="experienceK" style="display: none"><b>Xk - 10 Key Item EXP bonus</b> - After collecting 10 key items, earned EXP is doubled.</span>
+					<span id="experienceB" style="display: none"><b>Xb - Low-level EXP bonus</b> - In a full party, characters at comparatively low levels receive more EXP.</span>
+					<span id="experienceX" style="display: none"><b>Xx - No EXP for random encounters</b> - Bosses and trapped chest fights still award EXP.</span>
+				</div>
+				<div id="flagdetail9" style="display: none">
+					<span onclick="CloseFlagDetail();" class="clickablediv">X Close</span><br><br>
+					<span><u>Tweaks</u></span><br><br>
+					<span id="tweaksD" style="display: none"><b>Gd - Allow item duplication</b></span>
+					<span id="tweaksM" style="display: none"><b>Gm - Allow MP underflow</b></span>
+					<span id="tweaksW" style="display: none"><b>Gw - Allow Dwarf Castle warp</b></span>
+					<span id="tweaksL" style="display: none"><b>Gl - Allow Life glitch</b></span>
+					<span id="tweaks64" style="display: none"><b>G64 - Allow 64-floor glitch</b></span>
+					<span id="tweaksAA" style="display: none"><b>-aa - Agility agnostic</b> - Agility always scales based on party order, regardless if Cecil is present.</span>
+					<span id="tweaksAd" style="display: none"><b>-noadamants - No Adamant Armors</b> - Adamant Armors are not available. Trading the Pink Tail in the Adamant Grotto instead grants a strong item.</span>
+				</div>
+				<div id="flagdetail10" style="display: none">
+					<span onclick="CloseFlagDetail();" class="clickablediv">X Close</span><br><br>
+					<span><u>Wacky</u></span><br><br>
+					<span id="tweaksM" style="display: none"><b>-mute - Mute</b> - Disables all music playback (except Edward's harp), leaving sound effects in place.</span>
+					<span id="tweaksS" style="display: none"><b>-spoon - Edward can equip Spoon</b></span>
+					<span id="tweaksF" style="display: none"><b>-fab - Alternate character palettes</b></span>
+					<span id="tweaksH" style="display: none"><b>-huh - Randomize Package sprite</b></span>
+					<span id="tweaksZ" style="display: none"><b>-z - Randomize Zeromus sprite</b> - Randomizes Zeromus's battle sprite. (His behavior and stats are unchanged.)</span>
+				</div>
 			</div>
 		</div>	
 		

@@ -106,9 +106,18 @@ function SetModes() {
 	
 	disableitemtracker = getParameterByName('d');
 	
+	disableloctracker = getParameterByName('c');
+
 	disablebosstracker = getParameterByName('s');
 	
 	disablelocationtracker = getParameterByName('l');
+	
+	if (disableloctracker === '1') {
+		keyitemlocations = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1];
+		townlocations = [1,1,1,1,1,1,1,1,1,1,1,1,1];
+		characterlocations = [1,1,1,1,1,1,1,1,1,1,1,1,1,1];
+		trappedchestlocations = [1,1,1,1,1,1,1,1,1,1];
+	}
 	
 	if (disablelocationtracker === '1') {
 		document.getElementById('trackingtable').style.display = "none";
@@ -119,25 +128,36 @@ function SetModes() {
 	var flags = getParameterByName('f');
 	
 	var flagsets = flags.split('|');
-		
+	var excludedCharacters = '';
+	
 	for (var fs in flagsets) {
 		
-		//Variants ****NEEDS TESTING****
+		//Variants
 		if (flagsets[fs].indexOf('V1') > -1) {
 			variant = 1;
+			document.getElementById("variant0").style.display = "none";
+			document.getElementById("variant1").style.display = "block";
 		} else if (flagsets[fs].indexOf('V2') > -1) {
 			variant = 2;
+			document.getElementById("variant0").style.display = "none";
+			document.getElementById("variant2").style.display = "block";
 		}
 		
-		//Japanese Content ****NEEDS TESTING****
+		//Japanese Content
 		if (flagsets[fs].startsWith('J')) {
 			if (flagsets[fs].indexOf('I') > -1) {
+				document.getElementById("japanese0").style.display = "none";
+				document.getElementById("japaneseI").style.display = "block";
 				jitems = true;
 			}
 			if (flagsets[fs].indexOf('S') > -1) {
+				document.getElementById("japanese0").style.display = "none";
+				document.getElementById("japaneseS").style.display = "block";
 				jspells = true;
 			}
 			if (flagsets[fs].indexOf('A') > -1) {
+				document.getElementById("japanese0").style.display = "none";
+				document.getElementById("japaneseA").style.display = "block";
 				jabilities = true;
 			}
 		}
@@ -145,273 +165,367 @@ function SetModes() {
 		//Key Items/Pass
 		if (flagsets[fs].startsWith('K')) {
 			krandomized = true;
+			document.getElementById("keyitempass0").style.display = "none";
+			document.getElementById("keyitempassR").style.display = "block";
 			if (flagsets[fs].indexOf('Q') > -1) {
 				ksummons = true;
+				document.getElementById("keyitempassQ").style.display = "block";
 			}
 			if (flagsets[fs].indexOf('M') > -1) {
 				kmoon = true;
+				document.getElementById("keyitempassM").style.display = "block";
 			}
 			if (flagsets[fs].indexOf('T') > -1) {
 				ktrapped = true;
+				document.getElementById("keyitempassT").style.display = "block";
 			}
 			if (flagsets[fs].indexOf('!') > -1) {
 				ksafety = true;
+				document.getElementById("keyitempassSa").style.display = "block";
 			}
 		}		
 		
 		if (flagsets[fs].startsWith('P')) {
 			if (flagsets[fs].indexOf('S') > -1) {
 				pshop = true;
+				document.getElementById("keyitempassS").style.display = "block";
 			}
 			if (flagsets[fs].indexOf('K') > -1) {
+				document.getElementById("keyitempassK").style.display = "block";
 				pkey = true;
 			}
 			if (flagsets[fs].indexOf('T') > -1) {
+				document.getElementById("keyitempassTC").style.display = "block";
 				ptreasure = true;
 			}
 		}
 		
 		//Characters
 		if (flagsets[fs].startsWith('C')) {
+			document.getElementById("characters0").style.display = "none";
+			document.getElementById("charactersC").style.display = "block";
 			if (flagsets[fs].indexOf('N') > -1) {
 				cguaranteed = true;
+				document.getElementById("charactersN").style.display = "block";
 			}
 			if (flagsets[fs].indexOf('X') > -1) {
 				crestrict = true;
+				document.getElementById("charactersX").style.display = "block";
 			}
 			if (flagsets[fs].indexOf('5') > -1) {
 				cfive = true;
+				document.getElementById("characters5").style.display = "block";
 			}
 		}
 		
 		//Exclude characters
 		if (flagsets[fs].indexOf('-NO') > -1 && flagsets[fs] != '-NODUPES') {
+			document.getElementById("charactersE").style.display = "block";
 			switch (flagsets[fs]) {
 				case '-NOCECIL':
 					document.getElementById('character0_x').style.visibility = 'visible';
+					excludedCharacters += 'Cecil ';
 					break;
 				case '-NOKAIN':
 					document.getElementById('character1_x').style.visibility = 'visible';
+					excludedCharacters += 'Kain ';
 					break;
 				case '-NORYDIA':
 					document.getElementById('character2_x').style.visibility = 'visible';
+					excludedCharacters += 'Rydia ';
 					break;
 				case '-NOTELLAH':
 					document.getElementById('character3_x').style.visibility = 'visible';
+					excludedCharacters += 'Tellah ';
 					break;
 				case '-NOEDWARD':
 					document.getElementById('character4_x').style.visibility = 'visible';
+					excludedCharacters += 'Edward ';
 					break;
 				case '-NOROSA':
 					document.getElementById('character5_x').style.visibility = 'visible';
+					excludedCharacters += 'Rosa ';
 					break;
 				case '-NOYANG':
 					document.getElementById('character6_x').style.visibility = 'visible';
+					excludedCharacters += 'Yang ';
 					break;
 				case '-NOPALOM':
 					document.getElementById('character7_x').style.visibility = 'visible';
+					excludedCharacters += 'Palom ';
 					break;
 				case '-NOPOROM':
 					document.getElementById('character8_x').style.visibility = 'visible';
+					excludedCharacters += 'Porom ';
 					break;
 				case '-NOCID':
 					document.getElementById('character9_x').style.visibility = 'visible';
+					excludedCharacters += 'Cid ';
 					break;
 				case '-NOEDGE':
 					document.getElementById('character10_x').style.visibility = 'visible';
+					excludedCharacters += 'Edge ';
 					break;
 				case '-NOFUSOYA':
 					document.getElementById('character11_x').style.visibility = 'visible';
+					excludedCharacters += 'FuSoYa ';
 					break;
 			}
 		}
 
 		//Starting character
 		if (flagsets[fs].indexOf('-START') > -1) {
+			document.getElementById("charactersS").style.display = "block";
 			switch (flagsets[fs]) {
 				case '-STARTCECIL':
 					SwapCharacter(0);
 					overridestarting = 'CECIL';
+					document.getElementById('characterStart').innerHTML = 'Cecil';
 					break;
 				case '-STARTKAIN':
 					SwapCharacter(1);
 					overridestarting = 'KAIN';
+					document.getElementById('characterStart').innerHTML = 'Kain';
 					break;
 				case '-STARTRYDIA':
 					SwapCharacter(2);
 					overridestarting = 'RYDIA';
+					document.getElementById('characterStart').innerHTML = 'Rydia';
 					break;
 				case '-STARTTELLAH':
 					SwapCharacter(3);
 					overridestarting = 'TELLAH';
+					document.getElementById('characterStart').innerHTML = 'Tellah';
 					break;
 				case '-STARTEDWARD':
 					SwapCharacter(4);
 					overridestarting = 'EDWARD';
+					document.getElementById('characterStart').innerHTML = 'Edward';
 					break;
 				case '-STARTROSA':
 					SwapCharacter(5);
 					overridestarting = 'ROSA';
+					document.getElementById('characterStart').innerHTML = 'Rosa';
 					break;
 				case '-STARTYANG':
 					SwapCharacter(6);
 					overridestarting = 'YANG';
+					document.getElementById('characterStart').innerHTML = 'Yang';
 					break;
 				case '-STARTPALOM':
 					SwapCharacter(7);
 					overridestarting = 'PALOM';
+					document.getElementById('characterStart').innerHTML = 'Palom';
 					break;
 				case '-STARTPOROM':
 					SwapCharacter(8);
 					overridestarting = 'POROM';
+					document.getElementById('characterStart').innerHTML = 'Porom';
 					break;
 				case '-STARTCID':
 					SwapCharacter(9);
 					overridestarting = 'CID';
+					document.getElementById('characterStart').innerHTML = 'Cid';
 					break;
 				case '-STARTEDGE':
 					SwapCharacter(10);
 					overridestarting = 'EDGE';
+					document.getElementById('characterStart').innerHTML = 'Edge';
 					break;
 				case '-STARTFUSOYA':
 					SwapCharacter(11);
 					overridestarting = 'FUSOYA';
+					document.getElementById('characterStart').innerHTML = 'FuSoYa';
 					break;
 			}
 		}
 		
 		if (flagsets[fs].indexOf('-NODUPES')) {
 			cnodupes = true;
+			document.getElementById("charactersD").style.display = "block";
 		}
 		
 		if (flagsets[fs].indexOf('-RESCUE')) {
 			crescue = true;
+			document.getElementById("charactersR").style.display = "block";
 		}
 		
 		if (flagsets[fs].indexOf('-HOBS')) {
 			chobs = true;
+			document.getElementById("charactersH").style.display = "block";
 		}
 		
 		//Treasures
 		if (flagsets[fs].indexOf('T1') > -1) {
 			treasures = 1;
+			document.getElementById("treasure0").style.display = "none";
+			document.getElementById("treasure1").style.display = "block";
 		} else if (flagsets[fs].indexOf('T2') > -1) {
 			treasures = 2;
+			document.getElementById("treasure0").style.display = "none";
+			document.getElementById("treasure2").style.display = "block";
 		} else if (flagsets[fs].indexOf('T3') > -1) {
 			treasures = 3;
+			document.getElementById("treasure0").style.display = "none";
+			document.getElementById("treasure3").style.display = "block";
 		} else if (flagsets[fs].indexOf('T4') > -1) {
 			treasures = 4;
+			document.getElementById("treasure0").style.display = "none";
+			document.getElementById("treasure4").style.display = "block";
 		} else if (flagsets[fs].indexOf('TX') > -1) {
 			treasures = 5;
+			document.getElementById("treasure0").style.display = "none";
+			document.getElementById("treasureX").style.display = "block";
 		}
 		
 		if (flagsets[fs].startsWith('T')) {
 			if (flagsets[fs].indexOf('G') > -1) {
 				tgp = true;
+				document.getElementById("treasureG").style.display = "block";
 			}
 			if (flagsets[fs].indexOf('R') > -1) {
 				ttrapped = true;
+				document.getElementById("treasureR").style.display = "block";
 			}
 		}
 		
 		//Shops
 		if (flagsets[fs].indexOf('S1') > -1) {
 			shops = 1;
+			document.getElementById("shop0").style.display = "none";
+			document.getElementById("shop1").style.display = "block";
 		} else if (flagsets[fs].indexOf('S2') > -1) {
 			shops = 2;
+			document.getElementById("shop0").style.display = "none";
+			document.getElementById("shop2").style.display = "block";
 		} else if (flagsets[fs].indexOf('S3') > -1) {
 			shops = 3;
+			document.getElementById("shop0").style.display = "none";
+			document.getElementById("shop3").style.display = "block";
 		} else if (flagsets[fs].indexOf('S4') > -1) {
 			shops = 4;
-		} else if (flagsets[fs].indexOf('SC') > -1) {
+			document.getElementById("shop0").style.display = "none";
+			document.getElementById("shop4").style.display = "block";
+		} else if (flagsets[fs].indexOf('SC') > -1 && flagsets[fs].indexOf('RESCUE') === -1) {
 			shops = 5;
+			document.getElementById("shop0").style.display = "none";
+			document.getElementById("shopC").style.display = "block";
 		} else if (flagsets[fs].indexOf('SX') > -1) {
 			shops = 6;
+			document.getElementById("shop0").style.display = "none";
+			document.getElementById("shopX").style.display = "block";
 		}
 		
 		if (flagsets[fs].startsWith('S')) {
 			if (flagsets[fs].indexOf('!') > -1) {
 				ssafety = true;
+				document.getElementById("shopSa").style.display = "block";
 			}
 			if (flagsets[fs].indexOf('F') > -1) {
 				sfree = true;
+				document.getElementById("shopSf").style.display = "block";
 			}
 		}
 
 		if (flagsets[fs] === '-NOAPPLES') {
 			sapples = true;
+			document.getElementById("shopA").style.display = "block";
 		}
 		
 		if (flagsets[fs] === '-NOSIRENS') {
 			ssirens = true;
+			document.getElementById("shopS").style.display = "block";
 		}
 		
 		//Bosses
 		if (flagsets[fs].startsWith('B')) {
+			document.getElementById("bosses0").style.display = "none";
+			document.getElementById("bossesB").style.display = "block";
 			randombosses = true;
 			if (flagsets[fs].indexOf('!') > -1) {
 				bosssafety = true;
+				document.getElementById("bossesX").style.display = "block";
 			}
 		}
 		
-		if (flagsets[fs].indexOf('-WHYBURN')) {
+		if (flagsets[fs].indexOf('-WHYBURN') > -1) {
 			wyvern = 1;
-		} else if (flagsets[fs].indexOf('-WHICHBURN')) {
+			document.getElementById("bossesWyvern").style.display = "none";
+			document.getElementById("bossesWhy").style.display = "block";
+		} else if (flagsets[fs].indexOf('-WHICHBURN') > -1) {
 			wyvern = 2;
+			document.getElementById("bossesWyvern").style.display = "none";
+			document.getElementById("bossesWhich").style.display = "block";
 		}
 		
 		//Challenges
 		if (flagsets[fs] === 'F') {
 			fuchallenge = true;
+			document.getElementById("challengesF").style.display = "block";
 		}
 		
 		if (flagsets[fs].startsWith('N')) {
+			document.getElementById("challenges0").style.display = "none";
 			if (flagsets[fs].indexOf('C') > -1) {
 				nflc = true;
+				document.getElementById("challengesC").style.display = "block";
 			}
 			if (flagsets[fs].indexOf('K') > -1) {
 				nflk = true;
+				document.getElementById("challengesK").style.display = "block";
 			}
 			if (flagsets[fs].indexOf('B') > -1) {
 				nflb = true;
+				document.getElementById("challengesB").style.display = "block";
 			}
 		}
 		
 		//Battles
 		if (flagsets[fs].startsWith('E')) {
+			document.getElementById("battles0").style.display = "none";
 			if (flagsets[fs].indexOf('T') > -1) {
 				enemyencounters = 0;
+				document.getElementById("battlesT").style.display = "block";
 			} else if (flagsets[fs].indexOf('R') > -1) {
 				enemyencounters = 1;
+				document.getElementById("battlesR").style.display = "block";
 			} else if (flagsets[fs].indexOf('X') > -1) {
 				enemyencounters = 2;
+				document.getElementById("battlesX").style.display = "block";
 			}
 			
 			if (flagsets[fs].indexOf('F') > -1) {
 				enemyforced = true;
+				document.getElementById("battlesF").style.display = "block";
 			}
 
 			if (flagsets[fs].indexOf('C') > -1) {
 				enemyrun = true;
+				document.getElementById("battlesC").style.display = "block";
 			}
 		}
 		
 		//Experience
 		if (flagsets[fs].startsWith('X')) {
+			document.getElementById("experience0").style.display = "none";
 			if (flagsets[fs].indexOf('S') > -1) {
 				expsharing = true;
-			}
-
-			if (flagsets[fs].indexOf('B') > -1) {
-				expkeyitems = true;
+				document.getElementById("experienceS").style.display = "block";
 			}
 
 			if (flagsets[fs].indexOf('K') > -1) {
+				expkeyitems = true;
+				document.getElementById("experienceK").style.display = "block";
+			}
+
+			if (flagsets[fs].indexOf('B') > -1) {
 				explowlevel = true;
+				document.getElementById("experienceB").style.display = "block";
 			}
 
 			if (flagsets[fs].indexOf('X') > -1) {
 				expnoexp = true;
+				document.getElementById("experienceX").style.display = "block";
 			}		
 		}
 		
@@ -419,48 +533,60 @@ function SetModes() {
 		if (flagsets[fs].startsWith('G')) {
 			if (flagsets[fs].indexOf('D') > -1) {
 				gduplication = true;
+				document.getElementById("tweaksD").style.display = "block";
 			}
 			if (flagsets[fs].indexOf('M') > -1) {
 				gunderflow = true;
+				document.getElementById("tweaksM").style.display = "block";
 			}
 			if (flagsets[fs].indexOf('W') > -1) {
 				gdwarfwarp = true;
+				document.getElementById("tweaksW").style.display = "block";
 			}
 			if (flagsets[fs].indexOf('L') > -1) {
 				glife = true;
+				document.getElementById("tweaksL").style.display = "block";
 			}
 			if (flagsets[fs].indexOf('64') > -1) {
 				g64 = true;
+				document.getElementById("tweaks64").style.display = "block";
 			}
 		}
 		
 		if (flagsets[fs] === '-AA') {
 			aagility = true;
+			document.getElementById("tweaksAA").style.display = "block";
 		}
 		
 		if (flagsets[fs] === '-NOADAMANTS') {
 			noadamants = true;
+			document.getElementById("tweaksAd").style.display = "block";
 		}
 		
 		//Wacky
 		if (flagsets[fs] === '-MUTE') {
 			wackymute = true;
+			document.getElementById("tweaksM").style.display = "block";
 		}
 		
 		if (flagsets[fs] === '-SPOON') {
 			wackyspoon = true;
+			document.getElementById("tweaksS").style.display = "block";
 		}
 		
 		if (flagsets[fs] === '-FAB') {
 			wackyfab = true;
+			document.getElementById("tweaksF").style.display = "block";
 		}
 		
 		if (flagsets[fs] === '-HUH') {
 			wackyhuh = true;
+			document.getElementById("tweaksH").style.display = "block";
 		}
 		
 		if (flagsets[fs] === '-Z') {
 			wackyzeromus = true;
+			document.getElementById("tweaksZ").style.display = "block";
 		}
 	}
 
@@ -515,7 +641,7 @@ function SetModes() {
 			break;
 	}
 	
-	//SET THE FLAGS TEXT
+	document.getElementById('charactersExcluded').innerHTML = excludedCharacters;
 	
 	if (variant === 0) {
 		document.getElementById('item4td').style.backgroundImage = 'url(\'./images/requireditem.png\')';
@@ -627,345 +753,348 @@ function ApplyChecks(){
 	var hasunderworldaccess = (keyitems[2] === true || keyitems[6] === true);
 	
 	// ****Key Items****
-	
-	//Adamant Cave
-	DeactivateKeyItemLocation(0);
-	if (keyitems[6] === true && keyitems[11] === true) {
-		ActivateKeyItemLocation(0);
-	}
-	
-	//Antlion Cave
-	ActivateKeyItemLocation(1);
-	
-	//Baron Castle [King]
-	DeactivateKeyItemLocation(2);
-	if (keyitems[0] === true) {
-		ActivateKeyItemLocation(2);
-	}
-	
-	//Baron Castle [Odin]
-	DeactivateKeyItemLocation(3);
-	if (keyitems[0] === true) {
-		ActivateKeyItemLocation(3);
-	}
-	
-	//Town of Baron
-	ActivateKeyItemLocation(4);
+	if (disableloctracker === '0') {
+		//Adamant Cave
+		DeactivateKeyItemLocation(0);
+		if (keyitems[6] === true && keyitems[11] === true) {
+			ActivateKeyItemLocation(0);
+		}
+		
+		//Antlion Cave
+		ActivateKeyItemLocation(1);
+		
+		//Baron Castle [King]
+		DeactivateKeyItemLocation(2);
+		if (keyitems[0] === true) {
+			ActivateKeyItemLocation(2);
+		}
+		
+		//Baron Castle [Odin]
+		DeactivateKeyItemLocation(3);
+		if (keyitems[0] === true) {
+			ActivateKeyItemLocation(3);
+		}
+		
+		//Town of Baron
+		ActivateKeyItemLocation(4);
 
-	//Fabul [Defend]
-	ActivateKeyItemLocation(5);
+		//Fabul [Defend]
+		ActivateKeyItemLocation(5);
 
-	//Fabul [Yang/Slyph]
-	DeactivateKeyItemLocation(6);
-	if (hasunderworldaccess) {
-		ActivateKeyItemLocation(6);
-	}
+		//Fabul [Yang/Slyph]
+		DeactivateKeyItemLocation(6);
+		if (hasunderworldaccess) {
+			ActivateKeyItemLocation(6);
+		}
 
-	//Fabul [Yang/Pan]
-	DeactivateKeyItemLocation(7);
-	if (keyitems[9] === true && hasunderworldaccess) {
-		ActivateKeyItemLocation(7);
-	}
+		//Fabul [Yang/Pan]
+		DeactivateKeyItemLocation(7);
+		if (keyitems[9] === true && hasunderworldaccess) {
+			ActivateKeyItemLocation(7);
+		}
 
-	//Magnes Cave
-	DeactivateKeyItemLocation(8);
-	if (keyitems[7] === true) {
-		ActivateKeyItemLocation(8);
-	}
-	
-	//Mist Village
-	DeactivateKeyItemLocation(9);
-	if (mist === true) {
-		ActivateKeyItemLocation(9);
-	}	
+		//Magnes Cave
+		DeactivateKeyItemLocation(8);
+		if (keyitems[7] === true) {
+			ActivateKeyItemLocation(8);
+		}
+		
+		//Mist Village
+		DeactivateKeyItemLocation(9);
+		if (mist === true) {
+			ActivateKeyItemLocation(9);
+		}	
 
-	//Mt Ordeals
-	ActivateKeyItemLocation(10);
-	
-	if (keyitemlocations[10] === 2) {
-		cecil = true;
-	} else {
-		cecil = false;
-	}
+		//Mt Ordeals
+		ActivateKeyItemLocation(10);
+		
+		if (keyitemlocations[10] === 2) {
+			cecil = true;
+		} else {
+			cecil = false;
+		}
 
-	//Tower of Zot
-	DeactivateKeyItemLocation(11);
-	if (keyitems[5] === true) {
-		ActivateKeyItemLocation(11);
-	}	
+		//Tower of Zot
+		DeactivateKeyItemLocation(11);
+		if (keyitems[5] === true) {
+			ActivateKeyItemLocation(11);
+		}	
 
-	//Troia Castle
-	ActivateKeyItemLocation(12);
-	
-	//Dwarf Castle
-	DeactivateKeyItemLocation(13);
-	if (hasunderworldaccess) {
-		ActivateKeyItemLocation(13);
-	}	
-	
-	//Feymarch [Chest]
-	DeactivateKeyItemLocation(14);
-	if (hasunderworldaccess) {
-		ActivateKeyItemLocation(14);
-	}	
-	
-	//Feymarch [Asura]
-	DeactivateKeyItemLocation(15);
-	if (hasunderworldaccess) {
-		ActivateKeyItemLocation(15);
-	}
+		//Troia Castle
+		ActivateKeyItemLocation(12);
+		
+		//Dwarf Castle
+		DeactivateKeyItemLocation(13);
+		if (hasunderworldaccess) {
+			ActivateKeyItemLocation(13);
+		}	
+		
+		//Feymarch [Chest]
+		DeactivateKeyItemLocation(14);
+		if (hasunderworldaccess) {
+			ActivateKeyItemLocation(14);
+		}	
+		
+		//Feymarch [Asura]
+		DeactivateKeyItemLocation(15);
+		if (hasunderworldaccess) {
+			ActivateKeyItemLocation(15);
+		}
 
-	//Feymarch [Leviathan]
-	DeactivateKeyItemLocation(16);
-	if (hasunderworldaccess) {
-		ActivateKeyItemLocation(16);
-	}
-	
-	//Lower Babil [Boss]
-	DeactivateKeyItemLocation(17);
-	if (hasunderworldaccess) {
-		ActivateKeyItemLocation(17);
-	}
-	
-	//Lower Babil [Tower]
-	DeactivateKeyItemLocation(18);
-	if (keyitems[3] === true && hasunderworldaccess) {
-		ActivateKeyItemLocation(18);
-	}
-	
-	//Sealed Cave
-	DeactivateKeyItemLocation(19);
-	if (keyitems[1] === true && hasunderworldaccess) {
-		ActivateKeyItemLocation(19);
-	}
-	
-	//Slyph Cave
-	DeactivateKeyItemLocation(20);
-	if (keyitems[9] === true && hasunderworldaccess) {
-		ActivateKeyItemLocation(20);
-	}
-	
-	//Bahamut
-	DeactivateKeyItemLocation(21);
-	if (keyitems[4] === true) {
-		ActivateKeyItemLocation(21);
-	}
-	
-	//Lunar [Crystal]
-	DeactivateKeyItemLocation(22);
-	if (keyitems[4] === true) {
-		ActivateKeyItemLocation(22);
-	}
-	
-	//Lunar [Masamune]
-	DeactivateKeyItemLocation(23);
-	if (keyitems[4] === true) {
-		ActivateKeyItemLocation(23);
-	}
-	
-	//Lunar [Murasame]
-	DeactivateKeyItemLocation(24);
-	if (keyitems[4] === true) {
-		ActivateKeyItemLocation(24);
-	}
-	
-	//Lunar [Ribbon]
-	DeactivateKeyItemLocation(25);
-	if (keyitems[4] === true) {
-		ActivateKeyItemLocation(25);
-	}
-	
-	//Lunar [White]
-	DeactivateKeyItemLocation(26);
-	if (keyitems[4] === true) {
-		ActivateKeyItemLocation(26);
-	}
-	
-	// ****Characters****
-	
-	//Baron Castle
-	DeactivateCharacterLocation(0);
-	if (keyitems[0] === true) {
-		ActivateCharacterLocation(0);
-	}
-	
-	//Town of Baron
-	ActivateCharacterLocation(1);
-	
-	//Damcyan
-	ActivateCharacterLocation(2);
-	
-	//Eblan Cave
-	DeactivateCharacterLocation(3);
-	if (keyitems[6] === true) {
-		ActivateCharacterLocation(3);
-	}	
-	
-	//Giant of Babil
-	DeactivateCharacterLocation(4);
-	if (keyitems[4] === true) {
-		ActivateCharacterLocation(4);
-	}
-	
-	//Kaipo
-	DeactivateCharacterLocation(5);
-	if (keyitems[10] === true) {
-		ActivateCharacterLocation(5);
-	}
-	
-	//Mist Village
-	DeactivateCharacterLocation(6);
-	if (keyitems[8] === true) {
-		ActivateCharacterLocation(6);
-	}
-	
-	//Mt Hobbs
-	ActivateCharacterLocation(7);
+		//Feymarch [Leviathan]
+		DeactivateKeyItemLocation(16);
+		if (hasunderworldaccess) {
+			ActivateKeyItemLocation(16);
+		}
+		
+		//Lower Babil [Boss]
+		DeactivateKeyItemLocation(17);
+		if (hasunderworldaccess) {
+			ActivateKeyItemLocation(17);
+		}
+		
+		//Lower Babil [Tower]
+		DeactivateKeyItemLocation(18);
+		if (keyitems[3] === true && hasunderworldaccess) {
+			ActivateKeyItemLocation(18);
+		}
+		
+		//Sealed Cave
+		DeactivateKeyItemLocation(19);
+		if (keyitems[1] === true && hasunderworldaccess) {
+			ActivateKeyItemLocation(19);
+		}
+		
+		//Slyph Cave
+		DeactivateKeyItemLocation(20);
+		if (keyitems[9] === true && hasunderworldaccess) {
+			ActivateKeyItemLocation(20);
+		}
+		
+		//Bahamut
+		DeactivateKeyItemLocation(21);
+		if (keyitems[4] === true) {
+			ActivateKeyItemLocation(21);
+		}
+		
+		//Lunar [Crystal]
+		DeactivateKeyItemLocation(22);
+		if (keyitems[4] === true) {
+			ActivateKeyItemLocation(22);
+		}
+		
+		//Lunar [Masamune]
+		DeactivateKeyItemLocation(23);
+		if (keyitems[4] === true) {
+			ActivateKeyItemLocation(23);
+		}
+		
+		//Lunar [Murasame]
+		DeactivateKeyItemLocation(24);
+		if (keyitems[4] === true) {
+			ActivateKeyItemLocation(24);
+		}
+		
+		//Lunar [Ribbon]
+		DeactivateKeyItemLocation(25);
+		if (keyitems[4] === true) {
+			ActivateKeyItemLocation(25);
+		}
+		
+		//Lunar [White]
+		DeactivateKeyItemLocation(26);
+		if (keyitems[4] === true) {
+			ActivateKeyItemLocation(26);
+		}
+		
+		// ****Characters****
+		
+		//Baron Castle
+		DeactivateCharacterLocation(0);
+		if (keyitems[0] === true) {
+			ActivateCharacterLocation(0);
+		}
+		
+		//Town of Baron
+		ActivateCharacterLocation(1);
+		
+		//Damcyan
+		ActivateCharacterLocation(2);
+		
+		//Eblan Cave
+		DeactivateCharacterLocation(3);
+		if (keyitems[6] === true) {
+			ActivateCharacterLocation(3);
+		}	
+		
+		//Giant of Babil
+		DeactivateCharacterLocation(4);
+		if (keyitems[4] === true) {
+			ActivateCharacterLocation(4);
+		}
+		
+		//Kaipo
+		DeactivateCharacterLocation(5);
+		if (keyitems[10] === true) {
+			ActivateCharacterLocation(5);
+		}
+		
+		//Mist Village
+		DeactivateCharacterLocation(6);
+		if (keyitems[8] === true) {
+			ActivateCharacterLocation(6);
+		}
+		
+		//Mt Hobbs
+		ActivateCharacterLocation(7);
 
-	//Mt Ordeals
-	ActivateCharacterLocation(8);
-	
-	//Mysidia
-	ActivateCharacterLocation(9);
-	
-	//Tower of Zot
-	DeactivateCharacterLocation(10);
-	if (keyitems[5] === true) {
-		ActivateCharacterLocation(10);
-	}
-	
-	//Waterway
-	ActivateCharacterLocation(11);	
-	
-	//Dwarf Castle
-	DeactivateCharacterLocation(12);
-	if (hasunderworldaccess) {
-		ActivateCharacterLocation(12);
-	}
-	
-	if (characterlocations[12] === 2) {
-		rydia = true;
-	} else {
-		rydia = false;
-	}
+		//Mt Ordeals
+		ActivateCharacterLocation(8);
+		
+		//Mysidia
+		ActivateCharacterLocation(9);
+		
+		//Tower of Zot
+		DeactivateCharacterLocation(10);
+		if (keyitems[5] === true) {
+			ActivateCharacterLocation(10);
+		}
+		
+		//Waterway
+		ActivateCharacterLocation(11);	
+		
+		//Dwarf Castle
+		DeactivateCharacterLocation(12);
+		if (hasunderworldaccess) {
+			ActivateCharacterLocation(12);
+		}
+		
+		if (characterlocations[12] === 2) {
+			rydia = true;
+		} else {
+			rydia = false;
+		}
 
-	//Lunar Sub.
-	DeactivateCharacterLocation(13);
-	if (keyitems[4] === true) {
-		ActivateCharacterLocation(13);
-	}
+		//Lunar Sub.
+		DeactivateCharacterLocation(13);
+		if (keyitems[4] === true) {
+			ActivateCharacterLocation(13);
+		}
 	
-	// ****Towns/Shops****
 
-	//Agart
-	ActivateTownLocation(0);
 	
-	//Town of Baron
-	ActivateTownLocation(1);
+		// ****Towns/Shops****
 
-	//Eblan Cave
-	DeactivateTownLocation(2);
-	if (keyitems[6] === true) {
-		ActivateTownLocation(2);
-	}
-	
-	//Fabul
-	ActivateTownLocation(3);
-	
-	//Kaipo
-	ActivateTownLocation(4);
-	
-	//Mysidia
-	ActivateTownLocation(5);
-	
-	//Silvera
-	ActivateTownLocation(6);
-	
-	//Troia [Item]
-	ActivateTownLocation(7);
-	
-	//Troia [Pub]
-	ActivateTownLocation(8);
-	
-	//Dwarf Castle
-	DeactivateTownLocation(9);
-	if (hasunderworldaccess) {
-		ActivateTownLocation(9);
-	}
-	
-	//Feymarch
-	DeactivateTownLocation(10);
-	if (hasunderworldaccess) {
-		ActivateTownLocation(10);
-	}
-	
-	//Tomara
-	DeactivateTownLocation(11);
-	if (hasunderworldaccess) {
-		ActivateTownLocation(11);
-	}
-	
-	//Hummingway
-	DeactivateTownLocation(12);
-	if (keyitems[4] === true) {
-		ActivateTownLocation(12);
-	}
-	
-	
-	// ****Trapped Chests****
-	
-	//Castle Eblan
-	ActivateTrappedLocation(0);
+		//Agart
+		ActivateTownLocation(0);
+		
+		//Town of Baron
+		ActivateTownLocation(1);
 
-	//Eblan Cave
-	DeactivateTrappedLocation(1);
-	if (keyitems[6] === true) {
-		ActivateTrappedLocation(1);
-	}
+		//Eblan Cave
+		DeactivateTownLocation(2);
+		if (keyitems[6] === true) {
+			ActivateTownLocation(2);
+		}
+		
+		//Fabul
+		ActivateTownLocation(3);
+		
+		//Kaipo
+		ActivateTownLocation(4);
+		
+		//Mysidia
+		ActivateTownLocation(5);
+		
+		//Silvera
+		ActivateTownLocation(6);
+		
+		//Troia [Item]
+		ActivateTownLocation(7);
+		
+		//Troia [Pub]
+		ActivateTownLocation(8);
+		
+		//Dwarf Castle
+		DeactivateTownLocation(9);
+		if (hasunderworldaccess) {
+			ActivateTownLocation(9);
+		}
+		
+		//Feymarch
+		DeactivateTownLocation(10);
+		if (hasunderworldaccess) {
+			ActivateTownLocation(10);
+		}
+		
+		//Tomara
+		DeactivateTownLocation(11);
+		if (hasunderworldaccess) {
+			ActivateTownLocation(11);
+		}
+		
+		//Hummingway
+		DeactivateTownLocation(12);
+		if (keyitems[4] === true) {
+			ActivateTownLocation(12);
+		}
+		
+		
+		// ****Trapped Chests****
+		
+		//Castle Eblan
+		ActivateTrappedLocation(0);
 
-	//Giant of Babil
-	DeactivateTrappedLocation(2);
-	if (keyitems[4] === true) {
-		ActivateTrappedLocation(2);
-	}
+		//Eblan Cave
+		DeactivateTrappedLocation(1);
+		if (keyitems[6] === true) {
+			ActivateTrappedLocation(1);
+		}
 
-	//Tower of Zot
-	ActivateTrappedLocation(3);
-	
-	//Upper Babil
-	DeactivateTrappedLocation(4);
-	if (keyitems[6] === true) {
-		ActivateTrappedLocation(4);
-	}
+		//Giant of Babil
+		DeactivateTrappedLocation(2);
+		if (keyitems[4] === true) {
+			ActivateTrappedLocation(2);
+		}
 
-	//Feymarch
-	DeactivateTrappedLocation(5);
-	if (hasunderworldaccess) {
-		ActivateTrappedLocation(5);
-	}
+		//Tower of Zot
+		ActivateTrappedLocation(3);
+		
+		//Upper Babil
+		DeactivateTrappedLocation(4);
+		if (keyitems[6] === true) {
+			ActivateTrappedLocation(4);
+		}
 
-	//Lower Babil
-	DeactivateTrappedLocation(6);
-	if (hasunderworldaccess) {
-		ActivateTrappedLocation(6);
-	}
+		//Feymarch
+		DeactivateTrappedLocation(5);
+		if (hasunderworldaccess) {
+			ActivateTrappedLocation(5);
+		}
 
-	//Slyph Cave
-	DeactivateTrappedLocation(7);
-	if (hasunderworldaccess) {
-		ActivateTrappedLocation(7);
-	}
+		//Lower Babil
+		DeactivateTrappedLocation(6);
+		if (hasunderworldaccess) {
+			ActivateTrappedLocation(6);
+		}
 
-	//Lunar Path
-	DeactivateTrappedLocation(8);
-	if (keyitems[4] === true) {
-		ActivateTrappedLocation(8);
-	}
+		//Slyph Cave
+		DeactivateTrappedLocation(7);
+		if (hasunderworldaccess) {
+			ActivateTrappedLocation(7);
+		}
 
-	//Lunar Sub.
-	DeactivateTrappedLocation(9);
-	if (keyitems[4] === true) {
-		ActivateTrappedLocation(9);
+		//Lunar Path
+		DeactivateTrappedLocation(8);
+		if (keyitems[4] === true) {
+			ActivateTrappedLocation(8);
+		}
+
+		//Lunar Sub.
+		DeactivateTrappedLocation(9);
+		if (keyitems[4] === true) {
+			ActivateTrappedLocation(9);
+		}
 	}
 	
 	//Characters
@@ -1036,6 +1165,8 @@ function ApplyChecks(){
 	document.getElementById('itemtracker').innerHTML = itemcount + '/' + maxitems;
 	if (itemcount > 9 && expkeyitems === true) {
 		document.getElementById('itemtracker').style.color = "#0F0";
+	} else {
+		document.getElementById('itemtracker').style.color = "#FFF";
 	}
 	
 	//Key Item Locations
@@ -1607,9 +1738,30 @@ function LoadFlags() {
 function CloseFlags() {
 	if (menutoggle === false) {
 		$('#flagsModal').hide();
+		CloseFlagDetail();
 	} else {
 		menutoggle = false;
 	}	
+}
+
+function ExpandFlags(i) {
+	document.getElementById('flagsselectdiv').style.display = 'none';
+	document.getElementById('flagdetail' + i).style.display = 'block';
+}
+
+function CloseFlagDetail() {
+	document.getElementById('flagdetail0').style.display = 'none';
+	document.getElementById('flagdetail1').style.display = 'none';
+	document.getElementById('flagdetail2').style.display = 'none';
+	document.getElementById('flagdetail3').style.display = 'none';
+	document.getElementById('flagdetail4').style.display = 'none';
+	document.getElementById('flagdetail5').style.display = 'none';
+	document.getElementById('flagdetail6').style.display = 'none';
+	document.getElementById('flagdetail7').style.display = 'none';
+	document.getElementById('flagdetail8').style.display = 'none';
+	document.getElementById('flagdetail9').style.display = 'none';
+	document.getElementById('flagdetail10').style.display = 'none';	
+	document.getElementById('flagsselectdiv').style.display = 'block';
 }
 
 function CloseBoss() {
