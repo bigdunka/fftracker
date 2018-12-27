@@ -340,17 +340,17 @@ function SetModes() {
 			}
 		}
 		
-		if (flagsets[fs].indexOf('-NODUPES')) {
+		if (flagsets[fs].indexOf('-NODUPES') > -1) {
 			cnodupes = true;
 			document.getElementById("charactersD").style.display = "block";
 		}
 		
-		if (flagsets[fs].indexOf('-RESCUE')) {
+		if (flagsets[fs].indexOf('-RESCUE') > -1) {
 			crescue = true;
 			document.getElementById("charactersR").style.display = "block";
 		}
 		
-		if (flagsets[fs].indexOf('-HOBS')) {
+		if (flagsets[fs].indexOf('-HOBS') > -1) {
 			chobs = true;
 			document.getElementById("charactersH").style.display = "block";
 		}
@@ -660,6 +660,11 @@ function SetModes() {
 	if (jitems === false) {
 		document.getElementById('j1items').style.display = "none";
 		document.getElementById('j1itemstown').style.display = "none";
+	} else {
+		if (window.navigator.userAgent.indexOf("Firefox") > -1) {
+			document.getElementById('itemModalInner').style.fontSize = "23px";
+			document.getElementById('townModalInner').style.fontSize = "23px";
+		}
 	}
 
 	if (ktrapped === false) {
@@ -712,7 +717,7 @@ function SetModes() {
 		document.getElementById('wrapperdiv').style.width = "510px";
 		document.getElementById('trackingtable').style.width = "510px";
 		document.getElementById('trackingtable').style.float = "left";
-		document.getElementById('trackingtable').style.marginLeft = "20px";
+		//document.getElementById('trackingtable').style.marginLeft = "20px";
 		document.getElementById('leftdiv').style.margin = "0px 0px 20px 60px";
 		document.getElementById('itemModalInner').style.left = "60px";
 		document.getElementById('itemModalInner').style.top = "460px";
