@@ -109,4 +109,5 @@ function launch() {
 
 function loadflags(f) {
 	document.getElementById('flags').value = f;
+	window.scrollTo(0, 0);
 }
