@@ -523,7 +523,7 @@ function SetModes() {
 				document.getElementById("experienceB").style.display = "block";
 			}
 
-			if (flagsets[fs].indexOf('X') > -1) {
+			if (flagsets[fs].lastIndexOf('X') > 0 ) {
 				expnoexp = true;
 				document.getElementById("experienceX").style.display = "block";
 			}		
