@@ -2,10 +2,11 @@
 	<body bgcolor="#000063">
 		<head>
 			<title>FFIV Free Enterprise Tracker - Created by BigDunka</title>
-			<link rel="stylesheet" href="./styles/stylesheet.css?v=163">
-			<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-			<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
-			<script src="./scripts/track.js?v=163"></script>
+			<link rel="stylesheet" href="./styles/stylesheet.css?v=170">
+			<script type="text/javascript" src="./scripts/jquery-3.3.1.js"></script>
+			<script type="text/javascript" src="./scripts/jquery.powertip.js"></script>
+			<link rel="stylesheet" type="text/css" href="./styles/jquery.powertip.css" />
+			<script src="./scripts/track.js?v=170"></script>
 			<script type="text/javascript">
 				$(document).ready(function(){
 					SetModes();
@@ -14,18 +15,22 @@
 			</script>
 			<script async src="https://www.googletagmanager.com/gtag/js?id=UA-121466364-1"></script>
 			<script>
-			  window.dataLayer = window.dataLayer || [];
-			  function gtag(){dataLayer.push(arguments);}
-			  gtag('js', new Date());
+				$(function() {
+					$('.south').powerTip({ placement: 's' });
+					$('.north').powerTip({ placement: 'n' });
+				});
+				window.dataLayer = window.dataLayer || [];
+				function gtag(){dataLayer.push(arguments);}
+				gtag('js', new Date());
 
-			  gtag('config', 'UA-121466364-1');
-			</script>				
+				gtag('config', 'UA-121466364-1');
+			</script>
 		</head>
 		
 		<div id="wrapperdiv" style="width: 920px;">
 			<div id="leftdiv" style="width: 400px; float: left;">
 				<div id="partydiv" class="characterdiv">
-					<div style="font-size: 27px; text-align: center; height: 28px;">-= CURRENT PARTY =-</div>
+					<div style="font-size: 22px; text-align: center; height: 28px;">~~~ CURRENT PARTY ~~~</div>
 					<div style="width: 220px; margin-left: 92px; height: 75px;">
 						<div id="party0" class="partyPortrait" onclick="SwapParty(0)"><span class="partyClear" onclick="PartyClear(0);">X</span></div>
 						<div id="party1" class="partyPortrait" onclick="SwapParty(1)"><span class="partyClear" onclick="PartyClear(1);">X</span></div>
@@ -38,46 +43,46 @@
 				</div>
 				<div id="characterdiv" class="characterdiv" style="display: none;">
 					<div class="charactercolumn">
-						<div id="character0" class="characterPortrait" onclick="SwapCharacter(0)" style="background-image: url('images/character0_a.png')" title="Cecil">
+						<div id="character0" class="characterPortrait south" onclick="SwapCharacter(0)" style="background-image: url('images/character0_a.png')" title="Cecil">
 							<img id="character0_x" class="characterPortrait" src="images/character_x.png" onclick="SwapCharacter(99)" style="visibility: hidden; cursor: auto;" />
 						</div>
-						<div id="character4" class="characterPortrait" onclick="SwapCharacter(4)" style="background-image: url('images/character4_a.png')" title="Edward">
+						<div id="character4" class="characterPortrait south" onclick="SwapCharacter(4)" style="background-image: url('images/character4_a.png')" title="Edward">
 							<img id="character4_x" class="characterPortrait" src="images/character_x.png" onclick="SwapCharacter(99)" style="visibility: hidden; cursor: auto;" />
 						</div>
-						<div id="character8" class="characterPortrait" onclick="SwapCharacter(8)" style="background-image: url('images/character8_a.png')" title="Porom">
+						<div id="character8" class="characterPortrait south" onclick="SwapCharacter(8)" style="background-image: url('images/character8_a.png')" title="Porom">
 							<img id="character8_x" class="characterPortrait" src="images/character_x.png" onclick="SwapCharacter(99)" style="visibility: hidden; cursor: auto;" />
 						</div>
 					</div>
 					<div class="charactercolumn">
-						<div id="character1" class="characterPortrait" onclick="SwapCharacter(1)" style="background-image: url('images/character1_a.png')" title="Kain">
+						<div id="character1" class="characterPortrait south" onclick="SwapCharacter(1)" style="background-image: url('images/character1_a.png')" title="Kain">
 							<img id="character1_x" class="characterPortrait" src="images/character_x.png" onclick="SwapCharacter(99)" style="visibility: hidden; cursor: auto;" />
 						</div>
-						<div id="character5" class="characterPortrait" onclick="SwapCharacter(5)" style="background-image: url('images/character5_a.png')" title="Rosa">
+						<div id="character5" class="characterPortrait south" onclick="SwapCharacter(5)" style="background-image: url('images/character5_a.png')" title="Rosa">
 							<img id="character5_x" class="characterPortrait" src="images/character_x.png" onclick="SwapCharacter(99)" style="visibility: hidden; cursor: auto;" />
 						</div>
-						<div id="character9" class="characterPortrait" onclick="SwapCharacter(9)" style="background-image: url('images/character9_a.png')" title="Cid">
+						<div id="character9" class="characterPortrait south" onclick="SwapCharacter(9)" style="background-image: url('images/character9_a.png')" title="Cid">
 							<img id="character9_x" class="characterPortrait" src="images/character_x.png" onclick="SwapCharacter(99)" style="visibility: hidden; cursor: auto;" />
 						</div>
 					</div>
 					<div class="charactercolumn">
-						<div id="character2" class="characterPortrait" onclick="SwapCharacter(2)" style="background-image: url('images/character2_a.png')" title="Rydia">
+						<div id="character2" class="characterPortrait south" onclick="SwapCharacter(2)" style="background-image: url('images/character2_a.png')" title="Rydia">
 							<img id="character2_x" class="characterPortrait" src="images/character_x.png" onclick="SwapCharacter(99)" style="visibility: hidden; cursor: auto;" />
 						</div>
-						<div id="character6" class="characterPortrait" onclick="SwapCharacter(6)" style="background-image: url('images/character6_a.png')" title="Yang">
+						<div id="character6" class="characterPortrait south" onclick="SwapCharacter(6)" style="background-image: url('images/character6_a.png')" title="Yang">
 							<img id="character6_x" class="characterPortrait" src="images/character_x.png" onclick="SwapCharacter(99)" style="visibility: hidden; cursor: auto;" />
 						</div>
-						<div id="character10" class="characterPortrait" onclick="SwapCharacter(10)" style="background-image: url('images/character10_a.png')" title="Edge">
+						<div id="character10" class="characterPortrait south" onclick="SwapCharacter(10)" style="background-image: url('images/character10_a.png')" title="Edge">
 							<img id="character10_x" class="characterPortrait" src="images/character_x.png" onclick="SwapCharacter(99)" style="visibility: hidden; cursor: auto;" />
 						</div>
 					</div>
 					<div class="charactercolumn">
-						<div id="character3" class="characterPortrait" onclick="SwapCharacter(3)" style="background-image: url('images/character3_a.png')" title="Tellah">
+						<div id="character3" class="characterPortrait south" onclick="SwapCharacter(3)" style="background-image: url('images/character3_a.png')" title="Tellah">
 							<img id="character3_x" class="characterPortrait" src="images/character_x.png" onclick="SwapCharacter(99)" style="visibility: hidden; cursor: auto;" />
 						</div>
-						<div id="character7" class="characterPortrait" onclick="SwapCharacter(7)" style="background-image: url('images/character7_a.png')" title="Palom">
+						<div id="character7" class="characterPortrait south" onclick="SwapCharacter(7)" style="background-image: url('images/character7_a.png')" title="Palom">
 							<img id="character7_x" class="characterPortrait" src="images/character_x.png" onclick="SwapCharacter(99)" style="visibility: hidden; cursor: auto;" />
 						</div>
-						<div id="character11" class="characterPortrait" onclick="SwapCharacter(11)" style="background-image: url('images/character11_a.png')" title="FuSoYa">
+						<div id="character11" class="characterPortrait south" onclick="SwapCharacter(11)" style="background-image: url('images/character11_a.png')" title="FuSoYa">
 							<img id="character11_x" class="characterPortrait" src="images/character_x.png" onclick="SwapCharacter(99)" style="visibility: hidden; cursor: auto;" />
 						</div>
 					</div>
@@ -85,104 +90,110 @@
 				<hr>
 				<div id="itemdiv" class="itemdiv">
 					<div class="charactercolumn">
-						<div id="item0" class="itemImage" onclick="SwapItem(0)" style="background-image: url('images/item0.png')" title="Baron Key"></div>
+						<div id="item0" class="itemImage south" onclick="SwapItem(0)" style="background-image: url('images/item0.png')" title="Baron Key"></div>
 						<div id="item4td">
-							<div id="item4" class="itemImage" onclick="SwapItem(4)" style="background-image: url('images/item4.png')" title="Dark Crystal"></div>
+							<div id="item4" class="itemImage south" onclick="SwapItem(4)" style="background-image: url('images/item4.png')" title="Dark Crystal"></div>
 						</div>
-						<div id="item8" class="itemImage" onclick="SwapItem(8)" style="background-image: url('images/item8.png')" title="Package"></div>
+						<div id="item8" class="itemImage south" onclick="SwapItem(8)" style="background-image: url('images/item8.png')" title="Package"></div>
 						<div id="item12td">
-							<div id="item12" class="itemImage" onclick="SwapItem(12)" style="background-image: url('images/item12.png')" title="Adamant"></div>
+							<div id="item12" class="itemImage south" onclick="SwapItem(12)" style="background-image: url('images/item12.png')" title="Adamant"></div>
 						</div>
-						<div id="misttoggle" class="itemImage" onclick="ToggleMist()" style="background-image: url('images/mistdragon_2.png')" title=""></div>
+						<div id="misttoggle" class="itemImage south" onclick="ToggleMist()" style="background-image: url('images/mistdragon_2.png')" title=""></div>
 					</div>
 					<div class="charactercolumn">
-						<div id="item1" class="itemImage" onclick="SwapItem(1)" style="background-image: url('images/item1.png')" title="Luca Key"></div>
-						<div id="item5" class="itemImage" onclick="SwapItem(5)" style="background-image: url('images/item5.png')" title="Earth Crystal"></div>
-						<div id="item9" class="itemImage" onclick="SwapItem(9)" style="background-image: url('images/item9.png')" title="Pan"></div>
+						<div id="item1" class="itemImage south" onclick="SwapItem(1)" style="background-image: url('images/item1.png')" title="Luca Key"></div>
+						<div id="item5" class="itemImage south" onclick="SwapItem(5)" style="background-image: url('images/item5.png')" title="Earth Crystal"></div>
+						<div id="item9" class="itemImage south" onclick="SwapItem(9)" style="background-image: url('images/item9.png')" title="Pan"></div>
 						<div id="item13td">
-							<div id="item13" class="itemImage" onclick="SwapItem(13)" style="background-image: url('images/item13.png')" title="Legend Sword"></div>
+							<div id="item13" class="itemImage south" onclick="SwapItem(13)" style="background-image: url('images/item13.png')" title="Legend Sword"></div>
 						</div>
 						<div id="item16td">
-							<div id="item16" class="itemImage" onclick="SwapItem(16)" style="background-image: url('images/item16.png')" title="Crystal"></div>
+							<div id="item16" class="itemImage south" onclick="SwapItem(16)" style="background-image: url('images/item16.png')" title="Crystal"></div>
 						</div>
 					</div>
 					<div class="charactercolumn">
-						<div id="item2" class="itemImage" onclick="SwapItem(2)" style="background-image: url('images/item2.png')" title="Magma Key"></div>
-						<div id="item6" class="itemImage" onclick="SwapItem(6)" style="background-image: url('images/item6.png')" title="Hook"></div>
-						<div id="item10" class="itemImage" onclick="SwapItem(10)" style="background-image: url('images/item10.png')" title="Sandruby"></div>
-						<div id="item14" class="itemImage" onclick="SwapItem(14)" style="background-image: url('images/item16.png')" title="Spoon"></div>
+						<div id="item2" class="itemImage south" onclick="SwapItem(2)" style="background-image: url('images/item2.png')" title="Magma Key"></div>
+						<div id="item6" class="itemImage south" onclick="SwapItem(6)" style="background-image: url('images/item6.png')" title="Hook"></div>
+						<div id="item10" class="itemImage south" onclick="SwapItem(10)" style="background-image: url('images/item10.png')" title="Sandruby"></div>
+						<div id="item14" class="itemImage south" onclick="SwapItem(14)" style="background-image: url('images/item16.png')" title="Spoon"></div>
 						<div id="item17td">
-							<div id="item17" class="itemImage" onclick="SwapItem(17)" style="background-image: url('images/item17.png')" title="Pass"></div>
+							<div id="item17" class="itemImage south" onclick="SwapItem(17)" style="background-image: url('images/item17.png')" title="Pass"></div>
 						</div>
 					</div>
 					<div class="charactercolumn">
-						<div id="item3" class="itemImage" onclick="SwapItem(3)" style="background-image: url('images/item3.png')" title="Tower Key"></div>
-						<div id="item7" class="itemImage" onclick="SwapItem(7)" style="background-image: url('images/item7.png')" title="Twinharp"></div>
-						<div id="item11" class="itemImage" onclick="SwapItem(11)" style="background-image: url('images/item11.png')" title="Rat Tail"></div>
-						<div id="item15" class="itemImage" onclick="SwapItem(15)" style="background-image: url('images/item15.png')" title="Pink Tail"></div>
-						<div id="itemtracker" style="font-size: 22px; cursor: auto; line-height: 32px; text-align: center;">0/17</div>
+						<div id="item3" class="itemImage south" onclick="SwapItem(3)" style="background-image: url('images/item3.png')" title="Tower Key"></div>
+						<div id="item7" class="itemImage south" onclick="SwapItem(7)" style="background-image: url('images/item7.png')" title="Twinharp"></div>
+						<div id="item11" class="itemImage south" onclick="SwapItem(11)" style="background-image: url('images/item11.png')" title="Rat Tail"></div>
+						<div id="item15" class="itemImage south" onclick="SwapItem(15)" style="background-image: url('images/item15.png')" title="Pink Tail"></div>
+						<div id="itemtracker" style="font-size: 20px; cursor: auto; padding-top: 6px; text-align: center;">0/17</div>
 					</div>
 				</div>
-				<hr>
-				<div id="flagstr" style="font-size: 27px; text-align: center;" class="clickablediv" onclick="LoadFlags();">-= Click For Flag Details =-
+				<div id="datadiv">
+					<hr>
+					<div>
+						<div id="flagsIcon" class="flagsImage north" onclick="LoadFlags()" style="background-image: url('images/flagicon.png')" title="Load Flags"></div>
+						<div id="armoryIcon" class="flagsImage north" onclick="return false; LoadArmory()" style="background-image: url('images/armoricon.png')" title="Load Armory (Coming Soon!)"></div>
+						<div id="battleIcon" class="flagsImage north" onclick="return false; LoadBattle()" style="background-image: url('images/bestiaryicon.png')" title="Load Bestiary (Coming Soon!)"></div>
+						<div id="bossIcon" class="flagsImage north" onclick="return false; LoadBosses()" style="background-image: url('images/charactericon.png')" title="Load Characters (Coming Soon!)"></div>
+					</div>
 				</div>
-				<!-- <div id="flagscontainer" style="font-size: 27px; text-align: center;" class="clickablediv" onclick="LoadFlags();">-= Flag Details Temporarly Disabled =-
-				</div> -->
 			</div>
-			<div style="font-size: 20px; text-align: center;" id="trackingtable">
+			<div class="trackingTableText" id="trackingtable">
 				<div id="keyitemsdiv" style="float: left; height: 440px; width: 120px; overflow-x: auto; padding-left: 10px;">
-					<div><u>Key Items</u><br></div>
-					<div id="keyitemlocation0" onclick="SwapKeyItemLocation(0);" class="clickablediv">Adamant Cave<br></div>
-					<div id="keyitemlocation1" onclick="SwapKeyItemLocation(1);" class="clickablediv">Antlion Cave<br></div>
-					<div id="keyitemlocation2" onclick="SwapKeyItemLocation(2);" class="clickablediv">Baron Castle [King]<br></div>
-					<div id="keyitemlocation3" onclick="SwapKeyItemLocation(3);" class="clickablediv">Baron Castle [Odin]<br></div>
-					<div id="keyitemlocation4" onclick="SwapKeyItemLocation(4);" class="clickablediv">Town of Baron<br></div>
-					<div id="keyitemlocation5" onclick="SwapKeyItemLocation(5);" class="clickablediv">Fabul [Defend]<br></div>
-					<div id="keyitemlocation6" onclick="SwapKeyItemLocation(6);" class="clickablediv">Fabul [Yang/Sylph]<br></div>
-					<div id="keyitemlocation7" onclick="SwapKeyItemLocation(7);" class="clickablediv">Fabul [Yang/Pan]<br></div>
-					<div id="keyitemlocation8" onclick="SwapKeyItemLocation(8);" class="clickablediv">Magnes Cave<br></div>
-					<div id="keyitemlocation9" onclick="SwapKeyItemLocation(9);" class="clickablediv">Mist Village<br></div>
-					<div id="keyitemlocation10" onclick="SwapKeyItemLocation(10);" class="clickablediv">Mt Ordeals<br></div>
-					<div id="keyitemlocation11" onclick="SwapKeyItemLocation(11);" class="clickablediv">Tower of Zot<br></div>
-					<div id="keyitemlocation12" onclick="SwapKeyItemLocation(12);" class="clickablediv">Troia Castle<br></div>
-					<div id="keyitemlocation13" onclick="SwapKeyItemLocation(13);" class="clickablediv">Dwarf Castle<br></div>
-					<div id="keyitemlocation14" onclick="SwapKeyItemLocation(14);" class="clickablediv">Feymarch [Chest]<br></div>
-					<div id="keyitemlocation15" onclick="SwapKeyItemLocation(15);" class="clickablediv">Feymarch [Asura]<br></div>
-					<div id="keyitemlocation16" onclick="SwapKeyItemLocation(16);" class="clickablediv">Feymarch [Leviathan]<br></div>
-					<div id="keyitemlocation17" onclick="SwapKeyItemLocation(17);" class="clickablediv">Lower Babil [Boss]<br></div>
-					<div id="keyitemlocation18" onclick="SwapKeyItemLocation(18);" class="clickablediv">Lower Babil [Tower]<br></div>
-					<div id="keyitemlocation19" onclick="SwapKeyItemLocation(19);" class="clickablediv">Sealed Cave<br></div>
-					<div id="keyitemlocation20" onclick="SwapKeyItemLocation(20);" class="clickablediv">Sylph Cave<br></div>
-					<div id="keyitemlocation21" onclick="SwapKeyItemLocation(21);" class="clickablediv">Bahamut<br></div>
-					<div id="keyitemlocation22" onclick="SwapKeyItemLocation(22);" class="clickablediv">Lunar [Crystal]<br></div>
-					<div id="keyitemlocation23" onclick="SwapKeyItemLocation(23);" class="clickablediv">Lunar [Masamune]<br></div>
-					<div id="keyitemlocation24" onclick="SwapKeyItemLocation(24);" class="clickablediv">Lunar [Murasame]<br></div>
-					<div id="keyitemlocation25" onclick="SwapKeyItemLocation(25);" class="clickablediv">Lunar [Ribbon]<br></div>
-					<div id="keyitemlocation26" onclick="SwapKeyItemLocation(26);" class="clickablediv">Lunar [White]<br></div>
-					<div id="keyitemlocationviewchecked" onclick="ViewCheckedKeyItems();" class="clickablediv" style="height: 32px;"><br>=View Checked=<br></div>
-					<div id="keyitemlocationviewunchecked" onclick="ViewUncheckedKeyItems();" class="clickablediv" style="height: 32px;"><br>=View Unchecked=<br></div>
+					<div><u class="trackingTableHeader">Key Items</u><br></div>
+					<div id="keyitemlocation0" onclick="SwapKeyItemLocation(0);" class="clickablediv trackingTableOverworld">Adamant Cave<br></div>
+					<div id="keyitemlocation1" onclick="SwapKeyItemLocation(1);" class="clickablediv trackingTableOverworld">Antlion Cave<br></div>
+					<div id="keyitemlocation2" onclick="SwapKeyItemLocation(2);" class="clickablediv trackingTableOverworld">Baron Castle [King]<br></div>
+					<div id="keyitemlocation3" onclick="SwapKeyItemLocation(3);" class="clickablediv trackingTableOverworld">Baron Castle [Odin]<br></div>
+					<div id="keyitemlocation4" onclick="SwapKeyItemLocation(4);" class="clickablediv trackingTableOverworld">Town of Baron<br></div>
+					<div id="keyitemlocation5" onclick="SwapKeyItemLocation(5);" class="clickablediv trackingTableOverworld">Fabul [Defend]<br></div>
+					<div id="keyitemlocation8" onclick="SwapKeyItemLocation(8);" class="clickablediv trackingTableOverworld">Magnes Cave<br></div>
+					<div id="keyitemlocation9" onclick="SwapKeyItemLocation(9);" class="clickablediv trackingTableOverworld">Mist Village<br></div>
+					<div id="keyitemlocation10" onclick="SwapKeyItemLocation(10);" class="clickablediv trackingTableOverworld">Mt Ordeals<br></div>
+					<div id="keyitemlocation11" onclick="SwapKeyItemLocation(11);" class="clickablediv trackingTableOverworld">Tower of Zot<br></div>
+					<div id="keyitemlocation12" onclick="SwapKeyItemLocation(12);" class="clickablediv trackingTableOverworld">Troia Castle<br></div>
+					<div id="keyitemlocation27" onclick="SwapKeyItemLocation(27);" class="clickablediv trackingTableOverUnder">Clear Hook Route<br></div>
+					<div id="keyitemlocation13" onclick="SwapKeyItemLocation(13);" class="clickablediv trackingTableUnderworld">Dwarf Castle<br></div>
+					<div id="keyitemlocation28" onclick="WarpGlitch();" class="clickablediv trackingTableUnderworld">Warp Glitch? [Yes] <span onclick="ClearWarpGlitch(); return false;">[No]</span><br></div>
+					<div id="keyitemlocation6" onclick="SwapKeyItemLocation(6);" class="clickablediv trackingTableUnderworld">Fabul [Yang/Sylph]<br></div>
+					<div id="keyitemlocation7" onclick="SwapKeyItemLocation(7);" class="clickablediv trackingTableUnderworld">Fabul [Yang/Pan]<br></div>
+					<div id="keyitemlocation14" onclick="SwapKeyItemLocation(14);" class="clickablediv trackingTableUnderworld">Feymarch [Chest]<br></div>
+					<div id="keyitemlocation15" onclick="SwapKeyItemLocation(15);" class="clickablediv trackingTableUnderworld">Feymarch [Asura]<br></div>
+					<div id="keyitemlocation16" onclick="SwapKeyItemLocation(16);" class="clickablediv trackingTableUnderworld">Feymarch [Leviathan]<br></div>
+					<div id="keyitemlocation17" onclick="SwapKeyItemLocation(17);" class="clickablediv trackingTableUnderworld">Lower Babil [Boss]<br></div>
+					<div id="keyitemlocation18" onclick="SwapKeyItemLocation(18);" class="clickablediv trackingTableUnderworld">Lower Babil [Tower]<br></div>
+					<div id="keyitemlocation19" onclick="SwapKeyItemLocation(19);" class="clickablediv trackingTableUnderworld">Sealed Cave<br></div>
+					<div id="keyitemlocation20" onclick="SwapKeyItemLocation(20);" class="clickablediv trackingTableUnderworld">Sylph Cave<br></div>
+					<div id="keyitemlocation21" onclick="SwapKeyItemLocation(21);" class="clickablediv trackingTableMoon">Bahamut<br></div>
+					<div id="keyitemlocation22" onclick="SwapKeyItemLocation(22);" class="clickablediv trackingTableMoon">Lunar [Crystal]<br></div>
+					<div id="keyitemlocation23" onclick="SwapKeyItemLocation(23);" class="clickablediv trackingTableMoon">Lunar [Masamune]<br></div>
+					<div id="keyitemlocation24" onclick="SwapKeyItemLocation(24);" class="clickablediv trackingTableMoon">Lunar [Murasame]<br></div>
+					<div id="keyitemlocation25" onclick="SwapKeyItemLocation(25);" class="clickablediv trackingTableMoon">Lunar [Ribbon]<br></div>
+					<div id="keyitemlocation26" onclick="SwapKeyItemLocation(26);" class="clickablediv trackingTableMoon">Lunar [White]<br></div>
+					<div id="keyitemlocationviewchecked" onclick="ViewCheckedKeyItems();" class="clickablediv" style="height: 32px;"><br>~View Checked~<br></div>
+					<div id="keyitemlocationviewunchecked" onclick="ViewUncheckedKeyItems();" class="clickablediv" style="height: 32px;"><br>~View Unchecked~<br></div>
 				</div>
 				<div id="charactersdiv" style="float: left; height: 400px; width: 120px;">
-					<div><u>Characters</u><br></div>
-					<div id="characterlocation0" onclick="SwapCharacterLocation(0);" class="clickablediv">Baron Castle<br></div>
-					<div id="characterlocation1" onclick="SwapCharacterLocation(1);" class="clickablediv">Town of Baron<br></div>
-					<div id="characterlocation2" onclick="SwapCharacterLocation(2);" class="clickablediv">Damcyan<br></div>
-					<div id="characterlocation3" onclick="SwapCharacterLocation(3);" class="clickablediv">Eblan Cave<br></div>
-					<div id="characterlocation4" onclick="SwapCharacterLocation(4);" class="clickablediv">Giant of Babil<br></div>
-					<div id="characterlocation5" onclick="SwapCharacterLocation(5);" class="clickablediv">Kaipo<br></div>
-					<div id="characterlocation6" onclick="SwapCharacterLocation(6);" class="clickablediv">Mist Village<br></div>
-					<div id="characterlocation7" onclick="SwapCharacterLocation(7);" class="clickablediv">Mt Hobbs<br></div>
-					<div id="characterlocation8" onclick="SwapCharacterLocation(8);" class="clickablediv">Mt Ordeals<br></div>
-					<div id="characterlocation9" onclick="SwapCharacterLocation(9);" class="clickablediv">Mysidia<br></div>
-					<div id="characterlocation10" onclick="SwapCharacterLocation(10);" class="clickablediv">Tower of Zot<br></div>
-					<div id="characterlocation11" onclick="SwapCharacterLocation(11);" class="clickablediv">Waterway<br></div>
-					<div id="characterlocation12" onclick="SwapCharacterLocation(12);" class="clickablediv">Dwarf Castle<br></div>
-					<div id="characterlocation13" onclick="SwapCharacterLocation(13);" class="clickablediv">Lunar Sub.<br></div>
-					<div id="characterlocationviewchecked" onclick="ViewCheckedCharacters();" class="clickablediv" style="height: 32px;"><br>=View Checked=<br></div>
-					<div id="characterlocationviewunchecked" onclick="ViewUncheckedCharacters();" class="clickablediv" style="height: 32px;"><br>=View Unchecked=<br></div>
+					<div><u class="trackingTableHeader">Characters</u><br></div>
+					<div id="characterlocation0" onclick="SwapCharacterLocation(0);" class="clickablediv trackingTableOverworld">Baron Castle<br></div>
+					<div id="characterlocation1" onclick="SwapCharacterLocation(1);" class="clickablediv trackingTableOverworld">Town of Baron<br></div>
+					<div id="characterlocation2" onclick="SwapCharacterLocation(2);" class="clickablediv trackingTableOverworld">Damcyan<br></div>
+					<div id="characterlocation3" onclick="SwapCharacterLocation(3);" class="clickablediv trackingTableOverworld">Eblan Cave<br></div>
+					<div id="characterlocation4" onclick="SwapCharacterLocation(4);" class="clickablediv trackingTableOverworld">Giant of Babil<br></div>
+					<div id="characterlocation5" onclick="SwapCharacterLocation(5);" class="clickablediv trackingTableOverworld">Kaipo<br></div>
+					<div id="characterlocation6" onclick="SwapCharacterLocation(6);" class="clickablediv trackingTableOverworld">Mist Village<br></div>
+					<div id="characterlocation7" onclick="SwapCharacterLocation(7);" class="clickablediv trackingTableOverworld">Mt Hobbs<br></div>
+					<div id="characterlocation8" onclick="SwapCharacterLocation(8);" class="clickablediv trackingTableOverworld">Mt Ordeals<br></div>
+					<div id="characterlocation9" onclick="SwapCharacterLocation(9);" class="clickablediv trackingTableOverworld">Mysidia<br></div>
+					<div id="characterlocation10" onclick="SwapCharacterLocation(10);" class="clickablediv trackingTableOverworld">Tower of Zot<br></div>
+					<div id="characterlocation11" onclick="SwapCharacterLocation(11);" class="clickablediv trackingTableOverworld">Waterway<br></div>
+					<div id="characterlocation12" onclick="SwapCharacterLocation(12);" class="clickablediv trackingTableUnderworld">Dwarf Castle<br></div>
+					<div id="characterlocation13" onclick="SwapCharacterLocation(13);" class="clickablediv trackingTableMoon">Lunar Sub.<br></div>
+					<div id="characterlocationviewchecked" onclick="ViewCheckedCharacters();" class="clickablediv" style="height: 32px;"><br>~View Checked~<br></div>
+					<div id="characterlocationviewunchecked" onclick="ViewUncheckedCharacters();" class="clickablediv" style="height: 32px;"><br>~View Unchecked~<br></div>
 				</div>
 				<div id="townsdiv" style="float: left; height: 400px; width: 120px;">
-					<div><u>Towns/Shops</u><br></div>
+					<div><u class="trackingTableHeader">Towns/Shops</u><br></div>
 					<div id="townlocation0" onclick="LoadItems(0);" class="clickablediv">Agart<br></div>
 					<div id="townlocation1" onclick="LoadItems(1);" class="clickablediv">Town of Baron<br></div>
 					<div id="townlocation2" onclick="LoadItems(2);" class="clickablediv">Eblan Cave<br></div>
@@ -196,12 +207,12 @@
 					<div id="townlocation10" onclick="LoadItems(10);" class="clickablediv">Feymarch<br></div>
 					<div id="townlocation11" onclick="LoadItems(11);" class="clickablediv">Tomara<br></div>
 					<div id="townlocation12" onclick="LoadItems(12);" class="clickablediv">Hummingway<br></div>
-					<div id="townlocationviewchecked" onclick="ViewCheckedTowns();" class="clickablediv" style="height: 32px;"><br>=View Checked=<br></div>
-					<div id="townlocationviewunchecked" onclick="ViewUncheckedTowns();" class="clickablediv" style="height: 32px;"><br>=View Unchecked=<br></div>
-					<div id="trappedlocationviewtown" onclick="ViewTown();" class="clickablediv" style="height: 32px;"><br>=Known Item Summary=<br></div>
+					<div id="townlocationviewchecked" onclick="ViewCheckedTowns();" class="clickablediv" style="height: 32px;"><br>~View Checked~<br></div>
+					<div id="townlocationviewunchecked" onclick="ViewUncheckedTowns();" class="clickablediv" style="height: 32px;"><br>~View Unchecked~<br></div>
+					<div id="trappedlocationviewtown" onclick="ViewTown();" class="clickablediv" style="height: 32px;"><br>~Item Summary~<br></div>
 				</div>
 				<div id="trappedchestsdiv" style="float: left; height: 400px; width: 120px;">
-					<div><u>Trapped Chests</u><br></div>
+					<div><u class="trackingTableHeader">Trapped Chests</u><br></div>
 					<div id="trappedlocation0" onclick="SwapTrappedLocation(0);" class="clickablediv">Castle Eblan<br></div>
 					<div id="trappedlocation1" onclick="SwapTrappedLocation(1);" class="clickablediv">Eblan Cave<br></div>
 					<div id="trappedlocation2" onclick="SwapTrappedLocation(2);" class="clickablediv">Giant of Babil<br></div>
@@ -212,14 +223,14 @@
 					<div id="trappedlocation7" onclick="SwapTrappedLocation(7);" class="clickablediv">Sylph Cave<br></div>
 					<div id="trappedlocation8" onclick="SwapTrappedLocation(8);" class="clickablediv">Lunar Path<br></div>
 					<div id="trappedlocation9" onclick="SwapTrappedLocation(9);" class="clickablediv">Lunar Sub.<br></div>
-					<div id="trappedlocationviewchecked" onclick="ViewCheckedTrapped();" class="clickablediv" style="height: 32px;"><br>=View Checked=<br></div>
-					<div id="trappedlocationviewunchecked" onclick="ViewUncheckedTrapped();" class="clickablediv" style="height: 32px;"><br>=View Unchecked=<br></div>
+					<div id="trappedlocationviewchecked" onclick="ViewCheckedTrapped();" class="clickablediv" style="height: 32px;"><br>~View Checked~<br></div>
+					<div id="trappedlocationviewunchecked" onclick="ViewUncheckedTrapped();" class="clickablediv" style="height: 32px;"><br>~View Unchecked~<br></div>
 				</div>
 			</div>
 		</div>
 
 		<div class="modal fade" id="itemModal" aria-hidden="true" onclick="CloseItems();" style="width: 100%; height: 100%; background-color: rgba(51, 51, 51, 0.6); z-index: 2; position: absolute; top: 0px; left: 0px;">
-			<div id="itemModalInner" onclick="IgnoreMenuClose();" style="position: absolute; top: 20px; z-index: 2; left: 450px; background: url(./images/itemmenu.png); width: 404px; height: 386px; font-size: 30px; padding: 10px;">
+			<div id="itemModalInner" onclick="IgnoreMenuClose();" style="position: absolute; top: 20px; z-index: 2; left: 450px; background: url(./images/itemmenu.png); width: 404px; height: 386px; font-size: 18px; padding: 10px;">
 				<span onclick="CloseItems();" class="clickablediv">X Close</span><br>
 				<input id="itemlist0" type="checkbox" onclick="CheckItems();" hidden /><span onclick="CheckItemSpan(0);" class="clickablediv" id="itemspan0">No Items - [Will clear list and close]</span><br>
 				<input id="itemlist1" type="checkbox" onclick="CheckItems();" hidden /><span onclick="CheckItemSpan(1);" class="clickablediv" id="itemspan1">Pass</span><br>
@@ -241,7 +252,7 @@
 		</div>
 		
 		<div class="modal fade" id="flagsModal" aria-hidden="true" onclick="CloseFlags();" style="width: 100%; height: 100%; background-color: rgba(51, 51, 51, 0.6); z-index: 2; position: absolute; top: 0px; left: 0px;">
-			<div id="flagsModalInner" onclick="IgnoreMenuClose();" style="position: absolute; top: 20px; z-index: 2; left: 450px; background: url(./images/itemmenu.png); width: 404px; height: 386px; font-size: 22px; padding: 10px;">
+			<div id="flagsModalInner" onclick="IgnoreMenuClose();" style="position: absolute; top: 20px; z-index: 2; left: 450px; background: url(./images/itemmenu.png); width: 404px; height: 386px; font-size: 18px; padding: 10px;">
 				<div id="flagsselectdiv">
 					<span onclick="CloseFlags();" class="clickablediv">X Close</span><br><br>
 					<span>Click Category to Expand for Details</span><br><br>
@@ -384,7 +395,7 @@
 		</div>	
 		
 		<div class="modal fade" id="bossModal" aria-hidden="true" onclick="CloseBoss();" style="width: 100%; height: 100%; background-color: rgba(51, 51, 51, 0.6); z-index: 2; position: absolute; top: 0px; left: 0px;">
-			<div id="bossModalInner" onclick="IgnoreMenuClose();" style="position: absolute; top: 20px; z-index: 3; left: 0px; background: url(./images/itemmenu.png); width: 404px; height: 386px; font-size: 24px; padding: 10px;">
+			<div id="bossModalInner" onclick="IgnoreMenuClose();" style="position: absolute; top: 20px; z-index: 3; left: 0px; background: url(./images/itemmenu.png); width: 404px; height: 386px; font-size: 18px; padding: 10px;">
 				<span onclick="CloseBoss();" class="clickablediv">X Close</span><br><br>
 				<span id="bossmodal0" onclick="SwapBoss(0);" class="bossmodalspan clickablediv" >Mist Dragon</span>
 				<span id="bossmodal1" onclick="SwapBoss(1);" class="bossmodalspan clickablediv" >Baron Soldiers</span>
@@ -425,7 +436,7 @@
 		</div>	
 
 		<div class="modal fade" id="townModal" aria-hidden="true" onclick="CloseTown();" style="width: 100%; height: 100%; background-color: rgba(51, 51, 51, 0.6); z-index: 2; position: absolute; top: 0px; left: 0px;">
-			<div id="townModalInner" onclick="IgnoreMenuClose();" style="position: absolute; top: 20px; z-index: 2; left: 450px; background: url(./images/itemmenu.png); width: 404px; height: 386px; font-size: 30px; padding: 10px;">
+			<div id="townModalInner" onclick="IgnoreMenuClose();" style="position: absolute; top: 20px; z-index: 2; left: 450px; background: url(./images/itemmenu.png); width: 404px; height: 386px; font-size: 18px; padding: 10px;">
 				<span onclick="CloseTown();" class="clickablediv">X Close</span><br>
 				<span id="townlist1">Pass: </span><span id="townlistlocation1" style="color: #0F0;"></span><br>
 				<span id="townlist2">Life: </span><span id="townlistlocation2" style="color: #0F0;"></span><br>

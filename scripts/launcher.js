@@ -1,4 +1,4 @@
-var version = '160b';
+var version = '170';
 
 function load_cookie() {
 	var c = document.cookie;
@@ -75,14 +75,14 @@ function launch() {
 	var w = 930;
 	
 	if (verticallayout === '1') {
-		var h = 900;
+		var h = 910;
 		var w = 540;
 	}
 	
 	if (window.navigator.userAgent.indexOf("Firefox") > -1) {
 		browser = '1';
 		//Firefox
-		//h = 520;
+		h = 460;
 		//w = 930;
 		if (verticallayout === '1') {
 			var h = 980;
@@ -90,16 +90,17 @@ function launch() {
 		}
 	} else if (window.navigator.userAgent.indexOf("Edge") > -1) {
 		browser = '2';
+		h = 460;
 		//Edge
-		//if (verticallayout === '1') {
-			//var h = 830;
+		if (verticallayout === '1') {
+			var h = 920;
 			//var w = 520;
-		//}
+		}
 	}
 	
 	if (locationtracking === '1') {
 		w = 420;
-		h = 440;
+		h = 430;
 	}
 	
 	open('tracker.html?f=' + flagsval.toUpperCase() + '&d=' + itemtracking + '&c=' + loctracking + '&s=' + bosstracking + '&l=' + locationtracking + '&v=' + verticallayout + '&b=' + browser,

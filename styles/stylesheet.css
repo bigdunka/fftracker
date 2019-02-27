@@ -1,10 +1,15 @@
 @font-face {
-	font-family:"ffivds";
-	src:url("../fonts/FFIVNDS.woff") format("woff"),url("./fonts/FFIVNDS.ttf") format("truetype");
+  font-family: 'O';
+  src: url(sansation_light.woff);
+}
+@font-face {
+	font-family:"Open Sans Condensed";
+	src:url("../fonts/OpenSansCondensed-Light.ttf") format("truetype");
 	font-weight:normal;font-style:normal;
-}			
+}	
+
 body {
-	font-family: 'ffivds', 'VT323', monospace;
+	font-family: 'Open Sans Condensed', sans-serif;
 	font-size: 20px;
 	color: #FFF;
 	-webkit-touch-callout: none;
@@ -12,7 +17,7 @@ body {
 	-khtml-user-select: none;
 	-moz-user-select: none;
 	-ms-user-select: none;
-	user-select: none;	
+	user-select: none;
 }
 a {
 	text-decoration: underline;
@@ -172,6 +177,17 @@ input:checked + .slider:before {
 	padding-bottom: 2px;
 }
 
+.flagsImage {
+    height: 32px;
+    margin: auto;
+    background-position: center center;
+    background-repeat: no-repeat;
+	cursor: pointer;
+	padding-bottom: 2px;
+	width: 100px;
+	float: left;
+}
+
 .partyPortrait {
 	width: 60px;
 	height: 60px;
@@ -188,4 +204,33 @@ input:checked + .slider:before {
     position: fixed;
 	cursor: pointer;
 	font-weight: bold;
+    font-size: 16px;
+}
+
+.trackingTableText {
+    font-size: 18px;
+    text-align: center;
+    line-height: 20px;
+}
+
+.trackingTableOverworld {
+	color: #00FF99;
+}
+
+.trackingTableOverUnder {
+	background: linear-gradient(140deg, #00FF99, #FF0099 120%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.trackingTableUnderworld {
+	color: #FF0099;
+}
+
+.trackingTableMoon {
+	color: #0099FF;
+}
+
+.trackingTableHeader {
+	font-size: 20px;
 }

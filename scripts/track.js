@@ -2,7 +2,7 @@ var characters = [false,false,false,false,false,false,false,false,false,false,fa
 var keyitems = [false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false];
 var bosses = [false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false];
 
-var keyitemlocations = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+var keyitemlocations = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
 var characterlocations = [0,0,0,0,0,0,0,0,0,0,0,0,0,0];
 var townlocations = [0,0,0,0,0,0,0,0,0,0,0,0,0];
 var trappedchestlocations = [0,0,0,0,0,0,0,0,0,0];
@@ -28,7 +28,8 @@ var imagedir = 'images/';
 var cecil = false;
 var rydia = false;
 var mist = false;
-
+var hookclear = false;
+var ignorewarp = false;
 var menutoggle = false;
 
 //NEW FLAGS
@@ -72,6 +73,7 @@ var expsharing = false;
 var expkeyitems = false;
 var explowlevel = false;
 var expnoexp = false;
+var gdwarfwarp = false;
 var aagility = true;
 var noadamants = true;
 var wackymute = true;
@@ -122,6 +124,7 @@ function SetModes() {
 	if (disablelocationtracker === '1') {
 		document.getElementById('trackingtable').style.display = "none";
 		document.getElementById('wrapperdiv').style.width = "400px";
+		document.getElementById('datadiv').style.display = "none";
 		disablebosstracker = '1';
 	}
 	
@@ -660,16 +663,17 @@ function SetModes() {
 	if (jitems === false) {
 		document.getElementById('j1items').style.display = "none";
 		document.getElementById('j1itemstown').style.display = "none";
-	} else {
+	} 
+	/* else {
 		if (window.navigator.userAgent.indexOf("Firefox") > -1) {
 			document.getElementById('itemModalInner').style.fontSize = "23px";
 			document.getElementById('townModalInner').style.fontSize = "23px";
 		}
-	}
+	} */
 
 	if (ktrapped === false) {
 		document.getElementById('trappedchestsdiv').style.display = "none";
-		document.getElementById('trackingtable').style.fontSize = "24px";
+		//document.getElementById('trackingtable').style.fontSize = "24px";
 		document.getElementById('keyitemsdiv').style.width = "160px";
 		document.getElementById('charactersdiv').style.width = "160px";
 		document.getElementById('townsdiv').style.width = "160px";
@@ -730,7 +734,7 @@ function SetModes() {
 	
 	if (disableitemtracker === '1') {
 		document.getElementById('townsdiv').style.display = "none";
-		document.getElementById('trackingtable').style.fontSize = "24px";
+		//document.getElementById('trackingtable').style.fontSize = "24px";
 		document.getElementById('keyitemsdiv').style.width = "160px";
 		document.getElementById('charactersdiv').style.width = "160px";
 	}
@@ -755,7 +759,7 @@ function SetModes() {
 }
 
 function ApplyChecks(){
-	var hasunderworldaccess = (keyitems[2] === true || keyitems[6] === true);
+	var hasunderworldaccess = (keyitems[2] === true || (keyitems[6] === true && hookclear === true));
 	
 	// ****Key Items****
 	if (disableloctracker === '0') {
@@ -912,6 +916,14 @@ function ApplyChecks(){
 			ActivateKeyItemLocation(26);
 		}
 		
+		//Hook Route
+		DeactivateKeyItemLocation(27);
+		if (keyitems[6] === true && keyitems[2] === false && hookclear === false) {
+			ActivateKeyItemLocation(27);
+		}
+		
+		
+		
 		// ****Characters****
 		
 		//Baron Castle
@@ -984,8 +996,7 @@ function ApplyChecks(){
 		DeactivateCharacterLocation(13);
 		if (keyitems[4] === true) {
 			ActivateCharacterLocation(13);
-		}
-	
+		}	
 
 	
 		// ****Towns/Shops****
@@ -1183,7 +1194,7 @@ function ApplyChecks(){
 		document.getElementById('keyitemlocationviewunchecked').style.display = "block";
 	}
 		
-	for (var i = 0; i < 27; i++) {
+	for (var i = 0; i < 29; i++) {
 		var l = 'keyitemlocation' + i.toString();
 		
 		if (viewactivekeyitems === true) {
@@ -1191,15 +1202,15 @@ function ApplyChecks(){
 				document.getElementById(l).style.display = "none";
 			} else if (keyitemlocations[i] === 1) {
 				document.getElementById(l).style.display = "block";
-				document.getElementById(l).style.color = "#FFF";
+				//document.getElementById(l).style.color = "#FFF";
 				document.getElementById(l).style.setProperty("text-decoration", "none");
 			} else if (keyitemlocations[i] > 1) {
 				document.getElementById(l).style.display = "none";
 			}
 		} else {
-			if (keyitemlocations[i] === 2) {
+			if (keyitemlocations[i] === 2 && i != 28) {
 				document.getElementById(l).style.display = "block";
-				document.getElementById(l).style.color = "#FFF";
+				//document.getElementById(l).style.color = "#FFF";
 				document.getElementById(l).style.setProperty("text-decoration", "none");
 			} else {
 				document.getElementById(l).style.display = "none";
@@ -1225,7 +1236,7 @@ function ApplyChecks(){
 				document.getElementById(l).style.display = "none";
 			} else if (characterlocations[i] === 1) {
 				document.getElementById(l).style.display = "block";
-				document.getElementById(l).style.color = "#FFF";
+				//document.getElementById(l).style.color = "#FFF";
 				document.getElementById(l).style.setProperty("text-decoration", "none");
 			} else if (characterlocations[i] > 1) {
 				document.getElementById(l).style.display = "none";
@@ -1233,7 +1244,7 @@ function ApplyChecks(){
 		} else {
 			if (characterlocations[i] === 2) {
 				document.getElementById(l).style.display = "block";
-				document.getElementById(l).style.color = "#FFF";
+				//document.getElementById(l).style.color = "#FFF";
 				document.getElementById(l).style.setProperty("text-decoration", "none");
 			} else {
 				document.getElementById(l).style.display = "none";
@@ -1327,15 +1338,24 @@ function ApplyChecks(){
 			}
 		}	
 	}
-	
 }
 
 function SwapKeyItemLocation(i) {
 	if (keyitemlocations[i] === 1) {
 		keyitemlocations[i] = 2;
+		if (i === 27) {
+			hookclear = true;
+		}
+		if (i === 13 && gdwarfwarp === true) {
+			keyitemlocations[28] = 1;
+		}
 	} else if (keyitemlocations[i] === 2) {
 		keyitemlocations[i] = 1;
+		if (i === 27) {
+			hookclear = false;
+		}
 	}
+
 	ApplyChecks();
 }
 
@@ -1941,4 +1961,19 @@ function ToggleMist() {
 	} else {
 		$('#bossModal').show();
 	}	
+}
+
+function WarpGlitch() {
+	if (ignorewarp === false) {		
+		keyitemlocations[19] = 2;
+		keyitemlocations[28] = 2;
+		ApplyChecks();
+	}
+	ignorewarp = false;
+}
+
+function ClearWarpGlitch() {
+	keyitemlocations[28] = 2;
+	ignorewarp = true;
+	ApplyChecks();
 }
