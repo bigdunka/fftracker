@@ -2,11 +2,11 @@
 	<body bgcolor="#000063">
 		<head>
 			<title>FFIV Free Enterprise Tracker - Created by BigDunka</title>
-			<link rel="stylesheet" href="./styles/stylesheet.css?v=170">
+			<link rel="stylesheet" href="./styles/stylesheet.css?v=171">
+			<script src="./scripts/track.js?v=171"></script>
 			<script type="text/javascript" src="./scripts/jquery-3.3.1.js"></script>
 			<script type="text/javascript" src="./scripts/jquery.powertip.js"></script>
 			<link rel="stylesheet" type="text/css" href="./styles/jquery.powertip.css" />
-			<script src="./scripts/track.js?v=170"></script>
 			<script type="text/javascript">
 				$(document).ready(function(){
 					SetModes();
@@ -92,7 +92,7 @@
 					<div class="charactercolumn">
 						<div id="item0" class="itemImage south" onclick="SwapItem(0)" style="background-image: url('images/item0.png')" title="Baron Key"></div>
 						<div id="item4td">
-							<div id="item4" class="itemImage south" onclick="SwapItem(4)" style="background-image: url('images/item4.png')" title="Dark Crystal"></div>
+							<div id="item4" class="itemImage south" onclick="SwapItem(4)" style="background-image: url('images/item4.png')" title="Darkness Crystal"></div>
 						</div>
 						<div id="item8" class="itemImage south" onclick="SwapItem(8)" style="background-image: url('images/item8.png')" title="Package"></div>
 						<div id="item12td">
@@ -213,16 +213,16 @@
 				</div>
 				<div id="trappedchestsdiv" style="float: left; height: 400px; width: 120px;">
 					<div><u class="trackingTableHeader">Trapped Chests</u><br></div>
-					<div id="trappedlocation0" onclick="SwapTrappedLocation(0);" class="clickablediv">Castle Eblan<br></div>
-					<div id="trappedlocation1" onclick="SwapTrappedLocation(1);" class="clickablediv">Eblan Cave<br></div>
-					<div id="trappedlocation2" onclick="SwapTrappedLocation(2);" class="clickablediv">Giant of Babil<br></div>
-					<div id="trappedlocation3" onclick="SwapTrappedLocation(3);" class="clickablediv">Tower of Zot<br></div>
-					<div id="trappedlocation4" onclick="SwapTrappedLocation(4);" class="clickablediv">Upper Babil<br></div>
-					<div id="trappedlocation5" onclick="SwapTrappedLocation(5);" class="clickablediv">Feymarch<br></div>
-					<div id="trappedlocation6" onclick="SwapTrappedLocation(6);" class="clickablediv">Lower Babil<br></div>
-					<div id="trappedlocation7" onclick="SwapTrappedLocation(7);" class="clickablediv">Sylph Cave<br></div>
-					<div id="trappedlocation8" onclick="SwapTrappedLocation(8);" class="clickablediv">Lunar Path<br></div>
-					<div id="trappedlocation9" onclick="SwapTrappedLocation(9);" class="clickablediv">Lunar Sub.<br></div>
+					<div id="trappedlocation0" onclick="SwapTrappedLocation(0);" class="clickablediv trackingTableOverworld">Castle Eblan<br></div>
+					<div id="trappedlocation1" onclick="SwapTrappedLocation(1);" class="clickablediv trackingTableOverworld">Eblan Cave<br></div>
+					<div id="trappedlocation2" onclick="SwapTrappedLocation(2);" class="clickablediv trackingTableOverworld">Giant of Babil<br></div>
+					<div id="trappedlocation3" onclick="SwapTrappedLocation(3);" class="clickablediv trackingTableOverworld">Tower of Zot<br></div>
+					<div id="trappedlocation4" onclick="SwapTrappedLocation(4);" class="clickablediv trackingTableOverworld">Upper Babil<br></div>
+					<div id="trappedlocation5" onclick="SwapTrappedLocation(5);" class="clickablediv trackingTableUnderworld">Feymarch<br></div>
+					<div id="trappedlocation6" onclick="SwapTrappedLocation(6);" class="clickablediv trackingTableUnderworld">Lower Babil<br></div>
+					<div id="trappedlocation7" onclick="SwapTrappedLocation(7);" class="clickablediv trackingTableUnderworld">Sylph Cave<br></div>
+					<div id="trappedlocation8" onclick="SwapTrappedLocation(8);" class="clickablediv trackingTableMoon">Lunar Path<br></div>
+					<div id="trappedlocation9" onclick="SwapTrappedLocation(9);" class="clickablediv trackingTableMoon">Lunar Sub.<br></div>
 					<div id="trappedlocationviewchecked" onclick="ViewCheckedTrapped();" class="clickablediv" style="height: 32px;"><br>~View Checked~<br></div>
 					<div id="trappedlocationviewunchecked" onclick="ViewUncheckedTrapped();" class="clickablediv" style="height: 32px;"><br>~View Unchecked~<br></div>
 				</div>

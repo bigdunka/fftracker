@@ -647,17 +647,17 @@ function SetModes() {
 	document.getElementById('charactersExcluded').innerHTML = excludedCharacters;
 	
 	if (variant === 0) {
-		document.getElementById('item4td').style.backgroundImage = 'url(\'./images/requireditem.png\')';
-		document.getElementById('item16td').style.backgroundImage = 'url(\'./images/requireditem.png\')';
-		document.getElementById('item17td').style.backgroundImage = 'url(\'./images/requireditem.png\')';
+		document.getElementById('item4td').style.backgroundImage = 'url(\'./images/requireditem_off.png\')';
+		document.getElementById('item16td').style.backgroundImage = 'url(\'./images/requireditem_off.png\')';
+		document.getElementById('item17td').style.backgroundImage = 'url(\'./images/requireditem_off.png\')';
 	} else if (variant === 1) {
-		document.getElementById('item4td').style.backgroundImage = 'url(\'./images/requireditem.png\')';
-		document.getElementById('item12td').style.backgroundImage = 'url(\'./images/requireditem.png\')';
-		document.getElementById('item13td').style.backgroundImage = 'url(\'./images/requireditem.png\')';
-		document.getElementById('item16td').style.backgroundImage = 'url(\'./images/requireditem.png\')';
-		document.getElementById('item17td').style.backgroundImage = 'url(\'./images/requireditem.png\')';
+		document.getElementById('item4td').style.backgroundImage = 'url(\'./images/requireditem_off.png\')';
+		document.getElementById('item12td').style.backgroundImage = 'url(\'./images/requireditem_off.png\')';
+		document.getElementById('item13td').style.backgroundImage = 'url(\'./images/requireditem_off.png\')';
+		document.getElementById('item16td').style.backgroundImage = 'url(\'./images/requireditem_off.png\')';
+		document.getElementById('item17td').style.backgroundImage = 'url(\'./images/requireditem_off.png\')';
 	} else if (variant === 2) {
-		document.getElementById('item4td').style.backgroundImage = 'url(\'./images/requireditem.png\')';
+		document.getElementById('item4td').style.backgroundImage = 'url(\'./images/requireditem_off.png\')';
 	}
 
 	if (jitems === false) {
@@ -1185,6 +1185,80 @@ function ApplyChecks(){
 		document.getElementById('itemtracker').style.color = "#FFF";
 	}
 	
+	//Item Requirements
+	if (variant === 0) {
+		if (keyitems[16] === true) {
+			document.getElementById('item16td').style.backgroundImage = 'url(\'./images/requireditem.png\')';
+		} else {
+			document.getElementById('item16td').style.backgroundImage = 'url(\'./images/requireditem_off.png\')';
+		}
+
+		if (keyitems[17] === true) {
+			document.getElementById('item4td').style.backgroundImage = 'none';
+			document.getElementById('item17td').style.backgroundImage = 'url(\'./images/requireditem.png\')';
+		} else {
+			document.getElementById('item17td').style.backgroundImage = 'url(\'./images/requireditem_off.png\')';
+			if (keyitems[4] === true) {
+				document.getElementById('item4td').style.backgroundImage = 'url(\'./images/requireditem.png\')';
+				document.getElementById('item17td').style.backgroundImage = 'none';
+			} else {
+				document.getElementById('item4td').style.backgroundImage = 'url(\'./images/requireditem_off.png\')';
+			}
+		}
+	} else if (variant === 1) {
+		if (keyitems[16] === true) {
+			document.getElementById('item16td').style.backgroundImage = 'url(\'./images/requireditem.png\')';
+			document.getElementById('item12td').style.backgroundImage = 'none';
+			document.getElementById('item13td').style.backgroundImage = 'none';
+		} else {
+			document.getElementById('item16td').style.backgroundImage = 'url(\'./images/requireditem_off.png\')';
+			if (keyitems[12] === true) {
+				document.getElementById('item12td').style.backgroundImage = 'url(\'./images/requireditem.png\')';
+			} else {
+				document.getElementById('item12td').style.backgroundImage = 'url(\'./images/requireditem_off.png\')';
+			}
+			if (keyitems[13] === true) {
+				document.getElementById('item13td').style.backgroundImage = 'url(\'./images/requireditem.png\')';
+			} else {
+				document.getElementById('item13td').style.backgroundImage = 'url(\'./images/requireditem_off.png\')';
+			}
+		}
+		
+		if (keyitems[17] === true) {
+			document.getElementById('item4td').style.backgroundImage = 'none';
+			document.getElementById('item17td').style.backgroundImage = 'url(\'./images/requireditem.png\')';
+		} else {
+			document.getElementById('item17td').style.backgroundImage = 'url(\'./images/requireditem_off.png\')';
+			if (keyitems[4] === true) {
+				document.getElementById('item4td').style.backgroundImage = 'url(\'./images/requireditem.png\')';
+				document.getElementById('item17td').style.backgroundImage = 'none';
+			} else {
+				document.getElementById('item4td').style.backgroundImage = 'url(\'./images/requireditem_off.png\')';
+			}
+		}		
+	} else if (variant === 2) {
+		if (keyitems[4] === true) {
+			document.getElementById('item4td').style.backgroundImage = 'url(\'./images/requireditem.png\')';
+		} else {
+			document.getElementById('item4td').style.backgroundImage = 'url(\'./images/requireditem_off.png\')';
+		}		
+	}
+	
+	/*
+		
+		
+		
+	} else if (variant === 1) {
+		document.getElementById('item4td').style.backgroundImage = 'url(\'./images/requireditem_off.png\')';
+		document.getElementById('item12td').style.backgroundImage = 'url(\'./images/requireditem_off.png\')';
+		document.getElementById('item13td').style.backgroundImage = 'url(\'./images/requireditem_off.png\')';
+		document.getElementById('item16td').style.backgroundImage = 'url(\'./images/requireditem_off.png\')';
+		document.getElementById('item17td').style.backgroundImage = 'url(\'./images/requireditem_off.png\')';
+	} else if (variant === 2) {
+		document.getElementById('item4td').style.backgroundImage = 'url(\'./images/requireditem_off.png\')';	
+	
+	*/
+	
 	//Key Item Locations
 	if (viewactivekeyitems === true) {
 		document.getElementById('keyitemlocationviewchecked').style.display = "block";
@@ -1307,7 +1381,7 @@ function ApplyChecks(){
 				document.getElementById(l).style.display = "none";
 			} else if (trappedchestlocations[i] === 1) {
 				document.getElementById(l).style.display = "block";
-				document.getElementById(l).style.color = "#FFF";
+				//document.getElementById(l).style.color = "#FFF";
 				document.getElementById(l).style.setProperty("text-decoration", "none");
 			} else if (trappedchestlocations[i] > 1) {
 				document.getElementById(l).style.display = "none";
@@ -1316,7 +1390,7 @@ function ApplyChecks(){
 			document.getElementById(l).innerHTML = trappedchestnames[i];
 			if (trappedchestlocations[i] === 2) {
 				document.getElementById(l).style.display = "block";
-				document.getElementById(l).style.color = "#FFF";
+				//document.getElementById(l).style.color = "#FFF";
 				document.getElementById(l).style.setProperty("text-decoration", "none");
 			} else {
 				document.getElementById(l).style.display = "none";
