@@ -12,7 +12,7 @@ function load_cookie() {
 			document.getElementById("bossswitch").checked = false;
 			document.getElementById("locationswitch").checked = false;
 			document.getElementById("verticalswitch").checked = false;
-			document.getElementById("characterswitch").checked = false;
+			document.getElementById("charswitch").checked = false;
 			if (cs[co].indexOf('i-1') > -1) {
 				document.getElementById("itemswitch").checked = true;
 			}
