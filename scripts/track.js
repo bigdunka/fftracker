@@ -7,6 +7,9 @@ var characterlocations = [0,0,0,0,0,0,0,0,0,0,0,0,0,0];
 var townlocations = [0,0,0,0,0,0,0,0,0,0,0,0,0];
 var trappedchestlocations = [0,0,0,0,0,0,0,0,0,0];
 var trappedchestnames = ['Castle Eblan','Eblan Cave','Giant of Babil','Tower of Zot','Upper Babil','Feymarch','Lower Babil','Sylph Cave','Lunar Path','Lunar Sub.'];
+var bossnames = ['Mist Dragon','Baron Soldiers','Octomamm','Antlion','Waterhag','Mom Bomb','Fabul Gauntlet','Milon','MilonZ','Dark Knight Cecil','Baron Guards','Yang','Baigan','Kainazzo','Dark Elf','Magus Sisters','Valvalis','Calcabrina','Golbez','Dr Lugae','Dark Imps','K & Q Eblan','Rubicant','Evil Wall','Elementals','CPU','Odin','Asura','Leviathan','Bahamut','Pale Dim','Lunar Dragons','Plague','Ogopogo','Wyvern'];
+
+var bestiarydata = [];
 
 // 0 = Not available, 1 = Available, 2 = Checked, 3 = Hidden
 
@@ -86,6 +89,7 @@ var overridestarting = '';
 var disableitemtracker = '0';
 var disablelocationtracker = '0';
 var disablebosstracker = '0';
+var disablecharactertracker = '0';
 
 var partyswap = 0;
 var ignoreswap = false;
@@ -105,6 +109,9 @@ function SetModes() {
 	$('#flagsModal').hide();
 	$('#bossModal').hide();
 	$('#townModal').hide();
+	$('#armoryModal').hide();
+	$('#bestairyModal').hide();
+	$('#characterModal').hide();
 	
 	disableitemtracker = getParameterByName('d');
 	
@@ -113,6 +120,8 @@ function SetModes() {
 	disablebosstracker = getParameterByName('s');
 	
 	disablelocationtracker = getParameterByName('l');
+	
+	disablecharactertracker = getParameterByName('h');
 	
 	if (disableloctracker === '1') {
 		keyitemlocations = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1];
@@ -126,6 +135,11 @@ function SetModes() {
 		document.getElementById('wrapperdiv').style.width = "400px";
 		document.getElementById('datadiv').style.display = "none";
 		disablebosstracker = '1';
+	}
+	
+	if (disablecharactertracker === '1') {
+		document.getElementById('partydiv').style.display = "none";
+		document.getElementById('partyhr').style.display = "none";		
 	}
 	
 	var flags = getParameterByName('f');
@@ -742,10 +756,10 @@ function SetModes() {
 	var browser = getParameterByName('b');
 	
 	if (browser === '1') {
-		if (verticallayout === '0') {
-			document.getElementById('flagstr').style.height = "70px";
-			document.getElementById('flagstr').style.verticalAlign = "text-top";
-		}
+		//if (verticallayout === '0') {
+			//document.getElementById('flagstr').style.height = "70px";
+			//document.getElementById('flagstr').style.verticalAlign = "text-top";
+		//}
 		document.getElementById('itemModal').style.fontSize = "22px";
 		document.getElementById('flagsModalInner').style.fontSize = "18px";
 	} else if (browser === '2') {
@@ -756,6 +770,8 @@ function SetModes() {
 			hrItems[i].style.marginBottom = '10px';
 		}
 	}	
+	
+	LoadBestiaryData();
 }
 
 function ApplyChecks(){
@@ -1560,28 +1576,32 @@ function SwapItem(i) {
 }				
 
 function SwapCharacter(i) {
-	if (i === 99) {
-		ignoreswap = true;
-	} else {
-		if (ignoreswap === true) {
-			ignoreswap = false;
+	if (disablecharactertracker === '0') {
+		if (i === 99) {
+			ignoreswap = true;
 		} else {
-			characters[i] = !characters[i];
-			partymembers[partyswap] = i;
-			document.getElementById("partydiv").style.display = "block";
-			document.getElementById("characterdiv").style.display = "none";
-			ApplyChecks();
+			if (ignoreswap === true) {
+				ignoreswap = false;
+			} else {
+				characters[i] = !characters[i];
+				partymembers[partyswap] = i;
+				document.getElementById("partydiv").style.display = "block";
+				document.getElementById("characterdiv").style.display = "none";
+				ApplyChecks();
+			}
 		}
 	}
 }
 
 function SwapParty(i) {
-	if (ignoreswap === true) {
-		ignoreswap = false;
-	} else {
-		document.getElementById("partydiv").style.display = "none";
-		document.getElementById("characterdiv").style.display = "block";
-		partyswap = i;
+	if (disablecharactertracker === '0') {
+		if (ignoreswap === true) {
+			ignoreswap = false;
+		} else {
+			document.getElementById("partydiv").style.display = "none";
+			document.getElementById("characterdiv").style.display = "block";
+			partyswap = i;
+		}
 	}
 }
 
@@ -1884,6 +1904,84 @@ function CloseTown() {
 	}
 }
 
+
+
+
+function LoadArmory() {
+	if (disablelocationtracker === '0') {
+		$('#armoryModal').show();
+	}
+}
+
+function CloseArmory() {
+	if (menutoggle === false) {
+		$('#armoryModal').hide();
+		//CloseFlagDetail();
+	} else {
+		menutoggle = false;
+	}	
+}
+
+function LoadBestairy() {
+	if (disablelocationtracker === '0') {
+		$('#bestairyModal').show();
+		var bossselect = document.getElementById("bossSelect"); 
+		var locationselect = document.getElementById("locationSelect");
+		for(var i = 0; i < bossnames.length; i++) {
+			var opt = bossnames[i];
+			var el = document.createElement("option");
+			var el2 = document.createElement("option");
+			el.textContent = opt;
+			el.value = i + 1;
+			el2.textContent = opt;
+			el2.value = i + 1;
+			bossselect.appendChild(el);
+			locationselect.appendChild(el2);
+		}
+	}
+}
+
+function LoadBestairyDetails() {
+	var bossselect = document.getElementById("bossSelect");
+	var locationselect = document.getElementById("locationSelect");
+	
+	if (bossselect.value > 0 && locationselect.value > 0) {
+		alert('!');
+	}
+	
+}
+
+function CloseBestairy() {
+	if (menutoggle === false) {
+		$('#bestairyModal').hide();
+		//CloseFlagDetail();
+	} else {
+		menutoggle = false;
+	}	
+}
+
+function LoadCharacter() {
+	if (disablelocationtracker === '0') {
+		$('#characterModal').show();
+	}
+}
+
+function CloseCharacter() {
+	if (menutoggle === false) {
+		$('#characterModal').hide();
+		//CloseFlagDetail();
+	} else {
+		menutoggle = false;
+	}	
+}
+
+
+
+
+
+
+
+
 function LoadKnownTownLocations() {
 	var passstring = '';
 	var lifestring = '';
@@ -2050,4 +2148,11 @@ function ClearWarpGlitch() {
 	keyitemlocations[28] = 2;
 	ignorewarp = true;
 	ApplyChecks();
+}
+
+function LoadBestiaryData() {
+	bestiarydata.push({"lvl": 2, "hp": 1000});
+	bestiarydata.push({"lvl": 63, "hp": 23000});
+	
+	
 }

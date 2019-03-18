@@ -2,8 +2,8 @@
 	<body onload="load_cookie();" bgcolor="#000063">
 		<head>
 			<title>FFIV Free Enterprise Tracker Launcher - Created by BigDunka</title>
-			<link rel="stylesheet" href="./styles/stylesheet.css?v=171">
-			<script src="./scripts/launcher.js?v=171"></script>
+			<link rel="stylesheet" href="./styles/stylesheet.css?v=172">
+			<script src="./scripts/launcher.js?v=172"></script>
 			<script type="text/javascript" src="./scripts/jquery-3.3.1.js"></script>
 			<script type="text/javascript" src="./scripts/jquery.powertip.js"></script>
 			<script type="text/javascript" src="./scripts/bootstrap.min.js"></script>
@@ -15,7 +15,7 @@
 			<script async src="https://www.googletagmanager.com/gtag/js?id=UA-121466364-1"></script>
 			<script>
 				$(function() {
-					$('.south').powerTip({ placement: 's' });
+					$('.south').powerTip({ placement: 's', intentPollInterval: 250 });
 				});
 				window.dataLayer = window.dataLayer || [];
 				function gtag(){dataLayer.push(arguments);}
@@ -26,7 +26,7 @@
 		</head>
 		<div style="width: 1000px; text-align: center; margin: auto;">
 			<img src="./images/ffivfebanner.png"><br>
-			<span>Final Fantasy IV: Free Enterprise Tracker</span><span style="font-size: 15px;"> V1.7.1</span><br><br>
+			<span>Final Fantasy IV: Free Enterprise Tracker</span><span style="font-size: 15px;"> V1.7.2</span><br><br>
 			<center><span style="font-size: 22px;">V&nbsp&nbsp&nbsp&nbspPaste Your Flags Here&nbsp&nbsp&nbsp&nbspV</span></center>
 			<textarea style="width: 550px; height: 50px; box-shadow: 0 0 4px 2px rgba(255, 255, 255, 1.0); margin-top: 8px;" placeholder="Paste Flags Here" id="flags" ></textarea><br><br>
 			
@@ -37,6 +37,11 @@
 				<span style="font-size: 24px">Disable Shop Tracking</span> <span class="south" title="This disables the town shop enhanced item tracking" style="font-size: 16px; color: red; cursor: pointer;">[?]</span>
 				<label class="switch">
 					<input id="itemswitch" name="itemswitch" type="checkbox">
+					<span class="slider round"></span>
+				</label><br>
+				<span style="font-size: 24px">Disable Character Tracking</span> <span class="south" title="This disables character tracker" style="font-size: 16px; color: red; cursor: pointer;">[?]</span>
+				<label class="switch">
+					<input id="charswitch" name="charswitch" type="checkbox">
 					<span class="slider round"></span>
 				</label><br>
 				<span style="font-size: 24px">Disable Location Tracking</span> <span class="south" title="This disables the logic for each key item, character, town, and trapped chest, to give the ability to check off locations before they are accessible" style="font-size: 16px; color: red; cursor: pointer;">[?]</span>

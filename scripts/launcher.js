@@ -1,17 +1,18 @@
-var version = '170';
+var version = '172';
 
 function load_cookie() {
 	var c = document.cookie;
 	var cs = c.split(';');
 	
 	for (var co in cs) {
-		if (cs[co].indexOf('160b') > -1 && cs[co].indexOf('settings') > -1) {
+		if (cs[co].indexOf('172') > -1 && cs[co].indexOf('settings') > -1) {
 			document.getElementById("remembersettings").checked = true;
 			document.getElementById("itemswitch").checked = false;
 			document.getElementById("locswitch").checked = false;
 			document.getElementById("bossswitch").checked = false;
 			document.getElementById("locationswitch").checked = false;
 			document.getElementById("verticalswitch").checked = false;
+			document.getElementById("characterswitch").checked = false;
 			if (cs[co].indexOf('i-1') > -1) {
 				document.getElementById("itemswitch").checked = true;
 			}
@@ -27,6 +28,9 @@ function load_cookie() {
 			if (cs[co].indexOf('v-1') > -1) {
 				document.getElementById("verticalswitch").checked = true;
 			}
+			if (cs[co].indexOf('h-1') > -1) {
+				document.getElementById("charswitch").checked = true;
+			}
 		}
 	}
 }
@@ -41,6 +45,7 @@ function launch() {
 	var bosstracking = '0';
 	var verticallayout = '0';
 	var locationtracking = '0';
+	var charactertracking = '0';
 	var browser = '0';
 	
 	if (document.getElementById('itemswitch').checked) {
@@ -63,8 +68,12 @@ function launch() {
 		verticallayout = '1';
 	}
 	
+	if (document.getElementById('charswitch').checked) {
+		charactertracking = '1';
+	}
+	
 	if (document.getElementById("remembersettings").checked == true) {
-		var settings = "i-" + itemtracking + "|c-" + loctracking + "|b-" + bosstracking + "|l-" + locationtracking + "|v-" + verticallayout + '|ver=' + version;
+		var settings = "i-" + itemtracking + "|c-" + loctracking + "|b-" + bosstracking + "|l-" + locationtracking + "|v-" + verticallayout + "|h-" + charactertracking + '|ver=' + version;
 		document.cookie = "settings=" + settings + "; expires=Sat, 1 Jan 2023 12:00:00 UTC";
 	} else {
 		document.cookie = "settings=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
@@ -103,7 +112,7 @@ function launch() {
 		h = 430;
 	}
 	
-	open('tracker.html?f=' + flagsval.toUpperCase() + '&d=' + itemtracking + '&c=' + loctracking + '&s=' + bosstracking + '&l=' + locationtracking + '&v=' + verticallayout + '&b=' + browser,
+	open('tracker.html?f=' + flagsval.toUpperCase() + '&d=' + itemtracking + '&c=' + loctracking + '&s=' + bosstracking + '&l=' + locationtracking + '&v=' + verticallayout + '&h=' + charactertracking + '&b=' + browser,
 		'',
 		'width=' + w + ',height=' + h + ',titlebar=0,menubar=0,toolbar=0,scrollbars=0,resizable=0');
 }

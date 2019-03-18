@@ -2,8 +2,8 @@
 	<body bgcolor="#000063">
 		<head>
 			<title>FFIV Free Enterprise Tracker - Created by BigDunka</title>
-			<link rel="stylesheet" href="./styles/stylesheet.css?v=171">
-			<script src="./scripts/track.js?v=171"></script>
+			<link rel="stylesheet" href="./styles/stylesheet.css?v=172">
+			<script src="./scripts/track.js?v=172"></script>
 			<script type="text/javascript" src="./scripts/jquery-3.3.1.js"></script>
 			<script type="text/javascript" src="./scripts/jquery.powertip.js"></script>
 			<link rel="stylesheet" type="text/css" href="./styles/jquery.powertip.css" />
@@ -16,8 +16,8 @@
 			<script async src="https://www.googletagmanager.com/gtag/js?id=UA-121466364-1"></script>
 			<script>
 				$(function() {
-					$('.south').powerTip({ placement: 's' });
-					$('.north').powerTip({ placement: 'n' });
+					$('.south').powerTip({ placement: 's', intentPollInterval: 350 });
+					$('.north').powerTip({ placement: 'n', intentPollInterval: 350 });
 				});
 				window.dataLayer = window.dataLayer || [];
 				function gtag(){dataLayer.push(arguments);}
@@ -87,7 +87,7 @@
 						</div>
 					</div>
 				</div>
-				<hr>
+				<hr id="partyhr">
 				<div id="itemdiv" class="itemdiv">
 					<div class="charactercolumn">
 						<div id="item0" class="itemImage south" onclick="SwapItem(0)" style="background-image: url('images/item0.png')" title="Baron Key"></div>
@@ -132,9 +132,12 @@
 					<hr>
 					<div>
 						<div id="flagsIcon" class="flagsImage north" onclick="LoadFlags()" style="background-image: url('images/flagicon.png')" title="Load Flags"></div>
-						<div id="armoryIcon" class="flagsImage north" onclick="return false; LoadArmory()" style="background-image: url('images/armoricon.png')" title="Load Armory (Coming Soon!)"></div>
-						<div id="battleIcon" class="flagsImage north" onclick="return false; LoadBattle()" style="background-image: url('images/bestiaryicon.png')" title="Load Bestiary (Coming Soon!)"></div>
-						<div id="bossIcon" class="flagsImage north" onclick="return false; LoadBosses()" style="background-image: url('images/charactericon.png')" title="Load Characters (Coming Soon!)"></div>
+						<div id="armoryIcon" class="flagsImage north" style="background-image: url('images/armoricon.png')" title="Load Armory (Coming soon!)"></div>
+						<div id="battleIcon" class="flagsImage north" style="background-image: url('images/bestiaryicon.png')" title="Load Bestiary (Coming soon!)"></div>
+						<div id="bossIcon" class="flagsImage north" style="background-image: url('images/charactericon.png')" title="Load Characters (Coming soon!)"></div>
+						<!-- <div id="armoryIcon" class="flagsImage north" onclick="LoadArmory()" style="background-image: url('images/armoricon.png')" title="Load Armory"></div>
+						<div id="battleIcon" class="flagsImage north" onclick="LoadBestairy()" style="background-image: url('images/bestiaryicon.png')" title="Load Bestiary"></div>
+						<div id="bossIcon" class="flagsImage north" onclick="LoadCharacter()" style="background-image: url('images/charactericon.png')" title="Load Characters"></div> -->
 					</div>
 				</div>
 			</div>
@@ -456,6 +459,91 @@
 			</div>
 		</div>		
 		
+		<div class="modal fade" id="armoryModal" aria-hidden="true" onclick="CloseArmory();" style="width: 100%; height: 100%; background-color: rgba(51, 51, 51, 0.6); z-index: 2; position: absolute; top: 0px; left: 0px;">
+			<div id="armoryModalInner" onclick="IgnoreMenuClose();" style="position: absolute; top: 20px; z-index: 2; left: 450px; background: url(./images/itemmenu.png); width: 404px; height: 386px; font-size: 18px; padding: 10px;">
+				<span onclick="CloseArmory();" class="clickablediv">X Close</span><br>
+				<table style="font-size: 18px">
+					<tr>
+						<td width="200px" style="text-decoration: underline;"><span>Weapons</span></td>
+						<td width="200px" style="text-decoration: underline;"><span>Armor</span></td>
+					</tr>
+					<tr>
+						<td><span>Swords</span></td>
+						<td><span>Shields</span></td>
+					</tr>
+					<tr>
+						<td><span>Spears</span></td>
+						<td><span>Armor</span></td>
+					</tr>
+					<tr>
+						<td><span>Katanas</span></td>
+						<td><span>Shirts</span></td>
+					</tr>
+					<tr>
+						<td><span>Daggers</span></td>
+						<td><span>Helmets</span></td>
+					</tr>
+					<tr>
+						<td><span>Axes</span></td>
+						<td><span>Shields</span></td>
+					</tr>
+					<tr>
+						<td><span>Swords</span></td>
+						<td><span>Gauntlets</span></td>
+					</tr>
+					<tr>
+						<td><span>Swords</span></td>
+						<td><span>Rings</span></td>
+					</tr>
+					<tr>
+						<td><span>Swords</span></td>
+						<td><span>Rings</span></td>
+					</tr>
+					<tr>
+						<td><span>Swords</span></td>
+						<td><span>Rings</span></td>
+					</tr>
+					<tr>
+						<td><span>Swords</span></td>
+						<td><span>Rings</span></td>
+					</tr>
+					<tr>
+						<td><span>Swords</span></td>
+						<td><span>Rings</span></td>
+					</tr>
+					<tr>
+						<td><span>Swords</span></td>
+						<td><span>Rings</span></td>
+					</tr>
+					<tr>
+						<td><span>Swords</span></td>
+						<td><span>Rings</span></td>
+					</tr>
+
+
+				</table>
+			</div>
+		</div>		
+
+		<div class="modal fade" id="bestairyModal" aria-hidden="true" onclick="CloseBestairy();" style="width: 100%; height: 100%; background-color: rgba(51, 51, 51, 0.6); z-index: 2; position: absolute; top: 0px; left: 0px;">
+			<div id="bestairyModalInner" onclick="IgnoreMenuClose();" style="position: absolute; top: 20px; z-index: 2; left: 450px; background: url(./images/itemmenu.png); width: 404px; height: 386px; font-size: 18px; padding: 10px;">
+				<span onclick="CloseBestairy();" class="clickablediv">X Close</span><br>
+				<select onchange="LoadBestairyDetails()" id="bossSelect">
+					<option value='0'>Choose Boss</option>
+				</select>
+				<select onchange="LoadBestairyDetails()" id="locationSelect">
+					<option value='0'>Choose Location</option>
+				</select>
+			</div>
+		</div>		
+
+		<div class="modal fade" id="characterModal" aria-hidden="true" onclick="CloseCharacter();" style="width: 100%; height: 100%; background-color: rgba(51, 51, 51, 0.6); z-index: 2; position: absolute; top: 0px; left: 0px;">
+			<div id="characterModalInner" onclick="IgnoreMenuClose();" style="position: absolute; top: 20px; z-index: 2; left: 450px; background: url(./images/itemmenu.png); width: 404px; height: 386px; font-size: 18px; padding: 10px;">
+				<span onclick="CloseCharacter();" class="clickablediv">X Close</span><br>
+				
+			</div>
+		</div>		
+
 	</body>
 </html>
 
