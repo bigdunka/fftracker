@@ -2,8 +2,8 @@
 	<body bgcolor="#000063">
 		<head>
 			<title>FFIV Free Enterprise Tracker - Created by BigDunka</title>
-			<link rel="stylesheet" href="./styles/stylesheet.css?v=172">
-			<script src="./scripts/track.js?v=172"></script>
+			<link rel="stylesheet" href="./styles/stylesheet.css?v=173">
+			<script src="./scripts/track.js?v=173"></script>
 			<script type="text/javascript" src="./scripts/jquery-3.3.1.js"></script>
 			<script type="text/javascript" src="./scripts/jquery.powertip.js"></script>
 			<link rel="stylesheet" type="text/css" href="./styles/jquery.powertip.css" />
@@ -143,7 +143,7 @@
 			</div>
 			<div class="trackingTableText" id="trackingtable">
 				<div id="keyitemsdiv" style="float: left; height: 440px; width: 120px; overflow-x: auto; padding-left: 10px;">
-					<div><u class="trackingTableHeader">Key Items</u><br></div>
+					<div><u class="trackingTableHeader">Locations</u><br></div>
 					<div id="keyitemlocation0" onclick="SwapKeyItemLocation(0);" class="clickablediv trackingTableOverworld">Adamant Cave<br></div>
 					<div id="keyitemlocation1" onclick="SwapKeyItemLocation(1);" class="clickablediv trackingTableOverworld">Antlion Cave<br></div>
 					<div id="keyitemlocation2" onclick="SwapKeyItemLocation(2);" class="clickablediv trackingTableOverworld">Baron Castle [King]<br></div>
@@ -164,7 +164,7 @@
 					<div id="keyitemlocation15" onclick="SwapKeyItemLocation(15);" class="clickablediv trackingTableUnderworld">Feymarch [Asura]<br></div>
 					<div id="keyitemlocation16" onclick="SwapKeyItemLocation(16);" class="clickablediv trackingTableUnderworld">Feymarch [Leviathan]<br></div>
 					<div id="keyitemlocation17" onclick="SwapKeyItemLocation(17);" class="clickablediv trackingTableUnderworld">Lower Babil [Boss]<br></div>
-					<div id="keyitemlocation18" onclick="SwapKeyItemLocation(18);" class="clickablediv trackingTableUnderworld">Lower Babil [Tower]<br></div>
+					<div id="keyitemlocation18" onclick="SwapKeyItemLocation(18);" class="clickablediv trackingTableUnderworld">Lower Babil [Cannon]<br></div>
 					<div id="keyitemlocation19" onclick="SwapKeyItemLocation(19);" class="clickablediv trackingTableUnderworld">Sealed Cave<br></div>
 					<div id="keyitemlocation20" onclick="SwapKeyItemLocation(20);" class="clickablediv trackingTableUnderworld">Sylph Cave<br></div>
 					<div id="keyitemlocation21" onclick="SwapKeyItemLocation(21);" class="clickablediv trackingTableMoon">Bahamut<br></div>
@@ -236,7 +236,9 @@
 			<div id="itemModalInner" onclick="IgnoreMenuClose();" style="position: absolute; top: 20px; z-index: 2; left: 450px; background: url(./images/itemmenu.png); width: 404px; height: 386px; font-size: 18px; padding: 10px;">
 				<span onclick="CloseItems();" class="clickablediv">X Close</span><br>
 				<input id="itemlist0" type="checkbox" onclick="CheckItems();" hidden /><span onclick="CheckItemSpan(0);" class="clickablediv" id="itemspan0">No Items - [Will clear list and close]</span><br>
-				<input id="itemlist1" type="checkbox" onclick="CheckItems();" hidden /><span onclick="CheckItemSpan(1);" class="clickablediv" id="itemspan1">Pass</span><br>
+				<div id="itempass" style="display: none">
+					<input id="itemlist1" type="checkbox" onclick="CheckItems();" hidden /><span onclick="CheckItemSpan(1);" class="clickablediv" id="itemspan1">Pass</span><br>
+				</div>
 				<input id="itemlist2" type="checkbox" onclick="CheckItems();" hidden /><span onclick="CheckItemSpan(2);" class="clickablediv" id="itemspan2">Life</span><br>
 				<input id="itemlist3" type="checkbox" onclick="CheckItems();" hidden /><span onclick="CheckItemSpan(3);" class="clickablediv" id="itemspan3">Cure1/2/3</span><br>
 				<input id="itemlist4" type="checkbox" onclick="CheckItems();" hidden /><span onclick="CheckItemSpan(4);" class="clickablediv" id="itemspan4">Ether1/2</span><br>
@@ -254,8 +256,8 @@
 			</div>
 		</div>
 		
-		<div class="modal fade" id="flagsModal" aria-hidden="true" onclick="CloseFlags();" style="width: 100%; height: 100%; background-color: rgba(51, 51, 51, 0.6); z-index: 2; position: absolute; top: 0px; left: 0px;">
-			<div id="flagsModalInner" onclick="IgnoreMenuClose();" style="position: absolute; top: 20px; z-index: 2; left: 450px; background: url(./images/itemmenu.png); width: 404px; height: 386px; font-size: 18px; padding: 10px;">
+		<div class="modal fade" id="flagsModal" aria-hidden="true" onclick="CloseFlags();" style="width: 100%; height: 100%; background-color: rgba(51, 51, 51, 0.6); z-index: 2; position: absolute; top: 0px; left: 0px; overflow-y: scroll;">
+			<div id="flagsModalInner" onclick="IgnoreMenuClose();" style="position: absolute; top: 20px; z-index: 2; left: 450px; background: url(./images/itemmenu.png); width: 404px; height: 386px; font-size: 18px; padding: 10px; overflow: scroll;">
 				<div id="flagsselectdiv">
 					<span onclick="CloseFlags();" class="clickablediv">X Close</span><br><br>
 					<span>Click Category to Expand for Details</span><br><br>
@@ -317,11 +319,11 @@
 					<span onclick="CloseFlagDetail();" class="clickablediv">X Close</span><br><br>
 					<span><u>Treasures</u></span><br><br>
 					<span id="treasure0" style="display: block"><b>No Randomization</b> - Treasures are in their normal location.</span>
-					<span id="treasure1" style="display: none"><b>T1 - Shuffle</b>Treasure contents are the same as in original FF4, but their positions are shuffled.</span>
+					<span id="treasure1" style="display: none"><b>T1 - Shuffle</b> Treasure contents are the same as in original FF4, but their positions are shuffled.</span>
 					<span id="treasure2" style="display: none"><b>T2 - Randomize (balanced)</b></span>
 					<span id="treasure3" style="display: none"><b>T3 - Randomize (unbalanced)</b></span>
 					<span id="treasure4" style="display: none"><b>T4 - Randomize (wild)</b></span>
-					<span id="treasureX" style="display: none"><b>Tx - Empty</b>All treasure chests are empty.</span>
+					<span id="treasureX" style="display: none"><b>Tx - Empty</b> - All treasure chests are empty.</span>
 					<span id="treasureG" style="display: none"><b>Tg - Replace "bad" chests with GP</b></span>
 					<span id="treasureR" style="display: none"><b>Tr - Relocate trapped chests</b> - Trapped chests are relocated to another treasure chest/pot within the same dungeon.</span>
 				</div>
@@ -337,6 +339,7 @@
 					<span id="shopX" style="display: none"><b>Sx - Shops sell nothing</b></span>
 					<span id="shopSa" style="display: none"><b>S! - No safety checks</b> - Normally, the randomizer guarantees Life potions (and StarVeils, under Ji) are readily available, and that Cure2/3 potions are available in seeds without white mages. This flag removes those checks.</span>
 					<span id="shopSf" style="display: none"><b>Sf - Shop items are free</b></span>
+					<span id="shopSq" style="display: none"><b>Sq - Items sell for 1/4 price</b></span>
 					<span id="shopA" style="display: none"><b>-noapples - No Apples/Soma Drops in shops</b></span>
 					<span id="shopS" style="display: none"><b>-nosirens - No Sirens in shops</b></span>
 				</div>
@@ -367,6 +370,7 @@
 					<span id="battlesR" style="display: none"><b>Er - Random Encounter Rate 50% reduction</b></span>
 					<span id="battlesX" style="display: none"><b>Ex - No Random Encounters</b></span>
 					<span id="battlesF" style="display: none"><b>Ef - Apply to forced encounters</b> - Applies the setting above to the TrapDoor fights in the Sealed Cave and the forced Behemoth fights in Cave Bahamut.</span>
+					<span id="battlesD" style="display: none"><b>Ed - Keep dangerous encounters</b> - Back attacks and "Surprised!" encounters will still occur, even when encounters are disabled via Et or Ex.</span>
 					<span id="battlesC" style="display: none"><b>Ec - Can't run from battles</b></span>
 					<span id="experience0" style="display: block"><b>Experience Normal</b></span>
 					<span id="experienceS" style="display: none"><b>Xs - Experience Sharing</b> - Earned experience points are not divided among your party members; each character receives the full amount (but must be alive at the time to receive them).</span>
@@ -388,11 +392,11 @@
 				<div id="flagdetail10" style="display: none">
 					<span onclick="CloseFlagDetail();" class="clickablediv">X Close</span><br><br>
 					<span><u>Wacky</u></span><br><br>
-					<span id="tweaksM" style="display: none"><b>-mute - Mute</b> - Disables all music playback (except Edward's harp), leaving sound effects in place.</span>
-					<span id="tweaksS" style="display: none"><b>-spoon - Edward can equip Spoon</b></span>
-					<span id="tweaksF" style="display: none"><b>-fab - Alternate character palettes</b></span>
-					<span id="tweaksH" style="display: none"><b>-huh - Randomize Package sprite</b></span>
-					<span id="tweaksZ" style="display: none"><b>-z - Randomize Zeromus sprite</b> - Randomizes Zeromus's battle sprite. (His behavior and stats are unchanged.)</span>
+					<span id="wackyS" style="display: none"><b>-spoon - Edward can equip Spoon</b></span>
+					<span id="wackyF" style="display: none"><b>-fab - Alternate character palettes</b></span>
+					<span id="wackyH" style="display: none"><b>-huh - Randomize Package sprite</b></span>
+					<span id="wackyV" style="display: none"><b>-vintage</b> - Vintage Battlefield</span>
+					<span id="wackyZ" style="display: none"><b>-z - Randomize Zeromus sprite</b> - Randomizes Zeromus's battle sprite. (His behavior and stats are unchanged.)</span>
 				</div>
 			</div>
 		</div>	
@@ -441,7 +445,9 @@
 		<div class="modal fade" id="townModal" aria-hidden="true" onclick="CloseTown();" style="width: 100%; height: 100%; background-color: rgba(51, 51, 51, 0.6); z-index: 2; position: absolute; top: 0px; left: 0px;">
 			<div id="townModalInner" onclick="IgnoreMenuClose();" style="position: absolute; top: 20px; z-index: 2; left: 450px; background: url(./images/itemmenu.png); width: 404px; height: 386px; font-size: 18px; padding: 10px;">
 				<span onclick="CloseTown();" class="clickablediv">X Close</span><br>
-				<span id="townlist1">Pass: </span><span id="townlistlocation1" style="color: #0F0;"></span><br>
+				<div id="townpass" style="display: none">
+					<span id="townlist1">Pass: </span><span id="townlistlocation1" style="color: #0F0;"></span><br>
+				</div>
 				<span id="townlist2">Life: </span><span id="townlistlocation2" style="color: #0F0;"></span><br>
 				<span id="townlist3">Cure1/2/3: </span><span id="townlistlocation3" style="color: #0F0;"></span><br>
 				<span id="townlist4">Ether1/2: </span><span id="townlistlocation4" style="color: #0F0;"></span><br>

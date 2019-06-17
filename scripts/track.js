@@ -60,6 +60,7 @@ var ttrapped = false;
 var shops = 0;
 var ssafety = false;
 var sfree = false;
+var squarter = false;
 var sapples = false;
 var ssirens = false;
 var randombosses = false;
@@ -71,6 +72,7 @@ var nflk = false;
 var nflb = false;
 var enemyencounters = 0;
 var enemyforced = false;
+var enemydangerous = false;
 var enemyrun = false;
 var expsharing = false;
 var expkeyitems = false;
@@ -128,6 +130,8 @@ function SetModes() {
 		townlocations = [1,1,1,1,1,1,1,1,1,1,1,1,1];
 		characterlocations = [1,1,1,1,1,1,1,1,1,1,1,1,1,1];
 		trappedchestlocations = [1,1,1,1,1,1,1,1,1,1];
+		document.getElementById('keyitemlocation27').style.display = "none";
+		document.getElementById('keyitemlocation28').style.display = "none";
 	}
 	
 	if (disablelocationtracker === '1') {
@@ -206,6 +210,9 @@ function SetModes() {
 			if (flagsets[fs].indexOf('S') > -1) {
 				pshop = true;
 				document.getElementById("keyitempassS").style.display = "block";
+				document.getElementById("townpass").style.display = "block";
+				document.getElementById("itempass").style.display = "block";
+				
 			}
 			if (flagsets[fs].indexOf('K') > -1) {
 				document.getElementById("keyitempassK").style.display = "block";
@@ -442,6 +449,10 @@ function SetModes() {
 				sfree = true;
 				document.getElementById("shopSf").style.display = "block";
 			}
+			if (flagsets[fs].indexOf('Q') > -1) {
+				squarter = true;
+				document.getElementById("shopSq").style.display = "block";
+			}
 		}
 
 		if (flagsets[fs] === '-NOAPPLES') {
@@ -516,6 +527,11 @@ function SetModes() {
 				document.getElementById("battlesF").style.display = "block";
 			}
 
+			if (flagsets[fs].indexOf('D') > -1) {
+				enemydangerous = true;
+				document.getElementById("battlesD").style.display = "block";
+			}
+
 			if (flagsets[fs].indexOf('C') > -1) {
 				enemyrun = true;
 				document.getElementById("battlesC").style.display = "block";
@@ -581,29 +597,29 @@ function SetModes() {
 		}
 		
 		//Wacky
-		if (flagsets[fs] === '-MUTE') {
-			wackymute = true;
-			document.getElementById("tweaksM").style.display = "block";
-		}
-		
 		if (flagsets[fs] === '-SPOON') {
 			wackyspoon = true;
-			document.getElementById("tweaksS").style.display = "block";
+			document.getElementById("wackyS").style.display = "block";
 		}
 		
 		if (flagsets[fs] === '-FAB') {
 			wackyfab = true;
-			document.getElementById("tweaksF").style.display = "block";
+			document.getElementById("wackyF").style.display = "block";
 		}
 		
 		if (flagsets[fs] === '-HUH') {
 			wackyhuh = true;
-			document.getElementById("tweaksH").style.display = "block";
+			document.getElementById("wackyH").style.display = "block";
+		}
+		
+		if (flagsets[fs] === '-VINTAGE') {
+			wackymute = true;
+			document.getElementById("wackyV").style.display = "block";
 		}
 		
 		if (flagsets[fs] === '-Z') {
 			wackyzeromus = true;
-			document.getElementById("tweaksZ").style.display = "block";
+			document.getElementById("wackyZ").style.display = "block";
 		}
 	}
 
@@ -934,7 +950,7 @@ function ApplyChecks(){
 		
 		//Hook Route
 		DeactivateKeyItemLocation(27);
-		if (keyitems[6] === true && keyitems[2] === false && hookclear === false) {
+		if (keyitems[6] === true && keyitems[2] === false && hookclear === false && disableloctracker === false) {
 			ActivateKeyItemLocation(27);
 		}
 		
