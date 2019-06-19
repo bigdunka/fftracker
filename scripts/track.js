@@ -950,11 +950,9 @@ function ApplyChecks(){
 		
 		//Hook Route
 		DeactivateKeyItemLocation(27);
-		if (keyitems[6] === true && keyitems[2] === false && hookclear === false && disableloctracker === false) {
+		if (keyitems[6] === true && keyitems[2] === false && hookclear === false) {
 			ActivateKeyItemLocation(27);
 		}
-		
-		
 		
 		// ****Characters****
 		
