@@ -9,14 +9,13 @@ var trappedchestlocations = [0,0,0,0,0,0,0,0,0,0];
 var trappedchestnames = ['Castle Eblan','Eblan Cave','Giant of Babil','Tower of Zot','Upper Babil','Feymarch','Lower Babil','Sylph Cave','Lunar Path','Lunar Sub.'];
 var bossnames = ['Mist Dragon','Baron Soldiers','Octomamm','Antlion','Waterhag','Mom Bomb','Fabul Gauntlet','Milon','MilonZ','Dark Knight Cecil','Baron Guards','Yang','Baigan','Kainazzo','Dark Elf','Magus Sisters','Valvalis','Calcabrina','Golbez','Dr Lugae','Dark Imps','K & Q Eblan','Rubicant','Evil Wall','Elementals','CPU','Odin','Asura','Leviathan','Bahamut','Pale Dim','Lunar Dragons','Plague','Ogopogo','Wyvern'];
 
-var bestiarydata = [];
-
 // 0 = Not available, 1 = Available, 2 = Checked, 3 = Hidden
 
 var trappedchestcounts = [3,1,1,1,1,1,4,7,1,9];
 var trappedchestmaxcounts = [3,1,1,1,1,1,4,7,1,9];
 var currentitemlist = 0;
-var items = [0,0,0,0,0,0,0,0,0,0];
+var items = ['000000000000000000000000000000000000','000000000000000000000000000000000000','000000000000000000000000000000000000','000000000000000000000000000000000000','000000000000000000000000000000000000','000000000000000000000000000000000000','000000000000000000000000000000000000','000000000000000000000000000000000000','000000000000000000000000000000000000','000000000000000000000000000000000000','000000000000000000000000000000000000','000000000000000000000000000000000000','000000000000000000000000000000000000'];
+var itemsnotes = ['','','','','','','','','','','','',''];
 
 var partymembers = [-1,-1,-1,-1,-1];
 
@@ -210,9 +209,7 @@ function SetModes() {
 			if (flagsets[fs].indexOf('S') > -1) {
 				pshop = true;
 				document.getElementById("keyitempassS").style.display = "block";
-				document.getElementById("townpass").style.display = "block";
-				document.getElementById("itempass").style.display = "block";
-				
+				document.getElementById("passtd").style.display = "block";
 			}
 			if (flagsets[fs].indexOf('K') > -1) {
 				document.getElementById("keyitempassK").style.display = "block";
@@ -463,6 +460,7 @@ function SetModes() {
 		if (flagsets[fs] === '-NOSIRENS') {
 			ssirens = true;
 			document.getElementById("shopS").style.display = "block";
+			document.getElementById("sirentd").style.display = "none";			
 		}
 		
 		//Bosses
@@ -691,9 +689,23 @@ function SetModes() {
 	}
 
 	if (jitems === false) {
-		document.getElementById('j1items').style.display = "none";
-		document.getElementById('j1itemstown').style.display = "none";
-	} 
+		document.getElementById('offensive1').style.display = "none";
+		document.getElementById('offensive2').style.display = "none";
+		document.getElementById('offensive3').style.display = "none";
+		document.getElementById('offensive4').style.display = "none";
+		document.getElementById('offensive5').style.display = "none";
+		document.getElementById('utility1').style.display = "none";
+		document.getElementById('utility2').style.display = "none";
+		document.getElementById('utility3').style.display = "none";
+		document.getElementById('utility4').style.display = "none";
+		document.getElementById('othertd').style.display = "none";
+		document.getElementById('notes1td').style.display = "none";
+		document.getElementById('notes2td').style.display = "none";
+	} else if (shops === 1 || shops === 2) {
+		document.getElementById('offensive3').style.display = "none";
+		document.getElementById('offensive4').style.display = "none";
+	}
+		
 	/* else {
 		if (window.navigator.userAgent.indexOf("Firefox") > -1) {
 			document.getElementById('itemModalInner').style.fontSize = "23px";
@@ -785,9 +797,7 @@ function SetModes() {
 			hrItems[i].style.marginTop = '10px';
 			hrItems[i].style.marginBottom = '10px';
 		}
-	}	
-	
-	LoadBestiaryData();
+	}
 }
 
 function ApplyChecks(){
@@ -1372,24 +1382,28 @@ function ApplyChecks(){
 			if (townlocations[i] === 0) {
 				document.getElementById(l).style.display = "none";
 			} else if (townlocations[i] === 1) {
-				document.getElementById(l).style.display = "block";
-				if (items[i] > 1) {
-					document.getElementById(l).style.color = "#0F0";
+				if (items[i] === '100000000000000000000000000000000000') {
+					document.getElementById(l).style.display = "none";
 				} else {
-					document.getElementById(l).style.color = "#FFF";
+					document.getElementById(l).style.display = "block";
+					if (items[i] != '000000000000000000000000000000000000' || itemsnotes[i] != '') {
+						document.getElementById(l).style.color = "#0F0";
+					} else {
+						document.getElementById(l).style.color = "#FFF";
+					}
+					document.getElementById(l).style.setProperty("text-decoration", "none");
 				}
-				document.getElementById(l).style.setProperty("text-decoration", "none");
 			} else if (townlocations[i] > 1) {
 				document.getElementById(l).style.display = "none";
 			}
 		} else {
-			if (townlocations[i] === 2) {
+			if (items[i] === '100000000000000000000000000000000000') {
 				document.getElementById(l).style.display = "block";
 				document.getElementById(l).style.color = "#FFF";
 				document.getElementById(l).style.setProperty("text-decoration", "none");
 			} else {
 				document.getElementById(l).style.display = "none";
-			}			
+			}
 		}
 	}
 	
@@ -1625,216 +1639,23 @@ function PartyClear(i) {
 	ApplyChecks();
 }
 
-function LoadItems(i) {	
-	currentitemlist = i;
-	var modalx = items[i];
-	
-	if (modalx >= 8192) {
-		document.getElementById('itemlist13').checked = true;
-		document.getElementById('itemspan13').style.color = "#0F0";
-		modalx -= 8192;
-	} else {
-		document.getElementById('itemlist13').checked = false;
-		document.getElementById('itemspan13').style.color = "#FFF";
-	}
-	if (modalx >= 4096) {
-		document.getElementById('itemlist12').checked = true;
-		document.getElementById('itemspan12').style.color = "#0F0";
-		modalx -= 4096;
-	} else {
-		document.getElementById('itemlist12').checked = false;
-		document.getElementById('itemspan12').style.color = "#FFF";
-	}
-	if (modalx >= 2048) {
-		document.getElementById('itemlist11').checked = true;
-		document.getElementById('itemspan11').style.color = "#0F0";
-		modalx -= 2048;
-	} else {
-		document.getElementById('itemlist11').checked = false;
-		document.getElementById('itemspan11').style.color = "#FFF";
-	}
-	if (modalx >= 1024) {
-		document.getElementById('itemlist10').checked = true;
-		document.getElementById('itemspan10').style.color = "#0F0";
-		modalx -= 1024;
-	} else {
-		document.getElementById('itemlist10').checked = false;
-		document.getElementById('itemspan10').style.color = "#FFF";
-	}
-	if (modalx >= 512) {
-		document.getElementById('itemlist9').checked = true;
-		document.getElementById('itemspan9').style.color = "#0F0";
-		modalx -= 512;
-	} else {
-		document.getElementById('itemlist9').checked = false;
-		document.getElementById('itemspan9').style.color = "#FFF";
-	}
-	if (modalx >= 256) {
-		document.getElementById('itemlist8').checked = true;
-		document.getElementById('itemspan8').style.color = "#0F0";
-		modalx -= 256;
-	} else {
-		document.getElementById('itemlist8').checked = false;
-		document.getElementById('itemspan8').style.color = "#FFF";
-	}
-	if (modalx >= 128) {
-		document.getElementById('itemlist7').checked = true;
-		document.getElementById('itemspan7').style.color = "#0F0";
-		modalx -= 128;
-	} else {
-		document.getElementById('itemlist7').checked = false;
-		document.getElementById('itemspan7').style.color = "#FFF";
-	}
-	if (modalx >= 64) {
-		document.getElementById('itemlist6').checked = true;
-		document.getElementById('itemspan6').style.color = "#0F0";
-		modalx -= 64;
-	} else {
-		document.getElementById('itemlist6').checked = false;
-		document.getElementById('itemspan6').style.color = "#FFF";
-	}
-	if (modalx >= 32) {
-		document.getElementById('itemlist5').checked = true;
-		document.getElementById('itemspan5').style.color = "#0F0";
-		modalx -= 32;
-	} else {
-		document.getElementById('itemlist5').checked = false;
-		document.getElementById('itemspan5').style.color = "#FFF";
-	}
-	if (modalx >= 16) {
-		document.getElementById('itemlist4').checked = true;
-		document.getElementById('itemspan4').style.color = "#0F0";
-		modalx -= 16;
-	} else {
-		document.getElementById('itemlist4').checked = false;
-		document.getElementById('itemspan4').style.color = "#FFF";
-	}
-	if (modalx >= 8) {
-		document.getElementById('itemlist3').checked = true;
-		document.getElementById('itemspan3').style.color = "#0F0";
-		modalx -= 8;
-	} else {
-		document.getElementById('itemlist3').checked = false;
-		document.getElementById('itemspan3').style.color = "#FFF";
-	}
-	if (modalx >= 4) {
-		document.getElementById('itemlist2').checked = true;
-		document.getElementById('itemspan2').style.color = "#0F0";
-		modalx -= 4;
-	} else {
-		document.getElementById('itemlist2').checked = false;
-		document.getElementById('itemspan2').style.color = "#FFF";
-	}
-	if (modalx >= 2) {
-		document.getElementById('itemlist1').checked = true;
-		document.getElementById('itemspan1').style.color = "#0F0";
-		modalx -= 2;
-	} else {
-		document.getElementById('itemlist1').checked = false;
-		document.getElementById('itemspan1').style.color = "#FFF";
-	}
-	if (modalx >= 1) {
-		document.getElementById('itemlist0').checked = true;
-		document.getElementById('itemspan0').style.color = "#0F0";
-	} else {
-		document.getElementById('itemlist0').checked = false;
-		document.getElementById('itemspan0').style.color = "#FFF";
-	}
-	
+function LoadItems(i) {
+	CheckItems(i);
 	$('#itemModal').show();
 }
 
-function CheckItems() {
-	items[currentitemlist] = 0;
-	if (document.getElementById('itemlist0').checked === true) {
-		items[currentitemlist] += 1;
-		document.getElementById('itemspan0').style.color = "#0F0";
-	} else {
-		document.getElementById('itemspan0').style.color = "#FFF";
+function CheckItems(i) {
+	currentitemlist = i;
+	
+	for (var j = 0; j < 36; j++) {
+		if (items[i].charAt(j) == '1') {
+			document.getElementById('itemspan' + j).style.color = "#0F0";
+		} else {
+			document.getElementById('itemspan' + j).style.color = "#FFF";
+		}
 	}
 	
-	if (items[currentitemlist] != 1) {
-		if (document.getElementById('itemlist1').checked === true) {
-			items[currentitemlist] += 2;
-			document.getElementById('itemspan1').style.color = "#0F0";
-		} else {
-			document.getElementById('itemspan1').style.color = "#FFF";
-		}
-		if (document.getElementById('itemlist2').checked === true) {
-			items[currentitemlist] += 4;
-			document.getElementById('itemspan2').style.color = "#0F0";
-		} else {
-			document.getElementById('itemspan2').style.color = "#FFF";
-		}
-		if (document.getElementById('itemlist3').checked === true) {
-			items[currentitemlist] += 8;
-			document.getElementById('itemspan3').style.color = "#0F0";
-		} else {
-			document.getElementById('itemspan3').style.color = "#FFF";
-		}
-		if (document.getElementById('itemlist4').checked === true) {
-			items[currentitemlist] += 16;
-			document.getElementById('itemspan4').style.color = "#0F0";
-		} else {
-			document.getElementById('itemspan4').style.color = "#FFF";
-		}
-		if (document.getElementById('itemlist5').checked === true) {
-			items[currentitemlist] += 32;
-			document.getElementById('itemspan5').style.color = "#0F0";
-		} else {
-			document.getElementById('itemspan5').style.color = "#FFF";
-		}
-		if (document.getElementById('itemlist6').checked === true) {
-			items[currentitemlist] += 64;
-			document.getElementById('itemspan6').style.color = "#0F0";
-		} else {
-			document.getElementById('itemspan6').style.color = "#FFF";
-		}
-		if (document.getElementById('itemlist7').checked === true) {
-			items[currentitemlist] += 128;
-			document.getElementById('itemspan7').style.color = "#0F0";
-		} else {
-			document.getElementById('itemspan7').style.color = "#FFF";
-		}
-		if (document.getElementById('itemlist8').checked === true) {
-			items[currentitemlist] += 256;
-			document.getElementById('itemspan8').style.color = "#0F0";
-		} else {
-			document.getElementById('itemspan8').style.color = "#FFF";
-		}
-		if (document.getElementById('itemlist9').checked === true) {
-			items[currentitemlist] += 512;
-			document.getElementById('itemspan9').style.color = "#0F0";
-		} else {
-			document.getElementById('itemspan9').style.color = "#FFF";
-		}
-		if (document.getElementById('itemlist10').checked === true) {
-			items[currentitemlist] += 1024;
-			document.getElementById('itemspan10').style.color = "#0F0";
-		} else {
-			document.getElementById('itemspan10').style.color = "#FFF";
-		}
-		if (document.getElementById('itemlist11').checked === true) {
-			items[currentitemlist] += 2048;
-			document.getElementById('itemspan11').style.color = "#0F0";
-		} else {
-			document.getElementById('itemspan11').style.color = "#FFF";
-		}
-		if (document.getElementById('itemlist12').checked === true) {
-			items[currentitemlist] += 4096;
-			document.getElementById('itemspan12').style.color = "#0F0";
-		} else {
-			document.getElementById('itemspan12').style.color = "#FFF";
-		}
-		if (document.getElementById('itemlist13').checked === true) {
-			items[currentitemlist] += 8192;
-			document.getElementById('itemspan13').style.color = "#0F0";
-		} else {
-			document.getElementById('itemspan13').style.color = "#FFF";
-		}
-	} else {
-		CloseItems();
-	}
+	document.getElementById("townnotes").value = itemsnotes[i];
 }
 
 function CheckItemBox(i) {
@@ -1843,13 +1664,36 @@ function CheckItemBox(i) {
 }
 
 function CheckItemSpan(i) {
-	var l = 'itemlist' + i;
-	document.getElementById(l).checked = !document.getElementById(l).checked;
-	CheckItems();
+	if (i == 0 && items[currentitemlist].charAt(0) == '0') {
+		items[currentitemlist] = '100000000000000000000000000000000000';
+		itemsnotes[currentitemlist] = '';
+		townlocations[currentitemlist] = 2;
+		CloseItems();
+	} else {
+		if (items[currentitemlist].charAt(i) == '0') {
+			items[currentitemlist] = ReplaceItem(items[currentitemlist], i, '1');
+		} else {
+			items[currentitemlist] = ReplaceItem(items[currentitemlist], i, '0');
+		}
+		CheckItems(currentitemlist);
+	}
+}
+
+function ReplaceItem(item, index, replace) {
+	var returnitem = '0';
+	for (var i = 1; i < 36; i++) {
+		if (i == index) {
+			returnitem = returnitem + replace;
+		} else {
+			returnitem = returnitem + item.charAt(i);
+		}
+	}
+    return returnitem;
 }
 
 function CloseItems() {
 	if (menutoggle === false) {
+		itemsnotes[currentitemlist] = document.getElementById("townnotes").value;
 		if (items[currentitemlist] === 1) {
 			townlocations[currentitemlist] = 2;
 		} else {
@@ -1917,9 +1761,6 @@ function CloseTown() {
 		menutoggle = false;
 	}
 }
-
-
-
 
 function LoadArmory() {
 	if (disablelocationtracker === '0') {
@@ -1989,98 +1830,153 @@ function CloseCharacter() {
 	}	
 }
 
-
-
-
-
-
-
-
 function LoadKnownTownLocations() {
-	var passstring = '';
-	var lifestring = '';
-	var curestring = '';
-	var etherstring = '';
-	var tentstring = '';
-	var coffinstring = '';
-	var sirenstring = '';
-	var bacchusstring = '';
-	var illusionstring = '';
-	var starveilstring = '';
-	var starduststring = '';
-	var bigbombstring = '';
-	var otherstring = '';
+	var agart = '';
+	var baron = '';
+	var eblan = '';
+	var fabul = '';
+	var kaipo = '';
+	var mysidia = '';
+	var silvera = '';
+	var troiaitem = '';
+	var troiapub = '';
+	var dwarf = '';
+	var feymarch = '';
+	var tomara = '';
+	var hummingway = '';
+	
+	var summarystrings = ['','','','','','','','','','','','',''];	
 	
 	for (var i = 0; i < 13; i++) {
-		var modalx = items[i];
-			
-		if (modalx >= 8192) {
-			otherstring = AddTownLocation(otherstring, i);
-			modalx -= 8192;
+		for (var j = 1; j < 36; j++) {
+			if (items[i].charAt(j) === '1') {
+				switch (j) {
+					case 1:
+						summarystrings[i] += 'Life, ';
+						break;
+					case 2:
+						summarystrings[i] += 'Cure1, ';
+						break;
+					case 3:
+						summarystrings[i] += 'Cure2, ';
+						break;
+					case 4:
+						summarystrings[i] += 'Cure3, ';
+						break;
+					case 5:
+						summarystrings[i] += 'Ether1, ';
+						break;
+					case 6:
+						summarystrings[i] += 'Ether2, ';
+						break;
+					case 7:
+						summarystrings[i] += 'Tent, ';
+						break;
+					case 8:
+						summarystrings[i] += 'Cabin, ';
+						break;
+					case 9:
+						summarystrings[i] += 'Bomb, ';
+						break;
+					case 10:
+						summarystrings[i] += 'Notus, ';
+						break;
+					case 11:
+						summarystrings[i] += 'ThorRage, ';
+						break;
+					case 12:
+						summarystrings[i] += 'Vampire, ';
+						break;
+					case 13:
+						summarystrings[i] += 'Kamikaze, ';
+						break;
+					case 14:
+						summarystrings[i] += 'BigBomb, ';
+						break;
+					case 15:
+						summarystrings[i] += 'Boreas, ';
+						break;
+					case 16:
+						summarystrings[i] += 'ZeusRage, ';
+						break;
+					case 17:
+						summarystrings[i] += 'FireBomb, ';
+						break;
+					case 18:
+						summarystrings[i] += 'Blizzard, ';
+						break;
+					case 19:
+						summarystrings[i] += 'Lit-Bolt, ';
+						break;
+					case 20:
+						summarystrings[i] += 'GaiaDrum, ';
+						break;
+					case 21:
+						summarystrings[i] += 'Stardust, ';
+						break;
+					case 22:
+						summarystrings[i] += 'Grimoire, ';
+						break;
+					case 23:
+						summarystrings[i] += 'HrGlass1, ';
+						break;
+					case 24:
+						summarystrings[i] += 'HrGlass2, ';
+						break;
+					case 25:
+						summarystrings[i] += 'HrGlass3, ';
+						break;
+					case 26:
+						summarystrings[i] += 'StarVeil, ';
+						break;
+					case 27:
+						summarystrings[i] += 'MoonVeil, ';
+						break;
+					case 28:
+						summarystrings[i] += 'Exit, ';
+						break;
+					case 29:
+						summarystrings[i] += 'Illusion, ';
+						break;
+					case 30:
+						summarystrings[i] += 'Coffin, ';
+						break;
+					case 31:
+						summarystrings[i] += 'Siren, ';
+						break;
+					case 32:
+						summarystrings[i] += 'Bacchus, ';
+						break;
+					case 33:
+						summarystrings[i] += 'SilkWeb, ';
+						break;
+					case 34:
+						summarystrings[i] += 'Pass, ';
+						break;
+					case 35:
+						summarystrings[i] += 'Other, ';
+						break;
+				}
+			}
 		}
-		if (modalx >= 4096) {
-			bigbombstring = AddTownLocation(bigbombstring, i);
-			modalx -= 4096;
-		}
-		if (modalx >= 2048) {
-			starduststring = AddTownLocation(starduststring, i);
-			modalx -= 2048;
-		}
-		if (modalx >= 1024) {
-			starveilstring = AddTownLocation(starveilstring, i);
-			modalx -= 1024;
-		}
-		if (modalx >= 512) {
-			illusionstring = AddTownLocation(illusionstring, i);
-			modalx -= 512;
-		}
-		if (modalx >= 256) {
-			bacchusstring = AddTownLocation(bacchusstring, i);
-			modalx -= 256;
-		}
-		if (modalx >= 128) {
-			sirenstring = AddTownLocation(sirenstring, i);
-			modalx -= 128;
-		}
-		if (modalx >= 64) {
-			coffinstring = AddTownLocation(coffinstring, i);
-			modalx -= 64;
-		}
-		if (modalx >= 32) {
-			tentstring = AddTownLocation(tentstring, i);
-			modalx -= 32;
-		}
-		if (modalx >= 16) {
-			etherstring = AddTownLocation(etherstring, i);
-			modalx -= 16;
-		}
-		if (modalx >= 8) {
-			curestring = AddTownLocation(curestring, i);
-			modalx -= 8;
-		}
-		if (modalx >= 4) {
-			lifestring = AddTownLocation(lifestring, i);
-			modalx -= 4;
-		}
-		if (modalx >= 2) {
-			passstring = AddTownLocation(passstring, i);
-			modalx -= 2;
+		if (summarystrings[i].charAt(summarystrings[i].length - 2) === ',') {
+			summarystrings[i] = summarystrings[i].substring(0, summarystrings[i].length - 2);
 		}
 	}
 	
-	document.getElementById('townlistlocation1').innerHTML = passstring;
-	document.getElementById('townlistlocation2').innerHTML = lifestring;
-	document.getElementById('townlistlocation3').innerHTML = curestring;
-	document.getElementById('townlistlocation4').innerHTML = etherstring;
-	document.getElementById('townlistlocation5').innerHTML = tentstring;
-	document.getElementById('townlistlocation6').innerHTML = coffinstring;
-	document.getElementById('townlistlocation7').innerHTML = sirenstring;
-	document.getElementById('townlistlocation8').innerHTML = bacchusstring;
-	document.getElementById('townlistlocation9').innerHTML = illusionstring;
-	document.getElementById('townlistlocation10').innerHTML = starveilstring;
-	document.getElementById('townlistlocation11').innerHTML = starduststring;
-	document.getElementById('townlistlocation12').innerHTML = bigbombstring;
-	document.getElementById('townlistlocation13').innerHTML = otherstring;
+	document.getElementById('townlistlocation1').innerHTML = summarystrings[0];
+	document.getElementById('townlistlocation2').innerHTML = summarystrings[1];
+	document.getElementById('townlistlocation3').innerHTML = summarystrings[2];
+	document.getElementById('townlistlocation4').innerHTML = summarystrings[3];
+	document.getElementById('townlistlocation5').innerHTML = summarystrings[4];
+	document.getElementById('townlistlocation6').innerHTML = summarystrings[5];
+	document.getElementById('townlistlocation7').innerHTML = summarystrings[6];
+	document.getElementById('townlistlocation8').innerHTML = summarystrings[7];
+	document.getElementById('townlistlocation9').innerHTML = summarystrings[8];
+	document.getElementById('townlistlocation10').innerHTML = summarystrings[9];
+	document.getElementById('townlistlocation11').innerHTML = summarystrings[10];
+	document.getElementById('townlistlocation12').innerHTML = summarystrings[11];
+	document.getElementById('townlistlocation13').innerHTML = summarystrings[12];
 	
 }
 
@@ -2162,11 +2058,4 @@ function ClearWarpGlitch() {
 	keyitemlocations[28] = 2;
 	ignorewarp = true;
 	ApplyChecks();
-}
-
-function LoadBestiaryData() {
-	bestiarydata.push({"lvl": 2, "hp": 1000});
-	bestiarydata.push({"lvl": 63, "hp": 23000});
-	
-	
 }
