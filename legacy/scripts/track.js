@@ -34,85 +34,57 @@ var hookclear = false;
 var ignorewarp = false;
 var menutoggle = false;
 
-//NEW NEW FLAGS
-var modeflags = {
-	omain: true,
-	oforge: false,
-	ogiant: false,
-	ofiends: false,
-	odarkmatter: false,
-	kmain: false,
-	ksummon: false,
-	kmoon: false,
-	ktrap: false,
-	kunsafe: false,
-	pshop: false,
-	pkey: false,
-	pchests: false,
-	cvanilla: false,
-	cstandard: false,
-	crelaxed: false,
-	cmaybe: false,
-	cdistinct: 0,
-	ccecil: true,
-	ckain: true,
-	crydia: true,
-	ctellah: true,
-	cedward: true,
-	crosa: true,
-	cyang: true,
-	cpalom: true,
-	cporom: true,
-	ccid: true,
-	cedge: true,
-	cfusoya: true,
-	cstart: '',
-	cjspells: false,
-	cjabilities: false,
-	cnodupes: false,
-	cbye: false,
-	cpermajoin: false,
-	tchests: 'tvanilla',
-	tnoj: false,
-	tjunk: false,
-	sshops: 'svanilla',
-	sfree: false,
-	squarter: false,
-	snoj: false,
-	snoapples: false,
-	snosirens: false,
-	bvanilla: false,
-	bstandard: false,
-	bunsafe: false,
-	baltgauntlet: false,
-	bwhyburn: false,
-	bwhichburn: false,
-	nchars: false,
-	nkey: false,
-	nbosses: false,
-	eencounters: 'evanilla',
-	enojdrops: false,
-	ecantrun: false,
-	enoexp: false,
-	gdupe: false,
-	gmp: false,
-	gwarp: false,
-	glife: false,
-	g64: false,
-	ostarterkit: '',
-	onoadamants: false,
-	ovintage: false,
-	ospoon: false,
-	ovanillafusoya: false,
-	ovanillaagility: false,
-	ovanillahobs: false,
-	ovanillaexp: false,
-	ovanillafashion: false,
-	ovanillatraps: false,
-	ovanillaz: false	
-}
-
 //NEW FLAGS
+var variant = 0;
+var jitems = false;
+var jspells = false;
+var jabilities = false;
+var krandomized = false;
+var ksummons = false;
+var kmoon = false;
+var ktrapped = false;
+var ksafety = false;
+var pshop = false;
+var pkey = false;
+var ptreasure = false;
+var cguaranteed = false;
+var crestrict = false;
+var cfive = false;
+var cnodupes = false;
+var crescue = false;
+var chobs = false;
+var treasures = 0;
+var tgp = false;
+var ttrapped = false;
+var shops = 0;
+var ssafety = false;
+var sfree = false;
+var squarter = false;
+var sapples = false;
+var ssirens = false;
+var randombosses = false;
+var bosssafety = false;
+var wyvern = 0;
+var fuchallenge = false;
+var nflc = false;
+var nflk = false;
+var nflb = false;
+var enemyencounters = 0;
+var enemyforced = false;
+var enemydangerous = false;
+var enemyrun = false;
+var expsharing = false;
+var expkeyitems = false;
+var explowlevel = false;
+var expnoexp = false;
+var gdwarfwarp = false;
+var aagility = true;
+var noadamants = true;
+var wackymute = true;
+var wackyspoon = true;
+var wackyfab = true;
+var wackyhuh = true;
+var wackyzeromus = true;
 var overridestarting = '';
 
 var disableitemtracker = '0';
@@ -180,612 +152,475 @@ function SetModes() {
 	
 	for (var fs in flagsets) {
 		
-		//Objectives
-		if (flagsets[fs].startsWith('O')) {
-			var flagstring = flagsets[fs].substr(1);
-			var keys = flagstring.split('/');
-			
-			for (var k in keys) {
-				switch (keys[k]) {
-					case 'NONE':
-						modeflags.kmain = true;
-						break;
-					default:
-						if (keys[k].startsWith('MODE')) {
-							var mode = keys[k].substring(5).split(',');
-							for (var j in mode) {
-								switch (mode[j]) {
-									case 'CLASSICFORGE':
-										modeflags.oforge = true;
-										break;
-									case 'CLASSICGIANT':
-										modeflags.ogiant = true;
-										break;
-									case 'FIENDS':
-										modeflags.ofiends = true;
-										break;
-									case 'DKMATTER':
-										modeflags.odarkmatter = true;
-										break;
-								}
-							}
-						}
-				}
-			}
+		//Variants
+		if (flagsets[fs].indexOf('V1') > -1) {
+			variant = 1;
+			document.getElementById("variant0").style.display = "none";
+			document.getElementById("variant1").style.display = "block";
+		} else if (flagsets[fs].indexOf('V2') > -1) {
+			variant = 2;
+			document.getElementById("variant0").style.display = "none";
+			document.getElementById("variant2").style.display = "block";
 		}
 		
-		//Key Items
-		if (flagsets[fs].startsWith('K')) {
-			var flagstring = flagsets[fs].substr(1);
-			var keys = flagstring.split('/');
-			
-			for (var k in keys) {
-				switch (keys[k]) {
-					case 'MAIN':
-						modeflags.kmain = true;
-						break;
-					case 'SUMMON':
-						modeflags.ksummon = true;
-						break;
-					case 'MOON':
-						modeflags.kmoon = true;
-						break;
-					case 'TRAP':
-						modeflags.ktrap = true;
-						break;
-					case 'UNSAFE':
-						modeflags.kunsafe = true;
-						break;
-				}
+		//Japanese Content
+		if (flagsets[fs].startsWith('J')) {
+			if (flagsets[fs].indexOf('I') > -1) {
+				document.getElementById("japanese0").style.display = "none";
+				document.getElementById("japaneseI").style.display = "block";
+				jitems = true;
+			}
+			if (flagsets[fs].indexOf('S') > -1) {
+				document.getElementById("japanese0").style.display = "none";
+				document.getElementById("japaneseS").style.display = "block";
+				jspells = true;
+			}
+			if (flagsets[fs].indexOf('A') > -1) {
+				document.getElementById("japanese0").style.display = "none";
+				document.getElementById("japaneseA").style.display = "block";
+				jabilities = true;
 			}
 		}
-
-		//Pass
-		if (flagsets[fs].startsWith('P')) {
-			var flagstring = flagsets[fs].substr(1);
-			var keys = flagstring.split('/');
 			
-			for (var k in keys) {
-				switch (keys[k]) {
-					case 'SHOP':
-						modeflags.pshop = true;
-						document.getElementById("passtd").style.display = "block";
-						break;
-					case 'KEY':
-						modeflags.pkey = true;
-						break;
-					case 'CHESTS':
-						modeflags.pchests = true;
-						break;
-				}
+		//Key Items/Pass
+		if (flagsets[fs].startsWith('K')) {
+			krandomized = true;
+			document.getElementById("keyitempass0").style.display = "none";
+			document.getElementById("keyitempassR").style.display = "block";
+			if (flagsets[fs].indexOf('Q') > -1) {
+				ksummons = true;
+				document.getElementById("keyitempassQ").style.display = "block";
+			}
+			if (flagsets[fs].indexOf('M') > -1) {
+				kmoon = true;
+				document.getElementById("keyitempassM").style.display = "block";
+			}
+			if (flagsets[fs].indexOf('T') > -1) {
+				ktrapped = true;
+				document.getElementById("keyitempassT").style.display = "block";
+			}
+			if (flagsets[fs].indexOf('!') > -1) {
+				ksafety = true;
+				document.getElementById("keyitempassSa").style.display = "block";
+			}
+		}		
+		
+		if (flagsets[fs].startsWith('P')) {
+			if (flagsets[fs].indexOf('S') > -1) {
+				pshop = true;
+				document.getElementById("keyitempassS").style.display = "block";
+				document.getElementById("passtd").style.display = "block";
+			}
+			if (flagsets[fs].indexOf('K') > -1) {
+				document.getElementById("keyitempassK").style.display = "block";
+				pkey = true;
+			}
+			if (flagsets[fs].indexOf('T') > -1) {
+				document.getElementById("keyitempassTC").style.display = "block";
+				ptreasure = true;
 			}
 		}
 		
 		//Characters
 		if (flagsets[fs].startsWith('C')) {
-			var flagstring = flagsets[fs].substr(1);
-			var keys = flagstring.split('/');
-			
-			for (var k in keys) {
-				switch (keys[k]) {
-					case 'VANILLA':
-						modeflags.cvanilla = true;
-						break;
-					case 'STANDARD':
-						modeflags.cstandard = true;
-						break;
-					case 'RELAXED':
-						modeflags.crelaxed = true;
-						break;
-					case 'MAYBE':
-						modeflags.cmaybe = true;
-						break;
-					case 'J:SPELLS':
-						modeflags.cjspells = true;
-						break;
-					case 'ABILITIES':
-						modeflags.cjabilities = true;
-						break;
-					case 'NODUPES':
-						modeflags.cnodupes = true;
-						break;
-					case 'BYE':
-						modeflags.cbye = true;
-						break;
-					case 'PERMAJOIN':
-						modeflags.cpermajoin = true;
-						break;
-					default:
-						if (keys[k].startsWith('DISTINCT')) {
-							modeflags.cdistinct = keys[k].substring(9);
-						}
-						if (keys[k].startsWith('START')) {
-							modeflags.cstart = keys[k].substring(6);
-						}
-						if (keys[k].startsWith('NO')) {
-							var cha = keys[k].substring(3).split(',');
-							for (var j in cha) {
-								switch (cha[j]) {
-									case 'CECIL':
-										modeflags.ccecil = false;
-										break;
-									case 'KAIN':
-										modeflags.ckain = false;
-										break;
-									case 'RYDIA':
-										modeflags.crydia = false;
-										break;
-									case 'TELLAH':
-										modeflags.ctellah = false;
-										break;
-									case 'EDWARD':
-										modeflags.cedward = false;
-										break;
-									case 'ROSA':
-										modeflags.crosa = false;
-										break;
-									case 'YANG':
-										modeflags.cyang = false;
-										break;
-									case 'PALOM':
-										modeflags.cpalom = false;
-										break;
-									case 'POROM':
-										modeflags.cporom = false;
-										break;
-									case 'CID':
-										modeflags.ccid = false;
-										break;
-									case 'EDGE':
-										modeflags.cedge = false;
-										break;
-									case 'FUSOYA':
-										modeflags.cfusoya = false;
-										break;
-								}
-							}
-						}
-						
-						if (keys[k].startsWith('ONLY')) {
-							modeflags.ccecil = false;
-							modeflags.ckain = false;
-							modeflags.crydia = false;
-							modeflags.ctellah = false;
-							modeflags.cedward = false;
-							modeflags.crosa = false;
-							modeflags.cyang = false;
-							modeflags.cpalom = false;
-							modeflags.cporom = false;
-							modeflags.ccid = false;
-							modeflags.cedge = false;
-							modeflags.cfusoya = false;
-							
-							var cha = keys[k].substring(5).split(',');
-							for (var j in cha) {
-								switch (cha[j]) {
-									case 'CECIL':
-										modeflags.ccecil = true;
-										break;
-									case 'KAIN':
-										modeflags.ckain = true;
-										break;
-									case 'RYDIA':
-										modeflags.crydia = true;
-										break;
-									case 'TELLAH':
-										modeflags.ctellah = true;
-										break;
-									case 'EDWARD':
-										modeflags.cedward = true;
-										break;
-									case 'ROSA':
-										modeflags.crosa = true;
-										break;
-									case 'YANG':
-										modeflags.cyang = true;
-										break;
-									case 'PALOM':
-										modeflags.cpalom = true;
-										break;
-									case 'POROM':
-										modeflags.cporom = true;
-										break;
-									case 'CID':
-										modeflags.ccid = true;
-										break;
-									case 'EDGE':
-										modeflags.cedge = true;
-										break;
-									case 'FUSOYA':
-										modeflags.cfusoya = true;
-										break;
-								}
-							}
-						}
-				}
+			document.getElementById("characters0").style.display = "none";
+			document.getElementById("charactersC").style.display = "block";
+			if (flagsets[fs].indexOf('N') > -1) {
+				cguaranteed = true;
+				document.getElementById("charactersN").style.display = "block";
 			}
-		}		
+			if (flagsets[fs].indexOf('X') > -1) {
+				crestrict = true;
+				document.getElementById("charactersX").style.display = "block";
+			}
+			if (flagsets[fs].indexOf('5') > -1) {
+				cfive = true;
+				document.getElementById("characters5").style.display = "block";
+			}
+		}
+		
+		//Exclude characters
+		if (flagsets[fs].indexOf('-NO') > -1 && flagsets[fs] != '-NODUPES') {
+			document.getElementById("charactersE").style.display = "block";
+			switch (flagsets[fs]) {
+				case '-NOCECIL':
+					document.getElementById('character0_x').style.visibility = 'visible';
+					excludedCharacters += 'Cecil ';
+					break;
+				case '-NOKAIN':
+					document.getElementById('character1_x').style.visibility = 'visible';
+					excludedCharacters += 'Kain ';
+					break;
+				case '-NORYDIA':
+					document.getElementById('character2_x').style.visibility = 'visible';
+					excludedCharacters += 'Rydia ';
+					break;
+				case '-NOTELLAH':
+					document.getElementById('character3_x').style.visibility = 'visible';
+					excludedCharacters += 'Tellah ';
+					break;
+				case '-NOEDWARD':
+					document.getElementById('character4_x').style.visibility = 'visible';
+					excludedCharacters += 'Edward ';
+					break;
+				case '-NOROSA':
+					document.getElementById('character5_x').style.visibility = 'visible';
+					excludedCharacters += 'Rosa ';
+					break;
+				case '-NOYANG':
+					document.getElementById('character6_x').style.visibility = 'visible';
+					excludedCharacters += 'Yang ';
+					break;
+				case '-NOPALOM':
+					document.getElementById('character7_x').style.visibility = 'visible';
+					excludedCharacters += 'Palom ';
+					break;
+				case '-NOPOROM':
+					document.getElementById('character8_x').style.visibility = 'visible';
+					excludedCharacters += 'Porom ';
+					break;
+				case '-NOCID':
+					document.getElementById('character9_x').style.visibility = 'visible';
+					excludedCharacters += 'Cid ';
+					break;
+				case '-NOEDGE':
+					document.getElementById('character10_x').style.visibility = 'visible';
+					excludedCharacters += 'Edge ';
+					break;
+				case '-NOFUSOYA':
+					document.getElementById('character11_x').style.visibility = 'visible';
+					excludedCharacters += 'FuSoYa ';
+					break;
+			}
+		}
+
+		//Starting character
+		if (flagsets[fs].indexOf('-START') > -1) {
+			document.getElementById("charactersS").style.display = "block";
+			switch (flagsets[fs]) {
+				case '-STARTCECIL':
+					SwapCharacter(0);
+					overridestarting = 'CECIL';
+					document.getElementById('characterStart').innerHTML = 'Cecil';
+					break;
+				case '-STARTKAIN':
+					SwapCharacter(1);
+					overridestarting = 'KAIN';
+					document.getElementById('characterStart').innerHTML = 'Kain';
+					break;
+				case '-STARTRYDIA':
+					SwapCharacter(2);
+					overridestarting = 'RYDIA';
+					document.getElementById('characterStart').innerHTML = 'Rydia';
+					break;
+				case '-STARTTELLAH':
+					SwapCharacter(3);
+					overridestarting = 'TELLAH';
+					document.getElementById('characterStart').innerHTML = 'Tellah';
+					break;
+				case '-STARTEDWARD':
+					SwapCharacter(4);
+					overridestarting = 'EDWARD';
+					document.getElementById('characterStart').innerHTML = 'Edward';
+					break;
+				case '-STARTROSA':
+					SwapCharacter(5);
+					overridestarting = 'ROSA';
+					document.getElementById('characterStart').innerHTML = 'Rosa';
+					break;
+				case '-STARTYANG':
+					SwapCharacter(6);
+					overridestarting = 'YANG';
+					document.getElementById('characterStart').innerHTML = 'Yang';
+					break;
+				case '-STARTPALOM':
+					SwapCharacter(7);
+					overridestarting = 'PALOM';
+					document.getElementById('characterStart').innerHTML = 'Palom';
+					break;
+				case '-STARTPOROM':
+					SwapCharacter(8);
+					overridestarting = 'POROM';
+					document.getElementById('characterStart').innerHTML = 'Porom';
+					break;
+				case '-STARTCID':
+					SwapCharacter(9);
+					overridestarting = 'CID';
+					document.getElementById('characterStart').innerHTML = 'Cid';
+					break;
+				case '-STARTEDGE':
+					SwapCharacter(10);
+					overridestarting = 'EDGE';
+					document.getElementById('characterStart').innerHTML = 'Edge';
+					break;
+				case '-STARTFUSOYA':
+					SwapCharacter(11);
+					overridestarting = 'FUSOYA';
+					document.getElementById('characterStart').innerHTML = 'FuSoYa';
+					break;
+			}
+		}
+		
+		if (flagsets[fs].indexOf('-NODUPES') > -1) {
+			cnodupes = true;
+			document.getElementById("charactersD").style.display = "block";
+		}
+		
+		if (flagsets[fs].indexOf('-RESCUE') > -1) {
+			crescue = true;
+			document.getElementById("charactersR").style.display = "block";
+		}
+		
+		if (flagsets[fs].indexOf('-HOBS') > -1) {
+			chobs = true;
+			document.getElementById("charactersH").style.display = "block";
+		}
 		
 		//Treasures
+		if (flagsets[fs].indexOf('T1') > -1) {
+			treasures = 1;
+			document.getElementById("treasure0").style.display = "none";
+			document.getElementById("treasure1").style.display = "block";
+		} else if (flagsets[fs].indexOf('T2') > -1) {
+			treasures = 2;
+			document.getElementById("treasure0").style.display = "none";
+			document.getElementById("treasure2").style.display = "block";
+		} else if (flagsets[fs].indexOf('T3') > -1) {
+			treasures = 3;
+			document.getElementById("treasure0").style.display = "none";
+			document.getElementById("treasure3").style.display = "block";
+		} else if (flagsets[fs].indexOf('T4') > -1) {
+			treasures = 4;
+			document.getElementById("treasure0").style.display = "none";
+			document.getElementById("treasure4").style.display = "block";
+		} else if (flagsets[fs].indexOf('TX') > -1) {
+			treasures = 5;
+			document.getElementById("treasure0").style.display = "none";
+			document.getElementById("treasureX").style.display = "block";
+		}
+		
 		if (flagsets[fs].startsWith('T')) {
-			var flagstring = flagsets[fs].substr(1);
-			var keys = flagstring.split('/');
-			
-			for (var k in keys) {
-				switch (keys[k]) {
-					case 'VANILLA':
-						modeflags.treasures = 'vanilla';
-						break;
-					case 'SHUFFLE':
-						modeflags.treasures = 'shuffle';
-						break;
-					case 'STANDARD':
-						modeflags.treasures = 'standard';
-						break;
-					case 'PRO':
-						modeflags.treasures = 'pro';
-						break;
-					case 'WILD':
-						modeflags.treasures = 'wild';
-						break;
-					case 'WILDISH':
-						modeflags.treasures = 'wildish';
-						break;
-					case 'EMPTY':
-						modeflags.treasures = 'empty';
-						break;
-					case 'NO:J':
-						modeflags.tnoj = true;
-						break;
-					case 'JUNK':
-						modeflags.tjunk = true;
-						break;
-				}
+			if (flagsets[fs].indexOf('G') > -1) {
+				tgp = true;
+				document.getElementById("treasureG").style.display = "block";
+			}
+			if (flagsets[fs].indexOf('R') > -1) {
+				ttrapped = true;
+				document.getElementById("treasureR").style.display = "block";
 			}
 		}
 		
 		//Shops
+		if (flagsets[fs].indexOf('S1') > -1) {
+			shops = 1;
+			document.getElementById("shop0").style.display = "none";
+			document.getElementById("shop1").style.display = "block";
+		} else if (flagsets[fs].indexOf('S2') > -1) {
+			shops = 2;
+			document.getElementById("shop0").style.display = "none";
+			document.getElementById("shop2").style.display = "block";
+		} else if (flagsets[fs].indexOf('S3') > -1) {
+			shops = 3;
+			document.getElementById("shop0").style.display = "none";
+			document.getElementById("shop3").style.display = "block";
+		} else if (flagsets[fs].indexOf('S4') > -1) {
+			shops = 4;
+			document.getElementById("shop0").style.display = "none";
+			document.getElementById("shop4").style.display = "block";
+		} else if (flagsets[fs].indexOf('SC') > -1 && flagsets[fs].indexOf('RESCUE') === -1) {
+			shops = 5;
+			document.getElementById("shop0").style.display = "none";
+			document.getElementById("shopC").style.display = "block";
+		} else if (flagsets[fs].indexOf('SX') > -1) {
+			shops = 6;
+			document.getElementById("shop0").style.display = "none";
+			document.getElementById("shopX").style.display = "block";
+		}
+		
 		if (flagsets[fs].startsWith('S')) {
-			var flagstring = flagsets[fs].substr(1);
-			var keys = flagstring.split('/');
-			
-			for (var k in keys) {
-				switch (keys[k]) {
-					case 'VANILLA':
-						modeflags.sshops = 'vanilla';
-						break;
-					case 'SHUFFLE':
-						modeflags.sshops = 'shuffle';
-						break;
-					case 'STANDARD':
-						modeflags.sshops = 'standard';
-						break;
-					case 'PRO':
-						modeflags.sshops = 'pro';
-						break;
-					case 'WILD':
-						modeflags.sshops = 'wild';
-						break;
-					case 'CABINS':
-						modeflags.sshops = 'cabins';
-						break;
-					case 'EMPTY':
-						modeflags.sshops = 'empty';
-						break;
-					case 'FREE':
-						modeflags.sfree = true;
-						break;
-					case 'QUARTER':
-						modeflags.squarter = true;
-						break;
-					case 'NO:J':
-						modeflags.snoj = true;
-						break;
-					case 'NO:APPLES':
-						modeflags.snoapples = true;
-						break;
-					case 'NO:SIRENS':
-						modeflags.snosirens = true;
-						break;
-				}
+			if (flagsets[fs].indexOf('!') > -1) {
+				ssafety = true;
+				document.getElementById("shopSa").style.display = "block";
 			}
+			if (flagsets[fs].indexOf('F') > -1) {
+				sfree = true;
+				document.getElementById("shopSf").style.display = "block";
+			}
+			if (flagsets[fs].indexOf('Q') > -1) {
+				squarter = true;
+				document.getElementById("shopSq").style.display = "block";
+			}
+		}
+
+		if (flagsets[fs] === '-NOAPPLES') {
+			sapples = true;
+			document.getElementById("shopA").style.display = "block";
+		}
+		
+		if (flagsets[fs] === '-NOSIRENS') {
+			ssirens = true;
+			document.getElementById("shopS").style.display = "block";
+			document.getElementById("sirentd").style.display = "none";			
 		}
 		
 		//Bosses
 		if (flagsets[fs].startsWith('B')) {
-			var flagstring = flagsets[fs].substr(1);
-			var keys = flagstring.split('/');
-			
-			for (var k in keys) {
-				switch (keys[k]) {
-					case 'VANILLA':
-						modeflags.bvanilla = true;
-						break;
-					case 'STANDARD':
-						modeflags.bstandard = true;
-						break;
-					case 'UNSAFE':
-						modeflags.bunsafe = true;
-						break;
-					case 'ALT:GAUNTLET':
-						modeflags.baltgauntlet = true;
-						break;
-					case 'WHYBURN':
-						modeflags.bwhyburn = true;
-						break;
-					case 'WHICHBURN':
-						modeflags.bwhichburn = true;
-						break;
-				}
+			document.getElementById("bosses0").style.display = "none";
+			document.getElementById("bossesB").style.display = "block";
+			randombosses = true;
+			if (flagsets[fs].indexOf('!') > -1) {
+				bosssafety = true;
+				document.getElementById("bossesX").style.display = "block";
 			}
+		}
+		
+		if (flagsets[fs].indexOf('-WHYBURN') > -1) {
+			wyvern = 1;
+			document.getElementById("bossesWyvern").style.display = "none";
+			document.getElementById("bossesWhy").style.display = "block";
+		} else if (flagsets[fs].indexOf('-WHICHBURN') > -1) {
+			wyvern = 2;
+			document.getElementById("bossesWyvern").style.display = "none";
+			document.getElementById("bossesWhich").style.display = "block";
 		}
 		
 		//Challenges
+		if (flagsets[fs] === 'F') {
+			fuchallenge = true;
+			document.getElementById("challengesF").style.display = "block";
+		}
+		
 		if (flagsets[fs].startsWith('N')) {
-			var flagstring = flagsets[fs].substr(1);
-			var keys = flagstring.split('/');
-			
-			for (var k in keys) {
-				switch (keys[k]) {
-					case 'CHARS':
-						modeflags.nchars = true;
-						break;
-					case 'KEY':
-						modeflags.nkey = true;
-						break;
-					case 'BOSSES':
-						modeflags.nbosses = true;
-						break;
-				}
+			document.getElementById("challenges0").style.display = "none";
+			if (flagsets[fs].indexOf('C') > -1) {
+				nflc = true;
+				document.getElementById("challengesC").style.display = "block";
+			}
+			if (flagsets[fs].indexOf('K') > -1) {
+				nflk = true;
+				document.getElementById("challengesK").style.display = "block";
+			}
+			if (flagsets[fs].indexOf('B') > -1) {
+				nflb = true;
+				document.getElementById("challengesB").style.display = "block";
 			}
 		}
 		
-		//Encounters
+		//Battles
 		if (flagsets[fs].startsWith('E')) {
-			var flagstring = flagsets[fs].substr(1);
-			var keys = flagstring.split('/');
+			document.getElementById("battles0").style.display = "none";
+			if (flagsets[fs].indexOf('T') > -1) {
+				enemyencounters = 0;
+				document.getElementById("battlesT").style.display = "block";
+			} else if (flagsets[fs].indexOf('R') > -1) {
+				enemyencounters = 1;
+				document.getElementById("battlesR").style.display = "block";
+			} else if (flagsets[fs].indexOf('X') > -1) {
+				enemyencounters = 2;
+				document.getElementById("battlesX").style.display = "block";
+			}
 			
-			for (var k in keys) {
-				switch (keys[k]) {
-					case 'VANILLA':
-						modeflags.eencounters = 'evanilla';
-						break;
-					case 'TOGGLE':
-						modeflags.eencounters = 'etoggle';
-						break;
-					case 'REDUCE':
-						modeflags.eencounters = 'ereduce';
-						break;
-					case 'NOENCOUNTERS':
-						modeflags.eencounters = 'enoencounters';
-						break;
-					case 'NO:SIRENS':
-						modeflags.snosirens = true;
-						break;
-					case 'NO:JDROPS':
-						modeflags.enojdrops = true;
-						break;
-					case 'CANTRUN':
-						modeflags.ecantrun = true;
-						break;
-					case 'NOEXP':
-						modeflags.enoexp = true;
-						break;
-				}
+			if (flagsets[fs].indexOf('F') > -1) {
+				enemyforced = true;
+				document.getElementById("battlesF").style.display = "block";
+			}
+
+			if (flagsets[fs].indexOf('D') > -1) {
+				enemydangerous = true;
+				document.getElementById("battlesD").style.display = "block";
+			}
+
+			if (flagsets[fs].indexOf('C') > -1) {
+				enemyrun = true;
+				document.getElementById("battlesC").style.display = "block";
 			}
 		}
 		
-		//Glitches
+		//Experience
+		if (flagsets[fs].startsWith('X')) {
+			document.getElementById("experience0").style.display = "none";
+			if (flagsets[fs].indexOf('S') > -1) {
+				expsharing = true;
+				document.getElementById("experienceS").style.display = "block";
+			}
+
+			if (flagsets[fs].indexOf('K') > -1) {
+				expkeyitems = true;
+				document.getElementById("experienceK").style.display = "block";
+			}
+
+			if (flagsets[fs].indexOf('B') > -1) {
+				explowlevel = true;
+				document.getElementById("experienceB").style.display = "block";
+			}
+
+			if (flagsets[fs].lastIndexOf('X') > 0 ) {
+				expnoexp = true;
+				document.getElementById("experienceX").style.display = "block";
+			}		
+		}
+		
+		//Tweaks
 		if (flagsets[fs].startsWith('G')) {
-			var flagstring = flagsets[fs].substr(1);
-			var keys = flagstring.split('/');
-			
-			for (var k in keys) {
-				switch (keys[k]) {
-					case 'DUPE':
-						modeflags.gdupe = true;
-						break;
-					case 'MP':
-						modeflags.gmp = true;
-						break;
-					case 'WARP':
-						modeflags.gwarp = true;
-						break;
-					case 'LIFE':
-						modeflags.glife = true;
-						break;
-					case '64':
-						modeflags.g64 = true;
-						break;
-				}
+			if (flagsets[fs].indexOf('D') > -1) {
+				gduplication = true;
+				document.getElementById("tweaksD").style.display = "block";
+			}
+			if (flagsets[fs].indexOf('M') > -1) {
+				gunderflow = true;
+				document.getElementById("tweaksM").style.display = "block";
+			}
+			if (flagsets[fs].indexOf('W') > -1) {
+				gdwarfwarp = true;
+				document.getElementById("tweaksW").style.display = "block";
+			}
+			if (flagsets[fs].indexOf('L') > -1) {
+				glife = true;
+				document.getElementById("tweaksL").style.display = "block";
+			}
+			if (flagsets[fs].indexOf('64') > -1) {
+				g64 = true;
+				document.getElementById("tweaks64").style.display = "block";
 			}
 		}
 		
-		//Other
-		if (flagsets[fs].startsWith('-')) {
-			switch (flagsets[fs]) {
-				case '-KIT:MINIMAL':
-					modeflags.ostarterkit = 'minimal';
-					break;
-				case '-KIT:BASIC':
-					modeflags.ostarterkit = 'basic';
-					break;
-				case '-KIT:BETTER':
-					modeflags.ostarterkit = 'better';
-					break;
-				case '-KIT:LOADED':
-					modeflags.ostarterkit = 'loaded';
-					break;
-				case '-KIT:SPITBALL':
-					modeflags.ostarterkit = 'spitball';
-					break;
-				case '-NOADAMANTS':
-					modeflags.onoadamants = true;
-					break;
-				case '-VINTAGE':
-					modeflags.ovintage = true;
-					break;
-				case '-SPOON':
-					modeflags.ospoon = true;
-					break;
-				default:
-					if (flagsets[fs].startsWith('-VANILLA:')) {
-						var flagstring = flagsets[fs].substr(9);
-						var keys = flagstring.split(',');
-						for (var k in keys) {
-							switch (keys[k]) {
-								case 'FUSOYA':
-									modeflags.ovanillafusoya = true;
-									break;
-								case 'AGILITY':
-									modeflags.ovanillaagility = true;
-									break;
-								case 'HOBS':
-									modeflags.ovanillahobs = true;
-									break;
-								case 'EXP':
-									modeflags.ovanillaexp = true;
-									break;
-								case 'FASHION':
-									modeflags.ovanillafashion = true;
-									break;
-								case 'TRAPS':
-									modeflags.ovanillatraps = true;
-									break;
-								case 'Z':
-									modeflags.ovanillaz = true;
-									break;
-							}
-						}
-					}
-					break;
-			}
+		if (flagsets[fs] === '-AA') {
+			aagility = true;
+			document.getElementById("tweaksAA").style.display = "block";
+		}
+		
+		if (flagsets[fs] === '-NOADAMANTS') {
+			noadamants = true;
+			document.getElementById("tweaksAd").style.display = "block";
+		}
+		
+		//Wacky
+		if (flagsets[fs] === '-SPOON') {
+			wackyspoon = true;
+			document.getElementById("wackyS").style.display = "block";
+		}
+		
+		if (flagsets[fs] === '-FAB') {
+			wackyfab = true;
+			document.getElementById("wackyF").style.display = "block";
+		}
+		
+		if (flagsets[fs] === '-HUH') {
+			wackyhuh = true;
+			document.getElementById("wackyH").style.display = "block";
+		}
+		
+		if (flagsets[fs] === '-VINTAGE') {
+			wackymute = true;
+			document.getElementById("wackyV").style.display = "block";
+		}
+		
+		if (flagsets[fs] === '-Z') {
+			wackyzeromus = true;
+			document.getElementById("wackyZ").style.display = "block";
 		}
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	//Exclude characters
-	if (!modeflags.ccecil) {
-		document.getElementById('character0_x').style.visibility = 'visible';
-		excludedCharacters += 'Cecil ';
-	}
-	if (!modeflags.ckain) {
-		document.getElementById('character1_x').style.visibility = 'visible';
-		excludedCharacters += 'Kain ';
-	}
-	if (!modeflags.crydia) {
-		document.getElementById('character2_x').style.visibility = 'visible';
-		excludedCharacters += 'Rydia ';
-	}
-	if (!modeflags.ctellah) {
-		document.getElementById('character3_x').style.visibility = 'visible';
-		excludedCharacters += 'Tellah ';
-	}
-	if (!modeflags.cedward) {
-		document.getElementById('character4_x').style.visibility = 'visible';
-		excludedCharacters += 'Edward ';
-	}
-	if (!modeflags.crosa) {
-		document.getElementById('character5_x').style.visibility = 'visible';
-		excludedCharacters += 'Rosa ';
-	}
-	if (!modeflags.cyang) {
-		document.getElementById('character6_x').style.visibility = 'visible';
-		excludedCharacters += 'Yang ';
-	}
-	if (!modeflags.cpalom) {
-		document.getElementById('character7_x').style.visibility = 'visible';
-		excludedCharacters += 'Palom ';
-	}
-	if (!modeflags.cporom) {
-		document.getElementById('character8_x').style.visibility = 'visible';
-		excludedCharacters += 'Porom ';
-	}
-	if (!modeflags.ccid) {
-		document.getElementById('character9_x').style.visibility = 'visible';
-		excludedCharacters += 'Cid ';
-	}
-	if (!modeflags.cedge) {
-		document.getElementById('character10_x').style.visibility = 'visible';
-		excludedCharacters += 'Edge ';
-	}
-	if (!modeflags.cfusoya) {
-		document.getElementById('character11_x').style.visibility = 'visible';
-		excludedCharacters += 'FuSoYa ';
-	}
-	
-	//Starting character
-	if (modeflags.cstart != '') {
-		switch (modeflags.cstart) {
-			case 'CECIL':
-				SwapCharacter(0);
-				overridestarting = 'CECIL';
-				document.getElementById('characterStart').innerHTML = 'Cecil';
-				break;
-			case 'KAIN':
-				SwapCharacter(1);
-				overridestarting = 'KAIN';
-				document.getElementById('characterStart').innerHTML = 'Kain';
-				break;
-			case 'RYDIA':
-				SwapCharacter(2);
-				overridestarting = 'RYDIA';
-				document.getElementById('characterStart').innerHTML = 'Rydia';
-				break;
-			case 'TELLAH':
-				SwapCharacter(3);
-				overridestarting = 'TELLAH';
-				document.getElementById('characterStart').innerHTML = 'Tellah';
-				break;
-			case 'EDWARD':
-				SwapCharacter(4);
-				overridestarting = 'EDWARD';
-				document.getElementById('characterStart').innerHTML = 'Edward';
-				break;
-			case 'ROSA':
-				SwapCharacter(5);
-				overridestarting = 'ROSA';
-				document.getElementById('characterStart').innerHTML = 'Rosa';
-				break;
-			case 'YANG':
-				SwapCharacter(6);
-				overridestarting = 'YANG';
-				document.getElementById('characterStart').innerHTML = 'Yang';
-				break;
-			case 'PALOM':
-				SwapCharacter(7);
-				overridestarting = 'PALOM';
-				document.getElementById('characterStart').innerHTML = 'Palom';
-				break;
-			case 'POROM':
-				SwapCharacter(8);
-				overridestarting = 'POROM';
-				document.getElementById('characterStart').innerHTML = 'Porom';
-				break;
-			case 'CID':
-				SwapCharacter(9);
-				overridestarting = 'CID';
-				document.getElementById('characterStart').innerHTML = 'Cid';
-				break;
-			case 'EDGE':
-				SwapCharacter(10);
-				overridestarting = 'EDGE';
-				document.getElementById('characterStart').innerHTML = 'Edge';
-				break;
-			case 'FUSOYA':
-				SwapCharacter(11);
-				overridestarting = 'FUSOYA';
-				document.getElementById('characterStart').innerHTML = 'FuSoYa';
-				break;
-		}
-	}
-	
+
 	switch (overridestarting) {
 		case 'CECIL':
 			document.getElementById('character0_x').style.visibility = 'hidden';
@@ -837,25 +672,23 @@ function SetModes() {
 			break;
 	}
 	
-	if (!modeflags.oforge && !modeflags.ogiant) {
+	document.getElementById('charactersExcluded').innerHTML = excludedCharacters;
+	
+	if (variant === 0) {
 		document.getElementById('item4td').style.backgroundImage = 'url(\'./images/requireditem_off.png\')';
 		document.getElementById('item16td').style.backgroundImage = 'url(\'./images/requireditem_off.png\')';
 		document.getElementById('item17td').style.backgroundImage = 'url(\'./images/requireditem_off.png\')';
-	} 
-	
-	if (modeflags.oforge) {
+	} else if (variant === 1) {
 		document.getElementById('item4td').style.backgroundImage = 'url(\'./images/requireditem_off.png\')';
 		document.getElementById('item12td').style.backgroundImage = 'url(\'./images/requireditem_off.png\')';
 		document.getElementById('item13td').style.backgroundImage = 'url(\'./images/requireditem_off.png\')';
 		document.getElementById('item16td').style.backgroundImage = 'url(\'./images/requireditem_off.png\')';
 		document.getElementById('item17td').style.backgroundImage = 'url(\'./images/requireditem_off.png\')';
-	} 
-	
-	if (modeflags.ogiant) {
+	} else if (variant === 2) {
 		document.getElementById('item4td').style.backgroundImage = 'url(\'./images/requireditem_off.png\')';
 	}
 
-	if (!modeflags.snoj) {
+	if (jitems === false) {
 		document.getElementById('offensive1').style.display = "none";
 		document.getElementById('offensive2').style.display = "none";
 		document.getElementById('offensive3').style.display = "none";
@@ -868,20 +701,27 @@ function SetModes() {
 		document.getElementById('othertd').style.display = "none";
 		document.getElementById('notes1td').style.display = "none";
 		document.getElementById('notes2td').style.display = "none";
-	} 
-	/*else if (shops === 1 || shops === 2) {
+	} else if (shops === 1 || shops === 2) {
 		document.getElementById('offensive3').style.display = "none";
 		document.getElementById('offensive4').style.display = "none";
-	}*/
-	
-	if (!modeflags.ktrap) {
+	}
+		
+	/* else {
+		if (window.navigator.userAgent.indexOf("Firefox") > -1) {
+			document.getElementById('itemModalInner').style.fontSize = "23px";
+			document.getElementById('townModalInner').style.fontSize = "23px";
+		}
+	} */
+
+	if (ktrapped === false) {
 		document.getElementById('trappedchestsdiv').style.display = "none";
+		//document.getElementById('trackingtable').style.fontSize = "24px";
 		document.getElementById('keyitemsdiv').style.width = "160px";
 		document.getElementById('charactersdiv').style.width = "160px";
 		document.getElementById('townsdiv').style.width = "160px";
 	}
 	
-	if (!modeflags.ksummon) {
+	if (ksummons === false) {
 		keyitemlocations[3] = 3; //Odin
 		keyitemlocations[15] = 3; //Asura
 		keyitemlocations[16] = 3; //Leva
@@ -889,7 +729,7 @@ function SetModes() {
 		keyitemlocations[21] = 3; //Bahamut
 	}
 	
-	if (!modeflags.kmoon) {
+	if (kmoon === false) {
 		keyitemlocations[22] = 3; //Lunar Crystal
 		keyitemlocations[23] = 3; //Lunar Masa
 		keyitemlocations[24] = 3; //Lunar Mura
@@ -897,18 +737,18 @@ function SetModes() {
 		keyitemlocations[26] = 3; //Lunar White
 	}
 	
-	if (modeflags.sshops == 'empty') {
+	if (shops > 4) {
 		disableitemtracker = '1';
 	}
 	
-	if (modeflags.nchars) {
+	if (nflc === true) {
 		characterlocations[2] = 3;
 		characterlocations[8] = 3;
 		characterlocations[9] = 3;
 		characterlocations[11] = 3;		
 	}
 	
-	if (modeflags.nkey) {
+	if (nflk === true) {
 		keyitemlocations[12] = 3;
 	} else {
 		if (disablebosstracker === '1') {
@@ -1379,14 +1219,14 @@ function ApplyChecks(){
 	}
 	
 	document.getElementById('itemtracker').innerHTML = itemcount + '/' + maxitems;
-	if (itemcount > 9 && !modeflags.ovanillaexp) {
+	if (itemcount > 9 && expkeyitems === true) {
 		document.getElementById('itemtracker').style.color = "#0F0";
 	} else {
 		document.getElementById('itemtracker').style.color = "#FFF";
 	}
 	
 	//Item Requirements
-	if (!modeflags.oforge && !modeflags.ogiant) {
+	if (variant === 0) {
 		if (keyitems[16] === true) {
 			document.getElementById('item16td').style.backgroundImage = 'url(\'./images/requireditem.png\')';
 		} else {
@@ -1405,9 +1245,7 @@ function ApplyChecks(){
 				document.getElementById('item4td').style.backgroundImage = 'url(\'./images/requireditem_off.png\')';
 			}
 		}
-	} 
-	
-	if (modeflags.oforge) {
+	} else if (variant === 1) {
 		if (keyitems[16] === true) {
 			document.getElementById('item16td').style.backgroundImage = 'url(\'./images/requireditem.png\')';
 			document.getElementById('item12td').style.backgroundImage = 'none';
@@ -1438,15 +1276,28 @@ function ApplyChecks(){
 				document.getElementById('item4td').style.backgroundImage = 'url(\'./images/requireditem_off.png\')';
 			}
 		}		
-	} 
-	
-	if (modeflags.ogiant) {
+	} else if (variant === 2) {
 		if (keyitems[4] === true) {
 			document.getElementById('item4td').style.backgroundImage = 'url(\'./images/requireditem.png\')';
 		} else {
 			document.getElementById('item4td').style.backgroundImage = 'url(\'./images/requireditem_off.png\')';
 		}		
 	}
+	
+	/*
+		
+		
+		
+	} else if (variant === 1) {
+		document.getElementById('item4td').style.backgroundImage = 'url(\'./images/requireditem_off.png\')';
+		document.getElementById('item12td').style.backgroundImage = 'url(\'./images/requireditem_off.png\')';
+		document.getElementById('item13td').style.backgroundImage = 'url(\'./images/requireditem_off.png\')';
+		document.getElementById('item16td').style.backgroundImage = 'url(\'./images/requireditem_off.png\')';
+		document.getElementById('item17td').style.backgroundImage = 'url(\'./images/requireditem_off.png\')';
+	} else if (variant === 2) {
+		document.getElementById('item4td').style.backgroundImage = 'url(\'./images/requireditem_off.png\')';	
+	
+	*/
 	
 	//Key Item Locations
 	if (viewactivekeyitems === true) {
@@ -1613,7 +1464,7 @@ function SwapKeyItemLocation(i) {
 		if (i === 27) {
 			hookclear = true;
 		}
-		if (i === 13 && modeflags.gwarp) {
+		if (i === 13 && gdwarfwarp === true) {
 			keyitemlocations[28] = 1;
 		}
 	} else if (keyitemlocations[i] === 2) {
