@@ -39,6 +39,7 @@ function launch() {
 	var flagsval = document.getElementById('flags').value;
 	//flagsval = flagsval.replace(' ','|');
 	flagsval = flagsval.replace(new RegExp(' ', 'g'), '|');
+	flagsval = flagsval.replace(',', '/');
 	
 	var itemtracking = '0';
 	var loctracking = '0';

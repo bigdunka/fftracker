@@ -2,7 +2,7 @@
 	<body bgcolor="#000063">
 		<head>
 			<title>FFIV Free Enterprise Tracker - Created by BigDunka</title>
-			<link rel="stylesheet" href="./styles/stylesheet.css?v=180">
+			<link rel="stylesheet" href="./styles/stylesheet.css?v=191">
 			<script src="./scripts/track.js?v=180"></script>
 			<script type="text/javascript" src="./scripts/jquery-3.3.1.js"></script>
 			<script type="text/javascript" src="./scripts/jquery.powertip.js"></script>
@@ -130,10 +130,10 @@
 				</div>
 				<div id="datadiv" >
 					<hr>
-					<div onclick="return; LoadFlags()">
-						<div class="itemImage" style="background-image: url('images/flagicon.png'); float: left; width: 100px;"></div>
-						<div class="itemImage" style="float: left; width: 200px;"><center>FLAG DETAILS DISABLED</center></div>
-						<div class="itemImage" style="background-image: url('images/flagicon.png'); float: left; width: 100px;"></div>
+					<div style="margin-top: -4px; font-size: 24px;">
+						<span onclick="LoadFlags()" style="width: 30%; display: block; float: left; cursor: pointer;"><img src="images/flagicon.png" /> FLAGS</span>
+						<span onclick="LoadObjectives()" style="width: 40%; display: block; float: left; cursor: pointer;"><img src="images/objectivesicon.png" /> OBJECTIVES</span>
+						<span id="dkmatterspan" style="width: 30%; display: none; float: left;"><img src="images/dkmatter.png" style="margin-right: 14px; cursor: auto;" /><span onclick="DMTicker(1);" style="cursor: pointer;">+&nbsp;&nbsp;</span><span id="dmcountspan">0</span><span style="cursor: pointer;" onclick="DMTicker(-1);" >&nbsp;&nbsp;-</span></span>
 					</div>
 				</div>
 			</div>
@@ -375,144 +375,956 @@
 			<div id="flagsModalInner" onclick="IgnoreMenuClose();" style="position: absolute; top: 20px; z-index: 2; left: 450px; background: url(./images/itemmenu.png); width: 404px; height: 386px; font-size: 18px; padding: 10px; overflow: scroll;">
 				<div id="flagsselectdiv">
 					<span onclick="CloseFlags();" class="clickablediv">[X] Close</span><br><br>
-					<span>Click Category to Expand for Details</span><br><br>
-					<span onclick="ExpandFlags(0);" class="clickablediv">Variants</span><br>
-					<span onclick="ExpandFlags(1);" class="clickablediv">Japanese Content</span><br>
-					<span onclick="ExpandFlags(2);" class="clickablediv">Key Items/Pass</span><br>
-					<span onclick="ExpandFlags(3);" class="clickablediv">Characters</span><br>
-					<span onclick="ExpandFlags(4);" class="clickablediv">Treasures</span><br>
-					<span onclick="ExpandFlags(5);" class="clickablediv">Shops</span><br>
-					<span onclick="ExpandFlags(6);" class="clickablediv">Bosses</span><br>
-					<span onclick="ExpandFlags(7);" class="clickablediv">Challenges</span><br>
-					<span onclick="ExpandFlags(8);" class="clickablediv">Battles</span><br>
-					<span onclick="ExpandFlags(9);" class="clickablediv">Tweaks</span><br>
-					<span onclick="ExpandFlags(10);" class="clickablediv">Wacky</span><br>
+					<span>Click Category to Expand for Details (Not 100% completed)</span><br><br>
+					<span onclick="CloseFlags(); LoadObjectives();" class="clickablediv">Objectives</span><br>
+					<span onclick="ExpandFlags(0);" class="clickablediv">Key Items</span><br>
+					<span onclick="ExpandFlags(1);" class="clickablediv">Pass</span><br>
+					<span onclick="ExpandFlags(2);" class="clickablediv">Characters</span><br>
+					<span onclick="ExpandFlags(3);" class="clickablediv">Treasures</span><br>
+					<span onclick="ExpandFlags(4);" class="clickablediv">Shops</span><br>
+					<span onclick="ExpandFlags(5);" class="clickablediv">Bosses</span><br>
+					<span onclick="ExpandFlags(6);" class="clickablediv">Challenges</span><br>
+					<span onclick="ExpandFlags(7);" class="clickablediv">Encounters</span><br>
+					<span onclick="ExpandFlags(8);" class="clickablediv">Glitches</span><br>
+					<span onclick="ExpandFlags(9);" class="clickablediv">Other</span><br>
 				</div>
 				<div id="flagdetail0" style="display: none">
 					<span onclick="CloseFlagDetail();" class="clickablediv">[X] Close</span><br><br>
-					<span><u>Variants</u></span><br><br>
-					<span id="variant0" style="display: block"><b>No Variant</b> - Kill Zeromous</span>
-					<span id="variant1" style="display: none"><b>V1 - Forge the Crystal</b> - When given the Legend Sword and the Adamant, Kokkol the Smith forges the Crystal instead of the Excalibur. (Conversely, the Excalibur is found in the key item pool instead of the Crystal.)</span>
-					<span id="variant2" style="display: none"><b>V2 - Giant%</b> - You win the game when you complete the Giant of Bab-il.</span>
+					<span><u>Key Items</u></span><br><br>
+					<span id="keyitemsKvanilla" style="display: block"><b>Kvanilla - No key item randomization</b></span>
+					<span id="keyitemsKmain" style="display: none"><b>Kmain - Randomized Key Items</b> - The locations of key items are shuffled amongst each other.</span>
+					<span id="keyitemsKsummon" style="display: none"><b>Ksummon - Mix with summon quest rewards</b> - Key items may be awarded by the Sylphs, the king and queen of the Feymarch, Odin's throne, and Cave Bahamut.</span>
+					<span id="keyitemsKmoon" style="display: none"><b>Kmoon - Mix with moon boss rewards</b> - Key items may be awarded by the bosses of the Lunar Subterrane.</span>
+					<span id="keyitemsKtrap" style="display: none"><b>Ktrap - Mix with trapped chests</b> - Key items may be awarded by trapped chest rewards.</span>
+					<span id="keyitemsKunsafe" style="display: none"><b>Kunsafe - No safety checks</b> - Normally, you are guaranteed a path to the underworld that does not require first going to the moon. This flag removes that check.</span>
 				</div>
 				<div id="flagdetail1" style="display: none">
 					<span onclick="CloseFlagDetail();" class="clickablediv">[X] Close</span><br><br>
-					<span><u>Japanese Content</u></span><br><br>
-					<span id="japanese0" style="display: block"><b>No Japanese Content</b></span>
-					<span id="japaneseI" style="display: none"><b>Ji</b> - Include J Version Items</span>
-					<span id="japaneseS" style="display: none"><b>Js</b> - Include J Version Spells</span>
-					<span id="japaneseA" style="display: none"><b>Ja</b> - Include J Version Abilities</span>
+					<span><u>Pass</u></span><br><br>
+					<span id="passPshop" style="display: none"><b>Pshop - Include Pass in a shop</b></span>
+					<span id="passPkey" style="display: none"><b>Pkey - Include Pass as a key item</b></span>
+					<span id="passPchests" style="display: none"><b>Pchests - Include Pass in treasure chests</b> - Passes are placed in three random treasure chests (not on the moon).</span>
 				</div>
 				<div id="flagdetail2" style="display: none">
 					<span onclick="CloseFlagDetail();" class="clickablediv">[X] Close</span><br><br>
-					<span><u>Key Items/Pass</u></span><br><br>
-					<span id="keyitempass0" style="display: block"><b>No Randomization</b> - Key items are in their normal location.</span>
-					<span id="keyitempassR" style="display: none"><b>K - Randomized Key Items</b> - The locations of key items are shuffled amongst each other.</span>
-					<span id="keyitempassQ" style="display: none"><b>Kq - Mix with summon quest rewards</b> - Key items may be awarded by the Sylphs, the king and queen of the Feymarch, Odin's throne, and Cave Bahamut.</span>
-					<span id="keyitempassM" style="display: none"><b>Km - Mix with moon boss rewards</b> - Key items may be awarded by the bosses of the Lunar Subterrane.</span>
-					<span id="keyitempassT" style="display: none"><b>Kt - Mix with trapped chests</b> - Key items may be found in trapped monster chests.</span>
-					<span id="keyitempassSa" style="display: none"><b>K! - No safety checks</b> - Normally, you are guaranteed a path to the underworld that does not require first going to the moon. This flag removes that check.</span>
-					<span id="keyitempassS" style="display: none"><b>Ps - Include Pass in a shop</b></span>
-					<span id="keyitempassK" style="display: none"><b>Pk - Include Pass as a key item</b></span>
-					<span id="keyitempassTC" style="display: none"><b>Pt - Include Pass in treasure chests</b> - Passes are placed in three random treasure chests (not on the moon).</span>
+					<span><u>Characters</u></span><br><br>
+					<span id="charactersCvanilla" style="display: none"><b>Cvanilla - No character randomization</b></span>
+					<span id="charactersCstandard" style="display: none"><b>Cstandard - Randomize characters</b> - Characters join your party in the same locations as the original game, but the character you meet there is randomized.</span>
+					<span id="charactersCrelaxed" style="display: none"><b>Crelaxed - Randomize characters (relaxed)</b> - Unlike the standard randomization, characters are equally likely to appear in any position.</span>
+					<span id="charactersCmaybe" style="display: none"><b>Cmaybe - Characters not guaranteed to appear</b> - Normally, the randomizer will try to include every eligible character in the game at least once. This flag removes that logic, meaning some eligible characters may not appear.</span>
+					<span id="charactersCdistinct" style="display: none"><b>Cdistinct - <span id="charactersCdistinctCount">X</span> distinct characters</b></span>
+					<span id="charactersExcluded" style="display: none"><b>Excluded Characters</b> - <span id="charactersExcludedList"></span></span>
+					<span id="charactersSpecific" style="display: none"><b>Specific Character</b> - <span id="charactersSpecificList"></span></span>
+					<span id="charactersStarting" style="display: none"><b>Starting Character</b> - <span id="characterStart"></span></span>
+					<span id="charactersCJspells" style="display: none"><b>Cj:spells - Characters learn J-spells</b> - White mages will learn Armor, Shell, and Dispel. All mages learn spells at the levels they would in FF4j.</span>
+					<span id="charactersCJabilities" style="display: none"><b>Cj:abilities - Characters have J-commands</b> - Characters retain the battle commands from FF4j that were removed in FF4us.</span>
+					<span id="charactersCnodupes" style="display: none"><b>Cnodupes - Duplicate characters not allowed</b> - If a duplicate character tries to join your party, instead nothing happens.</span>
+					<span id="charactersCbye" style="display: none"><b>Cbye - Dismissed characters are irretrievable</b> - Dismissed characters cannot be retrieved.</span>
+					<span id="charactersCpermajoin" style="display: none"><b>Cpermajoin - Characters can't be dismissed</b> - You have the choice of whether to accept each new party member, but once your party is full, you cannot recruit anyone else.</span>
+					<span id="charactersCpermadeath" style="display: none"><b>Cpermadeath - Permadeath</b> - Party members that are "swoon" at the end of any battle are permanently removed from the game.</span>
+					<span id="charactersCpermadeader" style="display: none"><b>Cpermadeader - Permadeader</b> - Party members that are swoon or stone at the end of any battle are permanently removed from the game.</span>
 				</div>
 				<div id="flagdetail3" style="display: none">
 					<span onclick="CloseFlagDetail();" class="clickablediv">[X] Close</span><br><br>
-					<span><u>Characters</u></span><br><br>
-					<span id="characters0" style="display: block"><b>No Randomization</b> - Characters are in their normal location.</span>
-					<span id="charactersC" style="display: none"><b>C - Randomize characters</b> - Characters join your party in the same places as the original game, but the character you meet there is randomized.</span>
-					<span id="charactersN" style="display: none"><b>Cn - Characters not guaranteed</b> - Normally, the randomizer will try to include every eligible character in the game at least once. This flag removes that logic, meaning some eligible characters may not appear.</span>
-					<span id="charactersX" style="display: none"><b>Cx - Restrict access to Edge and Fusoya</b></span>
-					<span id="characters5" style="display: none"><b>C5 - Limit pool to 5 unique characters</b> - Note that if Cn is enabled, you may end up with less than five.</span>
-					<span id="charactersE" style="display: none"><b>Excluded Characters</b> - <span id="charactersExcluded"></span></span>
-					<span id="charactersS" style="display: none"><b>Starting Character</b> - <span id="characterStart"></span></span>
-					<span id="charactersD" style="display: none"><b>-nodupes - Disallow duplicate characters</b> - If a duplicate character tries to join your party, instead nothing happens.</span>
-					<span id="charactersR" style="display: none"><b>-rescue - Dismissed characters are retrievable</b> - Dismissed characters can be retrieved in the Mysidia crystal room and atop the Tower of Wishes.</span>
-					<span id="charactersH" style="display: none"><b>-hobs - Randomize Hobs spell</b> - Instead of Fire1, Rydia will learn a random summon spell at Mt. Hobs (other than Leviatan or Bahamut).</span>
+					<span><u>Treasures</u></span><br><br>
+					<span id="treasuresTvanilla" style="display: none"><b>Tvanilla - No chest randomization</b></span>
+					<span id="treasuresTshuffle" style="display: none"><b>Tshuffle - Shuffle chests</b> - Treasure contents are the same as in original FF4, but their positions are shuffled. This randomization is weighted so that overworld treasures tend to remain in the overworld, and similarly for underworld/moon treasures.</span>
+					<span id="treasuresTstandard" style="display: none"><b>Tstandard - Standard chest randomization</b> - A basic randomization, allowing items of reasonable strength to appear. Items are equally likely to appear in any chest regardless of location.</span>
+					<span id="treasuresTpro" style="display: none"><b>Tpro - Pro chest randomization</b> - A skill-testing randomization, limiting the strength of available items, and weighted to favor stronger items in later-game and infrequently-visited areas.</span>
+					<span id="treasuresTwild" style="display: none"><b>Twild - Wild chest randomization</b> - An unrestricted randomization, allowing equal chance for items to appear in any chest, including the most powerful items.</span>
+					<span id="treasuresTwildish" style="display: none"><b>Twildish - Wild-ish chest randomization</b> - Allows items of any strength to appear, including the most powerful items, but uses location-based weighting like the pro randomization.</span>
+					<span id="treasuresTempty" style="display: none"><b>Tempty - Chests are empty</b></span>
+					<span id="treasuresTsparse" style="display: none"><b>Tsparse - Sparse Options</b> - Only <span id="tsparsecount">XX</span>% of chests are filled.</span>
+					<span id="treasuresTnoj" style="display: none"><b>Tno:j - No J-Items in chests</b></span>
+					<span id="treasuresTjunk" style="display: none"><b>Tjunk - Keep junk</b> - Normally, poor-quality items in chests are replaced with an equivalent amount of GP to reduce inventory bloat. Enable this flag if you want to keep them as items.</span>
 				</div>
 				<div id="flagdetail4" style="display: none">
 					<span onclick="CloseFlagDetail();" class="clickablediv">[X] Close</span><br><br>
-					<span><u>Treasures</u></span><br><br>
-					<span id="treasure0" style="display: block"><b>No Randomization</b> - Treasures are in their normal location.</span>
-					<span id="treasure1" style="display: none"><b>T1 - Shuffle</b> Treasure contents are the same as in original FF4, but their positions are shuffled.</span>
-					<span id="treasure2" style="display: none"><b>T2 - Randomize (balanced)</b></span>
-					<span id="treasure3" style="display: none"><b>T3 - Randomize (unbalanced)</b></span>
-					<span id="treasure4" style="display: none"><b>T4 - Randomize (wild)</b></span>
-					<span id="treasureX" style="display: none"><b>Tx - Empty</b> - All treasure chests are empty.</span>
-					<span id="treasureG" style="display: none"><b>Tg - Replace "bad" chests with GP</b></span>
-					<span id="treasureR" style="display: none"><b>Tr - Relocate trapped chests</b> - Trapped chests are relocated to another treasure chest/pot within the same dungeon.</span>
+					<span><u>Shops</u></span><br><br>
+					<span id="shopsSvanilla" style="display: none"><b>Svanilla - No shop randomization</b></span>
+					<span id="shopsSshuffle" style="display: none"><b>Sshuffle - Shuffle shops</b> - The same items are available for sale in shops as in original FF4, but their locations are shuffled. This randomization is weighted so that overworld shop items tend to remain on the overworld, and similarly for underworld/moon shops.</span>
+					<span id="shopsSstandard" style="display: none"><b>Sstandard - Standard shop randomization</b> - A basic randomization, allowing items of moderate strength to appear in shops, and weighted to place stronger items in later-game shops.</span>
+					<span id="shopsSpro" style="display: none"><b>Spro - Pro shop randomization</b> - A skill-testing randomization, limiting the strength of available items, and weighted to place stronger items in shops gated behind key items.</span>
+					<span id="shopsSwild" style="display: none"><b>Swild - Wild shop randomization</b> - An unrestricted randomization, allowing equal chance for items to appear in any shop, including the most powerful items.</span>
+					<span id="shopsScabins" style="display: none"><b>Scabins - Shops sell only cabins</b></span>
+					<span id="shopsSempty" style="display: none"><b>Sempty - Shops sell nothing</b></span>
+					<span id="shopsSunsafe" style="display: none"><b>Sunsafe - No safety checks</b> - Normally, the randomizer guarantees Cure2 potions, Life potions and StarVeils are readily available, and that Cure3 potions are available in seeds without white mages. This flag removes those checks.</span>
+					<span id="shopsSfree" style="display: none"><b>Sfree - Shop items are free</b></span>
+					<span id="shopsSquarter" style="display: none"><b>Squarter - Items sell for 1/4 price</b></span>
+					<span id="shopsSnoj" style="display: none"><b>Sno:j - No J-items in shops</b></span>
+					<span id="shopsSnoapples" style="display: none"><b>Sno:apples - No Apples/Soma Drops in shops</b></span>
+					<span id="shopsSnosirens" style="display: none"><b>Sno:sirens - No Sirens in shops</b></span>
 				</div>
 				<div id="flagdetail5" style="display: none">
 					<span onclick="CloseFlagDetail();" class="clickablediv">[X] Close</span><br><br>
-					<span><u>Shops</u></span><br><br>
-					<span id="shop0" style="display: block"><b>No Randomization</b> - Shops sell their normal items.</span>
-					<span id="shop1" style="display: none"><b>S1 - Shuffle</b>The same items are available for sale in shops as in original FF4, but their locations are shuffled.</span>
-					<span id="shop2" style="display: none"><b>S2 - Randomize (balanced)</b></span>
-					<span id="shop3" style="display: none"><b>S3 - Randomize (unbalanced)</b></span>
-					<span id="shop4" style="display: none"><b>S4 - Randomize (wild)</b></span>
-					<span id="shopC" style="display: none"><b>Sc - Shops sell only Cabins</b></span>
-					<span id="shopX" style="display: none"><b>Sx - Shops sell nothing</b></span>
-					<span id="shopSa" style="display: none"><b>S! - No safety checks</b> - Normally, the randomizer guarantees Life potions (and StarVeils, under Ji) are readily available, and that Cure2/3 potions are available in seeds without white mages. This flag removes those checks.</span>
-					<span id="shopSf" style="display: none"><b>Sf - Shop items are free</b></span>
-					<span id="shopSq" style="display: none"><b>Sq - Items sell for 1/4 price</b></span>
-					<span id="shopA" style="display: none"><b>-noapples - No Apples/Soma Drops in shops</b></span>
-					<span id="shopS" style="display: none"><b>-nosirens - No Sirens in shops</b></span>
+					<span><u>Bosses</u></span><br><br>
+					<span id="bossesBvanilla" style="display: none"><b>Bvanilla - No boss randomization</b></span>
+					<span id="bossesBstandard" style="display: none"><b>Bstandard - Randomize bosses</b> - The positions of bosses are shuffled. Boss stats are roughly scaled to match the battle it's replacing.</span>
+					<span id="bossesBunsafe" style="display: none"><b>Bunsafe - No safety checks</b> - Normally, you are guaranteed a path to the underworld that does not require defeating the most difficult bosses. This flag removes that check.</span>
+					<span id="bossesBaltgauntlet" style="display: none"><b>Balt:gauntlet - Alt Gauntlet</b> - Replaces the Fabul Gauntlet boss with five unscaled normal enemy encounters from the nearby area.</span>
+					<span id="bossesBwhyburn" style="display: none"><b>Bwhyburn - Disable Wyvern's opening MegaNuke</b></span>
+					<span id="bossesBwhichburn" style="display: none"><b>Bwhichburn - Replace Wyvern's opening MegaNuke with random attack</b> - Usually, what you get is better than a MegaNuke. Usually.</span>
 				</div>
 				<div id="flagdetail6" style="display: none">
 					<span onclick="CloseFlagDetail();" class="clickablediv">[X] Close</span><br><br>
-					<span><u>Bosses</u></span><br><br>
-					<span id="bosses0" style="display: block"><b>No Randomization</b> - All bosses are in their normal location.</span>
-					<span id="bossesB" style="display: none"><b>B - Randomize bosses</b> - The positions of bosses are shuffled. Boss stats are roughly scaled to match the battle it's replacing. </span>
-					<span id="bossesX" style="display: none"><b>B! - No safety checks</b> - Normally, you are guaranteed a path to the underworld that does not require defeating the most difficult bosses. This flag removes that check.</span>
-					<span id="bossesWyvern" style="display: block"><b>Normal Wyvern</b> - Opens with MegaNuke</span>
-					<span id="bossesWhy" style="display: none"><b>-whyburn - Disable</b></span>
-					<span id="bossesWhich" style="display: none"><b>-whichburn - Replace with random attack</b> - Usually, what you get is better than a MegaNuke. Usually.</span>
+					<span><u>Challenges</u></span><br><br>
+					<span id="challengesNchars" style="display: none"><b>Nchars - No Free Characters</b> - Characters will not join your party in the Watery Pass, Damcyan, Mysidia, or Mt. Ordeals.</span>
+					<span id="challengesNkey" style="display: none"><b>Nkey - No Free Key Item</b> - Edward in Toroia will not give you a key item. Instead, a key item may be earned from Rydia's mom in Mist, who will appear after you have found and defeated the Mist Dragon.</span>
+					<span id="challengesNbosses" style="display: none"><b>Nbosses - No Free Bosses</b> - All boss battle enemies have the "boss bit" set. The alternate win conditions are removed from the D.Knight, Karate, K/Q.Eblan, and WaterHag fights.</span>
 				</div>
 				<div id="flagdetail7" style="display: none">
 					<span onclick="CloseFlagDetail();" class="clickablediv">[X] Close</span><br><br>
-					<span><u>Challenges</u></span><br><br>
-					<span id="challengesF" style="display: none"><b>F - Fusoya Challenge</b> - Fusoya begins with only a random selection of low-level spells, and 500 HP. Each boss defeated will grant Fusoya three new spells and 100 more HP, to a maximum of 1400 total bonus HP.</span>
-					<span id="challenges0" style="display: block"><b>Free Lunches</b> - Certain Characters and Key Items can be found at starting locations without killing any bosses.</span>
-					<span id="challengesC" style="display: none"><b>Nc - No Free Characters</b> - Characters will not join your party in the Watery Pass, Damcyan, Mysidia, or Mt. Ordeals.</span>
-					<span id="challengesK" style="display: none"><b>Nk - No Free Key Item</b> - Edward in Toroia will not give you a key item. Instead, a key item may be earned from Rydia's mom in Mist, who will appear after you have found and defeated the Mist Dragon.</span>
-					<span id="challengesB" style="display: none"><b>Nb - No Free Bosses</b> - All boss battle enemies have the "boss bit" set. The alternate win conditions are removed from the D.Knight, Karate, K/Q.Eblan, and WaterHag fights.</span>
+					<span><u>Encounters</u></span><br><br>
+					<span id="encountersEvanilla" style="display: none"><b>Evanilla - Original encounter rate</b></span>
+					<span id="encountersEtoggle" style="display: none"><b>Etoggle - Random encounters can be toggled</b> - Encounters can be enabled/disabled from the in-game Custom menu.</span>
+					<span id="encountersEreduce" style="display: none"><b>Ereduce - Random encounters reduced by 50%</b></span>
+					<span id="encountersEnoencounters" style="display: none"><b>Enoencounters - No random encounters</b></span>
+					<span id="encountersEkeepdoors" style="display: none"><b>Ekeep:doors - Preserve TrapDoor fights</b> - Prevents the above encounter rate setting from applying to the TrapDoor fights in the Sealed Cave.</span>
+					<span id="encountersEkeepbehemoths" style="display: none"><b>Ekeep:behemoths - Preserve forced Behemoth fights</b> - Prevents the above encounter rate setting from applying to the forced Behemoth fights in Cave Bahamut.</span>
+					<span id="encountersEdanger" style="display: none"><b>Edanger - Keep dangerous encounters</b> - Back attacks and "Surprised!" encounters will still occur, even when encounters are disabled via Etoggle or Enoencounters.</span>
+					<span id="encountersEnosirens" style="display: none"><b>Eno:sirens - Remove Sirens from drop/sneak tables</b></span>
+					<span id="encountersEnojdrops" style="display: none"><b>Eno:jdrops - Use US version drop/sneak tables</b></span>
+					<span id="encountersEcantrun" style="display: none"><b>Ecantrun - Can't run from battles</b></span>
+					<span id="encountersEnoexp" style="display: none"><b>Enoexp - No EXP for random encounters</b> - Bosses and trapped chest fights still award EXP.</span>
 				</div>
 				<div id="flagdetail8" style="display: none">
 					<span onclick="CloseFlagDetail();" class="clickablediv">[X] Close</span><br><br>
-					<span><u>Battles</u></span><br><br>
-					<span id="battles0" style="display: block"><b>Random Encounter Rate Normal</b></span>
-					<span id="battlesT" style="display: none"><b>Et - Random Encounter Rate Toggleable</b> - Encounters can be enabled/disabled from the in-game Custom menu.</span>
-					<span id="battlesR" style="display: none"><b>Er - Random Encounter Rate 50% reduction</b></span>
-					<span id="battlesX" style="display: none"><b>Ex - No Random Encounters</b></span>
-					<span id="battlesF" style="display: none"><b>Ef - Apply to forced encounters</b> - Applies the setting above to the TrapDoor fights in the Sealed Cave and the forced Behemoth fights in Cave Bahamut.</span>
-					<span id="battlesD" style="display: none"><b>Ed - Keep dangerous encounters</b> - Back attacks and "Surprised!" encounters will still occur, even when encounters are disabled via Et or Ex.</span>
-					<span id="battlesC" style="display: none"><b>Ec - Can't run from battles</b></span>
-					<span id="experience0" style="display: block"><b>Experience Normal</b></span>
-					<span id="experienceS" style="display: none"><b>Xs - Experience Sharing</b> - Earned experience points are not divided among your party members; each character receives the full amount (but must be alive at the time to receive them).</span>
-					<span id="experienceK" style="display: none"><b>Xk - 10 Key Item EXP bonus</b> - After collecting 10 key items, earned EXP is doubled.</span>
-					<span id="experienceB" style="display: none"><b>Xb - Low-level EXP bonus</b> - In a full party, characters at comparatively low levels receive more EXP.</span>
-					<span id="experienceX" style="display: none"><b>Xx - No EXP for random encounters</b> - Bosses and trapped chest fights still award EXP.</span>
+					<span><u>Glitches</u></span><br><br>
+					<span id="glitchesGdupe" style="display: none"><b>Gdupe - Allow item duplication</b></span>
+					<span id="glitchesGmp" style="display: none"><b>Gmp - Allow MP underflow</b></span>
+					<span id="glitchesGwarp" style="display: none"><b>Gwarp - Allow Dwarf Castle warp</b></span>
+					<span id="glitchesGlife" style="display: none"><b>Glife - Allow Life glitch</b></span>
+					<span id="glitchesGG64" style="display: none"><b>G64 - Allow 64-floor glitch</b></span>
 				</div>
 				<div id="flagdetail9" style="display: none">
 					<span onclick="CloseFlagDetail();" class="clickablediv">[X] Close</span><br><br>
-					<span><u>Tweaks</u></span><br><br>
-					<span id="tweaksD" style="display: none"><b>Gd - Allow item duplication</b></span>
-					<span id="tweaksM" style="display: none"><b>Gm - Allow MP underflow</b></span>
-					<span id="tweaksW" style="display: none"><b>Gw - Allow Dwarf Castle warp</b></span>
-					<span id="tweaksL" style="display: none"><b>Gl - Allow Life glitch</b></span>
-					<span id="tweaks64" style="display: none"><b>G64 - Allow 64-floor glitch</b></span>
-					<span id="tweaksAA" style="display: none"><b>-aa - Agility agnostic</b> - Agility always scales based on party order, regardless if Cecil is present.</span>
-					<span id="tweaksAd" style="display: none"><b>-noadamants - No Adamant Armors</b> - Adamant Armors are not available. Trading the Pink Tail in the Adamant Grotto instead grants a strong item.</span>
+					<span><u>Other</u></span><br><br>
+					<span id="otherkitminimal" style="display: none"><b>-kit:minimal - Minimal starter kit</b> - You begin the game with just a few basic utility potions and items.</span>
+					<span id="otherkitbasic" style="display: none"><b>-kit:basic - Basic starter kit</b> - You begin the game with an assortment of basic utility potions and items.</span>
+					<span id="otherkitbetter" style="display: none"><b>-kit:better - Better starter kit</b> - You begin the game with an assortment of basic utility potions and items, and a few extra special-use combat items for sticky situations.</span>
+					<span id="otherkiloaded" style="display: none"><b>-kit:loaded - Loaded starter kit</b> - You begin the game with a wide array of utility potions and items.</span>
+					<span id="otherkitspitball" style="display: none"><b>-kit:spitball - "Spitball" starter kit</b> - You begin the game with a randomized subset of the item types found in the "loaded" starter kit (though the quantities you receive of each may exceed what you would get in the loaded kit).</span>
+					<span id="othernoadamants" style="display: none"><b>-noadamants - No Adamant Armor</b> - Adamant Armors are not available. Trading the Pink Tail in the Adamant Grotto instead grants a strong item.</span>
+					<span id="othervintage" style="display: none"><b>-vintage - Vintage Battlefield</b> - Enables the April Fools Day 2019 mode.</span>
+					<span id="otherspoon" style="display: none"><b>-spoon - Edward can equip the Spoon</b></span>
+					<span id="othervanillafusoya" style="display: none"><b>-vanilla:fusoya - Vintage FuSoYa</b> - By default, Free Enterprise runs with the "FuSoYa Challenge", where FuSoYa begins with 500 HP and a collection of low-level spells, and each boss defeated grants him 100 HP and three random additional spells. This flag disables that challenge and restores vanilla's FuSoYa behavior, where he joins with 1900 HP and his full spellset.</span>
+					<span id="othervanillaagility" style="display: none"><b>-vanilla:agility - Vanilla agility anchoring</b> - FF4 scales the speed of combat based on the agility stat of your party's "agility anchor". In Free Enterprise, the anchor is always the first occupied party slot (in the sequence of middle, top, bottom, top-middle, bottom-middle). However, in vanilla FF4, if Cecil is in the party, then he is the agility anchor, regardless of position. Enabling this flag will restore that behavior, making the first Cecil in your party the anchor, if present.</span>
+					<span id="othervanillahobs" style="display: none"><b>-vanilla:hobs - Vanilla Hobs spell</b> - By default, instead of learning Fire1 at Mt. Hobs, Rydia will learn a random summon (other than Leviatan and Bahamut). This flag removes that behavior.</span>
+					<span id="othervanillaexp" style="display: none"><b>-vanilla:exp - Vanilla EXP distribution</b> - To reduce grinding, Free Enterprise normally applies a number of experience boosts: (1) EXP is not divided among the party, each member receives the full amount. (2) Once 10 key items have been collected, earned EXP is doubled. (3) In a full party, low-level party members (at least 5 levels below the median level) earn double EXP. Enabling this flag removes all of these boosts, and distributes EXP as in original FF4.</span>
+					<span id="othervanillafashion" style="display: none"><b>-vanilla:fashion - Vanilla fashion</b> - To help distinguish duplicate characters, Free Enterprise randomizes the battle palettes of each character. Enabling this flag preserves each character's original battle colors.</span>
+					<span id="othervanillatraps" style="display: none"><b>-vanilla:traps - Vanilla trapped chest locations</b> - By default, trapped chests (ie. those with Monsters!) are relocated randomly within the same dungeon/area. This flag forces trapped chests to remain in their original positions.</span>
+					<span id="othervanillaz" style="display: none"><b>-vanilla:z - Vanilla Z Sprite</b> - Free Enterprise replaces Zeromus' battle sprite with a random sprite. (Its battle behavior and stats are unchanged.) Enable this flag to preserve Zeromus' original battle sprite.</span>
 				</div>
-				<div id="flagdetail10" style="display: none">
-					<span onclick="CloseFlagDetail();" class="clickablediv">[X] Close</span><br><br>
-					<span><u>Wacky</u></span><br><br>
-					<span id="wackyS" style="display: none"><b>-spoon - Edward can equip Spoon</b></span>
-					<span id="wackyF" style="display: none"><b>-fab - Alternate character palettes</b></span>
-					<span id="wackyH" style="display: none"><b>-huh - Randomize Package sprite</b></span>
-					<span id="wackyV" style="display: none"><b>-vintage</b> - Vintage Battlefield</span>
-					<span id="wackyZ" style="display: none"><b>-z - Randomize Zeromus sprite</b> - Randomizes Zeromus's battle sprite. (His behavior and stats are unchanged.)</span>
-				</div>
+			</div>
+		</div>	
+		
+		<div class="modal fade" id="objectiveModal" aria-hidden="true" onclick="CloseObjectives();" style="width: 100%; height: 100%; background-color: rgba(51, 51, 51, 0.6); z-index: 2; position: absolute; top: 0px; left: 0px; overflow-y: scroll;">
+			<div id="objectiveModalInner" onclick="IgnoreMenuClose();" style="position: absolute; top: 20px; z-index: 2; left: 450px; background: url(./images/itemmenu.png); width: 404px; height: 386px; font-size: 18px; padding: 10px; overflow: scroll;">
+				<span onclick="CloseObjectives();" class="clickablediv">[X] Close</span><br><br>
+				<span id="objectiveToWin">== Objectives to Win ==<br></span>
+				<span id="objectiveForCrystal">== Objectives for Crystal ==<br></span>
+				<span id="objective0">Classic Forge the Crystal&nbsp;&nbsp;<img id="objectiveCheck0" onclick="checkOffObjective(0);" src="images/objectiveunchecked.png" style="width: 16px;"><br></span>
+				<span id="objective1">Classic Giant %&nbsp;&nbsp;<img id="objectiveCheck1" onclick="checkOffObjective(1);" src="images/objectiveunchecked.png" style="width: 16px;"><br></span>
+				<span id="objective2">Fiends %&nbsp;&nbsp;<img id="objectiveCheck2" onclick="checkOffObjective(2);" src="images/objectiveunchecked.png" style="width: 16px;"><br></span>
+				<span id="objective3">Dark Matter Hunt&nbsp;&nbsp;<img id="objectiveCheck3" onclick="checkOffObjective(3);" src="images/objectiveunchecked.png" style="width: 16px;"><br></span>
+				<span id="objective4">Get Cecil&nbsp;&nbsp;<img id="objectiveCheck4" onclick="checkOffObjective(4);" src="images/objectiveunchecked.png" style="width: 16px;"><br></span>
+				<span id="objective5">Get Kain&nbsp;&nbsp;<img id="objectiveCheck5" onclick="checkOffObjective(5);" src="images/objectiveunchecked.png" style="width: 16px;"><br></span>
+				<span id="objective6">Get Rydia&nbsp;&nbsp;<img id="objectiveCheck6" onclick="checkOffObjective(6);" src="images/objectiveunchecked.png" style="width: 16px;"><br></span>
+				<span id="objective7">Get Tellah&nbsp;&nbsp;<img id="objectiveCheck7" onclick="checkOffObjective(7);" src="images/objectiveunchecked.png" style="width: 16px;"><br></span>
+				<span id="objective8">Get Edward&nbsp;&nbsp;<img id="objectiveCheck8" onclick="checkOffObjective(8);" src="images/objectiveunchecked.png" style="width: 16px;"><br></span>
+				<span id="objective9">Get Rosa&nbsp;&nbsp;<img id="objectiveCheck9" onclick="checkOffObjective(9);" src="images/objectiveunchecked.png" style="width: 16px;"><br></span>
+				<span id="objective10">Get Yang&nbsp;&nbsp;<img id="objectiveCheck10" onclick="checkOffObjective(10);" src="images/objectiveunchecked.png" style="width: 16px;"><br></span>
+				<span id="objective11">Get Palom&nbsp;&nbsp;<img id="objectiveCheck11" onclick="checkOffObjective(11);" src="images/objectiveunchecked.png" style="width: 16px;"><br></span>
+				<span id="objective12">Get Porom&nbsp;&nbsp;<img id="objectiveCheck12" onclick="checkOffObjective(12);" src="images/objectiveunchecked.png" style="width: 16px;"><br></span>
+				<span id="objective13">Get Cid&nbsp;&nbsp;<img id="objectiveCheck13" onclick="checkOffObjective(13);" src="images/objectiveunchecked.png" style="width: 16px;"><br></span>
+				<span id="objective14">Get Edge&nbsp;&nbsp;<img id="objectiveCheck14" onclick="checkOffObjective(14);" src="images/objectiveunchecked.png" style="width: 16px;"><br></span>
+				<span id="objective15">Get FuSoYa&nbsp;&nbsp;<img id="objectiveCheck15" onclick="checkOffObjective(15);" src="images/objectiveunchecked.png" style="width: 16px;"><br></span>
+				<span id="objective16">Defeat D.Mist&nbsp;&nbsp;<img id="objectiveCheck16" onclick="checkOffObjective(16);" src="images/objectiveunchecked.png" style="width: 16px;"><br></span>
+				<span id="objective17">Defeat Officer&nbsp;&nbsp;<img id="objectiveCheck17" onclick="checkOffObjective(17);" src="images/objectiveunchecked.png" style="width: 16px;"><br></span>
+				<span id="objective18">Defeat Octomamm&nbsp;&nbsp;<img id="objectiveCheck18" onclick="checkOffObjective(18);" src="images/objectiveunchecked.png" style="width: 16px;"><br></span>
+				<span id="objective19">Defeat Antlion&nbsp;&nbsp;<img id="objectiveCheck19" onclick="checkOffObjective(19);" src="images/objectiveunchecked.png" style="width: 16px;"><br></span>
+				<span id="objective20">Defeat Waterhag (boss version)&nbsp;&nbsp;<img id="objectiveCheck20" onclick="checkOffObjective(20);" src="images/objectiveunchecked.png" style="width: 16px;"><br></span>
+				<span id="objective21">Defeat MomBomb&nbsp;&nbsp;<img id="objectiveCheck21" onclick="checkOffObjective(21);" src="images/objectiveunchecked.png" style="width: 16px;"><br></span>
+				<span id="objective22">Defeat the Fabul Gauntlet&nbsp;&nbsp;<img id="objectiveCheck22" onclick="checkOffObjective(22);" src="images/objectiveunchecked.png" style="width: 16px;"><br></span>
+				<span id="objective23">Defeat Milon&nbsp;&nbsp;<img id="objectiveCheck23" onclick="checkOffObjective(23);" src="images/objectiveunchecked.png" style="width: 16px;"><br></span>
+				<span id="objective24">Defeat Milon Z.&nbsp;&nbsp;<img id="objectiveCheck24" onclick="checkOffObjective(24);" src="images/objectiveunchecked.png" style="width: 16px;"><br></span>
+				<span id="objective25">Defeat D.Knight&nbsp;&nbsp;<img id="objectiveCheck25" onclick="checkOffObjective(25);" src="images/objectiveunchecked.png" style="width: 16px;"><br></span>
+				<span id="objective26">Defeat the Guards (boss)&nbsp;&nbsp;<img id="objectiveCheck26" onclick="checkOffObjective(26);" src="images/objectiveunchecked.png" style="width: 16px;"><br></span>
+				<span id="objective27">Defeat Karate&nbsp;&nbsp;<img id="objectiveCheck27" onclick="checkOffObjective(27);" src="images/objectiveunchecked.png" style="width: 16px;"><br></span>
+				<span id="objective28">Defeat Baigan&nbsp;&nbsp;<img id="objectiveCheck28" onclick="checkOffObjective(28);" src="images/objectiveunchecked.png" style="width: 16px;"><br></span>
+				<span id="objective29">Defeat Kainazzo&nbsp;&nbsp;<img id="objectiveCheck29" onclick="checkOffObjective(29);" src="images/objectiveunchecked.png" style="width: 16px;"><br></span>
+				<span id="objective30">Defeat the Dark Elf (dragon form)&nbsp;&nbsp;<img id="objectiveCheck30" onclick="checkOffObjective(30);" src="images/objectiveunchecked.png" style="width: 16px;"><br></span>
+				<span id="objective31">Defeat the Magus Sisters&nbsp;&nbsp;<img id="objectiveCheck31" onclick="checkOffObjective(31);" src="images/objectiveunchecked.png" style="width: 16px;"><br></span>
+				<span id="objective32">Defeat Valvalis&nbsp;&nbsp;<img id="objectiveCheck32" onclick="checkOffObjective(32);" src="images/objectiveunchecked.png" style="width: 16px;"><br></span>
+				<span id="objective33">Defeat Calbrena&nbsp;&nbsp;<img id="objectiveCheck33" onclick="checkOffObjective(33);" src="images/objectiveunchecked.png" style="width: 16px;"><br></span>
+				<span id="objective34">Defeat Golbez&nbsp;&nbsp;<img id="objectiveCheck34" onclick="checkOffObjective(34);" src="images/objectiveunchecked.png" style="width: 16px;"><br></span>
+				<span id="objective35">Defeat Dr. Lugae&nbsp;&nbsp;<img id="objectiveCheck35" onclick="checkOffObjective(35);" src="images/objectiveunchecked.png" style="width: 16px;"><br></span>
+				<span id="objective36">Defeat the Dark Imps (boss)&nbsp;&nbsp;<img id="objectiveCheck36" onclick="checkOffObjective(36);" src="images/objectiveunchecked.png" style="width: 16px;"><br></span>
+				<span id="objective37">Defeat K.Eblan and Q.Eblan&nbsp;&nbsp;<img id="objectiveCheck37" onclick="checkOffObjective(37);" src="images/objectiveunchecked.png" style="width: 16px;"><br></span>
+				<span id="objective38">Defeat Rubicant&nbsp;&nbsp;<img id="objectiveCheck38" onclick="checkOffObjective(38);" src="images/objectiveunchecked.png" style="width: 16px;"><br></span>
+				<span id="objective39">Defeat EvilWall&nbsp;&nbsp;<img id="objectiveCheck39" onclick="checkOffObjective(39);" src="images/objectiveunchecked.png" style="width: 16px;"><br></span>
+				<span id="objective40">Defeat Asura&nbsp;&nbsp;<img id="objectiveCheck40" onclick="checkOffObjective(40);" src="images/objectiveunchecked.png" style="width: 16px;"><br></span>
+				<span id="objective41">Defeat Leviatan&nbsp;&nbsp;<img id="objectiveCheck41" onclick="checkOffObjective(41);" src="images/objectiveunchecked.png" style="width: 16px;"><br></span>
+				<span id="objective42">Defeat Odin&nbsp;&nbsp;<img id="objectiveCheck42" onclick="checkOffObjective(42);" src="images/objectiveunchecked.png" style="width: 16px;"><br></span>
+				<span id="objective43">Defeat Bahamut&nbsp;&nbsp;<img id="objectiveCheck43" onclick="checkOffObjective(43);" src="images/objectiveunchecked.png" style="width: 16px;"><br></span>
+				<span id="objective44">Defeat Elements&nbsp;&nbsp;<img id="objectiveCheck44" onclick="checkOffObjective(44);" src="images/objectiveunchecked.png" style="width: 16px;"><br></span>
+				<span id="objective45">Defeat CPU&nbsp;&nbsp;<img id="objectiveCheck45" onclick="checkOffObjective(45);" src="images/objectiveunchecked.png" style="width: 16px;"><br></span>
+				<span id="objective46">Defeat Pale Dim&nbsp;&nbsp;<img id="objectiveCheck46" onclick="checkOffObjective(46);" src="images/objectiveunchecked.png" style="width: 16px;"><br></span>
+				<span id="objective47">Defeat Wyvern&nbsp;&nbsp;<img id="objectiveCheck47" onclick="checkOffObjective(47);" src="images/objectiveunchecked.png" style="width: 16px;"><br></span>
+				<span id="objective48">Defeat Plague&nbsp;&nbsp;<img id="objectiveCheck48" onclick="checkOffObjective(48);" src="images/objectiveunchecked.png" style="width: 16px;"><br></span>
+				<span id="objective49">Defeat the D.Lunars&nbsp;&nbsp;<img id="objectiveCheck49" onclick="checkOffObjective(49);" src="images/objectiveunchecked.png" style="width: 16px;"><br></span>
+				<span id="objective50">Defeat Ogopogo&nbsp;&nbsp;<img id="objectiveCheck50" onclick="checkOffObjective(50);" src="images/objectiveunchecked.png" style="width: 16px;"><br></span>
+				<span id="objective51">Defeat the boss of the Mist Cave&nbsp;&nbsp;<img id="objectiveCheck51" onclick="checkOffObjective(51);" src="images/objectiveunchecked.png" style="width: 16px;"><br></span>
+				<span id="objective52">Defeat the boss of the Waterfall&nbsp;&nbsp;<img id="objectiveCheck52" onclick="checkOffObjective(52);" src="images/objectiveunchecked.png" style="width: 16px;"><br></span>
+				<span id="objective53">Complete the Antlion Nest&nbsp;&nbsp;<img id="objectiveCheck53" onclick="checkOffObjective(53);" src="images/objectiveunchecked.png" style="width: 16px;"><br></span>
+				<span id="objective54">Rescue the hostage on Mt. Hobs&nbsp;&nbsp;<img id="objectiveCheck54" onclick="checkOffObjective(54);" src="images/objectiveunchecked.png" style="width: 16px;"><br></span>
+				<span id="objective55">Defend Fabul&nbsp;&nbsp;<img id="objectiveCheck55" onclick="checkOffObjective(55);" src="images/objectiveunchecked.png" style="width: 16px;"><br></span>
+				<span id="objective56">Complete Mt. Ordeals&nbsp;&nbsp;<img id="objectiveCheck56" onclick="checkOffObjective(56);" src="images/objectiveunchecked.png" style="width: 16px;"><br></span>
+				<span id="objective57">Defeat the bosses of Baron Inn&nbsp;&nbsp;<img id="objectiveCheck57" onclick="checkOffObjective(57);" src="images/objectiveunchecked.png" style="width: 16px;"><br></span>
+				<span id="objective58">Liberate Baron Castle&nbsp;&nbsp;<img id="objectiveCheck58" onclick="checkOffObjective(58);" src="images/objectiveunchecked.png" style="width: 16px;"><br></span>
+				<span id="objective59">Complete Cave Magnes&nbsp;&nbsp;<img id="objectiveCheck59" onclick="checkOffObjective(59);" src="images/objectiveunchecked.png" style="width: 16px;"><br></span>
+				<span id="objective60">Complete the Tower of Zot&nbsp;&nbsp;<img id="objectiveCheck60" onclick="checkOffObjective(60);" src="images/objectiveunchecked.png" style="width: 16px;"><br></span>
+				<span id="objective61">Defeat the bosses of Dwarf Castle&nbsp;&nbsp;<img id="objectiveCheck61" onclick="checkOffObjective(61);" src="images/objectiveunchecked.png" style="width: 16px;"><br></span>
+				<span id="objective62">Defeat the boss of Lower Bab-il&nbsp;&nbsp;<img id="objectiveCheck62" onclick="checkOffObjective(62);" src="images/objectiveunchecked.png" style="width: 16px;"><br></span>
+				<span id="objective63">Launch the Falcon&nbsp;&nbsp;<img id="objectiveCheck63" onclick="checkOffObjective(63);" src="images/objectiveunchecked.png" style="width: 16px;"><br></span>
+				<span id="objective64">Complete the Sealed Cave&nbsp;&nbsp;<img id="objectiveCheck64" onclick="checkOffObjective(64);" src="images/objectiveunchecked.png" style="width: 16px;"><br></span>
+				<span id="objective65">Defeat the queen at the Town of Monsters&nbsp;&nbsp;<img id="objectiveCheck65" onclick="checkOffObjective(65);" src="images/objectiveunchecked.png" style="width: 16px;"><br></span>
+				<span id="objective66">Defeat the king at the Town of Monsters&nbsp;&nbsp;<img id="objectiveCheck66" onclick="checkOffObjective(66);" src="images/objectiveunchecked.png" style="width: 16px;"><br></span>
+				<span id="objective67">Defeat the Baron Castle basement throne&nbsp;&nbsp;<img id="objectiveCheck67" onclick="checkOffObjective(67);" src="images/objectiveunchecked.png" style="width: 16px;"><br></span>
+				<span id="objective68">Complete the Giant of Bab-il&nbsp;&nbsp;<img id="objectiveCheck68" onclick="checkOffObjective(68);" src="images/objectiveunchecked.png" style="width: 16px;"><br></span>
+				<span id="objective69">Complete Cave Bahamut&nbsp;&nbsp;<img id="objectiveCheck69" onclick="checkOffObjective(69);" src="images/objectiveunchecked.png" style="width: 16px;"><br></span>
+				<span id="objective70">Conquer the vanilla Murasame altar&nbsp;&nbsp;<img id="objectiveCheck70" onclick="checkOffObjective(70);" src="images/objectiveunchecked.png" style="width: 16px;"><br></span>
+				<span id="objective71">Conquer the vanilla Crystal Sword altar&nbsp;&nbsp;<img id="objectiveCheck71" onclick="checkOffObjective(71);" src="images/objectiveunchecked.png" style="width: 16px;"><br></span>
+				<span id="objective72">Conquer the vanilla White Spear altar&nbsp;&nbsp;<img id="objectiveCheck72" onclick="checkOffObjective(72);" src="images/objectiveunchecked.png" style="width: 16px;"><br></span>
+				<span id="objective73">Conquer the vanilla Ribbon room&nbsp;&nbsp;<img id="objectiveCheck73" onclick="checkOffObjective(73);" src="images/objectiveunchecked.png" style="width: 16px;"><br></span>
+				<span id="objective74">Conquer the vanilla Masamune altar&nbsp;&nbsp;<img id="objectiveCheck74" onclick="checkOffObjective(74);" src="images/objectiveunchecked.png" style="width: 16px;"><br></span>
+				<span id="objective75">Burn village Mist with the Package&nbsp;&nbsp;<img id="objectiveCheck75" onclick="checkOffObjective(75);" src="images/objectiveunchecked.png" style="width: 16px;"><br></span>
+				<span id="objective76">Cure the fever with the SandRuby&nbsp;&nbsp;<img id="objectiveCheck76" onclick="checkOffObjective(76);" src="images/objectiveunchecked.png" style="width: 16px;"><br></span>
+				<span id="objective77">Unlock the sewer with the Baron Key&nbsp;&nbsp;<img id="objectiveCheck77" onclick="checkOffObjective(77);" src="images/objectiveunchecked.png" style="width: 16px;"><br></span>
+				<span id="objective78">Break the Dark Elf's spell with the TwinHarp&nbsp;&nbsp;<img id="objectiveCheck78" onclick="checkOffObjective(78);" src="images/objectiveunchecked.png" style="width: 16px;"><br></span>
+				<span id="objective79">Open the Toroia treasury with the Earth Crystal&nbsp;&nbsp;<img id="objectiveCheck79" onclick="checkOffObjective(79);" src="images/objectiveunchecked.png" style="width: 16px;"><br></span>
+				<span id="objective80">Drop the Magma Key into the Agart well&nbsp;&nbsp;<img id="objectiveCheck80" onclick="checkOffObjective(80);" src="images/objectiveunchecked.png" style="width: 16px;"><br></span>
+				<span id="objective81">Destroy the Super Cannon&nbsp;&nbsp;<img id="objectiveCheck81" onclick="checkOffObjective(81);" src="images/objectiveunchecked.png" style="width: 16px;"><br></span>
+				<span id="objective82">Unlock the Sealed Cave&nbsp;&nbsp;<img id="objectiveCheck82" onclick="checkOffObjective(82);" src="images/objectiveunchecked.png" style="width: 16px;"><br></span>
+				<span id="objective83">Raise the Big Whale&nbsp;&nbsp;<img id="objectiveCheck83" onclick="checkOffObjective(83);" src="images/objectiveunchecked.png" style="width: 16px;"><br></span>
+				<span id="objective84">Trade away the Rat Tail&nbsp;&nbsp;<img id="objectiveCheck84" onclick="checkOffObjective(84);" src="images/objectiveunchecked.png" style="width: 16px;"><br></span>
+				<span id="objective85">Have Kokkol forge Legend Sword with Adamant&nbsp;&nbsp;<img id="objectiveCheck85" onclick="checkOffObjective(85);" src="images/objectiveunchecked.png" style="width: 16px;"><br></span>
+				<span id="objective86">Wake Yang with the Pan&nbsp;&nbsp;<img id="objectiveCheck86" onclick="checkOffObjective(86);" src="images/objectiveunchecked.png" style="width: 16px;"><br></span>
+				<span id="objective87">Return the Pan to Yang's wife&nbsp;&nbsp;<img id="objectiveCheck87" onclick="checkOffObjective(87);" src="images/objectiveunchecked.png" style="width: 16px;"><br></span>
+				<span id="objective88">Trade away the Pink Tail&nbsp;&nbsp;<img id="objectiveCheck88" onclick="checkOffObjective(88);" src="images/objectiveunchecked.png" style="width: 16px;"><br></span>
+				<span id="objective89">Unlock the Pass door in Toroia&nbsp;&nbsp;<img id="objectiveCheck89" onclick="checkOffObjective(89);" src="images/objectiveunchecked.png" style="width: 16px;"><br></span>
+				<span id="objective90">Random Objective 1: <select style="width: 230px;" id="randomObjective1">
+					<option value="objectiveBlank"></option>
+					<option value="objectiveGetCecil">Get Cecil</option>
+					<option value="objectiveGetKain">Get Kain</option>
+					<option value="objectiveGetRydia">Get Rydia</option>
+					<option value="objectiveGetTellah">Get Tellah</option>
+					<option value="objectiveGetEdward">Get Edward</option>
+					<option value="objectiveGetRosa">Get Rosa</option>
+					<option value="objectiveGetYang">Get Yang</option>
+					<option value="objectiveGetPalom">Get Palom</option>
+					<option value="objectiveGetPorom">Get Porom</option>
+					<option value="objectiveGetCid">Get Cid</option>
+					<option value="objectiveGetEdge">Get Edge</option>
+					<option value="objectiveGetFuSoYa">Get FuSoYa</option>
+					<option value="objectiveDefeatD.Mist">Defeat D.Mist</option>
+					<option value="objectiveDefeatOfficer">Defeat Officer</option>
+					<option value="objectiveDefeatOctomamm">Defeat Octomamm</option>
+					<option value="objectiveDefeatAntlion">Defeat Antlion</option>
+					<option value="objectiveDefeatWaterhag">Defeat Waterhag (boss version)</option>
+					<option value="objectiveDefeatMomBomb">Defeat MomBomb</option>
+					<option value="objectiveDefeattheFabulGauntlet">Defeat the Fabul Gauntlet</option>
+					<option value="objectiveDefeatMilon">Defeat Milon</option>
+					<option value="objectiveDefeatMilonZ">Defeat Milon Z.</option>
+					<option value="objectiveDefeatD.Knight">Defeat D.Knight</option>
+					<option value="objectiveDefeattheGuards(boss)">Defeat the Guards (boss)</option>
+					<option value="objectiveDefeatKarate">Defeat Karate</option>
+					<option value="objectiveDefeatBaigan">Defeat Baigan</option>
+					<option value="objectiveDefeatKainazzo">Defeat Kainazzo</option>
+					<option value="objectiveDefeattheDarkElf">Defeat the Dark Elf (dragon form)</option>
+					<option value="objectiveDefeattheMagusSisters">Defeat the Magus Sisters</option>
+					<option value="objectiveDefeatValvalis">Defeat Valvalis</option>
+					<option value="objectiveDefeatCalbrena">Defeat Calbrena</option>
+					<option value="objectiveDefeatGolbez">Defeat Golbez</option>
+					<option value="objectiveDefeatDrLugae">Defeat Dr. Lugae</option>
+					<option value="objectiveDefeattheDarkImps(boss)">Defeat the Dark Imps (boss)</option>
+					<option value="objectiveDefeatKEblanandQEblan">Defeat K.Eblan and Q.Eblan</option>
+					<option value="objectiveDefeatRubicant">Defeat Rubicant</option>
+					<option value="objectiveDefeatEvilWall">Defeat EvilWall</option>
+					<option value="objectiveDefeatAsura">Defeat Asura</option>
+					<option value="objectiveDefeatLeviatan">Defeat Leviatan</option>
+					<option value="objectiveDefeatOdin">Defeat Odin</option>
+					<option value="objectiveDefeatBahamut">Defeat Bahamut</option>
+					<option value="objectiveDefeatElements">Defeat Elements</option>
+					<option value="objectiveDefeatCPU">Defeat CPU</option>
+					<option value="objectiveDefeatPaleDim">Defeat Pale Dim</option>
+					<option value="objectiveDefeatWyvern">Defeat Wyvern</option>
+					<option value="objectiveDefeatPlague">Defeat Plague</option>
+					<option value="objectiveDefeattheDLunars">Defeat the D.Lunars</option>
+					<option value="objectiveDefeatOgopogo">Defeat Ogopogo</option>
+					<option value="objectiveDefeatthebossoftheMistCave">Defeat the boss of the Mist Cave</option>
+					<option value="objectiveDefeatthebossoftheWaterfall">Defeat the boss of the Waterfall</option>
+					<option value="objectiveCompletetheAntlionNest">Complete the Antlion Nest</option>
+					<option value="objectiveRescuethehostageonMtHobs">Rescue the hostage on Mt. Hobs</option>
+					<option value="objectiveDefendFabul">Defend Fabul</option>
+					<option value="objectiveCompleteMtOrdeals">Complete Mt. Ordeals</option>
+					<option value="objectiveDefeatthebossesofBaronInn">Defeat the bosses of Baron Inn</option>
+					<option value="objectiveLiberateBaronCastle">Liberate Baron Castle</option>
+					<option value="objectiveCompleteCaveMagnes">Complete Cave Magnes</option>
+					<option value="objectiveCompletetheTowerofZot">Complete the Tower of Zot</option>
+					<option value="objectiveDefeatthebossesofDwarfCastle">Defeat the bosses of Dwarf Castle</option>
+					<option value="objectiveDefeatthebossofLowerBabil">Defeat the boss of Lower Bab-il</option>
+					<option value="objectiveLaunchtheFalcon">Launch the Falcon</option>
+					<option value="objectiveCompletetheSealedCave">Complete the Sealed Cave</option>
+					<option value="objectiveDefeatthequeenattheTownofMonsters">Defeat the queen at the Town of Monsters</option>
+					<option value="objectiveDefeatthekingattheTownofMonsters">Defeat the king at the Town of Monsters</option>
+					<option value="objectiveDefeattheBaronCastlebasementthrone">Defeat the Baron Castle basement throne</option>
+					<option value="objectiveCompletetheGiantofBabil">Complete the Giant of Bab-il</option>
+					<option value="objectiveCompleteCaveBahamut">Complete Cave Bahamut</option>
+					<option value="objectiveConquerthevanillaMurasamealtar">Conquer the vanilla Murasame altar</option>
+					<option value="objectiveConquerthevanillaCrystalSwordaltar">Conquer the vanilla Crystal Sword altar</option>
+					<option value="objectiveConquerthevanillaWhiteSpearaltar">Conquer the vanilla White Spear altar</option>
+					<option value="objectiveConquerthevanillaRibbonroom">Conquer the vanilla Ribbon room</option>
+					<option value="objectiveConquerthevanillaMasamunealtar">Conquer the vanilla Masamune altar</option>
+					<option value="objectiveBurnvillageMistwiththePackage">Burn village Mist with the Package</option>
+					<option value="objectiveCurethefeverwiththeSandRuby">Cure the fever with the SandRuby</option>
+					<option value="objectiveUnlockthesewerwiththeBaronKey">Unlock the sewer with the Baron Key</option>
+					<option value="objectiveBreaktheDarkElfsspellwiththeTwinHarp">Break the Dark Elf's spell with the TwinHarp</option>
+					<option value="objectiveOpentheToroiatreasurywiththeEarthCrystal">Open the Toroia treasury with the Earth Crystal</option>
+					<option value="objectiveDroptheMagmaKeyintotheAgartwell">Drop the Magma Key into the Agart well</option>
+					<option value="objectiveDestroytheSuperCannon">Destroy the Super Cannon</option>
+					<option value="objectiveUnlocktheSealedCave">Unlock the Sealed Cave</option>
+					<option value="objectiveRaisetheBigWhale">Raise the Big Whale</option>
+					<option value="objectiveTradeawaytheRatTail">Trade away the Rat Tail</option>
+					<option value="objectiveHaveKokkolforgeLegendSwordwithAdamant">Have Kokkol forge Legend Sword with Adamant</option>
+					<option value="objectiveWakeYangwiththePan">Wake Yang with the Pan</option>
+					<option value="objectiveReturnthePantoYangswife">Return the Pan to Yang's wife</option>
+					<option value="objectiveTradeawaythePinkTail">Trade away the Pink Tail</option>
+					<option value="objectiveUnlockthePassdoorinToroia">Unlock the Pass door in Toroia</option>
+				</select>&nbsp;&nbsp;<img id="objectiveCheck90" onclick="checkOffObjective(90);" src="images/objectiveunchecked.png" style="width: 16px;"><br></span>
+				<span id="objective91">Random Objective 2: <select style="width: 230px;" id="randomObjective2">
+					<option value="objectiveBlank"></option>
+					<option value="objectiveGetCecil">Get Cecil</option>
+					<option value="objectiveGetKain">Get Kain</option>
+					<option value="objectiveGetRydia">Get Rydia</option>
+					<option value="objectiveGetTellah">Get Tellah</option>
+					<option value="objectiveGetEdward">Get Edward</option>
+					<option value="objectiveGetRosa">Get Rosa</option>
+					<option value="objectiveGetYang">Get Yang</option>
+					<option value="objectiveGetPalom">Get Palom</option>
+					<option value="objectiveGetPorom">Get Porom</option>
+					<option value="objectiveGetCid">Get Cid</option>
+					<option value="objectiveGetEdge">Get Edge</option>
+					<option value="objectiveGetFuSoYa">Get FuSoYa</option>
+					<option value="objectiveDefeatD.Mist">Defeat D.Mist</option>
+					<option value="objectiveDefeatOfficer">Defeat Officer</option>
+					<option value="objectiveDefeatOctomamm">Defeat Octomamm</option>
+					<option value="objectiveDefeatAntlion">Defeat Antlion</option>
+					<option value="objectiveDefeatWaterhag">Defeat Waterhag (boss version)</option>
+					<option value="objectiveDefeatMomBomb">Defeat MomBomb</option>
+					<option value="objectiveDefeattheFabulGauntlet">Defeat the Fabul Gauntlet</option>
+					<option value="objectiveDefeatMilon">Defeat Milon</option>
+					<option value="objectiveDefeatMilonZ">Defeat Milon Z.</option>
+					<option value="objectiveDefeatD.Knight">Defeat D.Knight</option>
+					<option value="objectiveDefeattheGuards(boss)">Defeat the Guards (boss)</option>
+					<option value="objectiveDefeatKarate">Defeat Karate</option>
+					<option value="objectiveDefeatBaigan">Defeat Baigan</option>
+					<option value="objectiveDefeatKainazzo">Defeat Kainazzo</option>
+					<option value="objectiveDefeattheDarkElf">Defeat the Dark Elf (dragon form)</option>
+					<option value="objectiveDefeattheMagusSisters">Defeat the Magus Sisters</option>
+					<option value="objectiveDefeatValvalis">Defeat Valvalis</option>
+					<option value="objectiveDefeatCalbrena">Defeat Calbrena</option>
+					<option value="objectiveDefeatGolbez">Defeat Golbez</option>
+					<option value="objectiveDefeatDrLugae">Defeat Dr. Lugae</option>
+					<option value="objectiveDefeattheDarkImps(boss)">Defeat the Dark Imps (boss)</option>
+					<option value="objectiveDefeatKEblanandQEblan">Defeat K.Eblan and Q.Eblan</option>
+					<option value="objectiveDefeatRubicant">Defeat Rubicant</option>
+					<option value="objectiveDefeatEvilWall">Defeat EvilWall</option>
+					<option value="objectiveDefeatAsura">Defeat Asura</option>
+					<option value="objectiveDefeatLeviatan">Defeat Leviatan</option>
+					<option value="objectiveDefeatOdin">Defeat Odin</option>
+					<option value="objectiveDefeatBahamut">Defeat Bahamut</option>
+					<option value="objectiveDefeatElements">Defeat Elements</option>
+					<option value="objectiveDefeatCPU">Defeat CPU</option>
+					<option value="objectiveDefeatPaleDim">Defeat Pale Dim</option>
+					<option value="objectiveDefeatWyvern">Defeat Wyvern</option>
+					<option value="objectiveDefeatPlague">Defeat Plague</option>
+					<option value="objectiveDefeattheDLunars">Defeat the D.Lunars</option>
+					<option value="objectiveDefeatOgopogo">Defeat Ogopogo</option>
+					<option value="objectiveDefeatthebossoftheMistCave">Defeat the boss of the Mist Cave</option>
+					<option value="objectiveDefeatthebossoftheWaterfall">Defeat the boss of the Waterfall</option>
+					<option value="objectiveCompletetheAntlionNest">Complete the Antlion Nest</option>
+					<option value="objectiveRescuethehostageonMtHobs">Rescue the hostage on Mt. Hobs</option>
+					<option value="objectiveDefendFabul">Defend Fabul</option>
+					<option value="objectiveCompleteMtOrdeals">Complete Mt. Ordeals</option>
+					<option value="objectiveDefeatthebossesofBaronInn">Defeat the bosses of Baron Inn</option>
+					<option value="objectiveLiberateBaronCastle">Liberate Baron Castle</option>
+					<option value="objectiveCompleteCaveMagnes">Complete Cave Magnes</option>
+					<option value="objectiveCompletetheTowerofZot">Complete the Tower of Zot</option>
+					<option value="objectiveDefeatthebossesofDwarfCastle">Defeat the bosses of Dwarf Castle</option>
+					<option value="objectiveDefeatthebossofLowerBabil">Defeat the boss of Lower Bab-il</option>
+					<option value="objectiveLaunchtheFalcon">Launch the Falcon</option>
+					<option value="objectiveCompletetheSealedCave">Complete the Sealed Cave</option>
+					<option value="objectiveDefeatthequeenattheTownofMonsters">Defeat the queen at the Town of Monsters</option>
+					<option value="objectiveDefeatthekingattheTownofMonsters">Defeat the king at the Town of Monsters</option>
+					<option value="objectiveDefeattheBaronCastlebasementthrone">Defeat the Baron Castle basement throne</option>
+					<option value="objectiveCompletetheGiantofBabil">Complete the Giant of Bab-il</option>
+					<option value="objectiveCompleteCaveBahamut">Complete Cave Bahamut</option>
+					<option value="objectiveConquerthevanillaMurasamealtar">Conquer the vanilla Murasame altar</option>
+					<option value="objectiveConquerthevanillaCrystalSwordaltar">Conquer the vanilla Crystal Sword altar</option>
+					<option value="objectiveConquerthevanillaWhiteSpearaltar">Conquer the vanilla White Spear altar</option>
+					<option value="objectiveConquerthevanillaRibbonroom">Conquer the vanilla Ribbon room</option>
+					<option value="objectiveConquerthevanillaMasamunealtar">Conquer the vanilla Masamune altar</option>
+					<option value="objectiveBurnvillageMistwiththePackage">Burn village Mist with the Package</option>
+					<option value="objectiveCurethefeverwiththeSandRuby">Cure the fever with the SandRuby</option>
+					<option value="objectiveUnlockthesewerwiththeBaronKey">Unlock the sewer with the Baron Key</option>
+					<option value="objectiveBreaktheDarkElfsspellwiththeTwinHarp">Break the Dark Elf's spell with the TwinHarp</option>
+					<option value="objectiveOpentheToroiatreasurywiththeEarthCrystal">Open the Toroia treasury with the Earth Crystal</option>
+					<option value="objectiveDroptheMagmaKeyintotheAgartwell">Drop the Magma Key into the Agart well</option>
+					<option value="objectiveDestroytheSuperCannon">Destroy the Super Cannon</option>
+					<option value="objectiveUnlocktheSealedCave">Unlock the Sealed Cave</option>
+					<option value="objectiveRaisetheBigWhale">Raise the Big Whale</option>
+					<option value="objectiveTradeawaytheRatTail">Trade away the Rat Tail</option>
+					<option value="objectiveHaveKokkolforgeLegendSwordwithAdamant">Have Kokkol forge Legend Sword with Adamant</option>
+					<option value="objectiveWakeYangwiththePan">Wake Yang with the Pan</option>
+					<option value="objectiveReturnthePantoYangswife">Return the Pan to Yang's wife</option>
+					<option value="objectiveTradeawaythePinkTail">Trade away the Pink Tail</option>
+					<option value="objectiveUnlockthePassdoorinToroia">Unlock the Pass door in Toroia</option>
+				</select>&nbsp;&nbsp;<img id="objectiveCheck91" onclick="checkOffObjective(91);" src="images/objectiveunchecked.png" style="width: 16px;"><br></span>
+				<span id="objective92">Random Objective 3: <select style="width: 230px;" id="randomObjective3">
+					<option value="objectiveBlank"></option>
+					<option value="objectiveGetCecil">Get Cecil</option>
+					<option value="objectiveGetKain">Get Kain</option>
+					<option value="objectiveGetRydia">Get Rydia</option>
+					<option value="objectiveGetTellah">Get Tellah</option>
+					<option value="objectiveGetEdward">Get Edward</option>
+					<option value="objectiveGetRosa">Get Rosa</option>
+					<option value="objectiveGetYang">Get Yang</option>
+					<option value="objectiveGetPalom">Get Palom</option>
+					<option value="objectiveGetPorom">Get Porom</option>
+					<option value="objectiveGetCid">Get Cid</option>
+					<option value="objectiveGetEdge">Get Edge</option>
+					<option value="objectiveGetFuSoYa">Get FuSoYa</option>
+					<option value="objectiveDefeatD.Mist">Defeat D.Mist</option>
+					<option value="objectiveDefeatOfficer">Defeat Officer</option>
+					<option value="objectiveDefeatOctomamm">Defeat Octomamm</option>
+					<option value="objectiveDefeatAntlion">Defeat Antlion</option>
+					<option value="objectiveDefeatWaterhag">Defeat Waterhag (boss version)</option>
+					<option value="objectiveDefeatMomBomb">Defeat MomBomb</option>
+					<option value="objectiveDefeattheFabulGauntlet">Defeat the Fabul Gauntlet</option>
+					<option value="objectiveDefeatMilon">Defeat Milon</option>
+					<option value="objectiveDefeatMilonZ">Defeat Milon Z.</option>
+					<option value="objectiveDefeatD.Knight">Defeat D.Knight</option>
+					<option value="objectiveDefeattheGuards(boss)">Defeat the Guards (boss)</option>
+					<option value="objectiveDefeatKarate">Defeat Karate</option>
+					<option value="objectiveDefeatBaigan">Defeat Baigan</option>
+					<option value="objectiveDefeatKainazzo">Defeat Kainazzo</option>
+					<option value="objectiveDefeattheDarkElf">Defeat the Dark Elf (dragon form)</option>
+					<option value="objectiveDefeattheMagusSisters">Defeat the Magus Sisters</option>
+					<option value="objectiveDefeatValvalis">Defeat Valvalis</option>
+					<option value="objectiveDefeatCalbrena">Defeat Calbrena</option>
+					<option value="objectiveDefeatGolbez">Defeat Golbez</option>
+					<option value="objectiveDefeatDrLugae">Defeat Dr. Lugae</option>
+					<option value="objectiveDefeattheDarkImps(boss)">Defeat the Dark Imps (boss)</option>
+					<option value="objectiveDefeatKEblanandQEblan">Defeat K.Eblan and Q.Eblan</option>
+					<option value="objectiveDefeatRubicant">Defeat Rubicant</option>
+					<option value="objectiveDefeatEvilWall">Defeat EvilWall</option>
+					<option value="objectiveDefeatAsura">Defeat Asura</option>
+					<option value="objectiveDefeatLeviatan">Defeat Leviatan</option>
+					<option value="objectiveDefeatOdin">Defeat Odin</option>
+					<option value="objectiveDefeatBahamut">Defeat Bahamut</option>
+					<option value="objectiveDefeatElements">Defeat Elements</option>
+					<option value="objectiveDefeatCPU">Defeat CPU</option>
+					<option value="objectiveDefeatPaleDim">Defeat Pale Dim</option>
+					<option value="objectiveDefeatWyvern">Defeat Wyvern</option>
+					<option value="objectiveDefeatPlague">Defeat Plague</option>
+					<option value="objectiveDefeattheDLunars">Defeat the D.Lunars</option>
+					<option value="objectiveDefeatOgopogo">Defeat Ogopogo</option>
+					<option value="objectiveDefeatthebossoftheMistCave">Defeat the boss of the Mist Cave</option>
+					<option value="objectiveDefeatthebossoftheWaterfall">Defeat the boss of the Waterfall</option>
+					<option value="objectiveCompletetheAntlionNest">Complete the Antlion Nest</option>
+					<option value="objectiveRescuethehostageonMtHobs">Rescue the hostage on Mt. Hobs</option>
+					<option value="objectiveDefendFabul">Defend Fabul</option>
+					<option value="objectiveCompleteMtOrdeals">Complete Mt. Ordeals</option>
+					<option value="objectiveDefeatthebossesofBaronInn">Defeat the bosses of Baron Inn</option>
+					<option value="objectiveLiberateBaronCastle">Liberate Baron Castle</option>
+					<option value="objectiveCompleteCaveMagnes">Complete Cave Magnes</option>
+					<option value="objectiveCompletetheTowerofZot">Complete the Tower of Zot</option>
+					<option value="objectiveDefeatthebossesofDwarfCastle">Defeat the bosses of Dwarf Castle</option>
+					<option value="objectiveDefeatthebossofLowerBabil">Defeat the boss of Lower Bab-il</option>
+					<option value="objectiveLaunchtheFalcon">Launch the Falcon</option>
+					<option value="objectiveCompletetheSealedCave">Complete the Sealed Cave</option>
+					<option value="objectiveDefeatthequeenattheTownofMonsters">Defeat the queen at the Town of Monsters</option>
+					<option value="objectiveDefeatthekingattheTownofMonsters">Defeat the king at the Town of Monsters</option>
+					<option value="objectiveDefeattheBaronCastlebasementthrone">Defeat the Baron Castle basement throne</option>
+					<option value="objectiveCompletetheGiantofBabil">Complete the Giant of Bab-il</option>
+					<option value="objectiveCompleteCaveBahamut">Complete Cave Bahamut</option>
+					<option value="objectiveConquerthevanillaMurasamealtar">Conquer the vanilla Murasame altar</option>
+					<option value="objectiveConquerthevanillaCrystalSwordaltar">Conquer the vanilla Crystal Sword altar</option>
+					<option value="objectiveConquerthevanillaWhiteSpearaltar">Conquer the vanilla White Spear altar</option>
+					<option value="objectiveConquerthevanillaRibbonroom">Conquer the vanilla Ribbon room</option>
+					<option value="objectiveConquerthevanillaMasamunealtar">Conquer the vanilla Masamune altar</option>
+					<option value="objectiveBurnvillageMistwiththePackage">Burn village Mist with the Package</option>
+					<option value="objectiveCurethefeverwiththeSandRuby">Cure the fever with the SandRuby</option>
+					<option value="objectiveUnlockthesewerwiththeBaronKey">Unlock the sewer with the Baron Key</option>
+					<option value="objectiveBreaktheDarkElfsspellwiththeTwinHarp">Break the Dark Elf's spell with the TwinHarp</option>
+					<option value="objectiveOpentheToroiatreasurywiththeEarthCrystal">Open the Toroia treasury with the Earth Crystal</option>
+					<option value="objectiveDroptheMagmaKeyintotheAgartwell">Drop the Magma Key into the Agart well</option>
+					<option value="objectiveDestroytheSuperCannon">Destroy the Super Cannon</option>
+					<option value="objectiveUnlocktheSealedCave">Unlock the Sealed Cave</option>
+					<option value="objectiveRaisetheBigWhale">Raise the Big Whale</option>
+					<option value="objectiveTradeawaytheRatTail">Trade away the Rat Tail</option>
+					<option value="objectiveHaveKokkolforgeLegendSwordwithAdamant">Have Kokkol forge Legend Sword with Adamant</option>
+					<option value="objectiveWakeYangwiththePan">Wake Yang with the Pan</option>
+					<option value="objectiveReturnthePantoYangswife">Return the Pan to Yang's wife</option>
+					<option value="objectiveTradeawaythePinkTail">Trade away the Pink Tail</option>
+					<option value="objectiveUnlockthePassdoorinToroia">Unlock the Pass door in Toroia</option>
+				</select>&nbsp;&nbsp;<img id="objectiveCheck92" onclick="checkOffObjective(92);" src="images/objectiveunchecked.png" style="width: 16px;"><br></span>
+				<span id="objective93">Random Objective 4: <select style="width: 230px;" id="randomObjective4">
+					<option value="objectiveBlank"></option>
+					<option value="objectiveGetCecil">Get Cecil</option>
+					<option value="objectiveGetKain">Get Kain</option>
+					<option value="objectiveGetRydia">Get Rydia</option>
+					<option value="objectiveGetTellah">Get Tellah</option>
+					<option value="objectiveGetEdward">Get Edward</option>
+					<option value="objectiveGetRosa">Get Rosa</option>
+					<option value="objectiveGetYang">Get Yang</option>
+					<option value="objectiveGetPalom">Get Palom</option>
+					<option value="objectiveGetPorom">Get Porom</option>
+					<option value="objectiveGetCid">Get Cid</option>
+					<option value="objectiveGetEdge">Get Edge</option>
+					<option value="objectiveGetFuSoYa">Get FuSoYa</option>
+					<option value="objectiveDefeatD.Mist">Defeat D.Mist</option>
+					<option value="objectiveDefeatOfficer">Defeat Officer</option>
+					<option value="objectiveDefeatOctomamm">Defeat Octomamm</option>
+					<option value="objectiveDefeatAntlion">Defeat Antlion</option>
+					<option value="objectiveDefeatWaterhag">Defeat Waterhag (boss version)</option>
+					<option value="objectiveDefeatMomBomb">Defeat MomBomb</option>
+					<option value="objectiveDefeattheFabulGauntlet">Defeat the Fabul Gauntlet</option>
+					<option value="objectiveDefeatMilon">Defeat Milon</option>
+					<option value="objectiveDefeatMilonZ">Defeat Milon Z.</option>
+					<option value="objectiveDefeatD.Knight">Defeat D.Knight</option>
+					<option value="objectiveDefeattheGuards(boss)">Defeat the Guards (boss)</option>
+					<option value="objectiveDefeatKarate">Defeat Karate</option>
+					<option value="objectiveDefeatBaigan">Defeat Baigan</option>
+					<option value="objectiveDefeatKainazzo">Defeat Kainazzo</option>
+					<option value="objectiveDefeattheDarkElf">Defeat the Dark Elf (dragon form)</option>
+					<option value="objectiveDefeattheMagusSisters">Defeat the Magus Sisters</option>
+					<option value="objectiveDefeatValvalis">Defeat Valvalis</option>
+					<option value="objectiveDefeatCalbrena">Defeat Calbrena</option>
+					<option value="objectiveDefeatGolbez">Defeat Golbez</option>
+					<option value="objectiveDefeatDrLugae">Defeat Dr. Lugae</option>
+					<option value="objectiveDefeattheDarkImps(boss)">Defeat the Dark Imps (boss)</option>
+					<option value="objectiveDefeatKEblanandQEblan">Defeat K.Eblan and Q.Eblan</option>
+					<option value="objectiveDefeatRubicant">Defeat Rubicant</option>
+					<option value="objectiveDefeatEvilWall">Defeat EvilWall</option>
+					<option value="objectiveDefeatAsura">Defeat Asura</option>
+					<option value="objectiveDefeatLeviatan">Defeat Leviatan</option>
+					<option value="objectiveDefeatOdin">Defeat Odin</option>
+					<option value="objectiveDefeatBahamut">Defeat Bahamut</option>
+					<option value="objectiveDefeatElements">Defeat Elements</option>
+					<option value="objectiveDefeatCPU">Defeat CPU</option>
+					<option value="objectiveDefeatPaleDim">Defeat Pale Dim</option>
+					<option value="objectiveDefeatWyvern">Defeat Wyvern</option>
+					<option value="objectiveDefeatPlague">Defeat Plague</option>
+					<option value="objectiveDefeattheDLunars">Defeat the D.Lunars</option>
+					<option value="objectiveDefeatOgopogo">Defeat Ogopogo</option>
+					<option value="objectiveDefeatthebossoftheMistCave">Defeat the boss of the Mist Cave</option>
+					<option value="objectiveDefeatthebossoftheWaterfall">Defeat the boss of the Waterfall</option>
+					<option value="objectiveCompletetheAntlionNest">Complete the Antlion Nest</option>
+					<option value="objectiveRescuethehostageonMtHobs">Rescue the hostage on Mt. Hobs</option>
+					<option value="objectiveDefendFabul">Defend Fabul</option>
+					<option value="objectiveCompleteMtOrdeals">Complete Mt. Ordeals</option>
+					<option value="objectiveDefeatthebossesofBaronInn">Defeat the bosses of Baron Inn</option>
+					<option value="objectiveLiberateBaronCastle">Liberate Baron Castle</option>
+					<option value="objectiveCompleteCaveMagnes">Complete Cave Magnes</option>
+					<option value="objectiveCompletetheTowerofZot">Complete the Tower of Zot</option>
+					<option value="objectiveDefeatthebossesofDwarfCastle">Defeat the bosses of Dwarf Castle</option>
+					<option value="objectiveDefeatthebossofLowerBabil">Defeat the boss of Lower Bab-il</option>
+					<option value="objectiveLaunchtheFalcon">Launch the Falcon</option>
+					<option value="objectiveCompletetheSealedCave">Complete the Sealed Cave</option>
+					<option value="objectiveDefeatthequeenattheTownofMonsters">Defeat the queen at the Town of Monsters</option>
+					<option value="objectiveDefeatthekingattheTownofMonsters">Defeat the king at the Town of Monsters</option>
+					<option value="objectiveDefeattheBaronCastlebasementthrone">Defeat the Baron Castle basement throne</option>
+					<option value="objectiveCompletetheGiantofBabil">Complete the Giant of Bab-il</option>
+					<option value="objectiveCompleteCaveBahamut">Complete Cave Bahamut</option>
+					<option value="objectiveConquerthevanillaMurasamealtar">Conquer the vanilla Murasame altar</option>
+					<option value="objectiveConquerthevanillaCrystalSwordaltar">Conquer the vanilla Crystal Sword altar</option>
+					<option value="objectiveConquerthevanillaWhiteSpearaltar">Conquer the vanilla White Spear altar</option>
+					<option value="objectiveConquerthevanillaRibbonroom">Conquer the vanilla Ribbon room</option>
+					<option value="objectiveConquerthevanillaMasamunealtar">Conquer the vanilla Masamune altar</option>
+					<option value="objectiveBurnvillageMistwiththePackage">Burn village Mist with the Package</option>
+					<option value="objectiveCurethefeverwiththeSandRuby">Cure the fever with the SandRuby</option>
+					<option value="objectiveUnlockthesewerwiththeBaronKey">Unlock the sewer with the Baron Key</option>
+					<option value="objectiveBreaktheDarkElfsspellwiththeTwinHarp">Break the Dark Elf's spell with the TwinHarp</option>
+					<option value="objectiveOpentheToroiatreasurywiththeEarthCrystal">Open the Toroia treasury with the Earth Crystal</option>
+					<option value="objectiveDroptheMagmaKeyintotheAgartwell">Drop the Magma Key into the Agart well</option>
+					<option value="objectiveDestroytheSuperCannon">Destroy the Super Cannon</option>
+					<option value="objectiveUnlocktheSealedCave">Unlock the Sealed Cave</option>
+					<option value="objectiveRaisetheBigWhale">Raise the Big Whale</option>
+					<option value="objectiveTradeawaytheRatTail">Trade away the Rat Tail</option>
+					<option value="objectiveHaveKokkolforgeLegendSwordwithAdamant">Have Kokkol forge Legend Sword with Adamant</option>
+					<option value="objectiveWakeYangwiththePan">Wake Yang with the Pan</option>
+					<option value="objectiveReturnthePantoYangswife">Return the Pan to Yang's wife</option>
+					<option value="objectiveTradeawaythePinkTail">Trade away the Pink Tail</option>
+					<option value="objectiveUnlockthePassdoorinToroia">Unlock the Pass door in Toroia</option>
+				</select>&nbsp;&nbsp;<img id="objectiveCheck93" onclick="checkOffObjective(93);" src="images/objectiveunchecked.png" style="width: 16px;"><br></span>
+				<span id="objective94">Random Objective 5: <select style="width: 230px;" id="randomObjective5">
+					<option value="objectiveBlank"></option>
+					<option value="objectiveGetCecil">Get Cecil</option>
+					<option value="objectiveGetKain">Get Kain</option>
+					<option value="objectiveGetRydia">Get Rydia</option>
+					<option value="objectiveGetTellah">Get Tellah</option>
+					<option value="objectiveGetEdward">Get Edward</option>
+					<option value="objectiveGetRosa">Get Rosa</option>
+					<option value="objectiveGetYang">Get Yang</option>
+					<option value="objectiveGetPalom">Get Palom</option>
+					<option value="objectiveGetPorom">Get Porom</option>
+					<option value="objectiveGetCid">Get Cid</option>
+					<option value="objectiveGetEdge">Get Edge</option>
+					<option value="objectiveGetFuSoYa">Get FuSoYa</option>
+					<option value="objectiveDefeatD.Mist">Defeat D.Mist</option>
+					<option value="objectiveDefeatOfficer">Defeat Officer</option>
+					<option value="objectiveDefeatOctomamm">Defeat Octomamm</option>
+					<option value="objectiveDefeatAntlion">Defeat Antlion</option>
+					<option value="objectiveDefeatWaterhag">Defeat Waterhag (boss version)</option>
+					<option value="objectiveDefeatMomBomb">Defeat MomBomb</option>
+					<option value="objectiveDefeattheFabulGauntlet">Defeat the Fabul Gauntlet</option>
+					<option value="objectiveDefeatMilon">Defeat Milon</option>
+					<option value="objectiveDefeatMilonZ">Defeat Milon Z.</option>
+					<option value="objectiveDefeatD.Knight">Defeat D.Knight</option>
+					<option value="objectiveDefeattheGuards(boss)">Defeat the Guards (boss)</option>
+					<option value="objectiveDefeatKarate">Defeat Karate</option>
+					<option value="objectiveDefeatBaigan">Defeat Baigan</option>
+					<option value="objectiveDefeatKainazzo">Defeat Kainazzo</option>
+					<option value="objectiveDefeattheDarkElf">Defeat the Dark Elf (dragon form)</option>
+					<option value="objectiveDefeattheMagusSisters">Defeat the Magus Sisters</option>
+					<option value="objectiveDefeatValvalis">Defeat Valvalis</option>
+					<option value="objectiveDefeatCalbrena">Defeat Calbrena</option>
+					<option value="objectiveDefeatGolbez">Defeat Golbez</option>
+					<option value="objectiveDefeatDrLugae">Defeat Dr. Lugae</option>
+					<option value="objectiveDefeattheDarkImps(boss)">Defeat the Dark Imps (boss)</option>
+					<option value="objectiveDefeatKEblanandQEblan">Defeat K.Eblan and Q.Eblan</option>
+					<option value="objectiveDefeatRubicant">Defeat Rubicant</option>
+					<option value="objectiveDefeatEvilWall">Defeat EvilWall</option>
+					<option value="objectiveDefeatAsura">Defeat Asura</option>
+					<option value="objectiveDefeatLeviatan">Defeat Leviatan</option>
+					<option value="objectiveDefeatOdin">Defeat Odin</option>
+					<option value="objectiveDefeatBahamut">Defeat Bahamut</option>
+					<option value="objectiveDefeatElements">Defeat Elements</option>
+					<option value="objectiveDefeatCPU">Defeat CPU</option>
+					<option value="objectiveDefeatPaleDim">Defeat Pale Dim</option>
+					<option value="objectiveDefeatWyvern">Defeat Wyvern</option>
+					<option value="objectiveDefeatPlague">Defeat Plague</option>
+					<option value="objectiveDefeattheDLunars">Defeat the D.Lunars</option>
+					<option value="objectiveDefeatOgopogo">Defeat Ogopogo</option>
+					<option value="objectiveDefeatthebossoftheMistCave">Defeat the boss of the Mist Cave</option>
+					<option value="objectiveDefeatthebossoftheWaterfall">Defeat the boss of the Waterfall</option>
+					<option value="objectiveCompletetheAntlionNest">Complete the Antlion Nest</option>
+					<option value="objectiveRescuethehostageonMtHobs">Rescue the hostage on Mt. Hobs</option>
+					<option value="objectiveDefendFabul">Defend Fabul</option>
+					<option value="objectiveCompleteMtOrdeals">Complete Mt. Ordeals</option>
+					<option value="objectiveDefeatthebossesofBaronInn">Defeat the bosses of Baron Inn</option>
+					<option value="objectiveLiberateBaronCastle">Liberate Baron Castle</option>
+					<option value="objectiveCompleteCaveMagnes">Complete Cave Magnes</option>
+					<option value="objectiveCompletetheTowerofZot">Complete the Tower of Zot</option>
+					<option value="objectiveDefeatthebossesofDwarfCastle">Defeat the bosses of Dwarf Castle</option>
+					<option value="objectiveDefeatthebossofLowerBabil">Defeat the boss of Lower Bab-il</option>
+					<option value="objectiveLaunchtheFalcon">Launch the Falcon</option>
+					<option value="objectiveCompletetheSealedCave">Complete the Sealed Cave</option>
+					<option value="objectiveDefeatthequeenattheTownofMonsters">Defeat the queen at the Town of Monsters</option>
+					<option value="objectiveDefeatthekingattheTownofMonsters">Defeat the king at the Town of Monsters</option>
+					<option value="objectiveDefeattheBaronCastlebasementthrone">Defeat the Baron Castle basement throne</option>
+					<option value="objectiveCompletetheGiantofBabil">Complete the Giant of Bab-il</option>
+					<option value="objectiveCompleteCaveBahamut">Complete Cave Bahamut</option>
+					<option value="objectiveConquerthevanillaMurasamealtar">Conquer the vanilla Murasame altar</option>
+					<option value="objectiveConquerthevanillaCrystalSwordaltar">Conquer the vanilla Crystal Sword altar</option>
+					<option value="objectiveConquerthevanillaWhiteSpearaltar">Conquer the vanilla White Spear altar</option>
+					<option value="objectiveConquerthevanillaRibbonroom">Conquer the vanilla Ribbon room</option>
+					<option value="objectiveConquerthevanillaMasamunealtar">Conquer the vanilla Masamune altar</option>
+					<option value="objectiveBurnvillageMistwiththePackage">Burn village Mist with the Package</option>
+					<option value="objectiveCurethefeverwiththeSandRuby">Cure the fever with the SandRuby</option>
+					<option value="objectiveUnlockthesewerwiththeBaronKey">Unlock the sewer with the Baron Key</option>
+					<option value="objectiveBreaktheDarkElfsspellwiththeTwinHarp">Break the Dark Elf's spell with the TwinHarp</option>
+					<option value="objectiveOpentheToroiatreasurywiththeEarthCrystal">Open the Toroia treasury with the Earth Crystal</option>
+					<option value="objectiveDroptheMagmaKeyintotheAgartwell">Drop the Magma Key into the Agart well</option>
+					<option value="objectiveDestroytheSuperCannon">Destroy the Super Cannon</option>
+					<option value="objectiveUnlocktheSealedCave">Unlock the Sealed Cave</option>
+					<option value="objectiveRaisetheBigWhale">Raise the Big Whale</option>
+					<option value="objectiveTradeawaytheRatTail">Trade away the Rat Tail</option>
+					<option value="objectiveHaveKokkolforgeLegendSwordwithAdamant">Have Kokkol forge Legend Sword with Adamant</option>
+					<option value="objectiveWakeYangwiththePan">Wake Yang with the Pan</option>
+					<option value="objectiveReturnthePantoYangswife">Return the Pan to Yang's wife</option>
+					<option value="objectiveTradeawaythePinkTail">Trade away the Pink Tail</option>
+					<option value="objectiveUnlockthePassdoorinToroia">Unlock the Pass door in Toroia</option>
+				</select>&nbsp;&nbsp;<img id="objectiveCheck94" onclick="checkOffObjective(94);" src="images/objectiveunchecked.png" style="width: 16px;"><br></span>
+				<span id="objective95">Random Objective 6: <select style="width: 230px;" id="randomObjective6">
+					<option value="objectiveBlank"></option>
+					<option value="objectiveGetCecil">Get Cecil</option>
+					<option value="objectiveGetKain">Get Kain</option>
+					<option value="objectiveGetRydia">Get Rydia</option>
+					<option value="objectiveGetTellah">Get Tellah</option>
+					<option value="objectiveGetEdward">Get Edward</option>
+					<option value="objectiveGetRosa">Get Rosa</option>
+					<option value="objectiveGetYang">Get Yang</option>
+					<option value="objectiveGetPalom">Get Palom</option>
+					<option value="objectiveGetPorom">Get Porom</option>
+					<option value="objectiveGetCid">Get Cid</option>
+					<option value="objectiveGetEdge">Get Edge</option>
+					<option value="objectiveGetFuSoYa">Get FuSoYa</option>
+					<option value="objectiveDefeatD.Mist">Defeat D.Mist</option>
+					<option value="objectiveDefeatOfficer">Defeat Officer</option>
+					<option value="objectiveDefeatOctomamm">Defeat Octomamm</option>
+					<option value="objectiveDefeatAntlion">Defeat Antlion</option>
+					<option value="objectiveDefeatWaterhag">Defeat Waterhag (boss version)</option>
+					<option value="objectiveDefeatMomBomb">Defeat MomBomb</option>
+					<option value="objectiveDefeattheFabulGauntlet">Defeat the Fabul Gauntlet</option>
+					<option value="objectiveDefeatMilon">Defeat Milon</option>
+					<option value="objectiveDefeatMilonZ">Defeat Milon Z.</option>
+					<option value="objectiveDefeatD.Knight">Defeat D.Knight</option>
+					<option value="objectiveDefeattheGuards(boss)">Defeat the Guards (boss)</option>
+					<option value="objectiveDefeatKarate">Defeat Karate</option>
+					<option value="objectiveDefeatBaigan">Defeat Baigan</option>
+					<option value="objectiveDefeatKainazzo">Defeat Kainazzo</option>
+					<option value="objectiveDefeattheDarkElf">Defeat the Dark Elf (dragon form)</option>
+					<option value="objectiveDefeattheMagusSisters">Defeat the Magus Sisters</option>
+					<option value="objectiveDefeatValvalis">Defeat Valvalis</option>
+					<option value="objectiveDefeatCalbrena">Defeat Calbrena</option>
+					<option value="objectiveDefeatGolbez">Defeat Golbez</option>
+					<option value="objectiveDefeatDrLugae">Defeat Dr. Lugae</option>
+					<option value="objectiveDefeattheDarkImps(boss)">Defeat the Dark Imps (boss)</option>
+					<option value="objectiveDefeatKEblanandQEblan">Defeat K.Eblan and Q.Eblan</option>
+					<option value="objectiveDefeatRubicant">Defeat Rubicant</option>
+					<option value="objectiveDefeatEvilWall">Defeat EvilWall</option>
+					<option value="objectiveDefeatAsura">Defeat Asura</option>
+					<option value="objectiveDefeatLeviatan">Defeat Leviatan</option>
+					<option value="objectiveDefeatOdin">Defeat Odin</option>
+					<option value="objectiveDefeatBahamut">Defeat Bahamut</option>
+					<option value="objectiveDefeatElements">Defeat Elements</option>
+					<option value="objectiveDefeatCPU">Defeat CPU</option>
+					<option value="objectiveDefeatPaleDim">Defeat Pale Dim</option>
+					<option value="objectiveDefeatWyvern">Defeat Wyvern</option>
+					<option value="objectiveDefeatPlague">Defeat Plague</option>
+					<option value="objectiveDefeattheDLunars">Defeat the D.Lunars</option>
+					<option value="objectiveDefeatOgopogo">Defeat Ogopogo</option>
+					<option value="objectiveDefeatthebossoftheMistCave">Defeat the boss of the Mist Cave</option>
+					<option value="objectiveDefeatthebossoftheWaterfall">Defeat the boss of the Waterfall</option>
+					<option value="objectiveCompletetheAntlionNest">Complete the Antlion Nest</option>
+					<option value="objectiveRescuethehostageonMtHobs">Rescue the hostage on Mt. Hobs</option>
+					<option value="objectiveDefendFabul">Defend Fabul</option>
+					<option value="objectiveCompleteMtOrdeals">Complete Mt. Ordeals</option>
+					<option value="objectiveDefeatthebossesofBaronInn">Defeat the bosses of Baron Inn</option>
+					<option value="objectiveLiberateBaronCastle">Liberate Baron Castle</option>
+					<option value="objectiveCompleteCaveMagnes">Complete Cave Magnes</option>
+					<option value="objectiveCompletetheTowerofZot">Complete the Tower of Zot</option>
+					<option value="objectiveDefeatthebossesofDwarfCastle">Defeat the bosses of Dwarf Castle</option>
+					<option value="objectiveDefeatthebossofLowerBabil">Defeat the boss of Lower Bab-il</option>
+					<option value="objectiveLaunchtheFalcon">Launch the Falcon</option>
+					<option value="objectiveCompletetheSealedCave">Complete the Sealed Cave</option>
+					<option value="objectiveDefeatthequeenattheTownofMonsters">Defeat the queen at the Town of Monsters</option>
+					<option value="objectiveDefeatthekingattheTownofMonsters">Defeat the king at the Town of Monsters</option>
+					<option value="objectiveDefeattheBaronCastlebasementthrone">Defeat the Baron Castle basement throne</option>
+					<option value="objectiveCompletetheGiantofBabil">Complete the Giant of Bab-il</option>
+					<option value="objectiveCompleteCaveBahamut">Complete Cave Bahamut</option>
+					<option value="objectiveConquerthevanillaMurasamealtar">Conquer the vanilla Murasame altar</option>
+					<option value="objectiveConquerthevanillaCrystalSwordaltar">Conquer the vanilla Crystal Sword altar</option>
+					<option value="objectiveConquerthevanillaWhiteSpearaltar">Conquer the vanilla White Spear altar</option>
+					<option value="objectiveConquerthevanillaRibbonroom">Conquer the vanilla Ribbon room</option>
+					<option value="objectiveConquerthevanillaMasamunealtar">Conquer the vanilla Masamune altar</option>
+					<option value="objectiveBurnvillageMistwiththePackage">Burn village Mist with the Package</option>
+					<option value="objectiveCurethefeverwiththeSandRuby">Cure the fever with the SandRuby</option>
+					<option value="objectiveUnlockthesewerwiththeBaronKey">Unlock the sewer with the Baron Key</option>
+					<option value="objectiveBreaktheDarkElfsspellwiththeTwinHarp">Break the Dark Elf's spell with the TwinHarp</option>
+					<option value="objectiveOpentheToroiatreasurywiththeEarthCrystal">Open the Toroia treasury with the Earth Crystal</option>
+					<option value="objectiveDroptheMagmaKeyintotheAgartwell">Drop the Magma Key into the Agart well</option>
+					<option value="objectiveDestroytheSuperCannon">Destroy the Super Cannon</option>
+					<option value="objectiveUnlocktheSealedCave">Unlock the Sealed Cave</option>
+					<option value="objectiveRaisetheBigWhale">Raise the Big Whale</option>
+					<option value="objectiveTradeawaytheRatTail">Trade away the Rat Tail</option>
+					<option value="objectiveHaveKokkolforgeLegendSwordwithAdamant">Have Kokkol forge Legend Sword with Adamant</option>
+					<option value="objectiveWakeYangwiththePan">Wake Yang with the Pan</option>
+					<option value="objectiveReturnthePantoYangswife">Return the Pan to Yang's wife</option>
+					<option value="objectiveTradeawaythePinkTail">Trade away the Pink Tail</option>
+					<option value="objectiveUnlockthePassdoorinToroia">Unlock the Pass door in Toroia</option>
+				</select>&nbsp;&nbsp;<img id="objectiveCheck95" onclick="checkOffObjective(95);" src="images/objectiveunchecked.png" style="width: 16px;"><br></span>
+				<span id="objective96">Random Objective 7: <select style="width: 230px;" id="randomObjective7">
+					<option value="objectiveBlank"></option>
+					<option value="objectiveGetCecil">Get Cecil</option>
+					<option value="objectiveGetKain">Get Kain</option>
+					<option value="objectiveGetRydia">Get Rydia</option>
+					<option value="objectiveGetTellah">Get Tellah</option>
+					<option value="objectiveGetEdward">Get Edward</option>
+					<option value="objectiveGetRosa">Get Rosa</option>
+					<option value="objectiveGetYang">Get Yang</option>
+					<option value="objectiveGetPalom">Get Palom</option>
+					<option value="objectiveGetPorom">Get Porom</option>
+					<option value="objectiveGetCid">Get Cid</option>
+					<option value="objectiveGetEdge">Get Edge</option>
+					<option value="objectiveGetFuSoYa">Get FuSoYa</option>
+					<option value="objectiveDefeatD.Mist">Defeat D.Mist</option>
+					<option value="objectiveDefeatOfficer">Defeat Officer</option>
+					<option value="objectiveDefeatOctomamm">Defeat Octomamm</option>
+					<option value="objectiveDefeatAntlion">Defeat Antlion</option>
+					<option value="objectiveDefeatWaterhag">Defeat Waterhag (boss version)</option>
+					<option value="objectiveDefeatMomBomb">Defeat MomBomb</option>
+					<option value="objectiveDefeattheFabulGauntlet">Defeat the Fabul Gauntlet</option>
+					<option value="objectiveDefeatMilon">Defeat Milon</option>
+					<option value="objectiveDefeatMilonZ">Defeat Milon Z.</option>
+					<option value="objectiveDefeatD.Knight">Defeat D.Knight</option>
+					<option value="objectiveDefeattheGuards(boss)">Defeat the Guards (boss)</option>
+					<option value="objectiveDefeatKarate">Defeat Karate</option>
+					<option value="objectiveDefeatBaigan">Defeat Baigan</option>
+					<option value="objectiveDefeatKainazzo">Defeat Kainazzo</option>
+					<option value="objectiveDefeattheDarkElf">Defeat the Dark Elf (dragon form)</option>
+					<option value="objectiveDefeattheMagusSisters">Defeat the Magus Sisters</option>
+					<option value="objectiveDefeatValvalis">Defeat Valvalis</option>
+					<option value="objectiveDefeatCalbrena">Defeat Calbrena</option>
+					<option value="objectiveDefeatGolbez">Defeat Golbez</option>
+					<option value="objectiveDefeatDrLugae">Defeat Dr. Lugae</option>
+					<option value="objectiveDefeattheDarkImps(boss)">Defeat the Dark Imps (boss)</option>
+					<option value="objectiveDefeatKEblanandQEblan">Defeat K.Eblan and Q.Eblan</option>
+					<option value="objectiveDefeatRubicant">Defeat Rubicant</option>
+					<option value="objectiveDefeatEvilWall">Defeat EvilWall</option>
+					<option value="objectiveDefeatAsura">Defeat Asura</option>
+					<option value="objectiveDefeatLeviatan">Defeat Leviatan</option>
+					<option value="objectiveDefeatOdin">Defeat Odin</option>
+					<option value="objectiveDefeatBahamut">Defeat Bahamut</option>
+					<option value="objectiveDefeatElements">Defeat Elements</option>
+					<option value="objectiveDefeatCPU">Defeat CPU</option>
+					<option value="objectiveDefeatPaleDim">Defeat Pale Dim</option>
+					<option value="objectiveDefeatWyvern">Defeat Wyvern</option>
+					<option value="objectiveDefeatPlague">Defeat Plague</option>
+					<option value="objectiveDefeattheDLunars">Defeat the D.Lunars</option>
+					<option value="objectiveDefeatOgopogo">Defeat Ogopogo</option>
+					<option value="objectiveDefeatthebossoftheMistCave">Defeat the boss of the Mist Cave</option>
+					<option value="objectiveDefeatthebossoftheWaterfall">Defeat the boss of the Waterfall</option>
+					<option value="objectiveCompletetheAntlionNest">Complete the Antlion Nest</option>
+					<option value="objectiveRescuethehostageonMtHobs">Rescue the hostage on Mt. Hobs</option>
+					<option value="objectiveDefendFabul">Defend Fabul</option>
+					<option value="objectiveCompleteMtOrdeals">Complete Mt. Ordeals</option>
+					<option value="objectiveDefeatthebossesofBaronInn">Defeat the bosses of Baron Inn</option>
+					<option value="objectiveLiberateBaronCastle">Liberate Baron Castle</option>
+					<option value="objectiveCompleteCaveMagnes">Complete Cave Magnes</option>
+					<option value="objectiveCompletetheTowerofZot">Complete the Tower of Zot</option>
+					<option value="objectiveDefeatthebossesofDwarfCastle">Defeat the bosses of Dwarf Castle</option>
+					<option value="objectiveDefeatthebossofLowerBabil">Defeat the boss of Lower Bab-il</option>
+					<option value="objectiveLaunchtheFalcon">Launch the Falcon</option>
+					<option value="objectiveCompletetheSealedCave">Complete the Sealed Cave</option>
+					<option value="objectiveDefeatthequeenattheTownofMonsters">Defeat the queen at the Town of Monsters</option>
+					<option value="objectiveDefeatthekingattheTownofMonsters">Defeat the king at the Town of Monsters</option>
+					<option value="objectiveDefeattheBaronCastlebasementthrone">Defeat the Baron Castle basement throne</option>
+					<option value="objectiveCompletetheGiantofBabil">Complete the Giant of Bab-il</option>
+					<option value="objectiveCompleteCaveBahamut">Complete Cave Bahamut</option>
+					<option value="objectiveConquerthevanillaMurasamealtar">Conquer the vanilla Murasame altar</option>
+					<option value="objectiveConquerthevanillaCrystalSwordaltar">Conquer the vanilla Crystal Sword altar</option>
+					<option value="objectiveConquerthevanillaWhiteSpearaltar">Conquer the vanilla White Spear altar</option>
+					<option value="objectiveConquerthevanillaRibbonroom">Conquer the vanilla Ribbon room</option>
+					<option value="objectiveConquerthevanillaMasamunealtar">Conquer the vanilla Masamune altar</option>
+					<option value="objectiveBurnvillageMistwiththePackage">Burn village Mist with the Package</option>
+					<option value="objectiveCurethefeverwiththeSandRuby">Cure the fever with the SandRuby</option>
+					<option value="objectiveUnlockthesewerwiththeBaronKey">Unlock the sewer with the Baron Key</option>
+					<option value="objectiveBreaktheDarkElfsspellwiththeTwinHarp">Break the Dark Elf's spell with the TwinHarp</option>
+					<option value="objectiveOpentheToroiatreasurywiththeEarthCrystal">Open the Toroia treasury with the Earth Crystal</option>
+					<option value="objectiveDroptheMagmaKeyintotheAgartwell">Drop the Magma Key into the Agart well</option>
+					<option value="objectiveDestroytheSuperCannon">Destroy the Super Cannon</option>
+					<option value="objectiveUnlocktheSealedCave">Unlock the Sealed Cave</option>
+					<option value="objectiveRaisetheBigWhale">Raise the Big Whale</option>
+					<option value="objectiveTradeawaytheRatTail">Trade away the Rat Tail</option>
+					<option value="objectiveHaveKokkolforgeLegendSwordwithAdamant">Have Kokkol forge Legend Sword with Adamant</option>
+					<option value="objectiveWakeYangwiththePan">Wake Yang with the Pan</option>
+					<option value="objectiveReturnthePantoYangswife">Return the Pan to Yang's wife</option>
+					<option value="objectiveTradeawaythePinkTail">Trade away the Pink Tail</option>
+					<option value="objectiveUnlockthePassdoorinToroia">Unlock the Pass door in Toroia</option>
+				</select>&nbsp;&nbsp;<img id="objectiveCheck96" onclick="checkOffObjective(96);" src="images/objectiveunchecked.png" style="width: 16px;"><br></span>
+				<span id="objective97">Random Objective 8: <select style="width: 230px;" id="randomObjective8">
+					<option value="objectiveBlank"></option>
+					<option value="objectiveGetCecil">Get Cecil</option>
+					<option value="objectiveGetKain">Get Kain</option>
+					<option value="objectiveGetRydia">Get Rydia</option>
+					<option value="objectiveGetTellah">Get Tellah</option>
+					<option value="objectiveGetEdward">Get Edward</option>
+					<option value="objectiveGetRosa">Get Rosa</option>
+					<option value="objectiveGetYang">Get Yang</option>
+					<option value="objectiveGetPalom">Get Palom</option>
+					<option value="objectiveGetPorom">Get Porom</option>
+					<option value="objectiveGetCid">Get Cid</option>
+					<option value="objectiveGetEdge">Get Edge</option>
+					<option value="objectiveGetFuSoYa">Get FuSoYa</option>
+					<option value="objectiveDefeatD.Mist">Defeat D.Mist</option>
+					<option value="objectiveDefeatOfficer">Defeat Officer</option>
+					<option value="objectiveDefeatOctomamm">Defeat Octomamm</option>
+					<option value="objectiveDefeatAntlion">Defeat Antlion</option>
+					<option value="objectiveDefeatWaterhag">Defeat Waterhag (boss version)</option>
+					<option value="objectiveDefeatMomBomb">Defeat MomBomb</option>
+					<option value="objectiveDefeattheFabulGauntlet">Defeat the Fabul Gauntlet</option>
+					<option value="objectiveDefeatMilon">Defeat Milon</option>
+					<option value="objectiveDefeatMilonZ">Defeat Milon Z.</option>
+					<option value="objectiveDefeatD.Knight">Defeat D.Knight</option>
+					<option value="objectiveDefeattheGuards(boss)">Defeat the Guards (boss)</option>
+					<option value="objectiveDefeatKarate">Defeat Karate</option>
+					<option value="objectiveDefeatBaigan">Defeat Baigan</option>
+					<option value="objectiveDefeatKainazzo">Defeat Kainazzo</option>
+					<option value="objectiveDefeattheDarkElf">Defeat the Dark Elf (dragon form)</option>
+					<option value="objectiveDefeattheMagusSisters">Defeat the Magus Sisters</option>
+					<option value="objectiveDefeatValvalis">Defeat Valvalis</option>
+					<option value="objectiveDefeatCalbrena">Defeat Calbrena</option>
+					<option value="objectiveDefeatGolbez">Defeat Golbez</option>
+					<option value="objectiveDefeatDrLugae">Defeat Dr. Lugae</option>
+					<option value="objectiveDefeattheDarkImps(boss)">Defeat the Dark Imps (boss)</option>
+					<option value="objectiveDefeatKEblanandQEblan">Defeat K.Eblan and Q.Eblan</option>
+					<option value="objectiveDefeatRubicant">Defeat Rubicant</option>
+					<option value="objectiveDefeatEvilWall">Defeat EvilWall</option>
+					<option value="objectiveDefeatAsura">Defeat Asura</option>
+					<option value="objectiveDefeatLeviatan">Defeat Leviatan</option>
+					<option value="objectiveDefeatOdin">Defeat Odin</option>
+					<option value="objectiveDefeatBahamut">Defeat Bahamut</option>
+					<option value="objectiveDefeatElements">Defeat Elements</option>
+					<option value="objectiveDefeatCPU">Defeat CPU</option>
+					<option value="objectiveDefeatPaleDim">Defeat Pale Dim</option>
+					<option value="objectiveDefeatWyvern">Defeat Wyvern</option>
+					<option value="objectiveDefeatPlague">Defeat Plague</option>
+					<option value="objectiveDefeattheDLunars">Defeat the D.Lunars</option>
+					<option value="objectiveDefeatOgopogo">Defeat Ogopogo</option>
+					<option value="objectiveDefeatthebossoftheMistCave">Defeat the boss of the Mist Cave</option>
+					<option value="objectiveDefeatthebossoftheWaterfall">Defeat the boss of the Waterfall</option>
+					<option value="objectiveCompletetheAntlionNest">Complete the Antlion Nest</option>
+					<option value="objectiveRescuethehostageonMtHobs">Rescue the hostage on Mt. Hobs</option>
+					<option value="objectiveDefendFabul">Defend Fabul</option>
+					<option value="objectiveCompleteMtOrdeals">Complete Mt. Ordeals</option>
+					<option value="objectiveDefeatthebossesofBaronInn">Defeat the bosses of Baron Inn</option>
+					<option value="objectiveLiberateBaronCastle">Liberate Baron Castle</option>
+					<option value="objectiveCompleteCaveMagnes">Complete Cave Magnes</option>
+					<option value="objectiveCompletetheTowerofZot">Complete the Tower of Zot</option>
+					<option value="objectiveDefeatthebossesofDwarfCastle">Defeat the bosses of Dwarf Castle</option>
+					<option value="objectiveDefeatthebossofLowerBabil">Defeat the boss of Lower Bab-il</option>
+					<option value="objectiveLaunchtheFalcon">Launch the Falcon</option>
+					<option value="objectiveCompletetheSealedCave">Complete the Sealed Cave</option>
+					<option value="objectiveDefeatthequeenattheTownofMonsters">Defeat the queen at the Town of Monsters</option>
+					<option value="objectiveDefeatthekingattheTownofMonsters">Defeat the king at the Town of Monsters</option>
+					<option value="objectiveDefeattheBaronCastlebasementthrone">Defeat the Baron Castle basement throne</option>
+					<option value="objectiveCompletetheGiantofBabil">Complete the Giant of Bab-il</option>
+					<option value="objectiveCompleteCaveBahamut">Complete Cave Bahamut</option>
+					<option value="objectiveConquerthevanillaMurasamealtar">Conquer the vanilla Murasame altar</option>
+					<option value="objectiveConquerthevanillaCrystalSwordaltar">Conquer the vanilla Crystal Sword altar</option>
+					<option value="objectiveConquerthevanillaWhiteSpearaltar">Conquer the vanilla White Spear altar</option>
+					<option value="objectiveConquerthevanillaRibbonroom">Conquer the vanilla Ribbon room</option>
+					<option value="objectiveConquerthevanillaMasamunealtar">Conquer the vanilla Masamune altar</option>
+					<option value="objectiveBurnvillageMistwiththePackage">Burn village Mist with the Package</option>
+					<option value="objectiveCurethefeverwiththeSandRuby">Cure the fever with the SandRuby</option>
+					<option value="objectiveUnlockthesewerwiththeBaronKey">Unlock the sewer with the Baron Key</option>
+					<option value="objectiveBreaktheDarkElfsspellwiththeTwinHarp">Break the Dark Elf's spell with the TwinHarp</option>
+					<option value="objectiveOpentheToroiatreasurywiththeEarthCrystal">Open the Toroia treasury with the Earth Crystal</option>
+					<option value="objectiveDroptheMagmaKeyintotheAgartwell">Drop the Magma Key into the Agart well</option>
+					<option value="objectiveDestroytheSuperCannon">Destroy the Super Cannon</option>
+					<option value="objectiveUnlocktheSealedCave">Unlock the Sealed Cave</option>
+					<option value="objectiveRaisetheBigWhale">Raise the Big Whale</option>
+					<option value="objectiveTradeawaytheRatTail">Trade away the Rat Tail</option>
+					<option value="objectiveHaveKokkolforgeLegendSwordwithAdamant">Have Kokkol forge Legend Sword with Adamant</option>
+					<option value="objectiveWakeYangwiththePan">Wake Yang with the Pan</option>
+					<option value="objectiveReturnthePantoYangswife">Return the Pan to Yang's wife</option>
+					<option value="objectiveTradeawaythePinkTail">Trade away the Pink Tail</option>
+					<option value="objectiveUnlockthePassdoorinToroia">Unlock the Pass door in Toroia</option>
+				</select>&nbsp;&nbsp;<img id="objectiveCheck97" onclick="checkOffObjective(97);" src="images/objectiveunchecked.png" style="width: 16px;"><br></span>
 			</div>
 		</div>	
 		

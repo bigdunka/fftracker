@@ -8,6 +8,9 @@ var townlocations = [0,0,0,0,0,0,0,0,0,0,0,0,0];
 var trappedchestlocations = [0,0,0,0,0,0,0,0,0,0];
 var trappedchestnames = ['Castle Eblan','Eblan Cave','Giant of Babil','Tower of Zot','Upper Babil','Feymarch','Lower Babil','Sylph Cave','Lunar Path','Lunar Sub.'];
 var bossnames = ['Mist Dragon','Baron Soldiers','Octomamm','Antlion','Waterhag','Mom Bomb','Fabul Gauntlet','Milon','MilonZ','Dark Knight Cecil','Baron Guards','Yang','Baigan','Kainazzo','Dark Elf','Magus Sisters','Valvalis','Calcabrina','Golbez','Dr Lugae','Dark Imps','K & Q Eblan','Rubicant','Evil Wall','Elementals','CPU','Odin','Asura','Leviathan','Bahamut','Pale Dim','Lunar Dragons','Plague','Ogopogo','Wyvern'];
+var objectives = [2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0];
+//0-98 and the last two being win/crystal objectives
+//0 = Unchecked, 1 = Checked, 2 = Hidden
 
 // 0 = Not available, 1 = Available, 2 = Checked, 3 = Hidden
 
@@ -26,13 +29,14 @@ var viewactivecharacters = true;
 var viewactivetowns = true;
 var viewactivetrapped = true;
 
-var imagedir = 'images/';
 var cecil = false;
 var rydia = false;
 var mist = false;
 var hookclear = false;
 var ignorewarp = false;
 var menutoggle = false;
+
+var dmcount = 0;
 
 //NEW NEW FLAGS
 var modeflags = {
@@ -72,10 +76,14 @@ var modeflags = {
 	cnodupes: false,
 	cbye: false,
 	cpermajoin: false,
+	cpermadeath: false,
+	cpermadeader: false,
 	tchests: 'tvanilla',
+	tsparse: 0,
 	tnoj: false,
 	tjunk: false,
 	sshops: 'svanilla',
+	sunsafe: false,
 	sfree: false,
 	squarter: false,
 	snoj: false,
@@ -91,6 +99,10 @@ var modeflags = {
 	nkey: false,
 	nbosses: false,
 	eencounters: 'evanilla',
+	ekeepdoors: false,
+	ekeepbehemoths: false,
+	edanger: false,
+	enosirens: false,
 	enojdrops: false,
 	ecantrun: false,
 	enoexp: false,
@@ -109,7 +121,7 @@ var modeflags = {
 	ovanillaexp: false,
 	ovanillafashion: false,
 	ovanillatraps: false,
-	ovanillaz: false	
+	ovanillaz: false
 }
 
 //NEW FLAGS
@@ -136,11 +148,9 @@ function getParameterByName(name, url) {
 function SetModes() {
 	$('#itemModal').hide();
 	$('#flagsModal').hide();
+	$('#objectiveModal').hide();
 	$('#bossModal').hide();
 	$('#townModal').hide();
-	$('#armoryModal').hide();
-	$('#bestairyModal').hide();
-	$('#characterModal').hide();
 	
 	disableitemtracker = getParameterByName('d');
 	
@@ -177,6 +187,7 @@ function SetModes() {
 	
 	var flagsets = flags.split('|');
 	var excludedCharacters = '';
+	var includedCharacters = '';
 	
 	for (var fs in flagsets) {
 		
@@ -191,23 +202,311 @@ function SetModes() {
 						modeflags.kmain = true;
 						break;
 					default:
+						
 						if (keys[k].startsWith('MODE')) {
 							var mode = keys[k].substring(5).split(',');
 							for (var j in mode) {
 								switch (mode[j]) {
 									case 'CLASSICFORGE':
 										modeflags.oforge = true;
+										objectives[0] = 0;
 										break;
 									case 'CLASSICGIANT':
 										modeflags.ogiant = true;
+										objectives[1] = 0;
 										break;
 									case 'FIENDS':
 										modeflags.ofiends = true;
+										objectives[2] = 0;
+										objectives[23] = 0;
+										objectives[24] = 0;
+										objectives[29] = 0;
+										objectives[32] = 0;
+										objectives[38] = 0;
+										objectives[44] = 0;
 										break;
 									case 'DKMATTER':
 										modeflags.odarkmatter = true;
+										objectives[3] = 0;
+										document.getElementById('dkmatterspan').style.display = 'inherit';
 										break;
 								}
+							}
+						} else if (keys[k].startsWith('RANDOM')) {
+							var randomcount = keys[k].substring(7);
+							for (var j = 0; j < randomcount; j++) {
+								objectives[90 + j] = 0;
+							}
+						} else if (keys[k].startsWith('WIN')) {
+							var wincondition = keys[k].substring(4);
+							if (wincondition === 'GAME') {
+								objectives[98] = 0;
+								objectives[99] = 2;
+							} else {
+								objectives[98] = 2;
+								objectives[99] = 0;
+							}
+						} else {
+							var currentkey = keys[k].substr(2).toLowerCase();
+							switch (currentkey) {
+								case 'char_cecil':
+									objectives[4] = 0;
+									break;
+								case 'char_kain':
+									objectives[5] = 0;
+									break;
+								case 'char_rydia':
+									objectives[6] = 0;
+									break;
+								case 'char_tellah':
+									objectives[7] = 0;
+									break;
+								case 'char_edward':
+									objectives[8] = 0;
+									break;
+								case 'char_rosa':
+									objectives[9] = 0;
+									break;
+								case 'char_yang':
+									objectives[10] = 0;
+									break;
+								case 'char_palom':
+									objectives[11] = 0;
+									break;
+								case 'char_porom':
+									objectives[12] = 0;
+									break;
+								case 'char_cid':
+									objectives[13] = 0;
+									break;
+								case 'char_edge':
+									objectives[14] = 0;
+									break;
+								case 'char_fusoya':
+									objectives[15] = 0;
+									break;
+								case 'boss_dmist':
+									objectives[16] = 0;
+									break;
+								case 'boss_officer':
+									objectives[17] = 0;
+									break;
+								case 'boss_octomamm':
+									objectives[18] = 0;
+									break;
+								case 'boss_antlion':
+									objectives[19] = 0;
+									break;
+								case 'boss_waterhag':
+									objectives[20] = 0;
+									break;
+								case 'boss_mombomb':
+									objectives[21] = 0;
+									break;
+								case 'boss_fabulgauntlet':
+									objectives[22] = 0;
+									break;
+								case 'boss_milon':
+									objectives[23] = 0;
+									break;
+								case 'boss_milonz':
+									objectives[24] = 0;
+									break;
+								case 'boss_mirrorcecil':
+									objectives[25] = 0;
+									break;
+								case 'boss_guard':
+									objectives[26] = 0;
+									break;
+								case 'boss_karate':
+									objectives[27] = 0;
+									break;
+								case 'boss_baigan':
+									objectives[28] = 0;
+									break;
+								case 'boss_kainazzo':
+									objectives[29] = 0;
+									break;
+								case 'boss_darkelf':
+									objectives[30] = 0;
+									break;
+								case 'boss_magus':
+									objectives[31] = 0;
+									break;
+								case 'boss_valvalis':
+									objectives[32] = 0;
+									break;
+								case 'boss_calbrena':
+									objectives[33] = 0;
+									break;
+								case 'boss_golbez':
+									objectives[34] = 0;
+									break;
+								case 'boss_lugae':
+									objectives[35] = 0;
+									break;
+								case 'boss_darkimp':
+									objectives[36] = 0;
+									break;
+								case 'boss_kingqueen':
+									objectives[37] = 0;
+									break;
+								case 'boss_rubicant':
+									objectives[38] = 0;
+									break;
+								case 'boss_evilwall':
+									objectives[39] = 0;
+									break;
+								case 'boss_asura':
+									objectives[40] = 0;
+									break;
+								case 'boss_leviatan':
+									objectives[41] = 0;
+									break;
+								case 'boss_odin':
+									objectives[42] = 0;
+									break;
+								case 'boss_bahamut':
+									objectives[43] = 0;
+									break;
+								case 'boss_elements':
+									objectives[44] = 0;
+									break;
+								case 'boss_cpu':
+									objectives[45] = 0;
+									break;
+								case 'boss_paledim':
+									objectives[46] = 0;
+									break;
+								case 'boss_wyvern':
+									objectives[47] = 0;
+									break;
+								case 'boss_plague':
+									objectives[48] = 0;
+									break;
+								case 'boss_dlunar':
+									objectives[49] = 0;
+									break;
+								case 'boss_ogopogo':
+									objectives[50] = 0;
+									break;
+								case 'quest_mistcave':
+									objectives[51] = 0;
+									break;
+								case 'quest_waterfall':
+									objectives[52] = 0;
+									break;
+								case 'quest_antlionnest':
+									objectives[53] = 0;
+									break;
+								case 'quest_hobs':
+									objectives[54] = 0;
+									break;
+								case 'quest_fabul':
+									objectives[55] = 0;
+									break;
+								case 'quest_ordeals':
+									objectives[56] = 0;
+									break;
+								case 'quest_baroninn':
+									objectives[57] = 0;
+									break;
+								case 'quest_baroncastle':
+									objectives[58] = 0;
+									break;
+								case 'quest_magnes':
+									objectives[59] = 0;
+									break;
+								case 'quest_zot':
+									objectives[60] = 0;
+									break;
+								case 'quest_dwarfcastle':
+									objectives[61] = 0;
+									break;
+								case 'quest_lowerbabil':
+									objectives[62] = 0;
+									break;
+								case 'quest_falcon':
+									objectives[63] = 0;
+									break;
+								case 'quest_sealedcave':
+									objectives[64] = 0;
+									break;
+								case 'quest_monsterqueen':
+									objectives[65] = 0;
+									break;
+								case 'quest_monsterking':
+									objectives[66] = 0;
+									break;
+								case 'quest_baronbasement':
+									objectives[67] = 0;
+									break;
+								case 'quest_giant':
+									objectives[68] = 0;
+									break;
+								case 'quest_cavebahamut':
+									objectives[69] = 0;
+									break;
+								case 'quest_murasamealtar':
+									objectives[70] = 0;
+									break;
+								case 'quest_crystalaltar':
+									objectives[71] = 0;
+									break;
+								case 'quest_whitealtar':
+									objectives[72] = 0;
+									break;
+								case 'quest_ribbonaltar':
+									objectives[73] = 0;
+									break;
+								case 'quest_masamunealtar':
+									objectives[74] = 0;
+									break;
+								case 'quest_burnmist':
+									objectives[75] = 0;
+									break;
+								case 'quest_curefever':
+									objectives[76] = 0;
+									break;
+								case 'quest_unlocksewer':
+									objectives[77] = 0;
+									break;
+								case 'quest_music':
+									objectives[78] = 0;
+									break;
+								case 'quest_toroiatreasury':
+									objectives[79] = 0;
+									break;
+								case 'quest_magma':
+									objectives[80] = 0;
+									break;
+								case 'quest_supercannon':
+									objectives[81] = 0;
+									break;
+								case 'quest_unlocksealedcave':
+									objectives[82] = 0;
+									break;
+								case 'quest_bigwhale':
+									objectives[83] = 0;
+									break;
+								case 'quest_traderat':
+									objectives[84] = 0;
+									break;
+								case 'quest_forge':
+									objectives[85] = 0;
+									break;
+								case 'quest_wakeyang':
+									objectives[86] = 0;
+									break;
+								case 'quest_tradepan':
+									objectives[87] = 0;
+									break;
+								case 'quest_tradepink':
+									objectives[88] = 0;
+									break;
+								case 'quest_pass':
+									objectives[89] = 0;
+									break;
 							}
 						}
 				}
@@ -264,6 +563,7 @@ function SetModes() {
 		//Characters
 		if (flagsets[fs].startsWith('C')) {
 			var flagstring = flagsets[fs].substr(1);
+			var flagstring = flagsets[fs].replace(',','/');
 			var keys = flagstring.split('/');
 			
 			for (var k in keys) {
@@ -294,6 +594,12 @@ function SetModes() {
 						break;
 					case 'PERMAJOIN':
 						modeflags.cpermajoin = true;
+						break;
+					case 'PERMADEATH':
+						modeflags.cpermadeath = true;
+						break;
+					case 'PERMADEADER':
+						modeflags.cpermadeader = true;
 						break;
 					default:
 						if (keys[k].startsWith('DISTINCT')) {
@@ -414,25 +720,25 @@ function SetModes() {
 			for (var k in keys) {
 				switch (keys[k]) {
 					case 'VANILLA':
-						modeflags.treasures = 'vanilla';
+						modeflags.tchests = 'vanilla';
 						break;
 					case 'SHUFFLE':
-						modeflags.treasures = 'shuffle';
+						modeflags.tchests = 'shuffle';
 						break;
 					case 'STANDARD':
-						modeflags.treasures = 'standard';
+						modeflags.tchests = 'standard';
 						break;
 					case 'PRO':
-						modeflags.treasures = 'pro';
+						modeflags.tchests = 'pro';
 						break;
 					case 'WILD':
-						modeflags.treasures = 'wild';
+						modeflags.tchests = 'wild';
 						break;
 					case 'WILDISH':
-						modeflags.treasures = 'wildish';
+						modeflags.tchests = 'wildish';
 						break;
 					case 'EMPTY':
-						modeflags.treasures = 'empty';
+						modeflags.tchests = 'empty';
 						break;
 					case 'NO:J':
 						modeflags.tnoj = true;
@@ -837,6 +1143,413 @@ function SetModes() {
 			break;
 	}
 	
+	if (modeflags.kmain === true) {
+		document.getElementById('keyitemsKvanilla').style.display = "none";
+		document.getElementById('keyitemsKmain').style.display = "block";
+	}
+	
+	if (modeflags.ksummon === true) {
+		document.getElementById('keyitemsKvanilla').style.display = "none";
+		document.getElementById('keyitemsKsummon').style.display = "block";
+	}
+
+	if (modeflags.kmoon === true) {
+		document.getElementById('keyitemsKvanilla').style.display = "none";
+		document.getElementById('keyitemsKmoon').style.display = "block";
+	}
+
+	if (modeflags.ktrap === true) {
+		document.getElementById('keyitemsKvanilla').style.display = "none";
+		document.getElementById('keyitemsKtrap').style.display = "block";
+	}
+	
+	if (modeflags.kunsafe === true) {
+		document.getElementById('keyitemsKvanilla').style.display = "none";
+		document.getElementById('keyitemsKunsafe').style.display = "block";
+	}
+
+	if (modeflags.pshop === true) {
+		document.getElementById('passPshop').style.display = "block";
+	}
+
+	if (modeflags.pkey === true) {
+		document.getElementById('passPkey').style.display = "block";
+	}
+
+	if (modeflags.pchests === true) {
+		document.getElementById('passPchests').style.display = "block";
+	}
+	
+	if (modeflags.cvanilla === true) {
+		document.getElementById('charactersCvanilla').style.display = "block";
+	}
+	
+	if (modeflags.cstandard === true) {
+		document.getElementById('charactersCstandard').style.display = "block";
+	}
+	
+	if (modeflags.crelaxed === true) {
+		document.getElementById('charactersCrelaxed').style.display = "block";
+	}
+	
+	if (modeflags.cmaybe === true) {
+		document.getElementById('charactersCmaybe').style.display = "block";
+	}
+	
+	if (modeflags.cvanilla === true) {
+		document.getElementById('charactersCvanilla').style.display = "block";
+	}
+	
+	if (modeflags.cvanilla === true) {
+		document.getElementById('charactersCvanilla').style.display = "block";
+	}
+	
+	if (modeflags.cvanilla === true) {
+		document.getElementById('charactersCvanilla').style.display = "block";
+	}
+	
+	if (modeflags.cdistinct > 0) {
+		document.getElementById('charactersCdistinct').style.display = "block";
+		document.getElementById('charactersCdistinctCount').innerHTML = modeflags.cdistinct;
+	}
+
+	if (excludedCharacters != '') {
+		document.getElementById('charactersExcluded').style.display = "block";
+		document.getElementById('charactersExcludedList').innerHTML = excludedCharacters;
+	}
+	
+	if (modeflags.ccecil) {
+		includedCharacters += 'Cecil ';
+	}
+	if (modeflags.ckain) {
+		includedCharacters += 'Kain ';
+	}
+	if (modeflags.crydia) {
+		includedCharacters += 'Rydia ';
+	}
+	if (modeflags.ctellah) {
+		includedCharacters += 'Tellah ';
+	}
+	if (modeflags.cedward) {
+		includedCharacters += 'Edward ';
+	}
+	if (modeflags.crosa) {
+		includedCharacters += 'Rosa ';
+	}
+	if (modeflags.cyang) {
+		includedCharacters += 'Yang ';
+	}
+	if (modeflags.cpalom) {
+		includedCharacters += 'Palom ';
+	}
+	if (modeflags.cporom) {
+		includedCharacters += 'Porom ';
+	}
+	if (modeflags.ccid) {
+		includedCharacters += 'Cid ';
+	}
+	if (modeflags.cedge) {
+		includedCharacters += 'Edge ';
+	}
+	if (modeflags.cfusoya) {
+		includedCharacters += 'FuSoYa ';
+	}
+	
+	if (includedCharacters != '') {
+		//document.getElementById('charactersSpecific').style.display = "block";
+		document.getElementById('charactersSpecificList').innerHTML = includedCharacters;		
+	}
+	
+	if (modeflags.cstart != '') {
+		document.getElementById('charactersStarting').style.display = "block";
+		document.getElementById('characterStart').innerHTML = modeflags.cstart;
+	}
+	
+	if (modeflags.cjspells === true) {
+		document.getElementById('charactersCJspells').style.display = "block";
+	}
+	
+	if (modeflags.cjabilities === true) {
+		document.getElementById('charactersCJabilities').style.display = "block";
+	}
+	
+	if (modeflags.cnodupes === true) {
+		document.getElementById('charactersCnodupes').style.display = "block";
+	}
+	
+	if (modeflags.cbye === true) {
+		document.getElementById('charactersCbye').style.display = "block";
+	}
+	
+	if (modeflags.cpermajoin === true) {
+		document.getElementById('charactersCpermajoin').style.display = "block";
+	}
+	
+	if (modeflags.cpermadeath === true) {
+		document.getElementById('charactersCpermadeath').style.display = "block";
+	}
+
+	if (modeflags.cpermadeader === true) {
+		document.getElementById('charactersCpermadeader').style.display = "block";
+	}
+	
+	if (modeflags.tchests === 'vanilla') {
+		document.getElementById('treasuresTvanilla').style.display = "block";
+	}
+	
+	if (modeflags.tchests === 'shuffle') {
+		document.getElementById('treasuresTshuffle').style.display = "block";
+	}
+	
+	if (modeflags.tchests === 'standard') {
+		document.getElementById('treasuresTstandard').style.display = "block";
+	}
+	
+	if (modeflags.tchests === 'pro') {
+		document.getElementById('treasuresTpro').style.display = "block";
+	}
+	
+	if (modeflags.tchests === 'wild') {
+		document.getElementById('treasuresTwild').style.display = "block";
+	}
+	
+	if (modeflags.tchests === 'wildish') {
+		document.getElementById('treasuresTwildish').style.display = "block";
+	}
+
+	if (modeflags.tchests === 'empty') {
+		document.getElementById('treasuresTempty').style.display = "block";
+	}
+
+	if (modeflags.tsparse > 0) {
+		document.getElementById('treasuresTsparse').style.display = "block";
+		document.getElementById('tsparsecount').innerHTML = modeflags.tsparse;
+	}
+	
+	if (modeflags.tnoj === true) {
+		document.getElementById('treasuresTnoj').style.display = "block";
+	}
+
+	if (modeflags.tnojunk === true) {
+		document.getElementById('treasuresTjunk').style.display = "block";
+	}
+
+	if (modeflags.sshops === 'vanilla') {
+		document.getElementById('shopsSvanilla').style.display = "block";
+	}
+	
+	if (modeflags.sshops === 'shuffle') {
+		document.getElementById('shopsSshuffle').style.display = "block";
+	}
+	
+	if (modeflags.sshops === 'standard') {
+		document.getElementById('shopsSstandard').style.display = "block";
+	}
+	
+	if (modeflags.sshops === 'pro') {
+		document.getElementById('shopsSpro').style.display = "block";
+	}
+	
+	if (modeflags.sshops === 'wild') {
+		document.getElementById('shopsSwild').style.display = "block";
+	}
+	
+	if (modeflags.sshops === 'cabins') {
+		document.getElementById('shopsScabins').style.display = "block";
+	}
+	
+	if (modeflags.sshops === 'empty') {
+		document.getElementById('shopsSempty').style.display = "block";
+	}
+	
+	if (modeflags.sunsafe === true) {
+		document.getElementById('shopsSunsafe').style.display = "block";
+	}
+	
+	if (modeflags.sfree === true) {
+		document.getElementById('shopsSfree').style.display = "block";
+	}
+	
+	if (modeflags.squarter === true) {
+		document.getElementById('shopsSquarter').style.display = "block";
+	}
+
+	if (modeflags.snoj === true) {
+		document.getElementById('shopsSnoj').style.display = "block";
+	}
+
+	if (modeflags.snoapples === true) {
+		document.getElementById('shopsSnoapples').style.display = "block";
+	}
+
+	if (modeflags.snosirens === true) {
+		document.getElementById('shopsSnosirens').style.display = "block";
+	}
+	
+	if (modeflags.bvanilla === true) {
+		document.getElementById('bossesBvanilla').style.display = "block";
+	}
+	
+	if (modeflags.bstandard === true) {
+		document.getElementById('bossesBstandard').style.display = "block";
+	}
+	
+	if (modeflags.bunsafe === true) {
+		document.getElementById('bossesBunsafe').style.display = "block";
+	}
+	
+	if (modeflags.baltgauntlet === true) {
+		document.getElementById('bossesBaltgauntlet').style.display = "block";
+	}
+	
+	if (modeflags.bwhyburn === true) {
+		document.getElementById('bossesBwhyburn').style.display = "block";
+	}
+
+	if (modeflags.bwhichburn === true) {
+		document.getElementById('bossesBwhichburn').style.display = "block";
+	}
+	
+	if (modeflags.nchars === true) {
+		document.getElementById('challengesNchars').style.display = "block";
+	}
+	
+	if (modeflags.nkey === true) {
+		document.getElementById('challengesNkey').style.display = "block";
+	}
+	
+	if (modeflags.nbosses === true) {
+		document.getElementById('challengesNbosses').style.display = "block";
+	}
+	
+	if (modeflags.eencounters === 'evanilla') {
+		document.getElementById('encountersEvanilla').style.display = "block";
+	}
+	
+	if (modeflags.eencounters === 'etoggle') {
+		document.getElementById('encountersEtoggle').style.display = "block";
+	}
+	
+	if (modeflags.eencounters === 'ereduce') {
+		document.getElementById('encountersEreduce').style.display = "block";
+	}
+	
+	if (modeflags.eencounters === 'enoencounters') {
+		document.getElementById('encountersEnoencounters').style.display = "block";
+	}
+	
+	if (modeflags.ekeepdoors === true) {
+		document.getElementById('encountersEkeepdoors').style.display = "block";
+	}
+	
+	if (modeflags.ekeepbehemoths === true) {
+		document.getElementById('encountersEkeepbehemoths').style.display = "block";
+	}
+	
+	if (modeflags.edanger === true) {
+		document.getElementById('encountersEdanger').style.display = "block";
+	}
+	
+	if (modeflags.enosirens === true) {
+		document.getElementById('encountersEnosirens').style.display = "block";
+	}
+	
+	if (modeflags.enojdrops === true) {
+		document.getElementById('encountersEnojdrops').style.display = "block";
+	}
+	
+	if (modeflags.ecantrun === true) {
+		document.getElementById('encountersEcantrun').style.display = "block";
+	}
+
+	if (modeflags.enoexp === true) {
+		document.getElementById('encountersEnoexp').style.display = "block";
+	}
+	
+	if (modeflags.gdupe === true) {
+		document.getElementById('glitchesGdupe').style.display = "block";
+	}
+	
+	if (modeflags.gmp === true) {
+		document.getElementById('glitchesGmp').style.display = "block";
+	}
+	
+	if (modeflags.gwarp === true) {
+		document.getElementById('glitchesGwarp').style.display = "block";
+	}
+	
+	if (modeflags.glife === true) {
+		document.getElementById('glitchesGlife').style.display = "block";
+	}
+	
+	if (modeflags.g64 === true) {
+		document.getElementById('glitchesGG64').style.display = "block";
+	}
+	
+	if (modeflags.ostarterkit === 'minimal') {
+		document.getElementById('otherkitminimal').style.display = "block";
+	}
+	
+	if (modeflags.ostarterkit === 'basic') {
+		document.getElementById('otherkitbasic').style.display = "block";
+	}
+	
+	if (modeflags.ostarterkit === 'better') {
+		document.getElementById('otherkitbetter').style.display = "block";
+	}
+	
+	if (modeflags.ostarterkit === 'loaded') {
+		document.getElementById('otherkiloaded').style.display = "block";
+	}
+	
+	if (modeflags.ostarterkit === 'spitball') {
+		document.getElementById('otherkitspitball').style.display = "block";
+	}
+	
+	if (modeflags.onoadamants === true) {
+		document.getElementById('othernoadamants').style.display = "block";
+	}
+	
+	if (modeflags.ovintage === true) {
+		document.getElementById('othervintage').style.display = "block";
+	}
+	
+	if (modeflags.ospoon === true) {
+		document.getElementById('otherspoon').style.display = "block";
+	}
+	
+	if (modeflags.ovanillafusoya === true) {
+		document.getElementById('othervanillafusoya').style.display = "block";
+	}
+	
+	if (modeflags.ovanillaagility === true) {
+		document.getElementById('othervanillaagility').style.display = "block";
+	}
+	
+	if (modeflags.ovanillahobs === true) {
+		document.getElementById('othervanillahobs').style.display = "block";
+	}
+	
+	if (modeflags.ovanillaexp === true) {
+		document.getElementById('othervanillaexp').style.display = "block";
+	}
+	
+	if (modeflags.ovanillafashion === true) {
+		document.getElementById('othervanillafashion').style.display = "block";
+	}
+	
+	if (modeflags.ovanillatraps === true) {
+		document.getElementById('othervanillatraps').style.display = "block";
+	}
+	
+	if (modeflags.ovanillaz === true) {
+		document.getElementById('othervanillaz').style.display = "block";
+	}
+	
+	
+	
+	
+	
 	if (!modeflags.oforge && !modeflags.ogiant) {
 		document.getElementById('item4td').style.backgroundImage = 'url(\'./images/requireditem_off.png\')';
 		document.getElementById('item16td').style.backgroundImage = 'url(\'./images/requireditem_off.png\')';
@@ -855,7 +1568,7 @@ function SetModes() {
 		document.getElementById('item4td').style.backgroundImage = 'url(\'./images/requireditem_off.png\')';
 	}
 
-	if (!modeflags.snoj) {
+	if (modeflags.snoj) {
 		document.getElementById('offensive1').style.display = "none";
 		document.getElementById('offensive2').style.display = "none";
 		document.getElementById('offensive3').style.display = "none";
@@ -1870,6 +2583,49 @@ function CloseFlags() {
 	}	
 }
 
+function LoadObjectives() {
+	if (disablelocationtracker === '0') {
+		$('#objectiveModal').show();
+		
+		for (var i = 0; i < 98; i++) {
+			if (objectives[i] === 2) {
+				document.getElementById('objective' + i).style.display = 'none';
+			} else {
+				if (objectives[i] === 1) {
+					document.getElementById('objectiveCheck' + i).src = 'images/objectivechecked.png';
+				} else {
+					document.getElementById('objectiveCheck' + i).src = 'images/objectiveunchecked.png';
+				}
+			}
+		}
+		
+		if (objectives[98] === 2) {
+			document.getElementById('objectiveToWin').style.display = 'none';
+		}
+		if (objectives[99] === 2) {
+			document.getElementById('objectiveForCrystal').style.display = 'none';
+		}
+		
+	}
+}
+
+function CloseObjectives() {
+	if (menutoggle === false) {
+		$('#objectiveModal').hide();
+	} else {
+		menutoggle = false;
+	}	
+}
+
+function checkOffObjective(i) {
+	objectives[i] = (objectives[i] === 0 ? 1 : 0);
+	if (objectives[i] === 1) {
+		document.getElementById('objectiveCheck' + i).src = 'images/objectivechecked.png';
+	} else {
+		document.getElementById('objectiveCheck' + i).src = 'images/objectiveunchecked.png';
+	}
+}
+
 function ExpandFlags(i) {
 	document.getElementById('flagsselectdiv').style.display = 'none';
 	document.getElementById('flagdetail' + i).style.display = 'block';
@@ -1886,7 +2642,6 @@ function CloseFlagDetail() {
 	document.getElementById('flagdetail7').style.display = 'none';
 	document.getElementById('flagdetail8').style.display = 'none';
 	document.getElementById('flagdetail9').style.display = 'none';
-	document.getElementById('flagdetail10').style.display = 'none';	
 	document.getElementById('flagsselectdiv').style.display = 'block';
 }
 
@@ -1909,74 +2664,6 @@ function CloseTown() {
 	} else {
 		menutoggle = false;
 	}
-}
-
-function LoadArmory() {
-	if (disablelocationtracker === '0') {
-		$('#armoryModal').show();
-	}
-}
-
-function CloseArmory() {
-	if (menutoggle === false) {
-		$('#armoryModal').hide();
-		//CloseFlagDetail();
-	} else {
-		menutoggle = false;
-	}	
-}
-
-function LoadBestairy() {
-	if (disablelocationtracker === '0') {
-		$('#bestairyModal').show();
-		var bossselect = document.getElementById("bossSelect"); 
-		var locationselect = document.getElementById("locationSelect");
-		for(var i = 0; i < bossnames.length; i++) {
-			var opt = bossnames[i];
-			var el = document.createElement("option");
-			var el2 = document.createElement("option");
-			el.textContent = opt;
-			el.value = i + 1;
-			el2.textContent = opt;
-			el2.value = i + 1;
-			bossselect.appendChild(el);
-			locationselect.appendChild(el2);
-		}
-	}
-}
-
-function LoadBestairyDetails() {
-	var bossselect = document.getElementById("bossSelect");
-	var locationselect = document.getElementById("locationSelect");
-	
-	if (bossselect.value > 0 && locationselect.value > 0) {
-		alert('!');
-	}
-	
-}
-
-function CloseBestairy() {
-	if (menutoggle === false) {
-		$('#bestairyModal').hide();
-		//CloseFlagDetail();
-	} else {
-		menutoggle = false;
-	}	
-}
-
-function LoadCharacter() {
-	if (disablelocationtracker === '0') {
-		$('#characterModal').show();
-	}
-}
-
-function CloseCharacter() {
-	if (menutoggle === false) {
-		$('#characterModal').hide();
-		//CloseFlagDetail();
-	} else {
-		menutoggle = false;
-	}	
 }
 
 function LoadKnownTownLocations() {
@@ -2207,4 +2894,11 @@ function ClearWarpGlitch() {
 	keyitemlocations[28] = 2;
 	ignorewarp = true;
 	ApplyChecks();
+}
+
+function DMTicker(x) {
+	dmcount += x;
+	if (dmcount < 0) { dmcount = 0 };
+	if (dmcount > 30) { dmcount = 30 };
+	document.getElementById('dmcountspan').innerHTML = dmcount;
 }
