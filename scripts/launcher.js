@@ -1,11 +1,11 @@
-var version = '172';
+var version = '192';
 
 function load_cookie() {
 	var c = document.cookie;
 	var cs = c.split(';');
 	
 	for (var co in cs) {
-		if (cs[co].indexOf('172') > -1 && cs[co].indexOf('settings') > -1) {
+		if (cs[co].indexOf('192') > -1 && cs[co].indexOf('settings') > -1) {
 			document.getElementById("remembersettings").checked = true;
 			document.getElementById("itemswitch").checked = false;
 			document.getElementById("locswitch").checked = false;
@@ -39,7 +39,6 @@ function launch() {
 	var flagsval = document.getElementById('flags').value;
 	//flagsval = flagsval.replace(' ','|');
 	flagsval = flagsval.replace(new RegExp(' ', 'g'), '|');
-	flagsval = flagsval.replace(',', '/');
 	
 	var itemtracking = '0';
 	var loctracking = '0';

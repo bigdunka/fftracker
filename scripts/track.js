@@ -563,7 +563,6 @@ function SetModes() {
 		//Characters
 		if (flagsets[fs].startsWith('C')) {
 			var flagstring = flagsets[fs].substr(1);
-			var flagstring = flagsets[fs].replace(',','/');
 			var keys = flagstring.split('/');
 			
 			for (var k in keys) {
@@ -746,13 +745,17 @@ function SetModes() {
 					case 'JUNK':
 						modeflags.tjunk = true;
 						break;
+					default:
+						if (keys[k].startsWith('SPARSE')) {
+							modeflags.tsparse = keys[k].substr(7);
+						}
 				}
 			}
 		}
 		
 		//Shops
 		if (flagsets[fs].startsWith('S')) {
-			var flagstring = flagsets[fs].substr(1);
+			var flagstring = flagsets[fs].substr(1).replace(',','/');
 			var keys = flagstring.split('/');
 			
 			for (var k in keys) {
@@ -788,10 +791,15 @@ function SetModes() {
 						modeflags.snoj = true;
 						break;
 					case 'NO:APPLES':
+					case 'APPLES':
 						modeflags.snoapples = true;
 						break;
 					case 'NO:SIRENS':
+					case 'SIRENS':
 						modeflags.snosirens = true;
+						break;
+					case 'UNSAFE':
+						modeflags.sunsafe = true;
 						break;
 				}
 			}
@@ -865,8 +873,18 @@ function SetModes() {
 					case 'NOENCOUNTERS':
 						modeflags.eencounters = 'enoencounters';
 						break;
+					case 'KEEP:DOORS':
+						modeflags.ekeepdoors = true;
+						break;
+					case 'KEEP:BEHEMOTHS':
+					case 'BEHEMOTHS':
+						modeflags.ekeepbehemoths = true;
+						break;
+					case 'DANGER':
+						modeflags.edanger = true;
+						break;
 					case 'NO:SIRENS':
-						modeflags.snosirens = true;
+						modeflags.enosirens = true;
 						break;
 					case 'NO:JDROPS':
 						modeflags.enojdrops = true;
@@ -936,7 +954,7 @@ function SetModes() {
 					break;
 				default:
 					if (flagsets[fs].startsWith('-VANILLA:')) {
-						var flagstring = flagsets[fs].substr(9);
+						var flagstring = flagsets[fs].substr(9).replace('/', ',');
 						var keys = flagstring.split(',');
 						for (var k in keys) {
 							switch (keys[k]) {
@@ -1330,7 +1348,7 @@ function SetModes() {
 		document.getElementById('treasuresTnoj').style.display = "block";
 	}
 
-	if (modeflags.tnojunk === true) {
+	if (modeflags.tjunk === true) {
 		document.getElementById('treasuresTjunk').style.display = "block";
 	}
 
