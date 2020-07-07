@@ -510,7 +510,11 @@
 					<span id="othervanillafusoya" style="display: none"><b>-vanilla:fusoya - Vintage FuSoYa</b> - By default, Free Enterprise runs with the "FuSoYa Challenge", where FuSoYa begins with 500 HP and a collection of low-level spells, and each boss defeated grants him 100 HP and three random additional spells. This flag disables that challenge and restores vanilla's FuSoYa behavior, where he joins with 1900 HP and his full spellset.</span>
 					<span id="othervanillaagility" style="display: none"><b>-vanilla:agility - Vanilla agility anchoring</b> - FF4 scales the speed of combat based on the agility stat of your party's "agility anchor". In Free Enterprise, the anchor is always the first occupied party slot (in the sequence of middle, top, bottom, top-middle, bottom-middle). However, in vanilla FF4, if Cecil is in the party, then he is the agility anchor, regardless of position. Enabling this flag will restore that behavior, making the first Cecil in your party the anchor, if present.</span>
 					<span id="othervanillahobs" style="display: none"><b>-vanilla:hobs - Vanilla Hobs spell</b> - By default, instead of learning Fire1 at Mt. Hobs, Rydia will learn a random summon (other than Leviatan and Bahamut). This flag removes that behavior.</span>
-					<span id="othervanillaexp" style="display: none"><b>-vanilla:exp - Vanilla EXP distribution</b> - To reduce grinding, Free Enterprise normally applies a number of experience boosts: (1) EXP is not divided among the party, each member receives the full amount. (2) Once 10 key items have been collected, earned EXP is doubled. (3) In a full party, low-level party members (at least 5 levels below the median level) earn double EXP. Enabling this flag removes all of these boosts, and distributes EXP as in original FF4.</span>
+
+					<span id="otherexpsplit" style="display: none"><b>-exp:split - Split EXP distribution</b> - Normally in Free Enterprise, earned EXP is not divided among the party, and each member receives the full amount. Set this flag to restore the original FF4 EXP distribution scheme (ie. earned EXP is divided among the surviving party members).</span>
+					<span id="otherexpnoboost" style="display: none"><b>-exp:noboost - No low-level EXP boost</b> - Normally in Free Enterprise, in a full party, low-level party members (at least 5 levels below the median level) earn double EXP. Set this flag to remove this bonus.</span>
+					<span id="otherexpnokeybonus" style="display: none"><b>-exp:nokeybonus - No EXP bonus after 10 key items</b> - By default in Free Enterprise, once 10 key items have been collected, earned EXP is doubled. Set this flag to remove this bonus.</span>
+					
 					<span id="othervanillafashion" style="display: none"><b>-vanilla:fashion - Vanilla fashion</b> - To help distinguish duplicate characters, Free Enterprise randomizes the battle palettes of each character. Enabling this flag preserves each character's original battle colors.</span>
 					<span id="othervanillatraps" style="display: none"><b>-vanilla:traps - Vanilla trapped chest locations</b> - By default, trapped chests (ie. those with Monsters!) are relocated randomly within the same dungeon/area. This flag forces trapped chests to remain in their original positions.</span>
 					<span id="othervanillaz" style="display: none"><b>-vanilla:z - Vanilla Z Sprite</b> - Free Enterprise replaces Zeromus' battle sprite with a random sprite. (Its battle behavior and stats are unchanged.) Enable this flag to preserve Zeromus' original battle sprite.</span>
@@ -520,9 +524,11 @@
 		
 		<div class="modal fade" id="objectiveModal" aria-hidden="true" onclick="CloseObjectives();" style="width: 100%; height: 100%; background-color: rgba(51, 51, 51, 0.6); z-index: 2; position: absolute; top: 0px; left: 0px; overflow-y: scroll;">
 			<div id="objectiveModalInner" onclick="IgnoreMenuClose();" style="position: absolute; top: 20px; z-index: 2; left: 450px; background: url(./images/itemmenu.png); width: 404px; height: 386px; font-size: 18px; padding: 10px; overflow: scroll;">
-				<span onclick="CloseObjectives();" class="clickablediv">[X] Close</span><br><br>
-				<span id="objectiveToWin">== Objectives to Win ==<br></span>
-				<span id="objectiveForCrystal">== Objectives for Crystal ==<br></span>
+				<span onclick="CloseObjectives();" class="clickablediv">[X] Close</span><br>
+				Allowed: <span id="objectiveQuestsAllowed" style="display: none"> - Quests - </span><span id="objectiveBossAllowed" style="display: none"> - Boss Hunts - </span><span id="objectiveCharAllowed" style="display: none"> - Character Hunts -</span><br>
+				<span id="objectiveToWin" style="font-weight: bold;">== Objectives to Win ==<br></span>
+				<span id="objectiveForCrystal" style="font-weight: bold;">== Objectives for Crystal ==<br></span>
+				<span id="objectivesRequired" style="display: none">Required Objectives: <span id="objectivesRequiredCount"></span><br></span>
 				<span id="objective0">Classic Forge the Crystal&nbsp;&nbsp;<img id="objectiveCheck0" onclick="checkOffObjective(0);" src="images/objectiveunchecked.png" style="width: 16px;"><br></span>
 				<span id="objective1">Classic Giant %&nbsp;&nbsp;<img id="objectiveCheck1" onclick="checkOffObjective(1);" src="images/objectiveunchecked.png" style="width: 16px;"><br></span>
 				<span id="objective2">Fiends %&nbsp;&nbsp;<img id="objectiveCheck2" onclick="checkOffObjective(2);" src="images/objectiveunchecked.png" style="width: 16px;"><br></span>

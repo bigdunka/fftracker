@@ -45,6 +45,10 @@ var modeflags = {
 	ogiant: false,
 	ofiends: false,
 	odarkmatter: false,
+	oquests: false,
+	oboss: false,
+	ochar: false,
+	oreq: '',
 	kmain: false,
 	ksummon: false,
 	kmoon: false,
@@ -119,6 +123,9 @@ var modeflags = {
 	ovanillaagility: false,
 	ovanillahobs: false,
 	ovanillaexp: false,
+	oexpsplit: false,
+	oexpnoboost: false,
+	oexpnokeybonus: false,
 	ovanillafashion: false,
 	ovanillatraps: false,
 	ovanillaz: false
@@ -233,9 +240,27 @@ function SetModes() {
 								}
 							}
 						} else if (keys[k].startsWith('RANDOM')) {
-							var randomcount = keys[k].substring(7);
-							for (var j = 0; j < randomcount; j++) {
-								objectives[90 + j] = 0;
+							var randomquests = keys[k].split(',');
+							for (var l in randomquests) {
+								switch (randomquests[l]) {
+									case 'QUEST':
+										modeflags.oquests = true;
+										break;
+									case 'BOSS':
+										modeflags.oboss = true;
+										break;
+									case 'CHAR':
+										modeflags.ochar = true;
+										break;
+									default:
+										if (randomquests[l].startsWith('RANDOM')) {
+											var randomcount = randomquests[l].substring(7);
+											for (var j = 0; j < randomcount; j++) {
+												objectives[90 + j] = 0;
+											}
+										}
+										break;
+								}
 							}
 						} else if (keys[k].startsWith('WIN')) {
 							var wincondition = keys[k].substring(4);
@@ -246,6 +271,9 @@ function SetModes() {
 								objectives[98] = 2;
 								objectives[99] = 0;
 							}
+						} else if (keys[k].startsWith('REQ')) {
+							var questreq = keys[k].substring(4);
+							modeflags.oreq = questreq;
 						} else {
 							var currentkey = keys[k].substr(2).toLowerCase();
 							switch (currentkey) {
@@ -967,9 +995,6 @@ function SetModes() {
 								case 'HOBS':
 									modeflags.ovanillahobs = true;
 									break;
-								case 'EXP':
-									modeflags.ovanillaexp = true;
-									break;
 								case 'FASHION':
 									modeflags.ovanillafashion = true;
 									break;
@@ -982,6 +1007,24 @@ function SetModes() {
 							}
 						}
 					}
+					
+					if (flagsets[fs].startsWith('-EXP:')) {
+						var flagstring = flagsets[fs].substr(5).replace('/', ',');
+						var keys = flagstring.split(',');
+						for (var k in keys) {
+							switch (keys[k]) {
+								case 'SPLIT':
+									modeflags.oexpsplit = true;
+									break;
+								case 'NOBOOST':
+									modeflags.oexpnoboost = true;
+									break;
+								case 'NOKEYBONUS':
+									modeflags.oexpnokeybonus = true;
+									break;
+							}
+						}
+					}					
 					break;
 			}
 		}
@@ -1548,8 +1591,20 @@ function SetModes() {
 		document.getElementById('othervanillahobs').style.display = "block";
 	}
 	
-	if (modeflags.ovanillaexp === true) {
+	/* if (modeflags.ovanillaexp === true) {
 		document.getElementById('othervanillaexp').style.display = "block";
+	} */
+	
+	if (modeflags.oexpsplit === true) {
+		document.getElementById('otherexpsplit').style.display = "block";
+	}
+	
+	if (modeflags.oexpnoboost === true) {
+		document.getElementById('otherexpnoboost').style.display = "block";
+	}
+	
+	if (modeflags.oexpnokeybonus === true) {
+		document.getElementById('otherexpnokeybonus').style.display = "block";
 	}
 	
 	if (modeflags.ovanillafashion === true) {
@@ -1564,9 +1619,22 @@ function SetModes() {
 		document.getElementById('othervanillaz').style.display = "block";
 	}
 	
+	if (modeflags.oquests === true) {
+		document.getElementById('objectiveQuestsAllowed').style.display = "";
+	}
 	
+	if (modeflags.oboss === true) {
+		document.getElementById('objectiveBossAllowed').style.display = "";
+	}
 	
+	if (modeflags.ochar === true) {
+		document.getElementById('objectiveCharAllowed').style.display = "";
+	}
 	
+	if (modeflags.oreq != "") {
+		document.getElementById('objectivesRequired').style.display = "";
+		document.getElementById('objectivesRequiredCount').innerHTML = modeflags.oreq;
+	}
 	
 	if (!modeflags.oforge && !modeflags.ogiant) {
 		document.getElementById('item4td').style.backgroundImage = 'url(\'./images/requireditem_off.png\')';
@@ -2110,7 +2178,7 @@ function ApplyChecks(){
 	}
 	
 	document.getElementById('itemtracker').innerHTML = itemcount + '/' + maxitems;
-	if (itemcount > 9 && !modeflags.ovanillaexp) {
+	if (itemcount > 9 && !modeflags.oexpnokeybonus) {
 		document.getElementById('itemtracker').style.color = "#0F0";
 	} else {
 		document.getElementById('itemtracker').style.color = "#FFF";
