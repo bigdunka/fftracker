@@ -3,15 +3,16 @@
   src: url(sansation_light.woff);
 }
 @font-face {
-	font-family:"Open Sans Condensed";
-	src:url("../fonts/OpenSansCondensed-Light.ttf") format("truetype");
+	font-family:"AgencyFB";
+	src:url("../fonts/AgencyFB.ttf") format("truetype");
 	font-weight:normal;font-style:normal;
 }	
 
 body {
-	font-family: 'Open Sans Condensed', sans-serif;
-	font-size: 20px;
+	font-family: 'AgencyFB', sans-serif;
+	font-size: 16px;
 	color: #FFF;
+	text-transform: uppercase;
 	-webkit-touch-callout: none;
 	-webkit-user-select: none;
 	-khtml-user-select: none;
@@ -150,22 +151,46 @@ input:checked + .slider:before {
     float: left;
 }
 
-.characterdiv {
+.characterchoosediv {
 	float: left;
-	width: 400px;
+	width: 360px;
 	padding-bottom: 15px;
 	height: 180px;
+    position: absolute;
+    top: 100px;
+    background-color: #000063;
+	z-index: 10;
+}
+
+.characterdiv {
+	float: left;
+	width: 360px;
+	height: 80px;
+	position: absolute;
 }
 
 .itemdiv {
 	float: left;
-	width: 400px;
-	padding-bottom: 15px;
+	width: 360px;
+	position: absolute;
+    top: 100px;
+}
+
+.objectivediv {
+	float: left;
+	width: 360px;
+	position: absolute;
+    top: 300px;
 }
 
 .charactercolumn {
 	float: left;
-	width: 100px;
+	width: 90px;
+}
+
+.itemcolumn {
+	float: left;
+	width: 90px;
 }
 
 .itemImage {
@@ -196,21 +221,38 @@ input:checked + .slider:before {
 	border-style: solid;
     border-width: 1px;
 	float: left;
+	border-radius: 15px;
 }
 
 .partyClear {
-	text-align: right;
-    width: 58px;
-    position: fixed;
-	cursor: pointer;
-	font-weight: bold;
+text-align: right;
+    width: 16px;
+    position: relative;
+    cursor: pointer;
+    font-weight: bold;
     font-size: 16px;
+    left: 50px;
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 16px;
+    display: inline-block;
+    color: black;
+    top: -8px;
+    height: 16px;
+    font-size: 12px;
+}
+
+.partyClearInner {
+	margin-right: 5px;
+    color: black;
+    font-size: 15px;	
 }
 
 .trackingTableText {
     font-size: 18px;
     text-align: center;
     line-height: 20px;
+	position: absolute;
+    left: 430px;
 }
 
 .trackingTableOverworld {
@@ -233,4 +275,12 @@ input:checked + .slider:before {
 
 .trackingTableHeader {
 	font-size: 20px;
+}
+
+.categoryHeader {
+    font-size: 13px;
+    font-style: italic;
+    text-decoration: underline;
+	height: 20px;
+	text-align: center;
 }

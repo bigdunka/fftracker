@@ -2,8 +2,8 @@
 	<body onload="load_cookie();" bgcolor="#000063">
 		<head>
 			<title>FFIV Free Enterprise Tracker Launcher - Created by BigDunka</title>
-			<link rel="stylesheet" href="./styles/stylesheet.css?v=193">
-			<script src="./scripts/launcher.js?v=190"></script>
+			<link rel="stylesheet" href="./styles/stylesheet.css?v=200">
+			<script src="./scripts/launcher.js?v=200"></script>
 			<script type="text/javascript" src="./scripts/jquery-3.3.1.js"></script>
 			<script type="text/javascript" src="./scripts/jquery.powertip.js"></script>
 			<script type="text/javascript" src="./scripts/bootstrap.min.js"></script>
@@ -22,84 +22,90 @@
 				gtag('js', new Date());
 
 				gtag('config', 'UA-121466364-1');
-			</script>			
+			</script>
 		</head>
-		<div style="width: 1000px; text-align: center; margin: auto;">
-			<img src="./images/ffivfebanner.png"><br>
-			<span>Final Fantasy IV: Free Enterprise Tracker</span><span style="font-size: 15px;"> V1.9.4</span><br>
-			<span style="font-size: 14px;">Configured for version 4.1.0</span><br><br>
-			<center><span style="font-size: 24px;">Overhaul to objectives interface for easier selection coming in next update!</span></center><br>
-			<center><span style="font-size: 22px;">V&nbsp&nbsp&nbsp&nbspPaste Your Flags Here&nbsp&nbsp&nbsp&nbspV</span></center>
-			<textarea style="width: 550px; height: 50px; box-shadow: 0 0 4px 2px rgba(255, 255, 255, 1.0); margin-top: 8px;" placeholder="Paste Flags Here" id="flags" ></textarea><br><br>
-		</div>
-		<div style="width: 1000px; text-align: center; margin: auto;">
-			<div style="margin: auto; width: 600px; font-size: 22px; background-color: rgb(0, 0, 130); border: white; border-style: solid; border-width: 2px; padding: 10px;">
-				<span style="font-size: 28px; text-decoration: underline;">Presets</span><br>
-				<input type="button" value="Htt3Z Groups" onclick="loadflags('O1:quest_forge/random:3,quest/req:3/win:crystal Kmain/summon/moon Pkey Crelaxed/maybe/no:fusoya/j:abilities/bye Twildish/sparse:60 Sstandard Bstandard/alt:gauntlet Nkey Etoggle/cantrun Gwarp/life/sylph -kit:basic -noadamants -spoon -vanilla:agility');" style="width: 200px" />
-				<input type="button" value="Htt3Z Brackets" onclick="loadflags('O1:quest_forge/random:3,quest/req:3/win:crystal Kmain/summon/moon Pkey Cstandard/maybe/no:fusoya/j:abilities/permajoin Tpro/sparse:60 Spro Bstandard/alt:gauntlet Nkey Etoggle/cantrun/no:sirens Glife/sylph -kit:basic -noadamants -vanilla:agility');" style="width: 200px" />
-			</div>
-		</div>
-		<br>
-		<div style="width: 1000px; text-align: center; margin: auto;">
-			<div style="margin: auto; width: 470px; font-size: 22px; background-color: rgb(0, 0, 130); border: white; border-style: solid; border-width: 2px; padding: 10px; float: left; ">
-				<span style="font-size: 28px; text-decoration: underline;">Optional Flags</span><br>
-				<span style="font-size: 24px">Disable Shop Tracking</span> <span class="south" title="This disables the town shop enhanced item tracking" style="font-size: 16px; color: red; cursor: pointer;">[?]</span>
-				<label class="switch">
-					<input id="itemswitch" name="itemswitch" type="checkbox">
-					<span class="slider round"></span>
-				</label><br>
-				<span style="font-size: 24px">Disable Character Tracking</span> <span class="south" title="This disables character tracker" style="font-size: 16px; color: red; cursor: pointer;">[?]</span>
-				<label class="switch">
-					<input id="charswitch" name="charswitch" type="checkbox">
-					<span class="slider round"></span>
-				</label><br>
-				<span style="font-size: 24px">Disable Location Tracking</span> <span class="south" title="This disables the logic for each key item, character, town, and trapped chest, to give the ability to check off locations before they are accessible" style="font-size: 16px; color: red; cursor: pointer;">[?]</span>
-				<label class="switch">
-					<input id="locswitch" name="locswitch" type="checkbox">
-					<span class="slider round"></span>
-				</label><br>
-				<span style="font-size: 24px">Disable Full Boss Tracking</span> <span class="south" title="This disables the full checklist for all bosses (defaulted to disabled)" style="font-size: 16px; color: red; cursor: pointer;">[?]</span>
-				<label class="switch">
-					<input id="bossswitch" name="bossswitch" type="checkbox" checked>
-					<span class="slider round"></span>
-				</label><br>
-				<span style="font-size: 24px">Disable ALL Enhanced Tracking</span> <span class="south" title="This disables all enhanced tracking features, leaving only the item and character trackers" style="font-size: 16px; color: red; cursor: pointer;">[?]</span>
-				<label class="switch">
-					<input id="locationswitch" name="locationswitch" type="checkbox">
-					<span class="slider round"></span>
-				</label><br>
-				<span style="font-size: 24px">Use Vertical Layout</span> <span class="south" title="This sets the layout to be stacked vertically instead of horizontally" style="font-size: 16px; color: red; cursor: pointer;">[?]</span>
-				<label class="switch">
-					<input id="verticalswitch" name="verticalswitch" type="checkbox">
-					<span class="slider round"></span>
-				</label><br>
-				<input type="checkbox" id="remembersettings"> Remember Settings <span class="south" title="This site uses a tracking cookie to remember your settings" style="font-size: 16px; color: red; cursor: pointer;">[?]</span><br>
-				<br>
-				<button type="button" onclick="launch()" style="width: 240px; text-align: center; font-size: 30px; font-family: 'Open Sans Condensed', sans-serif; font-weight: bold;">Launch Tracker</button>
-				<br><br>
-				<span style="font-size: 20px; margin: auto;">Suggestions or comments? Reach me in Discord: BigDunka#8354<br>Thank you!</span>
-			</div>		
 		
-			<div style="margin: auto; width: 470px; font-size: 22px; background-color: rgb(0, 0, 130); border: white; border-style: solid; border-width: 2px; padding: 10px; float: left; margin-left: 10px;">
-				<center><span style="text-decoration: underline;">Free Enterprise Home</span></center><br>
-				Visit the official site: <a href="http://ff4fe.com/" target="_blank">FF IV FE Official Site</a>
-				<br><br>
-				<center><span style="text-decoration: underline;">Special Thanks</span></center><br>
-				Special thanks to SchalaKitty for use of her item icons! You can find her tracker located at
-				<a href=" http://schala-kitty.net/ff4fe-tracker/" target="_blank">http://schala-kitty.net/ff4fe-tracker/</a>
-				<br><br>
-				<center><span style="text-decoration: underline;">Update Release Notes</span></center><br>
-				What just got updated?  <a href="release.html">Read the Release Notes</a>.
-				<br><br>
-				<center><span style="text-decoration: underline;">Instructions</span></center><br>
-				Confused on how this tracker works?  <a href="instructions.html">Read the instructions</a>!
-				<br><br>
-				<center><span style="text-decoration: underline;">Source</span></center><br>
-				Want to run this locally? Download the source <a href="tracker.zip">here</a> or at the GitHub repository <a href="https://github.com/bigdunka/fftracker" target="_blank">here</a>.
-				<br><br>
+		<div style="float: left; width: 400px; font-size: 18px;">
+			<img src="./images/ffivfebanner.png" style="width: 380px"><br>
+			<div style="font-size: 20px; color: white; margin: 8px 20px 0px 0px;">Final Fantasy IV: Free Enterprise Tracker<span style="font-size: 15px;"> V2.0.0</span><br>Configured for version 4.1.0</div><br><br>
+			<span style="text-decoration: underline;">Free Enterprise Home</span><br>
+			Visit the official site: <a href="http://ff4fe.com/" target="_blank">FF IV FE Official Site</a>
+			<br><br>
+			<span style="text-decoration: underline;">Special Thanks</span><br>
+			Special thanks to SchalaKitty for use of her item icons! You can find her tracker located at
+			<a href=" http://schala-kitty.net/ff4fe-tracker/" target="_blank">http://schala-kitty.net/ff4fe-tracker/</a>
+			<br><br>
+			<span style="text-decoration: underline;">Update Release Notes</span><br>
+			What just got updated?  <a href="release.html">Read the Release Notes</a>.
+			<br><br>
+			<span style="text-decoration: underline;">Instructions</span><br>
+			Confused on how this tracker works?  <a href="instructions.html">Read the instructions</a>!
+			<br><br>
+			<span style="text-decoration: underline;">Source</span><br>
+			Want to run this locally? Download the source <a href="tracker.zip">here</a> or at the GitHub repository <a href="https://github.com/bigdunka/fftracker" target="_blank">here</a>.
+			<br><br>
+			<span style="text-decoration: underline;">Suggestions or comments?</span><br>
+			Reach me in Discord: BigDunka#8354<br>Thank you!
+		</div>
+		
+		<div style="width: 624px; float: left; margin-left: 40px;">
+			<center><span style="font-size: 22px;">V&nbsp&nbsp&nbsp&nbspPaste Your Flags Here&nbsp&nbsp&nbsp&nbspV</span></center>
+			<textarea style="width: 100%; height: 50px; box-shadow: 0 0 4px 2px rgba(255, 255, 255, 1.0); margin-top: 8px;" placeholder="Paste Flags Here" id="flags" ></textarea><br><br>
+
+			<div style="margin: auto; width: 100%; font-size: 22px; background-color: rgb(0, 0, 130); border: white; border-style: solid; border-width: 2px;">
+				<div style=" padding: 10px;">
+					<center>
+						<span style="font-size: 28px; text-decoration: underline;">Presets</span><br>
+						<input type="button" value="Htt3Z Groups" onclick="loadflags('O1:quest_forge/random:3,quest/req:3/win:crystal Kmain/summon/moon Pkey Crelaxed/maybe/no:fusoya/j:abilities/bye Twildish/sparse:60 Sstandard Bstandard/alt:gauntlet Nkey Etoggle/cantrun Gwarp/life/sylph -kit:basic -noadamants -spoon -vanilla:agility');" style="width: 240px; text-align: center; font-size: 16px; font-family: 'AgencyFB', sans-serif; font-weight: bold;" />
+						<input type="button" value="Htt3Z Brackets" onclick="loadflags('O1:quest_forge/random:3,quest/req:3/win:crystal Kmain/summon/moon Pkey Cstandard/maybe/no:fusoya/j:abilities/permajoin Tpro/sparse:60 Spro Bstandard/alt:gauntlet Nkey Etoggle/cantrun/no:sirens Glife/sylph -kit:basic -noadamants -vanilla:agility');" style="width: 240px; text-align: center; font-size: 16px; font-family: 'AgencyFB', sans-serif; font-weight: bold;" />
+					</center>
+				</div>
+			</div>
+			<br>
+			<div style="margin: auto; width: 100%; font-size: 22px; background-color: rgb(0, 0, 130); border: white; border-style: solid; border-width: 2px;">
+				<div style=" padding: 10px;">
+					<center>
+						<button type="button" onclick="launch()" style="width: 300px; text-align: center; font-size: 36px; font-family: 'AgencyFB', sans-serif; font-weight: bold;">LAUNCH TRACKER</button><br><br>
+						<span style="font-size: 28px; text-decoration: underline;">Optional Flags</span><br>
+						<span style="font-size: 24px">Disable Shop Tracking</span> <span class="south" title="This disables the town shop enhanced item tracking" style="font-size: 16px; color: red; cursor: pointer;">[?]</span>
+						<label class="switch">
+							<input id="itemswitch" name="itemswitch" type="checkbox">
+							<span class="slider round"></span>
+						</label><br>
+						<span style="font-size: 24px">Disable Character Tracking</span> <span class="south" title="This disables character tracking" style="font-size: 16px; color: red; cursor: pointer;">[?]</span>
+						<label class="switch">
+							<input id="charswitch" name="charswitch" type="checkbox">
+							<span class="slider round"></span>
+						</label><br>
+						<span style="font-size: 24px">Disable Objective Tracking</span> <span class="south" title="This disables objective tracking" style="font-size: 16px; color: red; cursor: pointer;">[?]</span>
+						<label class="switch">
+							<input id="objswitch" name="objswitch" type="checkbox">
+							<span class="slider round"></span>
+						</label><br>
+						<span style="font-size: 24px">Disable Location Tracking</span> <span class="south" title="This disables the logic for each key item, character, town, and trapped chest, to give the ability to check off locations before they are accessible" style="font-size: 16px; color: red; cursor: pointer;">[?]</span>
+						<label class="switch">
+							<input id="locswitch" name="locswitch" type="checkbox">
+							<span class="slider round"></span>
+						</label><br>
+						<span style="font-size: 24px">Disable Full Boss Tracking</span> <span class="south" title="This disables the full checklist for all bosses (defaulted to disabled)" style="font-size: 16px; color: red; cursor: pointer;">[?]</span>
+						<label class="switch">
+							<input id="bossswitch" name="bossswitch" type="checkbox" checked>
+							<span class="slider round"></span>
+						</label><br>
+						<span style="font-size: 24px">Disable ALL Enhanced Tracking</span> <span class="south" title="This disables all enhanced tracking features, leaving only the item, character, and objective trackers" style="font-size: 16px; color: red; cursor: pointer;">[?]</span>
+						<label class="switch">
+							<input id="locationswitch" name="locationswitch" type="checkbox">
+							<span class="slider round"></span>
+						</label><br>
+						<span style="font-size: 24px">Use Vertical Layout</span> <span class="south" title="This sets the layout to be stacked vertically instead of horizontally" style="font-size: 16px; color: red; cursor: pointer;">[?]</span>
+						<label class="switch">
+							<input id="verticalswitch" name="verticalswitch" type="checkbox">
+							<span class="slider round"></span>
+						</label><br>
+						<input type="checkbox" id="remembersettings"> Remember Settings <span class="south" title="This site uses a tracking cookie to remember your settings" style="font-size: 16px; color: red; cursor: pointer;">[?]</span><br>
+					</center>
+				</div>
 			</div>
 		</div>
-
-
 	</body>
 </html>

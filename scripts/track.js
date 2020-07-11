@@ -11,8 +11,9 @@ var bossnames = ['Mist Dragon','Baron Soldiers','Octomamm','Antlion','Waterhag',
 var objectives = [2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0];
 //0-98 and the last two being win/crystal objectives
 //0 = Unchecked, 1 = Checked, 2 = Hidden
-
 // 0 = Not available, 1 = Available, 2 = Checked, 3 = Hidden
+
+var objectivenames = ['Get Cecil','Get Kain','Get Rydia','Get Tellah','Get Edward','Get Rosa','Get Yang','Get Palom','Get Porom','Get Cid','Get Edge','Get FuSoYa','Defeat D.Mist','Defeat Officer','Defeat Octomamm','Defeat Antlion','Defeat Waterhag (boss version)','Defeat MomBomb','Defeat the Fabul Gauntlet','Defeat Milon','Defeat Milon Z.','Defeat D.Knight','Defeat the Guards (boss)','Defeat Karate','Defeat Baigan','Defeat Kainazzo','Defeat the Dark Elf (dragon form)','Defeat the Magus Sisters','Defeat Valvalis','Defeat Calbrena','Defeat Golbez','Defeat Dr. Lugae','Defeat the Dark Imps (boss)','Defeat K.Eblan and Q.Eblan','Defeat Rubicant','Defeat EvilWall','Defeat Asura','Defeat Leviatan','Defeat Odin','Defeat Bahamut','Defeat Elements','Defeat CPU','Defeat Pale Dim','Defeat Wyvern','Defeat Plague','Defeat the D.Lunars','Defeat Ogopogo','Defeat the boss of the Mist Cave','Defeat the boss of the Waterfall','Complete the Antlion Nest','Rescue the hostage on Mt. Hobs','Defend Fabul','Complete Mt. Ordeals','Defeat the bosses of Baron Inn','Liberate Baron Castle','Complete Cave Magnes','Complete the Tower of Zot','Defeat the bosses of Dwarf Castle','Defeat the boss of Lower Bab-il','Launch the Falcon','Complete the Sealed Cave','Defeat the queen at the Town of Monsters','Defeat the king at the Town of Monsters','Defeat the Baron Castle basement throne','Complete the Giant of Bab-il','Complete Cave Bahamut','Conquer the vanilla Murasame altar','Conquer the vanilla Crystal Sword altar','Conquer the vanilla White Spear altar','Conquer the vanilla Ribbon room','Conquer the vanilla Masamune altar','Burn village Mist with the Package','Cure the fever with the SandRuby','Unlock the sewer with the Baron Key','Break the Dark Elf`s spell with the TwinHarp','Open the Toroia treasury with the Earth Crystal','Drop the Magma Key into the Agart well','Destroy the Super Cannon','Unlock the Sealed Cave','Raise the Big Whale','Trade away the Rat Tail','Have Kokkol forge Legend Sword with Adamant','Wake Yang with the Pan','Return the Pan to Yang\'s wife','Trade away the Pink Tail','Unlock the Pass door in Toroia'];
 
 var trappedchestcounts = [3,1,1,1,1,1,4,7,1,9];
 var trappedchestmaxcounts = [3,1,1,1,1,1,4,7,1,9];
@@ -37,6 +38,7 @@ var ignorewarp = false;
 var menutoggle = false;
 
 var dmcount = 0;
+var objectivechange = 0;
 
 //NEW NEW FLAGS
 var modeflags = {
@@ -138,6 +140,7 @@ var disableitemtracker = '0';
 var disablelocationtracker = '0';
 var disablebosstracker = '0';
 var disablecharactertracker = '0';
+var disableobjectivetracker = '0';
 
 var partyswap = 0;
 var ignoreswap = false;
@@ -154,10 +157,10 @@ function getParameterByName(name, url) {
 
 function SetModes() {
 	$('#itemModal').hide();
-	$('#flagsModal').hide();
-	$('#objectiveModal').hide();
+	//$('#flagsModal').hide();
 	$('#bossModal').hide();
 	$('#townModal').hide();
+	$('#objectiveModal').hide();
 	
 	disableitemtracker = getParameterByName('d');
 	
@@ -168,6 +171,8 @@ function SetModes() {
 	disablelocationtracker = getParameterByName('l');
 	
 	disablecharactertracker = getParameterByName('h');
+	
+	disableobjectivetracker = getParameterByName('o');
 	
 	if (disableloctracker === '1') {
 		keyitemlocations = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1];
@@ -181,13 +186,21 @@ function SetModes() {
 	if (disablelocationtracker === '1') {
 		document.getElementById('trackingtable').style.display = "none";
 		document.getElementById('wrapperdiv').style.width = "400px";
-		document.getElementById('datadiv').style.display = "none";
+		//document.getElementById('datadiv').style.display = "none";
 		disablebosstracker = '1';
 	}
 	
 	if (disablecharactertracker === '1') {
 		document.getElementById('partydiv').style.display = "none";
-		document.getElementById('partyhr').style.display = "none";		
+		document.getElementById('itemdiv').style.top = "10px";
+		//document.getElementById('partyhr').style.display = "none";
+		if (disableobjectivetracker === '0') {
+			document.getElementById('objectivediv').style.top = "210px";
+		}
+	}
+	
+	if (disableobjectivetracker === '1') {
+		document.getElementById('objectivediv').style.display = "none";
 	}
 	
 	var flags = getParameterByName('f');
@@ -235,7 +248,7 @@ function SetModes() {
 									case 'DKMATTER':
 										modeflags.odarkmatter = true;
 										objectives[3] = 0;
-										document.getElementById('dkmatterspan').style.display = 'inherit';
+										//document.getElementById('dkmatterspan').style.display = 'inherit';
 										break;
 								}
 							}
@@ -1039,50 +1052,62 @@ function SetModes() {
 	
 	//Exclude characters
 	if (!modeflags.ccecil) {
+		document.getElementById('character0').style.opacity = '0.2';
 		document.getElementById('character0_x').style.visibility = 'visible';
 		excludedCharacters += 'Cecil ';
 	}
 	if (!modeflags.ckain) {
+		document.getElementById('character1').style.opacity = '0.2';
 		document.getElementById('character1_x').style.visibility = 'visible';
 		excludedCharacters += 'Kain ';
 	}
 	if (!modeflags.crydia) {
+		document.getElementById('character2').style.opacity = '0.2';
 		document.getElementById('character2_x').style.visibility = 'visible';
 		excludedCharacters += 'Rydia ';
 	}
 	if (!modeflags.ctellah) {
+		document.getElementById('character3').style.opacity = '0.2';
 		document.getElementById('character3_x').style.visibility = 'visible';
 		excludedCharacters += 'Tellah ';
 	}
 	if (!modeflags.cedward) {
+		document.getElementById('character4').style.opacity = '0.2';
 		document.getElementById('character4_x').style.visibility = 'visible';
 		excludedCharacters += 'Edward ';
 	}
 	if (!modeflags.crosa) {
+		document.getElementById('character5').style.opacity = '0.2';
 		document.getElementById('character5_x').style.visibility = 'visible';
 		excludedCharacters += 'Rosa ';
 	}
 	if (!modeflags.cyang) {
+		document.getElementById('character6').style.opacity = '0.2';
 		document.getElementById('character6_x').style.visibility = 'visible';
 		excludedCharacters += 'Yang ';
 	}
 	if (!modeflags.cpalom) {
+		document.getElementById('character7').style.opacity = '0.2';
 		document.getElementById('character7_x').style.visibility = 'visible';
 		excludedCharacters += 'Palom ';
 	}
 	if (!modeflags.cporom) {
+		document.getElementById('character8').style.opacity = '0.2';
 		document.getElementById('character8_x').style.visibility = 'visible';
 		excludedCharacters += 'Porom ';
 	}
 	if (!modeflags.ccid) {
+		document.getElementById('character9').style.opacity = '0.2';
 		document.getElementById('character9_x').style.visibility = 'visible';
 		excludedCharacters += 'Cid ';
 	}
 	if (!modeflags.cedge) {
+		document.getElementById('character10').style.opacity = '0.2';
 		document.getElementById('character10_x').style.visibility = 'visible';
 		excludedCharacters += 'Edge ';
 	}
 	if (!modeflags.cfusoya) {
+		document.getElementById('character11').style.opacity = '0.2';
 		document.getElementById('character11_x').style.visibility = 'visible';
 		excludedCharacters += 'FuSoYa ';
 	}
@@ -1204,7 +1229,7 @@ function SetModes() {
 			break;
 	}
 	
-	if (modeflags.kmain === true) {
+	/* if (modeflags.kmain === true) {
 		document.getElementById('keyitemsKvanilla').style.display = "none";
 		document.getElementById('keyitemsKmain').style.display = "block";
 	}
@@ -1277,7 +1302,7 @@ function SetModes() {
 	if (excludedCharacters != '') {
 		document.getElementById('charactersExcluded').style.display = "block";
 		document.getElementById('charactersExcludedList').innerHTML = excludedCharacters;
-	}
+	}*/
 	
 	if (modeflags.ccecil) {
 		includedCharacters += 'Cecil ';
@@ -1314,19 +1339,19 @@ function SetModes() {
 	}
 	if (modeflags.cfusoya) {
 		includedCharacters += 'FuSoYa ';
-	}
+	} 
 	
-	if (includedCharacters != '') {
+	//if (includedCharacters != '') {
 		//document.getElementById('charactersSpecific').style.display = "block";
-		document.getElementById('charactersSpecificList').innerHTML = includedCharacters;		
-	}
+		//document.getElementById('charactersSpecificList').innerHTML = includedCharacters;		
+	//}
 	
-	if (modeflags.cstart != '') {
-		document.getElementById('charactersStarting').style.display = "block";
-		document.getElementById('characterStart').innerHTML = modeflags.cstart;
-	}
+	//if (modeflags.cstart != '') {
+		//document.getElementById('charactersStarting').style.display = "block";
+		//document.getElementById('characterStart').innerHTML = modeflags.cstart;
+	//}
 	
-	if (modeflags.cjspells === true) {
+	/* if (modeflags.cjspells === true) {
 		document.getElementById('charactersCJspells').style.display = "block";
 	}
 	
@@ -1591,9 +1616,9 @@ function SetModes() {
 		document.getElementById('othervanillahobs').style.display = "block";
 	}
 	
-	/* if (modeflags.ovanillaexp === true) {
+	if (modeflags.ovanillaexp === true) {
 		document.getElementById('othervanillaexp').style.display = "block";
-	} */
+	}
 	
 	if (modeflags.oexpsplit === true) {
 		document.getElementById('otherexpsplit').style.display = "block";
@@ -1617,26 +1642,29 @@ function SetModes() {
 	
 	if (modeflags.ovanillaz === true) {
 		document.getElementById('othervanillaz').style.display = "block";
+	} */
+	
+	if (modeflags.oquests === false) {
+		document.getElementById('objectivecategoryquestsspan').style.textDecoration = "line-through";
+		document.getElementById('objectivecategoryquestsspan').style.cursor = "no-drop";
 	}
 	
-	if (modeflags.oquests === true) {
-		document.getElementById('objectiveQuestsAllowed').style.display = "";
+	if (modeflags.oboss === false) {
+		document.getElementById('objectivecategorybossspan').style.textDecoration = "line-through";
+		document.getElementById('objectivecategorybossspan').style.cursor = "no-drop";
 	}
 	
-	if (modeflags.oboss === true) {
-		document.getElementById('objectiveBossAllowed').style.display = "";
-	}
-	
-	if (modeflags.ochar === true) {
-		document.getElementById('objectiveCharAllowed').style.display = "";
+	if (modeflags.ochar === false) {
+		document.getElementById('objectivecategorycharacterspan').style.textDecoration = "line-through";
+		document.getElementById('objectivecategorycharacterspan').style.cursor = "no-drop";
 	}
 	
 	if (modeflags.oreq != "") {
-		document.getElementById('objectivesRequired').style.display = "";
+		//document.getElementById('objectivesRequired').style.display = "";
 		document.getElementById('objectivesRequiredCount').innerHTML = modeflags.oreq;
 	}
 	
-	if (!modeflags.oforge && !modeflags.ogiant) {
+	/* if (!modeflags.oforge && !modeflags.ogiant) {
 		document.getElementById('item4td').style.backgroundImage = 'url(\'./images/requireditem_off.png\')';
 		document.getElementById('item16td').style.backgroundImage = 'url(\'./images/requireditem_off.png\')';
 		document.getElementById('item17td').style.backgroundImage = 'url(\'./images/requireditem_off.png\')';
@@ -1652,7 +1680,7 @@ function SetModes() {
 	
 	if (modeflags.ogiant) {
 		document.getElementById('item4td').style.backgroundImage = 'url(\'./images/requireditem_off.png\')';
-	}
+	} */
 
 	if (modeflags.snoj) {
 		document.getElementById('offensive1').style.display = "none";
@@ -1719,18 +1747,19 @@ function SetModes() {
 	var verticallayout = getParameterByName('v');
 	
 	if (verticallayout === '1' && disablelocationtracker === '0') {
-		document.getElementById('wrapperdiv').style.width = "510px";
-		document.getElementById('trackingtable').style.width = "510px";
-		document.getElementById('trackingtable').style.float = "left";
+		document.getElementById('wrapperdiv').style.width = "490px";
+		document.getElementById('trackingtable').style.top = "430px";
+		document.getElementById('trackingtable').style.left = "0px";
 		//document.getElementById('trackingtable').style.marginLeft = "20px";
 		document.getElementById('leftdiv').style.margin = "0px 0px 20px 60px";
-		document.getElementById('itemModalInner').style.left = "60px";
+		document.getElementById('itemModalInner').style.left = "34px";
 		document.getElementById('itemModalInner').style.top = "460px";
-		document.getElementById('flagsModalInner').style.left = "60px";
-		document.getElementById('flagsModalInner').style.top = "460px";
-		document.getElementById('townModalInner').style.left = "60px";
+		document.getElementById('objectiveModalInner').style.left = "36px";
+		//document.getElementById('objectiveModalInner').style.top = "460px";
+		document.getElementById('townModalInner').style.left = "34px";
 		document.getElementById('townModalInner').style.top = "460px";
-		document.getElementById('bossModalInner').style.left = "60px";
+		document.getElementById('bossModalInner').style.left = "34px";
+		
 	}
 	
 	if (disableitemtracker === '1') {
@@ -1748,15 +1777,17 @@ function SetModes() {
 			//document.getElementById('flagstr').style.verticalAlign = "text-top";
 		//}
 		document.getElementById('itemModal').style.fontSize = "22px";
-		document.getElementById('flagsModalInner').style.fontSize = "18px";
+		document.getElementById('objectiveModalInner').style.fontSize = "18px";
 	} else if (browser === '2') {
-		var hrItems = document.getElementsByTagName("hr");
+		//var hrItems = document.getElementsByTagName("hr");
 
-		for(var i = 0; i < hrItems.length; i++) {
-			hrItems[i].style.marginTop = '10px';
-			hrItems[i].style.marginBottom = '10px';
-		}
+		//for(var i = 0; i < hrItems.length; i++) {
+			//hrItems[i].style.marginTop = '10px';
+			//hrItems[i].style.marginBottom = '10px';
+		//}
 	}
+	
+	SetObjectives();
 }
 
 function ApplyChecks(){
@@ -2132,18 +2163,30 @@ function ApplyChecks(){
 	
 	if (cecil) { //If Cecil and Ordeals
 		document.getElementById('character0').style = 'background-image: url(\'images/character0_2_a.png\')';
+		if (!modeflags.ccecil) {
+			document.getElementById('character0').style.opacity = '0.2';
+		}		
 	} else { //All Others
 		document.getElementById('character0').style = 'background-image: url(\'images/character0_a.png\')';
+		if (!modeflags.ccecil) {
+			document.getElementById('character0').style.opacity = '0.2';
+		}		
 	}
 	if (rydia) { //If Rydia and Dwarf Castle clear
 		document.getElementById('character2').style = 'background-image: url(\'images/character2_2_a.png\')';
+		if (!modeflags.crydia) {
+			document.getElementById('character2').style.opacity = '0.2';
+		}		
 	} else { //All Others
 		document.getElementById('character2').style = 'background-image: url(\'images/character2_a.png\')';
+		if (!modeflags.crydia) {
+			document.getElementById('character2').style.opacity = '0.2';
+		}		
 	}
 	
 	//Party Members
 	for (var i = 0; i < 5; i++) {
-		var l = 'characterempty';
+		var l = '';
 		var p = 'party' + i;
 		if (partymembers[i] != -1) {
 			if ((partymembers[i] === 0 && cecil) || (partymembers[i] === 2 && rydia)) { //If Cecil and Ordeals clear or if Rydia and Dwarf 
@@ -2152,7 +2195,11 @@ function ApplyChecks(){
 				l = 'character' + partymembers[i] + '_a';
 			}
 		}
-		document.getElementById(p).style = 'background-image: url(\'images/' + l + '.png\')';
+		if (l != '') {
+			document.getElementById(p).style = 'background-image: url(\'images/' + l + '.png\')';
+		} else {
+			document.getElementById(p).style = 'background-image: none';
+		}
 	}
 	
 	//Items
@@ -2185,7 +2232,7 @@ function ApplyChecks(){
 	}
 	
 	//Item Requirements
-	if (!modeflags.oforge && !modeflags.ogiant) {
+	/* if (!modeflags.oforge && !modeflags.ogiant) {
 		if (keyitems[16] === true) {
 			document.getElementById('item16td').style.backgroundImage = 'url(\'./images/requireditem.png\')';
 		} else {
@@ -2245,7 +2292,7 @@ function ApplyChecks(){
 		} else {
 			document.getElementById('item4td').style.backgroundImage = 'url(\'./images/requireditem_off.png\')';
 		}		
-	}
+	}*/
 	
 	//Key Item Locations
 	if (viewactivekeyitems === true) {
@@ -2561,7 +2608,7 @@ function SwapCharacter(i) {
 			} else {
 				characters[i] = !characters[i];
 				partymembers[partyswap] = i;
-				document.getElementById("partydiv").style.display = "block";
+				//document.getElementById("partydiv").style.display = "block";
 				document.getElementById("characterdiv").style.display = "none";
 				ApplyChecks();
 			}
@@ -2574,7 +2621,7 @@ function SwapParty(i) {
 		if (ignoreswap === true) {
 			ignoreswap = false;
 		} else {
-			document.getElementById("partydiv").style.display = "none";
+			//document.getElementById("partydiv").style.display = "none";
 			document.getElementById("characterdiv").style.display = "block";
 			partyswap = i;
 		}
@@ -2654,7 +2701,7 @@ function CloseItems() {
 	}
 }
 
-function LoadFlags() {
+/* function LoadFlags() {
 	if (disablelocationtracker === '0') {
 		$('#flagsModal').show();
 	}
@@ -2667,40 +2714,28 @@ function CloseFlags() {
 	} else {
 		menutoggle = false;
 	}	
-}
+} */
 
-function LoadObjectives() {
-	if (disablelocationtracker === '0') {
-		$('#objectiveModal').show();
-		
+function SetObjectives() {
+	if (disableobjectivetracker === '0') {
 		for (var i = 0; i < 98; i++) {
 			if (objectives[i] === 2) {
 				document.getElementById('objective' + i).style.display = 'none';
-			} else {
-				if (objectives[i] === 1) {
-					document.getElementById('objectiveCheck' + i).src = 'images/objectivechecked.png';
-				} else {
-					document.getElementById('objectiveCheck' + i).src = 'images/objectiveunchecked.png';
-				}
+				document.getElementById('objectiveCheck' + i).style.display = 'none';
 			}
 		}
 		
 		if (objectives[98] === 2) {
-			document.getElementById('objectiveToWin').style.display = 'none';
+			document.getElementById('objectivesVictory').innerHTML = 'REQUIRED FOR CRYSTAL';
 		}
 		if (objectives[99] === 2) {
-			document.getElementById('objectiveForCrystal').style.display = 'none';
+			document.getElementById('objectivesVictory').innerHTML = 'REQUIRED TO WIN';
 		}
 		
+		if (modeflags.odarkmatter === false) {
+			document.getElementById('objectivedm').style.display = 'none';
+		}
 	}
-}
-
-function CloseObjectives() {
-	if (menutoggle === false) {
-		$('#objectiveModal').hide();
-	} else {
-		menutoggle = false;
-	}	
 }
 
 function checkOffObjective(i) {
@@ -2712,7 +2747,46 @@ function checkOffObjective(i) {
 	}
 }
 
-function ExpandFlags(i) {
+function ChangeObjective(i) {
+	objectivechange = i;
+	$('#objectiveModal').show();
+	document.getElementById('objectivescharacterdiv').style.display = 'none';
+	document.getElementById('objectivesbossdiv').style.display = 'none';
+	document.getElementById('objectivesquestsdiv').style.display = 'none';	
+	
+}
+
+function CloseObjectives() {
+	if (menutoggle === false) {
+		$('#objectiveModal').hide();
+	} else {
+		menutoggle = false;
+	}
+}
+
+function LoadObjectiveDetail(i) {
+	if (i === 0 && modeflags.oquests === true) {
+		document.getElementById('objectivesquestsdiv').style.display = '';
+		document.getElementById('objectivesbossdiv').style.display = 'none';
+		document.getElementById('objectivescharacterdiv').style.display = 'none';
+	} else if (i === 1 && modeflags.oboss === true) {
+		document.getElementById('objectivesbossdiv').style.display = '';
+		document.getElementById('objectivesquestsdiv').style.display = 'none';
+		document.getElementById('objectivescharacterdiv').style.display = 'none';
+	} else if (i === 2 && modeflags.ochar === true) {
+		document.getElementById('objectivescharacterdiv').style.display = '';
+		document.getElementById('objectivesbossdiv').style.display = 'none';
+		document.getElementById('objectivesquestsdiv').style.display = 'none';
+	}
+}
+
+function SetObjective(i) {
+	var objectivetochange = document.getElementById('randomobjective' + objectivechange).innerHTML = objectivenames[i];
+
+	$('#objectiveModal').hide();
+}
+
+/* function ExpandFlags(i) {
 	document.getElementById('flagsselectdiv').style.display = 'none';
 	document.getElementById('flagdetail' + i).style.display = 'block';
 }
@@ -2729,7 +2803,7 @@ function CloseFlagDetail() {
 	document.getElementById('flagdetail8').style.display = 'none';
 	document.getElementById('flagdetail9').style.display = 'none';
 	document.getElementById('flagsselectdiv').style.display = 'block';
-}
+} */
 
 function CloseBoss() {
 	if (menutoggle === false) {
@@ -2987,4 +3061,12 @@ function DMTicker(x) {
 	if (dmcount < 0) { dmcount = 0 };
 	if (dmcount > 30) { dmcount = 30 };
 	document.getElementById('dmcountspan').innerHTML = dmcount;
+}
+
+function HighlightClear(x) {
+	document.getElementById('partyClear' + x).style.backgroundColor = "rgb(255,255,255,1)";
+}
+
+function UnhighlightClear(x) {
+	document.getElementById('partyClear' + x).style.backgroundColor = "rgb(255,255,255,.3)";
 }

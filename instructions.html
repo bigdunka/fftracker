@@ -2,7 +2,7 @@
 	<body bgcolor="#000063">
 		<head>
 			<title>FFIV Free Enterprise Tracker - Instructions</title>
-			<link rel="stylesheet" href="./styles/stylesheet.css?v=174">
+			<link rel="stylesheet" href="./styles/stylesheet.css?v=200">
 			<link rel="icon" type="image/png" href="images/favicon.png">
 			<style>
 				body { font-size: 27px; }
@@ -13,24 +13,67 @@
 				}
 			</style>
 		</head>
-		<button type="button" onclick="window.location.href = 'index.html';" style="width: 200px; text-align: center;"><== Return to Main</button><br><br>
-		<div style="width: 1000px; margin: auto; background-color: rgb(0, 0, 130); border: white; border-style: solid; border-width: 2px; padding: 10px;">
+		
+		<div style="float: left; width: 400px; font-size: 18px; margin-right: 50px; ">
+			<img src="./images/ffivfebanner.png" style="width: 380px; border-style: none; margin: 0px;"><br>
+			<div style="font-size: 20px; color: white; margin: 8px 20px 0px 0px;">Final Fantasy IV: Free Enterprise Tracker<span style="font-size: 15px;"> V2.0.0</span><br>Configured for version 4.1.0</div><br>
+			<button type="button" onclick="window.location.href = 'index.html';" style="width: 240px; text-align: center; font-size: 16px; font-family: 'AgencyFB', sans-serif; font-weight: bold;" ><== RETURN TO MAIN</button><br><br>
+			<span style="text-decoration: underline;">Free Enterprise Home</span><br>
+			Visit the official site: <a href="http://ff4fe.com/" target="_blank">FF IV FE Official Site</a>
+			<br><br>
+			<span style="text-decoration: underline;">Special Thanks</span><br>
+			Special thanks to SchalaKitty for use of her item icons! You can find her tracker located at
+			<a href=" http://schala-kitty.net/ff4fe-tracker/" target="_blank">http://schala-kitty.net/ff4fe-tracker/</a>
+			<br><br>
+			<span style="text-decoration: underline;">Update Release Notes</span><br>
+			What just got updated?  <a href="release.html">Read the Release Notes</a>.
+			<br><br>
+			<span style="text-decoration: underline;">Instructions</span><br>
+			Confused on how this tracker works?  <a href="instructions.html">Read the instructions</a>!
+			<br><br>
+			<span style="text-decoration: underline;">Source</span><br>
+			Want to run this locally? Download the source <a href="tracker.zip">here</a> or at the GitHub repository <a href="https://github.com/bigdunka/fftracker" target="_blank">here</a>.
+			<br><br>
+			<span style="text-decoration: underline;">Suggestions or comments?</span><br>
+			Reach me in Discord: BigDunka#8354<br>Thank you!
+		</div>
+		
+		<div style="float: left; width: 800px; margin: auto; background-color: rgb(0, 0, 130); border: white; border-style: solid; border-width: 2px; padding: 10px;">
 			<center><span>Final Fantasy IV: Free Enterprise Tracker Instructions</span></center>
 			<br><br>
 			Paste in your seed flags into the "Paste Flags Here" box, select any Optional Flags, and click on "Launch Tracker". This will open the tracker up in a popup window.  (NOTE: If it does not come up, please check your browser for popup blockers.)<br>
 			<center><img src="images/instructions1.png" /></center><br>
-			The tracker will automatically adjust based off the flags and the optional flags.  "Disable Shop Tracking" will disable the detailed town/shop item tracking system.  "Disable Character Tracking" will disable the character and party tracking.  "Disable Location Tracking" will disable the logic for all locations for key items, characters, towns, and trapped chests.  This was requested primarly for 2v2 play, so that locations can be checked off even if one player has not yet found the required pieces.  This will make the tracker serve as a basic checklist and then an item tracker.  "Disable Full Boss Tracking" will disable the list of bosses, which overrides the Mist Dragon icon.  "Disable ALL Enhanced Tracking" disables all of the extra features and only gives you access to the character and item trackers.  "Use Vertical Layout" will position the window in portrait mode instead of landscape mode.<br><br>
-			By clicking on an empty party slot, it will allow you to select any available character, based off the flags, when they are joining your party, including duplicates.  If you add one by mistake or want to remove a party member, click on the X in the top right corner and it will clear it.  Certain events, like completing Mt Ordeals and Dwarf Castle, will update the character's current status.  Completing these locations when they become available will also activate and deactivate them.<br><br>
-			Activating items which open new logical areas will also illuminate new areas for you to discover in the Locations section!  The counter in the bottom right will also keep count of how many key items you collect.  Key items that are either required or potentially required to complete the game are also highlighted with an illuminated background image behind the icon.<br><br>
-			The current flags will be loaded into Flag section, which you can view by clicking on the Flag icon.  Clicking on them will bring up a window with a summarized description of the mode, so if you forget what mode you are in, you can find out quickly without having to look it up!<br><br>
-			Any objectives, static or random, will be accessible from the Objectives section, which you can view by clicking on the notepad.  This will bring up a window with all of the known objectives, and the ability to select any random objectives so you can track them.  Clicking on the circle on the right of the objective will check it off for accurate tracking.<br><br>
-			If Dark Matter Hunt is an objective, a counter will be available so you can track how many Dark Matters you have collected.<br>
-			<center><img src="images/instructions2.png" /></center><br><br>
-			Any available logical locations will be visible in the lists labeled Key Items, Characters, Towns/Shops, and Trapped Chests (enabled if the 'Kt' flag is active), allowing you to see what is currently available for you to visit.  By clicking on the location, it will remove it from the list and mark it as completed.  If you accidentally click on the wrong location and need to undo it, you can view all of your completed items and locations by clicking on "~View Checked~" under each section.  This will bring up the list of things marked as completed and allow you to undo and re-add it to your list.<br>
-			<center><img src="images/instructions3.png" /></center><br><br>
-			Clicking on a town from the Towns/Shops list will bring up an item list of popular items in the game.  This will be filtered depending on the state of the 'Ji' and 'S' flags, so you should only find items that are available for you.  By clicking on an item, it will illuminate green, marking that this item is in this shop for easy recall later in a seed.  If there are no important items, click on "No Items" and close it, it will be removed from the list.  Any towns that have items marked will also be marked in green in the main list.  This option can be disabled by choosing the Optional Flag "Disable Item Tracking" from the launcher.<br>
-			If you are interesting in changing the items in the list, please feel free to download the source code and run it locally on your machine and change the source at your leisure!<br><br>
-			<center><img src="images/instructions4.png" /></center><br>
+			The tracker will automatically adjust based off the flags and the optional flags.<br>
+			"Disable Shop Tracking" will disable the detailed town/shop item tracking system.<br>
+			"Disable Character Tracking" will disable the character and party tracking.<br>
+			"Disable Objective Tracking" will disable the objective tracking system.<br>
+			"Disable Location Tracking" will disable the logic for all locations for key items, characters, towns, and trapped chests.  This was requested primarly for 2v2 play, so that locations can be checked off even if one player has not yet found the required pieces.  This will make the tracker serve as a basic checklist and then an item tracker.<br>
+			"Disable Full Boss Tracking" will disable the list of bosses, which overrides the Mist Dragon icon.<br>
+			"Disable ALL Enhanced Tracking" disables all of the extra features and only gives you access to the character and item trackers.<br>
+			"Use Vertical Layout" will position the window in portrait mode instead of landscape mode.<br><br>
+			
+			By clicking on an empty party slot, it will allow you to select any available character, based off the flags, when they are joining your party, including duplicates.  Any characters that are listed as excluded characters will be greyed out.  If you add one by mistake or want to remove a party member, click on the X in the top right corner and it will clear it.  Certain events, like completing Mt Ordeals and Dwarf Castle, will update the character's current status.  Completing these locations when they become available will also activate and deactivate them.<br><br>
+			
+			<center><img src="images/instructions2.png" /></center><br>
+			
+			Activating items which open new logical areas will also illuminate new areas for you to discover in the Locations section!  The counter in the bottom right will also keep count of how many key items you collect.<br><br>
+			
+			<center><img src="images/instructions3.png" /></center><br>
+			
+			Any objectives, static or random, will be accessible from the Objectives section.  The title will show how many of the objectives are required to either finish the game, or to get the crystal, depending on the flags.  Static objectives will be shown pre-loaded with the goal.  Random objectives will default with a [SET RANDOM OBJECTIVE] message, which you can click on to change the objective.  The objectives are categorized by Quests, Boss Hunts, and Character Hunts.  If the mode is not allowed by the flags, it will be crossed out.  When you select the objective from the list, it will show up in your objective tracker.  If you choose the wrong quest by mistake, you can click on it and reset it.  The circle to the left can be clicked to check off, or remove, your objective progress!  If Dark Matter hunt is live, an extra objective will show up on the list with the abiltity to track how many Dark Matters you find, but clicking on the up and down arrows.<br><br>
+			
+			<center><img src="images/instructions4.png" /></center><br><br>
+			
+			Any available logical locations will be visible in the lists labeled Key Items, Characters, Towns/Shops, and Trapped Chests (enabled if the trapped chests flag is active), allowing you to see what is currently available for you to visit.  By clicking on the location, it will remove it from the list and mark it as completed.  If you accidentally click on the wrong location and need to undo it, you can view all of your completed items and locations by clicking on "= View Checked =" under each section.  This will bring up the list of things marked as completed and allow you to undo and re-add it to your list.  Certain locations have special properties as well, like clearing Dwarf Castle with the Warp flag turned on.  This will give you the option to remove Sealed Cave without visiting it!<br>
+			
+			<center><img src="images/instructions5.png" /></center><br><br>
+			
+			Clicking on a town from the Towns/Shops list will bring up an item list of popular items in the game.  By clicking on an item, it will illuminate green, marking that this item is in this shop for easy recall later in a seed.  If there are no important items, click on "No Items" and close it, it will be removed from the list.  Any towns that have items marked will also be marked in green in the main list.  This option can be disabled by choosing the Optional Flag "Disable Item Tracking" from the launcher.<br><br>
+			
+			<center><img src="images/instructions6.png" /></center><br>
+			
+			If you are interesting in changing the items in the list, please feel free to download the source code and run it locally on your machine and change the source at your leisure!<br>
+			
 		</div>
 	</body>
 </html>
