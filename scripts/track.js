@@ -1118,62 +1118,62 @@ function SetModes() {
 			case 'CECIL':
 				SwapCharacter(0);
 				overridestarting = 'CECIL';
-				document.getElementById('characterStart').innerHTML = 'Cecil';
+				//document.getElementById('characterStart').innerHTML = 'Cecil';
 				break;
 			case 'KAIN':
 				SwapCharacter(1);
 				overridestarting = 'KAIN';
-				document.getElementById('characterStart').innerHTML = 'Kain';
+				//document.getElementById('characterStart').innerHTML = 'Kain';
 				break;
 			case 'RYDIA':
 				SwapCharacter(2);
 				overridestarting = 'RYDIA';
-				document.getElementById('characterStart').innerHTML = 'Rydia';
+				//document.getElementById('characterStart').innerHTML = 'Rydia';
 				break;
 			case 'TELLAH':
 				SwapCharacter(3);
 				overridestarting = 'TELLAH';
-				document.getElementById('characterStart').innerHTML = 'Tellah';
+				//document.getElementById('characterStart').innerHTML = 'Tellah';
 				break;
 			case 'EDWARD':
 				SwapCharacter(4);
 				overridestarting = 'EDWARD';
-				document.getElementById('characterStart').innerHTML = 'Edward';
+				//document.getElementById('characterStart').innerHTML = 'Edward';
 				break;
 			case 'ROSA':
 				SwapCharacter(5);
 				overridestarting = 'ROSA';
-				document.getElementById('characterStart').innerHTML = 'Rosa';
+				//document.getElementById('characterStart').innerHTML = 'Rosa';
 				break;
 			case 'YANG':
 				SwapCharacter(6);
 				overridestarting = 'YANG';
-				document.getElementById('characterStart').innerHTML = 'Yang';
+				//document.getElementById('characterStart').innerHTML = 'Yang';
 				break;
 			case 'PALOM':
 				SwapCharacter(7);
 				overridestarting = 'PALOM';
-				document.getElementById('characterStart').innerHTML = 'Palom';
+				//document.getElementById('characterStart').innerHTML = 'Palom';
 				break;
 			case 'POROM':
 				SwapCharacter(8);
 				overridestarting = 'POROM';
-				document.getElementById('characterStart').innerHTML = 'Porom';
+				//document.getElementById('characterStart').innerHTML = 'Porom';
 				break;
 			case 'CID':
 				SwapCharacter(9);
 				overridestarting = 'CID';
-				document.getElementById('characterStart').innerHTML = 'Cid';
+				//document.getElementById('characterStart').innerHTML = 'Cid';
 				break;
 			case 'EDGE':
 				SwapCharacter(10);
 				overridestarting = 'EDGE';
-				document.getElementById('characterStart').innerHTML = 'Edge';
+				//document.getElementById('characterStart').innerHTML = 'Edge';
 				break;
 			case 'FUSOYA':
 				SwapCharacter(11);
 				overridestarting = 'FUSOYA';
-				document.getElementById('characterStart').innerHTML = 'FuSoYa';
+				//document.getElementById('characterStart').innerHTML = 'FuSoYa';
 				break;
 		}
 	}
@@ -1644,19 +1644,25 @@ function SetModes() {
 		document.getElementById('othervanillaz').style.display = "block";
 	} */
 	
-	if (modeflags.oquests === false) {
-		document.getElementById('objectivecategoryquestsspan').style.textDecoration = "line-through";
-		document.getElementById('objectivecategoryquestsspan').style.cursor = "no-drop";
-	}
-	
-	if (modeflags.oboss === false) {
-		document.getElementById('objectivecategorybossspan').style.textDecoration = "line-through";
-		document.getElementById('objectivecategorybossspan').style.cursor = "no-drop";
-	}
-	
-	if (modeflags.ochar === false) {
-		document.getElementById('objectivecategorycharacterspan').style.textDecoration = "line-through";
-		document.getElementById('objectivecategorycharacterspan').style.cursor = "no-drop";
+	if (modeflags.oquests === true || modeflags.oboss === true || modeflags.ochar === true) {
+		if (modeflags.oquests === false) {
+			document.getElementById('objectivecategoryquestsspan').style.textDecoration = "line-through";
+			document.getElementById('objectivecategoryquestsspan').style.cursor = "no-drop";
+		}
+		
+		if (modeflags.oboss === false) {
+			document.getElementById('objectivecategorybossspan').style.textDecoration = "line-through";
+			document.getElementById('objectivecategorybossspan').style.cursor = "no-drop";
+		}
+		
+		if (modeflags.ochar === false) {
+			document.getElementById('objectivecategorycharacterspan').style.textDecoration = "line-through";
+			document.getElementById('objectivecategorycharacterspan').style.cursor = "no-drop";
+		}
+	} else {
+		modeflags.oquests = true;
+		modeflags.oboss = true;
+		modeflags.ochar = true;
 	}
 	
 	if (modeflags.oreq != "") {
