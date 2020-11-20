@@ -130,7 +130,8 @@ var modeflags = {
 	oexpnokeybonus: false,
 	ovanillafashion: false,
 	ovanillatraps: false,
-	ovanillaz: false
+	ovanillaz: false,
+	opushbtojump: false
 }
 
 //NEW FLAGS
@@ -993,6 +994,9 @@ function SetModes() {
 				case '-SPOON':
 					modeflags.ospoon = true;
 					break;
+				case '-PUSHBTOJUMP':
+					modeflags.opushbtojump = true;
+					break;
 				default:
 					if (flagsets[fs].startsWith('-VANILLA:')) {
 						var flagstring = flagsets[fs].substr(9).replace('/', ',');
@@ -1042,13 +1046,6 @@ function SetModes() {
 			}
 		}
 	}
-	
-	
-	
-	
-	
-	
-	
 	
 	//Exclude characters
 	if (!modeflags.ccecil) {
@@ -1229,81 +1226,6 @@ function SetModes() {
 			break;
 	}
 	
-	/* if (modeflags.kmain === true) {
-		document.getElementById('keyitemsKvanilla').style.display = "none";
-		document.getElementById('keyitemsKmain').style.display = "block";
-	}
-	
-	if (modeflags.ksummon === true) {
-		document.getElementById('keyitemsKvanilla').style.display = "none";
-		document.getElementById('keyitemsKsummon').style.display = "block";
-	}
-
-	if (modeflags.kmoon === true) {
-		document.getElementById('keyitemsKvanilla').style.display = "none";
-		document.getElementById('keyitemsKmoon').style.display = "block";
-	}
-
-	if (modeflags.ktrap === true) {
-		document.getElementById('keyitemsKvanilla').style.display = "none";
-		document.getElementById('keyitemsKtrap').style.display = "block";
-	}
-	
-	if (modeflags.kunsafe === true) {
-		document.getElementById('keyitemsKvanilla').style.display = "none";
-		document.getElementById('keyitemsKunsafe').style.display = "block";
-	}
-
-	if (modeflags.pshop === true) {
-		document.getElementById('passPshop').style.display = "block";
-	}
-
-	if (modeflags.pkey === true) {
-		document.getElementById('passPkey').style.display = "block";
-	}
-
-	if (modeflags.pchests === true) {
-		document.getElementById('passPchests').style.display = "block";
-	}
-	
-	if (modeflags.cvanilla === true) {
-		document.getElementById('charactersCvanilla').style.display = "block";
-	}
-	
-	if (modeflags.cstandard === true) {
-		document.getElementById('charactersCstandard').style.display = "block";
-	}
-	
-	if (modeflags.crelaxed === true) {
-		document.getElementById('charactersCrelaxed').style.display = "block";
-	}
-	
-	if (modeflags.cmaybe === true) {
-		document.getElementById('charactersCmaybe').style.display = "block";
-	}
-	
-	if (modeflags.cvanilla === true) {
-		document.getElementById('charactersCvanilla').style.display = "block";
-	}
-	
-	if (modeflags.cvanilla === true) {
-		document.getElementById('charactersCvanilla').style.display = "block";
-	}
-	
-	if (modeflags.cvanilla === true) {
-		document.getElementById('charactersCvanilla').style.display = "block";
-	}
-	
-	if (modeflags.cdistinct > 0) {
-		document.getElementById('charactersCdistinct').style.display = "block";
-		document.getElementById('charactersCdistinctCount').innerHTML = modeflags.cdistinct;
-	}
-
-	if (excludedCharacters != '') {
-		document.getElementById('charactersExcluded').style.display = "block";
-		document.getElementById('charactersExcludedList').innerHTML = excludedCharacters;
-	}*/
-	
 	if (modeflags.ccecil) {
 		includedCharacters += 'Cecil ';
 	}
@@ -1341,309 +1263,6 @@ function SetModes() {
 		includedCharacters += 'FuSoYa ';
 	} 
 	
-	//if (includedCharacters != '') {
-		//document.getElementById('charactersSpecific').style.display = "block";
-		//document.getElementById('charactersSpecificList').innerHTML = includedCharacters;		
-	//}
-	
-	//if (modeflags.cstart != '') {
-		//document.getElementById('charactersStarting').style.display = "block";
-		//document.getElementById('characterStart').innerHTML = modeflags.cstart;
-	//}
-	
-	/* if (modeflags.cjspells === true) {
-		document.getElementById('charactersCJspells').style.display = "block";
-	}
-	
-	if (modeflags.cjabilities === true) {
-		document.getElementById('charactersCJabilities').style.display = "block";
-	}
-	
-	if (modeflags.cnodupes === true) {
-		document.getElementById('charactersCnodupes').style.display = "block";
-	}
-	
-	if (modeflags.cbye === true) {
-		document.getElementById('charactersCbye').style.display = "block";
-	}
-	
-	if (modeflags.cpermajoin === true) {
-		document.getElementById('charactersCpermajoin').style.display = "block";
-	}
-	
-	if (modeflags.cpermadeath === true) {
-		document.getElementById('charactersCpermadeath').style.display = "block";
-	}
-
-	if (modeflags.cpermadeader === true) {
-		document.getElementById('charactersCpermadeader').style.display = "block";
-	}
-	
-	if (modeflags.tchests === 'vanilla') {
-		document.getElementById('treasuresTvanilla').style.display = "block";
-	}
-	
-	if (modeflags.tchests === 'shuffle') {
-		document.getElementById('treasuresTshuffle').style.display = "block";
-	}
-	
-	if (modeflags.tchests === 'standard') {
-		document.getElementById('treasuresTstandard').style.display = "block";
-	}
-	
-	if (modeflags.tchests === 'pro') {
-		document.getElementById('treasuresTpro').style.display = "block";
-	}
-	
-	if (modeflags.tchests === 'wild') {
-		document.getElementById('treasuresTwild').style.display = "block";
-	}
-	
-	if (modeflags.tchests === 'wildish') {
-		document.getElementById('treasuresTwildish').style.display = "block";
-	}
-
-	if (modeflags.tchests === 'empty') {
-		document.getElementById('treasuresTempty').style.display = "block";
-	}
-
-	if (modeflags.tsparse > 0) {
-		document.getElementById('treasuresTsparse').style.display = "block";
-		document.getElementById('tsparsecount').innerHTML = modeflags.tsparse;
-	}
-	
-	if (modeflags.tnoj === true) {
-		document.getElementById('treasuresTnoj').style.display = "block";
-	}
-
-	if (modeflags.tjunk === true) {
-		document.getElementById('treasuresTjunk').style.display = "block";
-	}
-
-	if (modeflags.sshops === 'vanilla') {
-		document.getElementById('shopsSvanilla').style.display = "block";
-	}
-	
-	if (modeflags.sshops === 'shuffle') {
-		document.getElementById('shopsSshuffle').style.display = "block";
-	}
-	
-	if (modeflags.sshops === 'standard') {
-		document.getElementById('shopsSstandard').style.display = "block";
-	}
-	
-	if (modeflags.sshops === 'pro') {
-		document.getElementById('shopsSpro').style.display = "block";
-	}
-	
-	if (modeflags.sshops === 'wild') {
-		document.getElementById('shopsSwild').style.display = "block";
-	}
-	
-	if (modeflags.sshops === 'cabins') {
-		document.getElementById('shopsScabins').style.display = "block";
-	}
-	
-	if (modeflags.sshops === 'empty') {
-		document.getElementById('shopsSempty').style.display = "block";
-	}
-	
-	if (modeflags.sunsafe === true) {
-		document.getElementById('shopsSunsafe').style.display = "block";
-	}
-	
-	if (modeflags.sfree === true) {
-		document.getElementById('shopsSfree').style.display = "block";
-	}
-	
-	if (modeflags.squarter === true) {
-		document.getElementById('shopsSquarter').style.display = "block";
-	}
-
-	if (modeflags.snoj === true) {
-		document.getElementById('shopsSnoj').style.display = "block";
-	}
-
-	if (modeflags.snoapples === true) {
-		document.getElementById('shopsSnoapples').style.display = "block";
-	}
-
-	if (modeflags.snosirens === true) {
-		document.getElementById('shopsSnosirens').style.display = "block";
-	}
-	
-	if (modeflags.bvanilla === true) {
-		document.getElementById('bossesBvanilla').style.display = "block";
-	}
-	
-	if (modeflags.bstandard === true) {
-		document.getElementById('bossesBstandard').style.display = "block";
-	}
-	
-	if (modeflags.bunsafe === true) {
-		document.getElementById('bossesBunsafe').style.display = "block";
-	}
-	
-	if (modeflags.baltgauntlet === true) {
-		document.getElementById('bossesBaltgauntlet').style.display = "block";
-	}
-	
-	if (modeflags.bwhyburn === true) {
-		document.getElementById('bossesBwhyburn').style.display = "block";
-	}
-
-	if (modeflags.bwhichburn === true) {
-		document.getElementById('bossesBwhichburn').style.display = "block";
-	}
-	
-	if (modeflags.nchars === true) {
-		document.getElementById('challengesNchars').style.display = "block";
-	}
-	
-	if (modeflags.nkey === true) {
-		document.getElementById('challengesNkey').style.display = "block";
-	}
-	
-	if (modeflags.nbosses === true) {
-		document.getElementById('challengesNbosses').style.display = "block";
-	}
-	
-	if (modeflags.eencounters === 'evanilla') {
-		document.getElementById('encountersEvanilla').style.display = "block";
-	}
-	
-	if (modeflags.eencounters === 'etoggle') {
-		document.getElementById('encountersEtoggle').style.display = "block";
-	}
-	
-	if (modeflags.eencounters === 'ereduce') {
-		document.getElementById('encountersEreduce').style.display = "block";
-	}
-	
-	if (modeflags.eencounters === 'enoencounters') {
-		document.getElementById('encountersEnoencounters').style.display = "block";
-	}
-	
-	if (modeflags.ekeepdoors === true) {
-		document.getElementById('encountersEkeepdoors').style.display = "block";
-	}
-	
-	if (modeflags.ekeepbehemoths === true) {
-		document.getElementById('encountersEkeepbehemoths').style.display = "block";
-	}
-	
-	if (modeflags.edanger === true) {
-		document.getElementById('encountersEdanger').style.display = "block";
-	}
-	
-	if (modeflags.enosirens === true) {
-		document.getElementById('encountersEnosirens').style.display = "block";
-	}
-	
-	if (modeflags.enojdrops === true) {
-		document.getElementById('encountersEnojdrops').style.display = "block";
-	}
-	
-	if (modeflags.ecantrun === true) {
-		document.getElementById('encountersEcantrun').style.display = "block";
-	}
-
-	if (modeflags.enoexp === true) {
-		document.getElementById('encountersEnoexp').style.display = "block";
-	}
-	
-	if (modeflags.gdupe === true) {
-		document.getElementById('glitchesGdupe').style.display = "block";
-	}
-	
-	if (modeflags.gmp === true) {
-		document.getElementById('glitchesGmp').style.display = "block";
-	}
-	
-	if (modeflags.gwarp === true) {
-		document.getElementById('glitchesGwarp').style.display = "block";
-	}
-	
-	if (modeflags.glife === true) {
-		document.getElementById('glitchesGlife').style.display = "block";
-	}
-	
-	if (modeflags.g64 === true) {
-		document.getElementById('glitchesGG64').style.display = "block";
-	}
-	
-	if (modeflags.ostarterkit === 'minimal') {
-		document.getElementById('otherkitminimal').style.display = "block";
-	}
-	
-	if (modeflags.ostarterkit === 'basic') {
-		document.getElementById('otherkitbasic').style.display = "block";
-	}
-	
-	if (modeflags.ostarterkit === 'better') {
-		document.getElementById('otherkitbetter').style.display = "block";
-	}
-	
-	if (modeflags.ostarterkit === 'loaded') {
-		document.getElementById('otherkiloaded').style.display = "block";
-	}
-	
-	if (modeflags.ostarterkit === 'spitball') {
-		document.getElementById('otherkitspitball').style.display = "block";
-	}
-	
-	if (modeflags.onoadamants === true) {
-		document.getElementById('othernoadamants').style.display = "block";
-	}
-	
-	if (modeflags.ovintage === true) {
-		document.getElementById('othervintage').style.display = "block";
-	}
-	
-	if (modeflags.ospoon === true) {
-		document.getElementById('otherspoon').style.display = "block";
-	}
-	
-	if (modeflags.ovanillafusoya === true) {
-		document.getElementById('othervanillafusoya').style.display = "block";
-	}
-	
-	if (modeflags.ovanillaagility === true) {
-		document.getElementById('othervanillaagility').style.display = "block";
-	}
-	
-	if (modeflags.ovanillahobs === true) {
-		document.getElementById('othervanillahobs').style.display = "block";
-	}
-	
-	if (modeflags.ovanillaexp === true) {
-		document.getElementById('othervanillaexp').style.display = "block";
-	}
-	
-	if (modeflags.oexpsplit === true) {
-		document.getElementById('otherexpsplit').style.display = "block";
-	}
-	
-	if (modeflags.oexpnoboost === true) {
-		document.getElementById('otherexpnoboost').style.display = "block";
-	}
-	
-	if (modeflags.oexpnokeybonus === true) {
-		document.getElementById('otherexpnokeybonus').style.display = "block";
-	}
-	
-	if (modeflags.ovanillafashion === true) {
-		document.getElementById('othervanillafashion').style.display = "block";
-	}
-	
-	if (modeflags.ovanillatraps === true) {
-		document.getElementById('othervanillatraps').style.display = "block";
-	}
-	
-	if (modeflags.ovanillaz === true) {
-		document.getElementById('othervanillaz').style.display = "block";
-	} */
-	
 	if (modeflags.oquests === true || modeflags.oboss === true || modeflags.ochar === true) {
 		if (modeflags.oquests === false) {
 			document.getElementById('objectivecategoryquestsspan').style.textDecoration = "line-through";
@@ -1669,24 +1288,6 @@ function SetModes() {
 		//document.getElementById('objectivesRequired').style.display = "";
 		document.getElementById('objectivesRequiredCount').innerHTML = modeflags.oreq;
 	}
-	
-	/* if (!modeflags.oforge && !modeflags.ogiant) {
-		document.getElementById('item4td').style.backgroundImage = 'url(\'./images/requireditem_off.png\')';
-		document.getElementById('item16td').style.backgroundImage = 'url(\'./images/requireditem_off.png\')';
-		document.getElementById('item17td').style.backgroundImage = 'url(\'./images/requireditem_off.png\')';
-	} 
-	
-	if (modeflags.oforge) {
-		document.getElementById('item4td').style.backgroundImage = 'url(\'./images/requireditem_off.png\')';
-		document.getElementById('item12td').style.backgroundImage = 'url(\'./images/requireditem_off.png\')';
-		document.getElementById('item13td').style.backgroundImage = 'url(\'./images/requireditem_off.png\')';
-		document.getElementById('item16td').style.backgroundImage = 'url(\'./images/requireditem_off.png\')';
-		document.getElementById('item17td').style.backgroundImage = 'url(\'./images/requireditem_off.png\')';
-	} 
-	
-	if (modeflags.ogiant) {
-		document.getElementById('item4td').style.backgroundImage = 'url(\'./images/requireditem_off.png\')';
-	} */
 
 	if (modeflags.snoj) {
 		document.getElementById('offensive1').style.display = "none";
@@ -1702,10 +1303,6 @@ function SetModes() {
 		document.getElementById('notes1td').style.display = "none";
 		document.getElementById('notes2td').style.display = "none";
 	} 
-	/*else if (shops === 1 || shops === 2) {
-		document.getElementById('offensive3').style.display = "none";
-		document.getElementById('offensive4').style.display = "none";
-	}*/
 	
 	if (!modeflags.ktrap) {
 		document.getElementById('trappedchestsdiv').style.display = "none";
@@ -1815,7 +1412,7 @@ function SetModes() {
 }
 
 function ApplyChecks(){
-	var hasunderworldaccess = (keyitems[2] === true || (keyitems[6] === true && hookclear === true));
+	var hasunderworldaccess = (keyitems[2] === true || ((keyitems[6] === true || modeflags.opushbtojump) && hookclear === true));
 	
 	// ****Key Items****
 	if (disableloctracker === '0') {
@@ -1974,7 +1571,7 @@ function ApplyChecks(){
 		
 		//Hook Route
 		DeactivateKeyItemLocation(27);
-		if (keyitems[6] === true && keyitems[2] === false && hookclear === false) {
+		if ((keyitems[6] === true || modeflags.opushbtojump) && keyitems[2] === false && hookclear === false) {
 			ActivateKeyItemLocation(27);
 		}
 		
@@ -2166,25 +1763,7 @@ function ApplyChecks(){
 			ActivateTrappedLocation(9);
 		}
 	}
-	
-	//Characters
-	/*for (var i = 0; i < 12; i++) {
-		var l = 'character' + i.toString();
-		if (characters[i] === true) {
-			if ((i === 0 && cecil) || (i === 2 && rydia)) { //If Cecil and Ordeals clear or If Rydia and Dwarf Castle clear
-				document.getElementById(l).style = 'background-image: url(\'images/character' + i + '_2_a.png\')';
-			} else { //All Others
-				document.getElementById(l).style = 'background-image: url(\'images/character' + i + '_a.png\')';
-			}
-		} else {
-			if ((i === 0 && cecil) || (i === 2 && rydia)) { //If Cecil and Ordeals clear or If Rydia and Dwarf Castle clear
-				document.getElementById(l).style = 'background-image: url(\'images/character' + i + '_2.png\')';
-			} else { //All Others
-				document.getElementById(l).style = 'background-image: url(\'images/character' + i + '.png\')';
-			}
-		}
-	} */
-	
+		
 	if (cecil) { //If Cecil and Ordeals
 		document.getElementById('character0').style = 'background-image: url(\'images/character0_2_a.png\')';
 		if (!modeflags.ccecil) {
@@ -2254,70 +1833,7 @@ function ApplyChecks(){
 	} else {
 		document.getElementById('itemtracker').style.color = "#FFF";
 	}
-	
-	//Item Requirements
-	/* if (!modeflags.oforge && !modeflags.ogiant) {
-		if (keyitems[16] === true) {
-			document.getElementById('item16td').style.backgroundImage = 'url(\'./images/requireditem.png\')';
-		} else {
-			document.getElementById('item16td').style.backgroundImage = 'url(\'./images/requireditem_off.png\')';
-		}
-
-		if (keyitems[17] === true) {
-			document.getElementById('item4td').style.backgroundImage = 'none';
-			document.getElementById('item17td').style.backgroundImage = 'url(\'./images/requireditem.png\')';
-		} else {
-			document.getElementById('item17td').style.backgroundImage = 'url(\'./images/requireditem_off.png\')';
-			if (keyitems[4] === true) {
-				document.getElementById('item4td').style.backgroundImage = 'url(\'./images/requireditem.png\')';
-				document.getElementById('item17td').style.backgroundImage = 'none';
-			} else {
-				document.getElementById('item4td').style.backgroundImage = 'url(\'./images/requireditem_off.png\')';
-			}
-		}
-	} 
-	
-	if (modeflags.oforge) {
-		if (keyitems[16] === true) {
-			document.getElementById('item16td').style.backgroundImage = 'url(\'./images/requireditem.png\')';
-			document.getElementById('item12td').style.backgroundImage = 'none';
-			document.getElementById('item13td').style.backgroundImage = 'none';
-		} else {
-			document.getElementById('item16td').style.backgroundImage = 'url(\'./images/requireditem_off.png\')';
-			if (keyitems[12] === true) {
-				document.getElementById('item12td').style.backgroundImage = 'url(\'./images/requireditem.png\')';
-			} else {
-				document.getElementById('item12td').style.backgroundImage = 'url(\'./images/requireditem_off.png\')';
-			}
-			if (keyitems[13] === true) {
-				document.getElementById('item13td').style.backgroundImage = 'url(\'./images/requireditem.png\')';
-			} else {
-				document.getElementById('item13td').style.backgroundImage = 'url(\'./images/requireditem_off.png\')';
-			}
-		}
 		
-		if (keyitems[17] === true) {
-			document.getElementById('item4td').style.backgroundImage = 'none';
-			document.getElementById('item17td').style.backgroundImage = 'url(\'./images/requireditem.png\')';
-		} else {
-			document.getElementById('item17td').style.backgroundImage = 'url(\'./images/requireditem_off.png\')';
-			if (keyitems[4] === true) {
-				document.getElementById('item4td').style.backgroundImage = 'url(\'./images/requireditem.png\')';
-				document.getElementById('item17td').style.backgroundImage = 'none';
-			} else {
-				document.getElementById('item4td').style.backgroundImage = 'url(\'./images/requireditem_off.png\')';
-			}
-		}		
-	} 
-	
-	if (modeflags.ogiant) {
-		if (keyitems[4] === true) {
-			document.getElementById('item4td').style.backgroundImage = 'url(\'./images/requireditem.png\')';
-		} else {
-			document.getElementById('item4td').style.backgroundImage = 'url(\'./images/requireditem_off.png\')';
-		}		
-	}*/
-	
 	//Key Item Locations
 	if (viewactivekeyitems === true) {
 		document.getElementById('keyitemlocationviewchecked').style.display = "block";
