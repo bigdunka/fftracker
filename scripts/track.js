@@ -1312,19 +1312,19 @@ function SetModes() {
 	}
 	
 	if (!modeflags.ksummon) {
-		keyitemlocations[3] = 3; //Odin
-		keyitemlocations[15] = 3; //Asura
-		keyitemlocations[16] = 3; //Leva
-		keyitemlocations[20] = 3; //Slyph
-		keyitemlocations[21] = 3; //Bahamut
+		keyitemlocations[KeyItemCheck.BARON_ODIN] = 3; //Odin
+		keyitemlocations[KeyItemCheck.FEY_ASURA] = 3; //Asura
+		keyitemlocations[KeyItemCheck.FEY_LEVIATHAN] = 3; //Leva
+		keyitemlocations[KeyItemCheck.SYLPH_CAVE] = 3; //Slyph
+		keyitemlocations[KeyItemCheck.BAHAMUT] = 3; //Bahamut
 	}
 	
 	if (!modeflags.kmoon) {
-		keyitemlocations[22] = 3; //Lunar Crystal
-		keyitemlocations[23] = 3; //Lunar Masa
-		keyitemlocations[24] = 3; //Lunar Mura
-		keyitemlocations[25] = 3; //Lunar Ribbon
-		keyitemlocations[26] = 3; //Lunar White
+		keyitemlocations[KeyItemCheck.MOON_CRYSTAL] = 3; //Lunar Crystal
+		keyitemlocations[KeyItemCheck.MOON_MASAMUNE] = 3; //Lunar Masa
+		keyitemlocations[KeyItemCheck.MOON_MURASAME] = 3; //Lunar Mura
+		keyitemlocations[KeyItemCheck.MOON_RIBBON] = 3; //Lunar Ribbon
+		keyitemlocations[KeyItemCheck.MOON_WHITE] = 3; //Lunar White
 	}
 	
 	if (modeflags.sshops == 'empty') {
@@ -1332,19 +1332,19 @@ function SetModes() {
 	}
 	
 	if (modeflags.nchars) {
-		characterlocations[2] = 3;
-		characterlocations[8] = 3;
-		characterlocations[9] = 3;
-		characterlocations[11] = 3;		
+		characterlocations[CharacterCheck.DAMCYAN] = 3;
+		characterlocations[CharacterCheck.MT_ORDEALS] = 3;
+		characterlocations[CharacterCheck.MYSIDIA] = 3;
+		characterlocations[CharacterCheck.WATERWAY] = 3;
 	}
 	
 	if (modeflags.nkey) {
-		keyitemlocations[12] = 3;
+		keyitemlocations[KeyItemCheck.TROIA] = 3;
 	} else {
 		if (disablebosstracker === '1') {
 			document.getElementById('misttoggle').style.visibility = "hidden";
 		}
-		keyitemlocations[9] = 3;
+		keyitemlocations[KeyItemCheck.MIST] = 3;
 	}
 
 	var verticallayout = getParameterByName('v');
@@ -1412,355 +1412,355 @@ function SetModes() {
 }
 
 function ApplyChecks(){
-	var hasunderworldaccess = (keyitems[2] === true || ((keyitems[6] === true || modeflags.opushbtojump) && hookclear === true));
+	var hasunderworldaccess = (keyitems[KeyItem.MAGMA_KEY] === true || ((keyitems[KeyItem.HOOK] === true || modeflags.opushbtojump) && hookclear === true));
 	
 	// ****Key Items****
 	if (disableloctracker === '0') {
 		//Adamant Cave
-		DeactivateKeyItemLocation(0);
-		if (keyitems[6] === true && keyitems[11] === true) {
-			ActivateKeyItemLocation(0);
+		DeactivateKeyItemLocation(KeyItemCheck.ADAMANT);
+		if (keyitems[KeyItem.HOOK] === true && keyitems[KeyItem.RAT_TAIL] === true) {
+			ActivateKeyItemLocation(KeyItemCheck.ADAMANT);
 		}
 		
 		//Antlion Cave
-		ActivateKeyItemLocation(1);
+		ActivateKeyItemLocation(KeyItemCheck.ANTLION);
 		
 		//Baron Castle [King]
-		DeactivateKeyItemLocation(2);
-		if (keyitems[0] === true || modeflags.opushbtojump) {
-			ActivateKeyItemLocation(2);
+		DeactivateKeyItemLocation(KeyItemCheck.BARON_KING);
+		if (keyitems[KeyItem.BARON_KEY] === true || modeflags.opushbtojump) {
+			ActivateKeyItemLocation(KeyItemCheck.BARON_KING);
 		}
 		
 		//Baron Castle [Odin]
-		DeactivateKeyItemLocation(3);
-		if (keyitems[0] === true || modeflags.opushbtojump) {
-			ActivateKeyItemLocation(3);
+		DeactivateKeyItemLocation(KeyItemCheck.BARON_ODIN);
+		if (keyitems[KeyItem.BARON_KEY] === true || modeflags.opushbtojump) {
+			ActivateKeyItemLocation(KeyItemCheck.BARON_ODIN);
 		}
 		
 		//Town of Baron
-		ActivateKeyItemLocation(4);
+		ActivateKeyItemLocation(KeyItemCheck.BARON_INN);
 
 		//Fabul [Defend]
-		ActivateKeyItemLocation(5);
+		ActivateKeyItemLocation(KeyItemCheck.FABUL_DEFEND);
 
 		//Fabul [Yang/Slyph]
-		DeactivateKeyItemLocation(6);
+		DeactivateKeyItemLocation(KeyItemCheck.FABUL_SYLPH);
 		if (hasunderworldaccess) {
-			ActivateKeyItemLocation(6);
+			ActivateKeyItemLocation(KeyItemCheck.FABUL_SYLPH);
 		}
 
 		//Fabul [Yang/Pan]
-		DeactivateKeyItemLocation(7);
-		if (keyitems[9] === true && hasunderworldaccess) {
-			ActivateKeyItemLocation(7);
+		DeactivateKeyItemLocation(KeyItemCheck.FABUL_PAN);
+		if (keyitems[KeyItem.PAN] === true && hasunderworldaccess) {
+			ActivateKeyItemLocation(KeyItemCheck.FABUL_PAN);
 		}
 
 		//Magnes Cave
-		DeactivateKeyItemLocation(8);
-		if (keyitems[7] === true || modeflags.opushbtojump) {
-			ActivateKeyItemLocation(8);
+		DeactivateKeyItemLocation(KeyItemCheck.MAGNES);
+		if (keyitems[KeyItem.TWINHARP] === true || modeflags.opushbtojump) {
+			ActivateKeyItemLocation(KeyItemCheck.MAGNES);
 		}
 		
 		//Mist Village
-		DeactivateKeyItemLocation(9);
+		DeactivateKeyItemLocation(KeyItemCheck.MIST);
 		if (mist === true) {
-			ActivateKeyItemLocation(9);
+			ActivateKeyItemLocation(KeyItemCheck.MIST);
 		}	
 
 		//Mt Ordeals
-		ActivateKeyItemLocation(10);
+		ActivateKeyItemLocation(KeyItemCheck.MT_ORDEALS);
 		
-		if (keyitemlocations[10] === 2) {
+		if (keyitemlocations[KeyItemCheck.MT_ORDEALS] === 2) {
 			cecil = true;
 		} else {
 			cecil = false;
 		}
 
 		//Tower of Zot
-		DeactivateKeyItemLocation(11);
-		if (keyitems[5] === true || modeflags.opushbtojump) {
-			ActivateKeyItemLocation(11);
+		DeactivateKeyItemLocation(KeyItemCheck.TOWER_ZOT);
+		if (keyitems[KeyItem.EARTH_CRYSTAL] === true || modeflags.opushbtojump) {
+			ActivateKeyItemLocation(KeyItemCheck.TOWER_ZOT);
 		}	
 
 		//Troia Castle
-		ActivateKeyItemLocation(12);
+		ActivateKeyItemLocation(KeyItemCheck.TROIA);
 		
 		//Dwarf Castle
-		DeactivateKeyItemLocation(13);
+		DeactivateKeyItemLocation(KeyItemCheck.DWARF);
 		if (hasunderworldaccess) {
-			ActivateKeyItemLocation(13);
+			ActivateKeyItemLocation(KeyItemCheck.DWARF);
 		}	
 		
 		//Feymarch [Chest]
-		DeactivateKeyItemLocation(14);
+		DeactivateKeyItemLocation(KeyItemCheck.FEY_CHEST);
 		if (hasunderworldaccess) {
-			ActivateKeyItemLocation(14);
+			ActivateKeyItemLocation(KeyItemCheck.FEY_CHEST);
 		}	
 		
 		//Feymarch [Asura]
-		DeactivateKeyItemLocation(15);
+		DeactivateKeyItemLocation(KeyItemCheck.FEY_ASURA);
 		if (hasunderworldaccess) {
-			ActivateKeyItemLocation(15);
+			ActivateKeyItemLocation(KeyItemCheck.FEY_ASURA);
 		}
 
 		//Feymarch [Leviathan]
-		DeactivateKeyItemLocation(16);
+		DeactivateKeyItemLocation(KeyItemCheck.FEY_LEVIATHAN);
 		if (hasunderworldaccess) {
-			ActivateKeyItemLocation(16);
+			ActivateKeyItemLocation(KeyItemCheck.FEY_LEVIATHAN);
 		}
 		
 		//Lower Babil [Boss]
-		DeactivateKeyItemLocation(17);
+		DeactivateKeyItemLocation(KeyItemCheck.LOWER_BABIL_BOSS);
 		if (hasunderworldaccess) {
-			ActivateKeyItemLocation(17);
+			ActivateKeyItemLocation(KeyItemCheck.LOWER_BABIL_BOSS);
 		}
 		
 		//Lower Babil [Tower]
-		DeactivateKeyItemLocation(18);
-		if (keyitems[3] === true && hasunderworldaccess) {
-			ActivateKeyItemLocation(18);
+		DeactivateKeyItemLocation(KeyItemCheck.LOWER_BABIL_CANNON);
+		if (keyitems[KeyItem.TOWER_KEY] === true && hasunderworldaccess) {
+			ActivateKeyItemLocation(KeyItemCheck.LOWER_BABIL_CANNON);
 		}
 		
 		//Sealed Cave
-		DeactivateKeyItemLocation(19);
-		if (keyitems[1] === true && hasunderworldaccess) {
-			ActivateKeyItemLocation(19);
+		DeactivateKeyItemLocation(KeyItemCheck.SEALED_CAVE);
+		if (keyitems[KeyItem.LUCA_KEY] === true && hasunderworldaccess) {
+			ActivateKeyItemLocation(KeyItemCheck.SEALED_CAVE);
 		}
 		
 		//Slyph Cave
-		DeactivateKeyItemLocation(20);
-		if (keyitems[9] === true && hasunderworldaccess) {
-			ActivateKeyItemLocation(20);
+		DeactivateKeyItemLocation(KeyItemCheck.SYLPH_CAVE);
+		if (keyitems[KeyItem.PAN] === true && hasunderworldaccess) {
+			ActivateKeyItemLocation(KeyItemCheck.SYLPH_CAVE);
 		}
 		
 		//Bahamut
-		DeactivateKeyItemLocation(21);
-		if (keyitems[4] === true) {
-			ActivateKeyItemLocation(21);
+		DeactivateKeyItemLocation(KeyItemCheck.BAHAMUT);
+		if (keyitems[KeyItem.DARKNESS_CRYSTAL] === true) {
+			ActivateKeyItemLocation(KeyItemCheck.BAHAMUT);
 		}
 		
 		//Lunar [Crystal]
-		DeactivateKeyItemLocation(22);
-		if (keyitems[4] === true) {
-			ActivateKeyItemLocation(22);
+		DeactivateKeyItemLocation(KeyItemCheck.MOON_CRYSTAL);
+		if (keyitems[KeyItem.DARKNESS_CRYSTAL] === true) {
+			ActivateKeyItemLocation(KeyItemCheck.MOON_CRYSTAL);
 		}
 		
 		//Lunar [Masamune]
-		DeactivateKeyItemLocation(23);
-		if (keyitems[4] === true) {
-			ActivateKeyItemLocation(23);
+		DeactivateKeyItemLocation(KeyItemCheck.MOON_MASAMUNE);
+		if (keyitems[KeyItem.DARKNESS_CRYSTAL] === true) {
+			ActivateKeyItemLocation(KeyItemCheck.MOON_MASAMUNE);
 		}
 		
 		//Lunar [Murasame]
-		DeactivateKeyItemLocation(24);
-		if (keyitems[4] === true) {
-			ActivateKeyItemLocation(24);
+		DeactivateKeyItemLocation(KeyItemCheck.MOON_MURASAME);
+		if (keyitems[KeyItem.DARKNESS_CRYSTAL] === true) {
+			ActivateKeyItemLocation(KeyItemCheck.MOON_MURASAME);
 		}
 		
 		//Lunar [Ribbon]
-		DeactivateKeyItemLocation(25);
-		if (keyitems[4] === true) {
-			ActivateKeyItemLocation(25);
+		DeactivateKeyItemLocation(KeyItemCheck.MOON_RIBBON);
+		if (keyitems[KeyItem.DARKNESS_CRYSTAL] === true) {
+			ActivateKeyItemLocation(KeyItemCheck.MOON_RIBBON);
 		}
 		
 		//Lunar [White]
-		DeactivateKeyItemLocation(26);
-		if (keyitems[4] === true) {
-			ActivateKeyItemLocation(26);
+		DeactivateKeyItemLocation(KeyItemCheck.MOON_WHITE);
+		if (keyitems[KeyItem.DARKNESS_CRYSTAL] === true) {
+			ActivateKeyItemLocation(KeyItemCheck.MOON_WHITE);
 		}
 		
 		//Hook Route
-		DeactivateKeyItemLocation(27);
-		if ((keyitems[6] === true || modeflags.opushbtojump) && keyitems[2] === false && hookclear === false) {
-			ActivateKeyItemLocation(27);
+		DeactivateKeyItemLocation(KeyItemCheck.HOOK_ROUTE);
+		if ((keyitems[KeyItem.HOOK] === true || modeflags.opushbtojump) && keyitems[KeyItem.MAGMA_KEY] === false && hookclear === false) {
+			ActivateKeyItemLocation(KeyItemCheck.HOOK_ROUTE);
 		}
 		
 		// ****Characters****
 		
 		//Baron Castle
-		DeactivateCharacterLocation(0);
-		if (keyitems[0] === true || modeflags.opushbtojump) {
-			ActivateCharacterLocation(0);
+		DeactivateCharacterLocation(CharacterCheck.BARON_CASTLE);
+		if (keyitems[KeyItem.BARON_KEY] === true || modeflags.opushbtojump) {
+			ActivateCharacterLocation(CharacterCheck.BARON_CASTLE);
 		}
 		
 		//Town of Baron
-		ActivateCharacterLocation(1);
+		ActivateCharacterLocation(CharacterCheck.BARON_INN);
 		
 		//Damcyan
-		ActivateCharacterLocation(2);
+		ActivateCharacterLocation(CharacterCheck.DAMCYAN);
 		
 		//Eblan Cave
-		DeactivateCharacterLocation(3);
-		if (keyitems[6] === true || modeflags.opushbtojump) {
-			ActivateCharacterLocation(3);
+		DeactivateCharacterLocation(CharacterCheck.EBLAN_CAVE);
+		if (keyitems[KeyItem.HOOK] === true || modeflags.opushbtojump) {
+			ActivateCharacterLocation(CharacterCheck.EBLAN_CAVE);
 		}	
 		
 		//Giant of Babil
-		DeactivateCharacterLocation(4);
-		if (keyitems[4] === true) {
-			ActivateCharacterLocation(4);
+		DeactivateCharacterLocation(CharacterCheck.GIANT_BABIL);
+		if (keyitems[KeyItem.DARKNESS_CRYSTAL] === true) {
+			ActivateCharacterLocation(CharacterCheck.GIANT_BABIL);
 		}
 		
 		//Kaipo
-		DeactivateCharacterLocation(5);
-		if (keyitems[10] === true) {
-			ActivateCharacterLocation(5);
+		DeactivateCharacterLocation(CharacterCheck.KAIPO);
+		if (keyitems[KeyItem.SANDRUBY] === true) {
+			ActivateCharacterLocation(CharacterCheck.KAIPO);
 		}
 		
 		//Mist Village
-		DeactivateCharacterLocation(6);
-		if (keyitems[8] === true) {
-			ActivateCharacterLocation(6);
+		DeactivateCharacterLocation(CharacterCheck.MIST);
+		if (keyitems[KeyItem.PACKAGE] === true) {
+			ActivateCharacterLocation(CharacterCheck.MIST);
 		}
 		
 		//Mt Hobbs
-		ActivateCharacterLocation(7);
+		ActivateCharacterLocation(CharacterCheck.MT_HOBS);
 
 		//Mt Ordeals
-		ActivateCharacterLocation(8);
+		ActivateCharacterLocation(CharacterCheck.MT_ORDEALS);
 		
 		//Mysidia
-		ActivateCharacterLocation(9);
+		ActivateCharacterLocation(CharacterCheck.MYSIDIA);
 		
 		//Tower of Zot
-		DeactivateCharacterLocation(10);
-		if (keyitems[5] === true || modeflags.opushbtojump) {
-			ActivateCharacterLocation(10);
+		DeactivateCharacterLocation(CharacterCheck.TOWER_ZOT);
+		if (keyitems[KeyItem.EARTH_CRYSTAL] === true || modeflags.opushbtojump) {
+			ActivateCharacterLocation(CharacterCheck.TOWER_ZOT);
 		}
 		
 		//Waterway
-		ActivateCharacterLocation(11);	
+		ActivateCharacterLocation(CharacterCheck.WATERWAY);
 		
 		//Dwarf Castle
-		DeactivateCharacterLocation(12);
+		DeactivateCharacterLocation(CharacterCheck.DWARF);
 		if (hasunderworldaccess) {
-			ActivateCharacterLocation(12);
+			ActivateCharacterLocation(CharacterCheck.DWARF);
 		}
 		
-		if (characterlocations[12] === 2) {
+		if (characterlocations[CharacterCheck.DWARF] === 2) {
 			rydia = true;
 		} else {
 			rydia = false;
 		}
 
 		//Lunar Sub.
-		DeactivateCharacterLocation(13);
-		if (keyitems[4] === true) {
-			ActivateCharacterLocation(13);
+		DeactivateCharacterLocation(CharacterCheck.MOON);
+		if (keyitems[KeyItem.DARKNESS_CRYSTAL] === true) {
+			ActivateCharacterLocation(CharacterCheck.MOON);
 		}	
 
 	
 		// ****Towns/Shops****
 
 		//Agart
-		ActivateTownLocation(0);
+		ActivateTownLocation(Town.AGART);
 		
 		//Town of Baron
-		ActivateTownLocation(1);
+		ActivateTownLocation(Town.BARON);
 
 		//Eblan Cave
-		DeactivateTownLocation(2);
-		if (keyitems[6] === true || modeflags.opushbtojump) {
-			ActivateTownLocation(2);
+		DeactivateTownLocation(Town.EBLAN_CAVE);
+		if (keyitems[KeyItem.HOOK] === true || modeflags.opushbtojump) {
+			ActivateTownLocation(Town.EBLAN_CAVE);
 		}
 		
 		//Fabul
-		ActivateTownLocation(3);
+		ActivateTownLocation(Town.FABUL);
 		
 		//Kaipo
-		ActivateTownLocation(4);
+		ActivateTownLocation(Town.KAIPO);
 		
 		//Mysidia
-		ActivateTownLocation(5);
+		ActivateTownLocation(Town.MYSIDIA);
 		
 		//Silvera
-		ActivateTownLocation(6);
+		ActivateTownLocation(Town.SILVERA);
 		
 		//Troia [Item]
-		ActivateTownLocation(7);
+		ActivateTownLocation(Town.TROIA_ITEM);
 		
 		//Troia [Pub]
-		ActivateTownLocation(8);
+		ActivateTownLocation(Town.TROIA_PUB);
 		
 		//Dwarf Castle
-		DeactivateTownLocation(9);
+		DeactivateTownLocation(Town.DWARF);
 		if (hasunderworldaccess) {
-			ActivateTownLocation(9);
+			ActivateTownLocation(Town.DWARF);
 		}
 		
 		//Feymarch
-		DeactivateTownLocation(10);
+		DeactivateTownLocation(Town.FEY);
 		if (hasunderworldaccess) {
-			ActivateTownLocation(10);
+			ActivateTownLocation(Town.FEY);
 		}
 		
 		//Tomara
-		DeactivateTownLocation(11);
+		DeactivateTownLocation(Town.TOMARA);
 		if (hasunderworldaccess) {
-			ActivateTownLocation(11);
+			ActivateTownLocation(Town.TOMARA);
 		}
 		
 		//Hummingway
-		DeactivateTownLocation(12);
-		if (keyitems[4] === true) {
-			ActivateTownLocation(12);
+		DeactivateTownLocation(Town.MOON);
+		if (keyitems[KeyItem.DARKNESS_CRYSTAL] === true) {
+			ActivateTownLocation(Town.MOON);
 		}
 		
 		
 		// ****Trapped Chests****
 		
 		//Castle Eblan
-		ActivateTrappedLocation(0);
+		ActivateTrappedLocation(Trap.CASTLE_EBLAN);
 
 		//Eblan Cave
-		DeactivateTrappedLocation(1);
-		if (keyitems[6] === true || modeflags.opushbtojump) {
-			ActivateTrappedLocation(1);
+		DeactivateTrappedLocation(Trap.EBLAN_CAVE);
+		if (keyitems[KeyItem.HOOK] === true || modeflags.opushbtojump) {
+			ActivateTrappedLocation(Trap.EBLAN_CAVE);
 		}
 
 		//Giant of Babil
-		DeactivateTrappedLocation(2);
-		if (keyitems[4] === true) {
-			ActivateTrappedLocation(2);
+		DeactivateTrappedLocation(Trap.GIANT_BABIL);
+		if (keyitems[KeyItem.DARKNESS_CRYSTAL] === true) {
+			ActivateTrappedLocation(Trap.GIANT_BABIL);
 		}
 
 		//Tower of Zot
-		ActivateTrappedLocation(3);
+		ActivateTrappedLocation(Trap.TOWER_ZOT);
 		
 		//Upper Babil
-		DeactivateTrappedLocation(4);
-		if (keyitems[6] === true || modeflags.opushbtojump) {
-			ActivateTrappedLocation(4);
+		DeactivateTrappedLocation(Trap.UPPER_BABIL);
+		if (keyitems[KeyItem.HOOK] === true || modeflags.opushbtojump) {
+			ActivateTrappedLocation(Trap.UPPER_BABIL);
 		}
 
 		//Feymarch
-		DeactivateTrappedLocation(5);
+		DeactivateTrappedLocation(Trap.FEY);
 		if (hasunderworldaccess) {
-			ActivateTrappedLocation(5);
+			ActivateTrappedLocation(Trap.FEY);
 		}
 
 		//Lower Babil
-		DeactivateTrappedLocation(6);
+		DeactivateTrappedLocation(Trap.LOWER_BABIL);
 		if (hasunderworldaccess) {
-			ActivateTrappedLocation(6);
+			ActivateTrappedLocation(Trap.LOWER_BABIL);
 		}
 
 		//Slyph Cave
-		DeactivateTrappedLocation(7);
+		DeactivateTrappedLocation(Trap.SYLPH_CAVE);
 		if (hasunderworldaccess) {
-			ActivateTrappedLocation(7);
+			ActivateTrappedLocation(Trap.SYLPH_CAVE);
 		}
 
 		//Lunar Path
-		DeactivateTrappedLocation(8);
-		if (keyitems[4] === true) {
-			ActivateTrappedLocation(8);
+		DeactivateTrappedLocation(Trap.MOON_PATH);
+		if (keyitems[KeyItem.DARKNESS_CRYSTAL] === true) {
+			ActivateTrappedLocation(Trap.MOON_PATH);
 		}
 
 		//Lunar Sub.
-		DeactivateTrappedLocation(9);
-		if (keyitems[4] === true) {
-			ActivateTrappedLocation(9);
+		DeactivateTrappedLocation(Trap.MOON_SUB);
+		if (keyitems[KeyItem.DARKNESS_CRYSTAL] === true) {
+			ActivateTrappedLocation(Trap.MOON_SUB);
 		}
 	}
 		
@@ -1814,7 +1814,7 @@ function ApplyChecks(){
 			//if (pkey === true && i === 17) {
 				//itemcount++;
 			//}
-			if (i != 17) {
+			if (i != KeyItem.PASS) {
 				itemcount++;
 			}
 			document.getElementById(l).style = 'background-image: url(\'images/item' + i + '_a.png\')';
@@ -1996,15 +1996,15 @@ function ApplyChecks(){
 function SwapKeyItemLocation(i) {
 	if (keyitemlocations[i] === 1) {
 		keyitemlocations[i] = 2;
-		if (i === 27) {
+		if (i === KeyItemCheck.HOOK_ROUTE) {
 			hookclear = true;
 		}
-		if (i === 13 && modeflags.gwarp) {
-			keyitemlocations[28] = 1;
+		if (i === KeyItemCheck.DWARF && modeflags.gwarp) {
+			keyitemlocations[KeyItemCheck.WARP_GLITCH] = 1;
 		}
 	} else if (keyitemlocations[i] === 2) {
 		keyitemlocations[i] = 1;
-		if (i === 27) {
+		if (i === KeyItemCheck.HOOK_ROUTE) {
 			hookclear = false;
 		}
 	}
@@ -2523,43 +2523,43 @@ function AddTownLocation(locationdata, i) {
 	}
 	
 	switch(i) {
-		case 0:
+		case Town.AGART:
 			locationdata += 'Agart';
 			break;
-		case 1:
+		case Town.BARON:
 			locationdata += 'Town of Baron';
 			break;
-		case 2:
+		case Town.EBLAN_CAVE:
 			locationdata += 'Eblan Cave';
 			break;
-		case 3:
+		case Town.FABUL:
 			locationdata += 'Fabul';
 			break;
-		case 4:
+		case Town.KAIPO:
 			locationdata += 'Kaipo';
 			break;
-		case 5:
+		case Town.MYSIDIA:
 			locationdata += 'Mysidia';
 			break;
-		case 6:
+		case Town.SILVERA:
 			locationdata += 'Silvera';
 			break;
-		case 7:
+		case Town.TROIA_ITEM:
 			locationdata += 'Troia [Item]';
 			break;
-		case 8:
+		case Town.TROIA_PUB:
 			locationdata += 'Troia [Pub]';
 			break;
-		case 9:
+		case Town.DWARF:
 			locationdata += 'Dwarf Castle';
 			break;
-		case 10:
+		case Town.FEY:
 			locationdata += 'Feymarch';
 			break;
-		case 11:
+		case Town.TOMARA:
 			locationdata += 'Tomara';
 			break;
-		case 12:
+		case Town.MOON:
 			locationdata += 'Hummingway';
 			break;
 	}
@@ -2583,15 +2583,15 @@ function ToggleMist() {
 
 function WarpGlitch() {
 	if (ignorewarp === false) {		
-		keyitemlocations[19] = 2;
-		keyitemlocations[28] = 2;
+		keyitemlocations[KeyItemCheck.SEALED_CAVE] = 2;
+		keyitemlocations[KeyItemCheck.WARP_GLITCH] = 2;
 		ApplyChecks();
 	}
 	ignorewarp = false;
 }
 
 function ClearWarpGlitch() {
-	keyitemlocations[28] = 2;
+	keyitemlocations[KeyItemCheck.WARP_GLITCH] = 2;
 	ignorewarp = true;
 	ApplyChecks();
 }
