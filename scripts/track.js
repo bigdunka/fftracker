@@ -1427,13 +1427,13 @@ function ApplyChecks(){
 		
 		//Baron Castle [King]
 		DeactivateKeyItemLocation(2);
-		if (keyitems[0] === true) {
+		if (keyitems[0] === true || modeflags.opushbtojump) {
 			ActivateKeyItemLocation(2);
 		}
 		
 		//Baron Castle [Odin]
 		DeactivateKeyItemLocation(3);
-		if (keyitems[0] === true) {
+		if (keyitems[0] === true || modeflags.opushbtojump) {
 			ActivateKeyItemLocation(3);
 		}
 		
@@ -1457,7 +1457,7 @@ function ApplyChecks(){
 
 		//Magnes Cave
 		DeactivateKeyItemLocation(8);
-		if (keyitems[7] === true) {
+		if (keyitems[7] === true || modeflags.opushbtojump) {
 			ActivateKeyItemLocation(8);
 		}
 		
@@ -1478,7 +1478,7 @@ function ApplyChecks(){
 
 		//Tower of Zot
 		DeactivateKeyItemLocation(11);
-		if (keyitems[5] === true) {
+		if (keyitems[5] === true || modeflags.opushbtojump) {
 			ActivateKeyItemLocation(11);
 		}	
 
@@ -1579,7 +1579,7 @@ function ApplyChecks(){
 		
 		//Baron Castle
 		DeactivateCharacterLocation(0);
-		if (keyitems[0] === true) {
+		if (keyitems[0] === true || modeflags.opushbtojump) {
 			ActivateCharacterLocation(0);
 		}
 		
@@ -1591,7 +1591,7 @@ function ApplyChecks(){
 		
 		//Eblan Cave
 		DeactivateCharacterLocation(3);
-		if (keyitems[6] === true) {
+		if (keyitems[6] === true || modeflags.opushbtojump) {
 			ActivateCharacterLocation(3);
 		}	
 		
@@ -1624,7 +1624,7 @@ function ApplyChecks(){
 		
 		//Tower of Zot
 		DeactivateCharacterLocation(10);
-		if (keyitems[5] === true) {
+		if (keyitems[5] === true || modeflags.opushbtojump) {
 			ActivateCharacterLocation(10);
 		}
 		
@@ -1660,7 +1660,7 @@ function ApplyChecks(){
 
 		//Eblan Cave
 		DeactivateTownLocation(2);
-		if (keyitems[6] === true) {
+		if (keyitems[6] === true || modeflags.opushbtojump) {
 			ActivateTownLocation(2);
 		}
 		
@@ -1714,7 +1714,7 @@ function ApplyChecks(){
 
 		//Eblan Cave
 		DeactivateTrappedLocation(1);
-		if (keyitems[6] === true) {
+		if (keyitems[6] === true || modeflags.opushbtojump) {
 			ActivateTrappedLocation(1);
 		}
 
@@ -1729,7 +1729,7 @@ function ApplyChecks(){
 		
 		//Upper Babil
 		DeactivateTrappedLocation(4);
-		if (keyitems[6] === true) {
+		if (keyitems[6] === true || modeflags.opushbtojump) {
 			ActivateTrappedLocation(4);
 		}
 
