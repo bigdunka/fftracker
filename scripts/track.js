@@ -17,7 +17,8 @@ var objectivenames = ['Get Cecil','Get Kain','Get Rydia','Get Tellah','Get Edwar
 
 var trappedchestcounts = [3,1,1,1,1,1,4,7,1,9];
 var trappedchestmaxcounts = [3,1,1,1,1,1,4,7,1,9];
-var currentitemlist = 0;
+var currentShop = 0;
+// Array of checklists of items found in each shop.
 var items = ['000000000000000000000000000000000000','000000000000000000000000000000000000','000000000000000000000000000000000000','000000000000000000000000000000000000','000000000000000000000000000000000000','000000000000000000000000000000000000','000000000000000000000000000000000000','000000000000000000000000000000000000','000000000000000000000000000000000000','000000000000000000000000000000000000','000000000000000000000000000000000000','000000000000000000000000000000000000','000000000000000000000000000000000000'];
 var itemsnotes = ['','','','','','','','','','','','',''];
 
@@ -2174,23 +2175,23 @@ function PartyClear(i) {
 	ApplyChecks();
 }
 
-function LoadItems(i) {
-	CheckItems(i);
+function LoadItems(shopId) {
+	CheckItems(shopId);
 	$('#itemModal').show();
 }
 
-function CheckItems(i) {
-	currentitemlist = i;
+function CheckItems(shopId) {
+	currentShop = shopId;
 	
 	for (var j = 0; j < 36; j++) {
-		if (items[i].charAt(j) == '1') {
+		if (items[shopId].charAt(j) == '1') {
 			document.getElementById('itemspan' + j).style.color = "#0F0";
 		} else {
 			document.getElementById('itemspan' + j).style.color = "#FFF";
 		}
 	}
 	
-	document.getElementById("townnotes").value = itemsnotes[i];
+	document.getElementById("townnotes").value = itemsnotes[shopId];
 }
 
 function CheckItemBox(i) {
@@ -2198,19 +2199,20 @@ function CheckItemBox(i) {
 	document.getElementById(l).checked = !document.getElementById(l).checked;
 }
 
-function CheckItemSpan(i) {
-	if (i == 0 && items[currentitemlist].charAt(0) == '0') {
-		items[currentitemlist] = '100000000000000000000000000000000000';
-		itemsnotes[currentitemlist] = '';
-		townlocations[currentitemlist] = 2;
+function CheckItemSpan(itemId) {
+	if (itemId == 0 && items[currentShop].charAt(0) == '0') {
+		// "No items, clear it and close" functionality.
+		items[currentShop] = '100000000000000000000000000000000000';
+		itemsnotes[currentShop] = '';
+		townlocations[currentShop] = 2;
 		CloseItems();
 	} else {
-		if (items[currentitemlist].charAt(i) == '0') {
-			items[currentitemlist] = ReplaceItem(items[currentitemlist], i, '1');
+		if (items[currentShop].charAt(itemId) == '0') {
+			items[currentShop] = ReplaceItem(items[currentShop], itemId, '1');
 		} else {
-			items[currentitemlist] = ReplaceItem(items[currentitemlist], i, '0');
+			items[currentShop] = ReplaceItem(items[currentShop], itemId, '0');
 		}
-		CheckItems(currentitemlist);
+		CheckItems(currentShop);
 	}
 }
 
@@ -2228,11 +2230,11 @@ function ReplaceItem(item, index, replace) {
 
 function CloseItems() {
 	if (menutoggle === false) {
-		itemsnotes[currentitemlist] = document.getElementById("townnotes").value;
-		if (items[currentitemlist] === 1) {
-			townlocations[currentitemlist] = 2;
+		itemsnotes[currentShop] = document.getElementById("townnotes").value;
+		if (items[currentShop] === 1) {
+			townlocations[currentShop] = 2;
 		} else {
-			townlocations[currentitemlist] = 1;
+			townlocations[currentShop] = 1;
 		}
 		$('#itemModal').hide();
 		ApplyChecks();
