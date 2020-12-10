@@ -47,7 +47,7 @@ const KeyItemCheck = {
     MIST: 9,
     MT_ORDEALS: 10,
     TOWER_ZOT: 11,
-    TROIA: 12,
+    TOROIA: 12,
     DWARF: 13,
     FEY_CHEST: 14,
     FEY_ASURA: 15,
@@ -73,11 +73,11 @@ const Town = {
     KAIPO: 4,
     MYSIDIA: 5,
     SILVERA: 6,
-    TROIA_ITEM: 7,
-    TROIA_PUB: 8,
+    TOROIA_ITEM: 7,
+    TOROIA_PUB: 8,
     DWARF: 9,
     FEY: 10,
-    TOMARA: 11,
+    TOMRA: 11,
     MOON: 12,
 };
 const Trap = {
