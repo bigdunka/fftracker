@@ -1,13 +1,3 @@
-/*
- * https://wiki.ff4fe.com/doku.php?id=item_stats_tables
- * 
- * ITEM_NAME {
- *     ID: Internal ID for the CheckItemSpan function.
- *     TIER: Item tier as indicated in the item stats tables.
- *     JP: True if the item can be removed from shops with Sno:j.
- *     SWILD_ONLY: True if the item is only found with Swild.
- * }
- */
 function CanItemAppearInShop(itemId, sshops, isGated) {
     var maxTier = MaxTierOfShop(sshops, isGated);
 
@@ -51,6 +41,16 @@ function MaxTierOfShop(sshops, is_gated) {
     return 7;
 }
 
+/*
+ * https://wiki.ff4fe.com/doku.php?id=item_stats_tables
+ * 
+ * ITEM_NAME {
+ *     ID: Internal ID for the CheckItemSpan function.
+ *     TIER: Item tier as indicated in the item stats tables.
+ *     JP: True if the item can be removed from shops with Sno:j.
+ *     SWILD_ONLY: True if the item is only found with Swild.
+ * }
+ */
 const Item = {
     NO_ITEMS: {
         ID: 0,
