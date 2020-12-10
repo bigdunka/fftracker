@@ -77,7 +77,7 @@ const Town = {
     TROIA_PUB: 8,
     DWARF: 9,
     FEY: 10,
-    TOAMRA: 11,
+    TOMARA: 11,
     MOON: 12,
 };
 const Trap = {
