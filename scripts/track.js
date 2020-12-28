@@ -1994,18 +1994,18 @@ function ApplyChecks(){
 	}
 }
 
-function SwapKeyItemLocation(i) {
-	if (keyitemlocations[i] === 1) {
-		keyitemlocations[i] = 2;
-		if (i === KeyItemCheck.HOOK_ROUTE) {
+function SwapKeyItemLocation(locationId) {
+	if (keyitemlocations[locationId] === 1) {
+		keyitemlocations[locationId] = 2;
+		if (locationId === KeyItemCheck.HOOK_ROUTE) {
 			hookclear = true;
 		}
-		if (i === KeyItemCheck.DWARF && modeflags.gwarp) {
+		if (locationId === KeyItemCheck.DWARF && modeflags.gwarp) {
 			keyitemlocations[KeyItemCheck.WARP_GLITCH] = 1;
 		}
-	} else if (keyitemlocations[i] === 2) {
-		keyitemlocations[i] = 1;
-		if (i === KeyItemCheck.HOOK_ROUTE) {
+	} else if (keyitemlocations[locationId] === 2) {
+		keyitemlocations[locationId] = 1;
+		if (locationId === KeyItemCheck.HOOK_ROUTE) {
 			hookclear = false;
 		}
 	}
@@ -2013,73 +2013,73 @@ function SwapKeyItemLocation(i) {
 	ApplyChecks();
 }
 
-function SwapCharacterLocation(i) {
-	if (characterlocations[i] === 1) {
-		characterlocations[i] = 2;
-	} else if (characterlocations[i] === 2) {
-		characterlocations[i] = 1;
+function SwapCharacterLocation(locationId) {
+	if (characterlocations[locationId] === 1) {
+		characterlocations[locationId] = 2;
+	} else if (characterlocations[locationId] === 2) {
+		characterlocations[locationId] = 1;
 	}	
 	ApplyChecks();
 }
 
-function SwapTrappedLocation(i) {
-	if (trappedchestlocations[i] === 1) {
-		trappedchestcounts[i]--;
-		if (trappedchestcounts[i] === 0) {
-			trappedchestlocations[i] = 2;
+function SwapTrappedLocation(locationId) {
+	if (trappedchestlocations[locationId] === 1) {
+		trappedchestcounts[locationId]--;
+		if (trappedchestcounts[locationId] === 0) {
+			trappedchestlocations[locationId] = 2;
 		}
-	} else if (trappedchestlocations[i] === 2) {
-		trappedchestlocations[i] = 1;
-		trappedchestcounts[i] = trappedchestmaxcounts[i];
+	} else if (trappedchestlocations[locationId] === 2) {
+		trappedchestlocations[locationId] = 1;
+		trappedchestcounts[locationId] = trappedchestmaxcounts[locationId];
 	}
 	ApplyChecks();
 }
 
-function ActivateKeyItemLocation(i) {
-	if (keyitemlocations[i] === 0) {
-		keyitemlocations[i] = 1;
+function ActivateKeyItemLocation(locationId) {
+	if (keyitemlocations[locationId] === 0) {
+		keyitemlocations[locationId] = 1;
 	}
 }
 
-function DeactivateKeyItemLocation(i) {
-	if (keyitemlocations[i] === 1) {
-		keyitemlocations[i] = 0;
+function DeactivateKeyItemLocation(locationId) {
+	if (keyitemlocations[locationId] === 1) {
+		keyitemlocations[locationId] = 0;
 	}
 }
 
-function ActivateCharacterLocation(i) {
-	if (characterlocations[i] === 0) {
-		characterlocations[i] = 1;
+function ActivateCharacterLocation(locationId) {
+	if (characterlocations[locationId] === 0) {
+		characterlocations[locationId] = 1;
 	}
 }
 
-function DeactivateCharacterLocation(i) {
-	if (characterlocations[i] === 1) {
-		characterlocations[i] = 0;
+function DeactivateCharacterLocation(locationId) {
+	if (characterlocations[locationId] === 1) {
+		characterlocations[locationId] = 0;
 	}
 }
 
-function ActivateTownLocation(i) {
-	if (townlocations[i] === 0) {
-		townlocations[i] = 1;
+function ActivateTownLocation(locationId) {
+	if (townlocations[locationId] === 0) {
+		townlocations[locationId] = 1;
 	}
 }
 
-function DeactivateTownLocation(i) {
-	if (townlocations[i] === 1) {
-		townlocations[i] = 0;
+function DeactivateTownLocation(locationId) {
+	if (townlocations[locationId] === 1) {
+		townlocations[locationId] = 0;
 	}
 }
 
-function ActivateTrappedLocation(i) {
-	if (trappedchestlocations[i] === 0) {
-		trappedchestlocations[i] = 1;
+function ActivateTrappedLocation(locationId) {
+	if (trappedchestlocations[locationId] === 0) {
+		trappedchestlocations[locationId] = 1;
 	}
 }
 
-function DeactivateTrappedLocation(i) {
-	if (trappedchestlocations[i] === 1) {
-		trappedchestlocations[i] = 0;
+function DeactivateTrappedLocation(locationId) {
+	if (trappedchestlocations[locationId] === 1) {
+		trappedchestlocations[locationId] = 0;
 	}
 }
 
@@ -2122,9 +2122,9 @@ function ViewUncheckedTrapped() {
 	ApplyChecks();
 }
 
-function SwapBoss(i) {
-	bosses[i] = !bosses[i];
-	if (i === 0) {
+function SwapBoss(bossId) {
+	bosses[bossId] = !bosses[bossId];
+	if (bossId === 0) {
 		mist = !mist;
 	}
 	ApplyChecks();
@@ -2134,21 +2134,21 @@ function IgnoreMenuClose() {
 	menutoggle = true;
 }
 
-function SwapItem(i) {
-	keyitems[i] = !keyitems[i];
+function SwapItem(keyItemId) {
+	keyitems[keyItemId] = !keyitems[keyItemId];
 	ApplyChecks();
 }				
 
-function SwapCharacter(i) {
+function SwapCharacter(characterId) {
 	if (disablecharactertracker === '0') {
-		if (i === 99) {
+		if (characterId === 99) {
 			ignoreswap = true;
 		} else {
 			if (ignoreswap === true) {
 				ignoreswap = false;
 			} else {
-				characters[i] = !characters[i];
-				partymembers[partyswap] = i;
+				characters[characterId] = !characters[characterId];
+				partymembers[partyswap] = characterId;
 				//document.getElementById("partydiv").style.display = "block";
 				document.getElementById("characterdiv").style.display = "none";
 				ApplyChecks();
@@ -2157,20 +2157,20 @@ function SwapCharacter(i) {
 	}
 }
 
-function SwapParty(i) {
+function SwapParty(partySlot) {
 	if (disablecharactertracker === '0') {
 		if (ignoreswap === true) {
 			ignoreswap = false;
 		} else {
 			//document.getElementById("partydiv").style.display = "none";
 			document.getElementById("characterdiv").style.display = "block";
-			partyswap = i;
+			partyswap = partySlot;
 		}
 	}
 }
 
-function PartyClear(i) {
-	partymembers[i] = -1;
+function PartyClear(partySlot) {
+	partymembers[partySlot] = -1;
 	ignoreswap = true;
 	ApplyChecks();
 }
@@ -2209,11 +2209,6 @@ function CheckItems(shopId) {
 	document.getElementById("townnotes").value = itemsnotes[shopId];
 }
 
-function CheckItemBox(i) {
-	var l = 'itemlist' + i;
-	document.getElementById(l).checked = !document.getElementById(l).checked;
-}
-
 function CheckItemSpan(itemId) {
 	if (itemId == 0 && items[currentShop].charAt(0) == '0') {
 		// "No items, clear it and close" functionality.
@@ -2231,8 +2226,8 @@ function CheckItemSpan(itemId) {
 	}
 }
 
-function ReplaceItem(item, index, replace) {
-	return item.slice(0, index) + replace + item.slice(index+1);
+function ReplaceItem(itemString, itemId, newValue) {
+	return itemString.slice(0, itemId) + newValue + itemString.slice(itemId+1);
 }
 
 function CloseItems() {
@@ -2249,21 +2244,6 @@ function CloseItems() {
 		menutoggle = false;
 	}
 }
-
-/* function LoadFlags() {
-	if (disablelocationtracker === '0') {
-		$('#flagsModal').show();
-	}
-}
-
-function CloseFlags() {
-	if (menutoggle === false) {
-		$('#flagsModal').hide();
-		CloseFlagDetail();
-	} else {
-		menutoggle = false;
-	}	
-} */
 
 function SetObjectives() {
 	if (disableobjectivetracker === '0') {
@@ -2335,25 +2315,6 @@ function SetObjective(i) {
 	$('#objectiveModal').hide();
 }
 
-/* function ExpandFlags(i) {
-	document.getElementById('flagsselectdiv').style.display = 'none';
-	document.getElementById('flagdetail' + i).style.display = 'block';
-}
-
-function CloseFlagDetail() {
-	document.getElementById('flagdetail0').style.display = 'none';
-	document.getElementById('flagdetail1').style.display = 'none';
-	document.getElementById('flagdetail2').style.display = 'none';
-	document.getElementById('flagdetail3').style.display = 'none';
-	document.getElementById('flagdetail4').style.display = 'none';
-	document.getElementById('flagdetail5').style.display = 'none';
-	document.getElementById('flagdetail6').style.display = 'none';
-	document.getElementById('flagdetail7').style.display = 'none';
-	document.getElementById('flagdetail8').style.display = 'none';
-	document.getElementById('flagdetail9').style.display = 'none';
-	document.getElementById('flagsselectdiv').style.display = 'block';
-} */
-
 function CloseBoss() {
 	if (menutoggle === false) {
 		$('#bossModal').hide();
@@ -2376,20 +2337,6 @@ function CloseTown() {
 }
 
 function LoadKnownTownLocations() {
-	var agart = '';
-	var baron = '';
-	var eblan = '';
-	var fabul = '';
-	var kaipo = '';
-	var mysidia = '';
-	var silvera = '';
-	var toroiaitem = '';
-	var toroiapub = '';
-	var dwarf = '';
-	var feymarch = '';
-	var tomra = '';
-	var hummingway = '';
-	
 	var summaryStrings = ['','','','','','','','','','','','',''];
 	
 	for (var i = 0; i < items.length; i++)
@@ -2426,57 +2373,6 @@ function LoadKnownTownLocations() {
 	
 }
 
-function AddTownLocation(locationdata, i) {
-
-	if (locationdata.length > 0) {
-		locationdata += ', ';
-	}
-	
-	switch(i) {
-		case Town.AGART:
-			locationdata += 'Agart';
-			break;
-		case Town.BARON:
-			locationdata += 'Town of Baron';
-			break;
-		case Town.EBLAN_CAVE:
-			locationdata += 'Eblan Cave';
-			break;
-		case Town.FABUL:
-			locationdata += 'Fabul';
-			break;
-		case Town.KAIPO:
-			locationdata += 'Kaipo';
-			break;
-		case Town.MYSIDIA:
-			locationdata += 'Mysidia';
-			break;
-		case Town.SILVERA:
-			locationdata += 'Silvera';
-			break;
-		case Town.TOROIA_ITEM:
-			locationdata += 'Toroia [Item]';
-			break;
-		case Town.TOROIA_PUB:
-			locationdata += 'Toroia [Pub]';
-			break;
-		case Town.DWARF:
-			locationdata += 'Dwarf Castle';
-			break;
-		case Town.FEY:
-			locationdata += 'Feymarch';
-			break;
-		case Town.TOMRA:
-			locationdata += 'Tomra';
-			break;
-		case Town.MOON:
-			locationdata += 'Hummingway';
-			break;
-	}
-	
-	return locationdata;
-}
-
 function ToggleMist() {
 	if (disablebosstracker === '1') {
 		mist = !mist;
@@ -2506,17 +2402,17 @@ function ClearWarpGlitch() {
 	ApplyChecks();
 }
 
-function DMTicker(x) {
-	dmcount += x;
+function DMTicker(delta) {
+	dmcount += delta;
 	if (dmcount < 0) { dmcount = 0 };
 	if (dmcount > 30) { dmcount = 30 };
 	document.getElementById('dmcountspan').innerHTML = dmcount;
 }
 
-function HighlightClear(x) {
-	document.getElementById('partyClear' + x).style.backgroundColor = "rgb(255,255,255,1)";
+function HighlightClear(partySlot) {
+	document.getElementById('partyClear' + partySlot).style.backgroundColor = "rgb(255,255,255,1)";
 }
 
-function UnhighlightClear(x) {
-	document.getElementById('partyClear' + x).style.backgroundColor = "rgb(255,255,255,.3)";
+function UnhighlightClear(partySlot) {
+	document.getElementById('partyClear' + partySlot).style.backgroundColor = "rgb(255,255,255,.3)";
 }
