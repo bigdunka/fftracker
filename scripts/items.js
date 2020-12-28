@@ -10,11 +10,11 @@ function CanItemAppearInShop(itemId, sshops, isGated) {
     return Item[itemId].TIER <= maxTier;
 }
 
-function MaxTierOfShop(sshops, is_gated) {
+function MaxTierOfShop(sshops, isGated) {
     // Ref: https://wiki.ff4fe.com/doku.php?id=shop_randomization
     if (sshops === 'standard')
     {
-        if (is_gated === true)
+        if (isGated === true)
         {
             return 5;
         }
@@ -22,7 +22,7 @@ function MaxTierOfShop(sshops, is_gated) {
     }
     else if (sshops === 'pro')
     {
-        if (is_gated === true)
+        if (isGated === true)
         {
             return 4;
         }

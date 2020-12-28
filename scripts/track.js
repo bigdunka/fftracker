@@ -2182,12 +2182,27 @@ function LoadItems(shopId) {
 
 function CheckItems(shopId) {
 	currentShop = shopId;
+
+	// TODO find a better place to put this!
+	const gatedShops = [Town.EBLAN_CAVE, Town.DWARF, Town.FEY, Town.TOMRA, Town.MOON];
+	var isGated = gatedShops.includes(shopId);
 	
-	for (var j = 0; j < 38; j++) {
-		if (items[shopId].charAt(j) == '1') {
-			document.getElementById('itemspan' + j).style.color = "#0F0";
-		} else {
-			document.getElementById('itemspan' + j).style.color = "#FFF";
+	for (var itemId = 0; itemId < 38; itemId++) {
+		// Gray out item spans which represent items that don't fit with the shop tier.
+		// Keep them clickable in case of updates to tiering or data entry errors.
+		var itemSpan = document.getElementById('itemspan' + itemId);
+
+		if (items[shopId].charAt(itemId) == '1')
+		{
+			itemSpan.style.color = "#0F0";
+		}
+		else if (CanItemAppearInShop(itemId, modeflags.sshops, isGated))
+		{
+			itemSpan.style.color = "#FFF";
+		}
+		else
+		{
+			itemSpan.style.color = "#888";
 		}
 	}
 	
