@@ -1340,7 +1340,7 @@ function SetModes() {
 	}
 	
 	if (modeflags.nkey) {
-		keyitemlocations[KeyItemCheck.TROIA] = 3;
+		keyitemlocations[KeyItemCheck.TOROIA] = 3;
 	} else {
 		if (disablebosstracker === '1') {
 			document.getElementById('misttoggle').style.visibility = "hidden";
@@ -1483,8 +1483,8 @@ function ApplyChecks(){
 			ActivateKeyItemLocation(KeyItemCheck.TOWER_ZOT);
 		}	
 
-		//Troia Castle
-		ActivateKeyItemLocation(KeyItemCheck.TROIA);
+		//Toroia Castle
+		ActivateKeyItemLocation(KeyItemCheck.TOROIA);
 		
 		//Dwarf Castle
 		DeactivateKeyItemLocation(KeyItemCheck.DWARF);
@@ -1677,11 +1677,11 @@ function ApplyChecks(){
 		//Silvera
 		ActivateTownLocation(Town.SILVERA);
 		
-		//Troia [Item]
-		ActivateTownLocation(Town.TROIA_ITEM);
+		//Toroia [Item]
+		ActivateTownLocation(Town.TOROIA_ITEM);
 		
-		//Troia [Pub]
-		ActivateTownLocation(Town.TROIA_PUB);
+		//Toroia [Pub]
+		ActivateTownLocation(Town.TOROIA_PUB);
 		
 		//Dwarf Castle
 		DeactivateTownLocation(Town.DWARF);
@@ -1695,10 +1695,10 @@ function ApplyChecks(){
 			ActivateTownLocation(Town.FEY);
 		}
 		
-		//Tomara
-		DeactivateTownLocation(Town.TOMARA);
+		//Tomra
+		DeactivateTownLocation(Town.TOMRA);
 		if (hasunderworldaccess) {
-			ActivateTownLocation(Town.TOMARA);
+			ActivateTownLocation(Town.TOMRA);
 		}
 		
 		//Hummingway
@@ -2376,11 +2376,11 @@ function LoadKnownTownLocations() {
 	var kaipo = '';
 	var mysidia = '';
 	var silvera = '';
-	var troiaitem = '';
-	var troiapub = '';
+	var toroiaitem = '';
+	var toroiapub = '';
 	var dwarf = '';
 	var feymarch = '';
-	var tomara = '';
+	var tomra = '';
 	var hummingway = '';
 	
 	var summarystrings = ['','','','','','','','','','','','',''];	
@@ -2546,11 +2546,11 @@ function AddTownLocation(locationdata, i) {
 		case Town.SILVERA:
 			locationdata += 'Silvera';
 			break;
-		case Town.TROIA_ITEM:
-			locationdata += 'Troia [Item]';
+		case Town.TOROIA_ITEM:
+			locationdata += 'Toroia [Item]';
 			break;
-		case Town.TROIA_PUB:
-			locationdata += 'Troia [Pub]';
+		case Town.TOROIA_PUB:
+			locationdata += 'Toroia [Pub]';
 			break;
 		case Town.DWARF:
 			locationdata += 'Dwarf Castle';
@@ -2558,8 +2558,8 @@ function AddTownLocation(locationdata, i) {
 		case Town.FEY:
 			locationdata += 'Feymarch';
 			break;
-		case Town.TOMARA:
-			locationdata += 'Tomara';
+		case Town.TOMRA:
+			locationdata += 'Tomra';
 			break;
 		case Town.MOON:
 			locationdata += 'Hummingway';
