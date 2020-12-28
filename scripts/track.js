@@ -2377,118 +2377,127 @@ function LoadKnownTownLocations() {
 	
 	var summarystrings = ['','','','','','','','','','','','',''];	
 	
-	for (var i = 0; i < 13; i++) {
-		for (var j = 1; j < 38; j++) {
+	for (var i = 0; i < items.length; i++) {
+		for (var j = 1; j < items[i].length; j++) {
 			if (items[i].charAt(j) === '1') {
 				switch (j) {
 					case 1:
 						summarystrings[i] += 'Life, ';
 						break;
 					case 2:
-						summarystrings[i] += 'Cure1, ';
-						break;
-					case 3:
 						summarystrings[i] += 'Cure2, ';
 						break;
-					case 4:
+					case 3:
 						summarystrings[i] += 'Cure3, ';
 						break;
-					case 5:
+					case 4:
 						summarystrings[i] += 'Ether1, ';
 						break;
-					case 6:
+					case 5:
 						summarystrings[i] += 'Ether2, ';
 						break;
-					case 7:
+					case 6:
 						summarystrings[i] += 'Tent, ';
 						break;
-					case 8:
+					case 7:
 						summarystrings[i] += 'Cabin, ';
 						break;
+					case 8:
+						summarystrings[i] += 'Heal, ';
+						break;
 					case 9:
-						summarystrings[i] += 'Bomb, ';
+						summarystrings[i] += 'Unihorn, ';
 						break;
 					case 10:
-						summarystrings[i] += 'Notus, ';
+						summarystrings[i] += 'Other (Restore), ';
 						break;
 					case 11:
-						summarystrings[i] += 'ThorRage, ';
+						summarystrings[i] += 'Bomb, ';
 						break;
 					case 12:
-						summarystrings[i] += 'Vampire, ';
+						summarystrings[i] += 'Notus, ';
 						break;
 					case 13:
-						summarystrings[i] += 'Kamikaze, ';
+						summarystrings[i] += 'ThorRage, ';
 						break;
 					case 14:
-						summarystrings[i] += 'BigBomb, ';
+						summarystrings[i] += 'Vampire, ';
 						break;
 					case 15:
-						summarystrings[i] += 'Boreas, ';
+						summarystrings[i] += 'Kamikaze, ';
 						break;
 					case 16:
-						summarystrings[i] += 'ZeusRage, ';
-						break;
-					case 17:
-						summarystrings[i] += 'FireBomb, ';
-						break;
-					case 18:
-						summarystrings[i] += 'Blizzard, ';
-						break;
-					case 19:
-						summarystrings[i] += 'Lit-Bolt, ';
-						break;
-					case 20:
-						summarystrings[i] += 'GaiaDrum, ';
-						break;
-					case 21:
-						summarystrings[i] += 'Stardust, ';
-						break;
-					case 22:
-						summarystrings[i] += 'Grimoire, ';
-						break;
-					case 23:
-						summarystrings[i] += 'HrGlass1, ';
-						break;
-					case 24:
-						summarystrings[i] += 'HrGlass2, ';
-						break;
-					case 25:
-						summarystrings[i] += 'HrGlass3, ';
-						break;
-					case 26:
-						summarystrings[i] += 'StarVeil, ';
-						break;
-					case 27:
-						summarystrings[i] += 'MoonVeil, ';
-						break;
-					case 28:
-						summarystrings[i] += 'Exit, ';
-						break;
-					case 29:
-						summarystrings[i] += 'Illusion, ';
-						break;
-					case 30:
 						summarystrings[i] += 'Coffin, ';
 						break;
-					case 31:
-						summarystrings[i] += 'Siren, ';
+					case 17:
+						summarystrings[i] += 'HrGlass, ';
 						break;
-					case 32:
-						summarystrings[i] += 'Bacchus, ';
+					case 18:
+						summarystrings[i] += 'MuteBell, ';
 						break;
-					case 33:
+					case 19:
 						summarystrings[i] += 'SilkWeb, ';
 						break;
-					case 34:
+					case 20:
+						summarystrings[i] += 'Bacchus, ';
+						break;
+					case 21:
+						summarystrings[i] += 'Illusion, ';
+						break;
+					case 22:
+						summarystrings[i] += 'StarVeil, ';
+						break;
+					case 23:
+						summarystrings[i] += 'MoonVeil, ';
+						break;
+					case 24:
+						summarystrings[i] += 'Succubus, ';
+						break;
+					case 25:
+						summarystrings[i] += 'Exit, ';
+						break;
+					case 26:
+						summarystrings[i] += 'Siren, ';
+						break;
+					case 27:
+						summarystrings[i] += 'Other (Utility), ';
+						break;
+					case 28:
+						summarystrings[i] += 'AgApple, ';
+						break;
+					case 29:
+						summarystrings[i] += 'AuApple, ';
+						break;
+					case 30:
+						summarystrings[i] += 'SomaDrop, ';
+						break;
+					case 31:
+						summarystrings[i] += 'Other (Misc), ';
+						break;
+					case 32:
 						summarystrings[i] += 'Pass, ';
 						break;
-					case 35:
-						summarystrings[i] += 'Other, ';
+					case 33:
+						summarystrings[i] += 'Asura, ';
 						break;
+					case 34:
+						summarystrings[i] += 'Baham, ';
+						break;
+					case 35:
+						summarystrings[i] += 'Levia, ';
+						break;
+					case 36:
+						summarystrings[i] += 'Odin, ';
+						break;
+					case 37:
+						summarystrings[i] += 'Sylph, ';
+						break;						
 				}
 			}
 		}
+
+		// TODO incorporate the Notes field
+		// TODO do something with a string join or something so this is unnecessary.
 		if (summarystrings[i].charAt(summarystrings[i].length - 2) === ',') {
 			summarystrings[i] = summarystrings[i].substring(0, summarystrings[i].length - 2);
 		}
