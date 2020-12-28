@@ -239,7 +239,6 @@ function SetModes() {
 										break;
 									case 'FIENDS':
 										modeflags.ofiends = true;
-										objectives[2] = 0;
 										objectives[23] = 0;
 										objectives[24] = 0;
 										objectives[29] = 0;
@@ -1371,6 +1370,13 @@ function SetModes() {
 		if (objectives[i] === 0) {
 			totalobj++;
 		}
+	}
+
+	if (modeflags.odarkmatter)
+	{
+		// Dark matter hunt takes two rows - dark matter count and objective completion.
+		// Don't need to do similar for fiends, it sets six separate objectives.
+		totalobj++;
 	}
 	
 	if (totalobj > 5) {
