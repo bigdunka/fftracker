@@ -2375,147 +2375,39 @@ function LoadKnownTownLocations() {
 	var tomra = '';
 	var hummingway = '';
 	
-	var summarystrings = ['','','','','','','','','','','','',''];	
+	var summaryStrings = ['','','','','','','','','','','','',''];
 	
-	for (var i = 0; i < items.length; i++) {
-		for (var j = 1; j < items[i].length; j++) {
-			if (items[i].charAt(j) === '1') {
-				switch (j) {
-					case 1:
-						summarystrings[i] += 'Life, ';
-						break;
-					case 2:
-						summarystrings[i] += 'Cure2, ';
-						break;
-					case 3:
-						summarystrings[i] += 'Cure3, ';
-						break;
-					case 4:
-						summarystrings[i] += 'Ether1, ';
-						break;
-					case 5:
-						summarystrings[i] += 'Ether2, ';
-						break;
-					case 6:
-						summarystrings[i] += 'Tent, ';
-						break;
-					case 7:
-						summarystrings[i] += 'Cabin, ';
-						break;
-					case 8:
-						summarystrings[i] += 'Heal, ';
-						break;
-					case 9:
-						summarystrings[i] += 'Unihorn, ';
-						break;
-					case 10:
-						summarystrings[i] += 'Other (Restore), ';
-						break;
-					case 11:
-						summarystrings[i] += 'Bomb, ';
-						break;
-					case 12:
-						summarystrings[i] += 'Notus, ';
-						break;
-					case 13:
-						summarystrings[i] += 'ThorRage, ';
-						break;
-					case 14:
-						summarystrings[i] += 'Vampire, ';
-						break;
-					case 15:
-						summarystrings[i] += 'Kamikaze, ';
-						break;
-					case 16:
-						summarystrings[i] += 'Coffin, ';
-						break;
-					case 17:
-						summarystrings[i] += 'HrGlass, ';
-						break;
-					case 18:
-						summarystrings[i] += 'MuteBell, ';
-						break;
-					case 19:
-						summarystrings[i] += 'SilkWeb, ';
-						break;
-					case 20:
-						summarystrings[i] += 'Bacchus, ';
-						break;
-					case 21:
-						summarystrings[i] += 'Illusion, ';
-						break;
-					case 22:
-						summarystrings[i] += 'StarVeil, ';
-						break;
-					case 23:
-						summarystrings[i] += 'MoonVeil, ';
-						break;
-					case 24:
-						summarystrings[i] += 'Succubus, ';
-						break;
-					case 25:
-						summarystrings[i] += 'Exit, ';
-						break;
-					case 26:
-						summarystrings[i] += 'Siren, ';
-						break;
-					case 27:
-						summarystrings[i] += 'Other (Utility), ';
-						break;
-					case 28:
-						summarystrings[i] += 'AgApple, ';
-						break;
-					case 29:
-						summarystrings[i] += 'AuApple, ';
-						break;
-					case 30:
-						summarystrings[i] += 'SomaDrop, ';
-						break;
-					case 31:
-						summarystrings[i] += 'Other (Misc), ';
-						break;
-					case 32:
-						summarystrings[i] += 'Pass, ';
-						break;
-					case 33:
-						summarystrings[i] += 'Asura, ';
-						break;
-					case 34:
-						summarystrings[i] += 'Baham, ';
-						break;
-					case 35:
-						summarystrings[i] += 'Levia, ';
-						break;
-					case 36:
-						summarystrings[i] += 'Odin, ';
-						break;
-					case 37:
-						summarystrings[i] += 'Sylph, ';
-						break;						
-				}
+	for (var i = 0; i < items.length; i++)
+	{
+		for (var j = 1; j < items[i].length; j++)
+		{
+			if (items[i].charAt(j) === '1')
+			{
+				summaryStrings[i] += Item[j].NAME + ", ";
 			}
 		}
 
 		// TODO incorporate the Notes field
 		// TODO do something with a string join or something so this is unnecessary.
-		if (summarystrings[i].charAt(summarystrings[i].length - 2) === ',') {
-			summarystrings[i] = summarystrings[i].substring(0, summarystrings[i].length - 2);
+		if (summaryStrings[i].charAt(summaryStrings[i].length - 2) === ',')
+		{
+			summaryStrings[i] = summaryStrings[i].substring(0, summaryStrings[i].length - 2);
 		}
 	}
 	
-	document.getElementById('townlistlocation1').innerHTML = summarystrings[0];
-	document.getElementById('townlistlocation2').innerHTML = summarystrings[1];
-	document.getElementById('townlistlocation3').innerHTML = summarystrings[2];
-	document.getElementById('townlistlocation4').innerHTML = summarystrings[3];
-	document.getElementById('townlistlocation5').innerHTML = summarystrings[4];
-	document.getElementById('townlistlocation6').innerHTML = summarystrings[5];
-	document.getElementById('townlistlocation7').innerHTML = summarystrings[6];
-	document.getElementById('townlistlocation8').innerHTML = summarystrings[7];
-	document.getElementById('townlistlocation9').innerHTML = summarystrings[8];
-	document.getElementById('townlistlocation10').innerHTML = summarystrings[9];
-	document.getElementById('townlistlocation11').innerHTML = summarystrings[10];
-	document.getElementById('townlistlocation12').innerHTML = summarystrings[11];
-	document.getElementById('townlistlocation13').innerHTML = summarystrings[12];
+	document.getElementById('townlistlocation1').innerHTML = summaryStrings[0];
+	document.getElementById('townlistlocation2').innerHTML = summaryStrings[1];
+	document.getElementById('townlistlocation3').innerHTML = summaryStrings[2];
+	document.getElementById('townlistlocation4').innerHTML = summaryStrings[3];
+	document.getElementById('townlistlocation5').innerHTML = summaryStrings[4];
+	document.getElementById('townlistlocation6').innerHTML = summaryStrings[5];
+	document.getElementById('townlistlocation7').innerHTML = summaryStrings[6];
+	document.getElementById('townlistlocation8').innerHTML = summaryStrings[7];
+	document.getElementById('townlistlocation9').innerHTML = summaryStrings[8];
+	document.getElementById('townlistlocation10').innerHTML = summaryStrings[9];
+	document.getElementById('townlistlocation11').innerHTML = summaryStrings[10];
+	document.getElementById('townlistlocation12').innerHTML = summaryStrings[11];
+	document.getElementById('townlistlocation13').innerHTML = summaryStrings[12];
 	
 }
 
