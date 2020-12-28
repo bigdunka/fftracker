@@ -1,37 +1,29 @@
 function CanItemAppearInShop(itemId, sshops, isGated) {
-    var maxTier = MaxTierOfShop(sshops, isGated);
-
-    for (const iterator in Item) {
-        if (item[iterator].ID === itemId) {
-            // If the item's tier is above what this ship allows, no.
-            if (item[iterator].TIER > maxTier) {
-                return false;
-            }
-
-            // If the item is not restricted to Swild, definitely yes.
-            if (item[iterator].SWILD_ONLY === false) {
-                return true;
-            }
-
-            // Swild-restricted item in tier, check that this is Swild.
-            return sshops === 'wild';
-        }
+    if (itemId < 0 || itemId >= Item.length)
+    {
+        return false;
     }
 
-    // Couldn't find the item in our data, assume we should allow it to show up for safety.
-    return true;
+    var maxTier = MaxTierOfShop(sshops, isGated);
+
+    // Will need to add more logic here if we start tracking items which are Swild-only
+    return Item[itemId].TIER <= maxTier;
 }
 
 function MaxTierOfShop(sshops, is_gated) {
     // Ref: https://wiki.ff4fe.com/doku.php?id=shop_randomization
-    if (sshops === 'standard') {
-        if (is_gated === true) {
+    if (sshops === 'standard')
+    {
+        if (is_gated === true)
+        {
             return 5;
         }
         return 4;
     }
-    else if (sshops === 'pro') {
-        if (is_gated === true) {
+    else if (sshops === 'pro')
+    {
+        if (is_gated === true)
+        {
             return 4;
         }
         return 3;
@@ -44,229 +36,203 @@ function MaxTierOfShop(sshops, is_gated) {
 /*
  * https://wiki.ff4fe.com/doku.php?id=item_stats_tables
  * 
- * ITEM_NAME {
- *     ID: Internal ID for the CheckItemSpan function.
+ * Array index needs to correspond with the item span IDs in tracker.html!
+ * {
+ *     NAME: User-friendly display name for this item.
  *     TIER: Item tier as indicated in the item stats tables.
  *     JP: True if the item can be removed from shops with Sno:j.
- *     SWILD_ONLY: True if the item is only found with Swild.
  * }
  */
-const Item = {
-    NO_ITEMS: {
-        ID: 0,
+const Item = [
+    {
+        NAME: "No items",
         TIER: 0,
         JP: false,
-        SWILD_ONLY: false,
     },
-    LIFE: {
-        ID: 1,
+    {
+        NAME: "Life",
         TIER: 2,
         JP: false,
-        SWILD_ONLY: false,
     },
-    CURE1: {
-        ID: 2,
-        TIER: 1,
-        JP: false,
-        SWILD_ONLY: false,
-    },
-    CURE2: {
-        ID: 3,
+    {
+        NAME: "Cure2",
         TIER: 3,
         JP: false,
-        SWILD_ONLY: false,
     },
-    CURE3: {
-        ID: 4,
+    {
+        NAME: "Cure3",
         TIER: 4,
         JP: false,
-        SWILD_ONLY: false,
     },
-    ETHER1: {
-        ID: 5,
+    {
+        NAME: "Ether1",
         TIER: 3,
         JP: false,
-        SWILD_ONLY: false,
     },
-    ETHER2: {
-        ID: 6,
+    {
+        NAME: "Ether2",
         TIER: 4,
         JP: false,
-        SWILD_ONLY: false,
     },
-    TENT: {
-        ID: 7,
+    {
+        NAME: "Tent",
         TIER: 2,
         JP: false,
-        SWILD_ONLY: false,
     },
-    CABIN: {
-        ID: 8,
+    {
+        NAME: "Cabin",
         TIER: 4,
         JP: false,
-        SWILD_ONLY: false,
     },
-    BOMB: {
-        ID: 9,
+    {
+        NAME: "Heal",
+        TIER: 3,
+        JP: false,
+    },
+    {
+        NAME: "Unihorn",
+        TIER: 2,
+        JP: true,
+    },
+    {
+        NAME: "Other (Restore)",
+        TIER: 0,
+        JP: false,
+    },
+    {
+        NAME: "Bomb",
         TIER: 1,
         JP: true,
-        SWILD_ONLY: false,
     },
-    NOTUS: {
-        ID: 10,
+    {
+        NAME: "Notus",
         TIER: 1,
         JP: true,
-        SWILD_ONLY: false,
     },
-    THORRAGE: {
-        ID: 11,
+    {
+        NAME: "ThorRage",
         TIER: 1,
         JP: true,
-        SWILD_ONLY: false,
     },
-    VAMPIRE: {
-        ID: 12,
+    {
+        NAME: "Vampire",
         TIER: 4,
         JP: true,
-        SWILD_ONLY: false,
     },
-    KAMIKAZE: {
-        ID: 13,
+    {
+        NAME: "Kamikaze",
         TIER: 3,
         JP: true,
-        SWILD_ONLY: false,
     },
-    BIGBOMB: {
-        ID: 14,
-        TIER: 4,
-        JP: true,
-        SWILD_ONLY: true,
-    },
-    BOREAS: {
-        ID: 15,
-        TIER: 4,
-        JP: true,
-        SWILD_ONLY: true,
-    },
-    ZEUSRAGE: {
-        ID: 16,
-        TIER: 4,
-        JP: true,
-        SWILD_ONLY: true,
-    },
-    FIREBOMB: {
-        ID: 17,
-        TIER: 4,
-        JP: true,
-        SWILD_ONLY: true,
-    },
-    BLIZZARD: {
-        ID: 18,
-        TIER: 4,
-        JP: true,
-        SWILD_ONLY: true,
-    },
-    LITBOLT: {
-        ID: 19,
-        TIER: 4,
-        JP: true,
-        SWILD_ONLY: true,
-    },
-    GAIADRUM: {
-        ID: 20,
-        TIER: 4,
-        JP: true,
-        SWILD_ONLY: true,
-    },
-    STARDUST: {
-        ID: 21,
-        TIER: 4,
-        JP: false,
-        SWILD_ONLY: true,
-    },
-    GRIMOIRE: {
-        ID: 22,
-        TIER: 4,
-        JP: true,
-        SWILD_ONLY: true,
-    },
-    HRGLASS1: {
-        ID: 23,
-        TIER: 5, // Assumed
-        JP: true,
-        SWILD_ONLY: true,
-    },
-    HRGLASS2: {
-        ID: 24,
+    {
+        NAME: "Coffin",
         TIER: 5,
         JP: true,
-        SWILD_ONLY: false,
     },
-    HRGLASS3: {
-        ID: 25,
-        TIER: 5, // Assumed
-        JP: false,
-        SWILD_ONLY: true,
+    {
+        NAME: "HrGlass",
+        TIER: 5,
+        JP: true,
     },
-    STARVEIL: {
-        ID: 26,
+    {
+        NAME: "MuteBell",
         TIER: 2,
         JP: true,
-        SWILD_ONLY: false,
     },
-    MOONVEIL: {
-        ID: 27,
+    {
+        NAME: "SilkWeb",
+        TIER: 3,
+        JP: true,
+    },
+    {
+        NAME: "Bacchus",
+        TIER: 5,
+        JP: true,
+    },
+    {
+        NAME: "Illusion",
+        TIER: 4,
+        JP: true,
+    },
+    {
+        NAME: "StarVeil",
+        TIER: 2,
+        JP: true,
+    },
+    {
+        NAME: "MoonVeil",
         TIER: 6,
         JP: true,
-        SWILD_ONLY: false,
     },
-    EXIT: {
-        ID: 28,
-        TIER: 2,
-        JP: true,
-        SWILD_ONLY: false,
-    },
-    ILLUSION: {
-        ID: 29,
-        TIER: 4,
-        JP: true,
-        SWILD_ONLY: false,
-    },
-    COFFIN: {
-        ID: 30,
-        TIER: 5,
-        JP: true,
-        SWILD_ONLY: false,
-    },
-    BACCHUS: {
-        ID: 31,
-        TIER: 5,
-        JP: true,
-        SWILD_ONLY: false,
-    },
-    SIREN: {
-        ID: 32,
-        TIER: 5,
-        JP: true,
-        SWILD_ONLY: false,
-    },
-    SILKWEB: {
-        ID: 33,
+    {
+        NAME: "Succubus",
         TIER: 3,
         JP: true,
-        SWILD_ONLY: false,
     },
-    PASS: {
-        ID: 34,
+    {
+        NAME: "Exit",
+        TIER: 2,
+        JP: true,
+    },
+    {
+        NAME: "Siren",
+        TIER: 5,
+        JP: true,
+    },
+    {
+        NAME: "Other (Utility)",
         TIER: 0,
         JP: false,
-        SWILD_ONLY: false,
     },
-    OTHER: {
-        ID: 35,
+    {
+        NAME: "AgApple",
+        TIER: 6,
+        JP: true,
+    },
+    {
+        NAME: "AuApple",
+        TIER: 6,
+        JP: true,
+    },
+    {
+        NAME: "SomaDrop",
+        TIER: 4,
+        JP: true,
+    },
+    {
+        NAME: "Other (Misc)",
         TIER: 0,
         JP: false,
-        SWILD_ONLY: false,
     },
-};
+    {
+        NAME: "Pass",
+        TIER: 0,
+        JP: false,
+    },
+    {
+        NAME: "Asura",
+        TIER: 4,
+        JP: false,
+    },
+    {
+        NAME: "Baham",
+        TIER: 7,
+        JP: false,
+    },
+    {
+        NAME: "Levia",
+        TIER: 6,
+        JP: false,
+    },
+    {
+        NAME: "Odin",
+        TIER: 4,
+        JP: false,
+    },
+    {
+        NAME: "Sylph",
+        TIER: 4,
+        JP: false,
+    },
+];
 Object.freeze(Item);
