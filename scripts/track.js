@@ -19,7 +19,7 @@ var trappedchestcounts = [3,1,1,1,1,1,4,7,1,9];
 var trappedchestmaxcounts = [3,1,1,1,1,1,4,7,1,9];
 var currentShop = 0;
 // Array of checklists of items found in each shop.
-var items = ['000000000000000000000000000000000000','000000000000000000000000000000000000','000000000000000000000000000000000000','000000000000000000000000000000000000','000000000000000000000000000000000000','000000000000000000000000000000000000','000000000000000000000000000000000000','000000000000000000000000000000000000','000000000000000000000000000000000000','000000000000000000000000000000000000','000000000000000000000000000000000000','000000000000000000000000000000000000','000000000000000000000000000000000000'];
+var items = ['00000000000000000000000000000000000000','00000000000000000000000000000000000000','00000000000000000000000000000000000000','00000000000000000000000000000000000000','00000000000000000000000000000000000000','00000000000000000000000000000000000000','00000000000000000000000000000000000000','00000000000000000000000000000000000000','00000000000000000000000000000000000000','00000000000000000000000000000000000000','00000000000000000000000000000000000000','00000000000000000000000000000000000000','00000000000000000000000000000000000000'];
 var itemsnotes = ['','','','','','','','','','','','',''];
 
 var partymembers = [-1,-1,-1,-1,-1];
@@ -1918,11 +1918,11 @@ function ApplyChecks(){
 			if (townlocations[i] === 0) {
 				document.getElementById(l).style.display = "none";
 			} else if (townlocations[i] === 1) {
-				if (items[i] === '100000000000000000000000000000000000') {
+				if (items[i] === '10000000000000000000000000000000000000') {
 					document.getElementById(l).style.display = "none";
 				} else {
 					document.getElementById(l).style.display = "block";
-					if (items[i] != '000000000000000000000000000000000000' || itemsnotes[i] != '') {
+					if (items[i] != '00000000000000000000000000000000000000' || itemsnotes[i] != '') {
 						document.getElementById(l).style.color = "#0F0";
 					} else {
 						document.getElementById(l).style.color = "#FFF";
@@ -1933,7 +1933,7 @@ function ApplyChecks(){
 				document.getElementById(l).style.display = "none";
 			}
 		} else {
-			if (items[i] === '100000000000000000000000000000000000') {
+			if (items[i] === '10000000000000000000000000000000000000') {
 				document.getElementById(l).style.display = "block";
 				document.getElementById(l).style.color = "#FFF";
 				document.getElementById(l).style.setProperty("text-decoration", "none");
@@ -2183,7 +2183,7 @@ function LoadItems(shopId) {
 function CheckItems(shopId) {
 	currentShop = shopId;
 	
-	for (var j = 0; j < 36; j++) {
+	for (var j = 0; j < 38; j++) {
 		if (items[shopId].charAt(j) == '1') {
 			document.getElementById('itemspan' + j).style.color = "#0F0";
 		} else {
@@ -2202,7 +2202,7 @@ function CheckItemBox(i) {
 function CheckItemSpan(itemId) {
 	if (itemId == 0 && items[currentShop].charAt(0) == '0') {
 		// "No items, clear it and close" functionality.
-		items[currentShop] = '100000000000000000000000000000000000';
+		items[currentShop] = '10000000000000000000000000000000000000';
 		itemsnotes[currentShop] = '';
 		townlocations[currentShop] = 2;
 		CloseItems();
@@ -2217,15 +2217,7 @@ function CheckItemSpan(itemId) {
 }
 
 function ReplaceItem(item, index, replace) {
-	var returnitem = '0';
-	for (var i = 1; i < 36; i++) {
-		if (i == index) {
-			returnitem = returnitem + replace;
-		} else {
-			returnitem = returnitem + item.charAt(i);
-		}
-	}
-    return returnitem;
+	return item.slice(0, index) + replace + item.slice(index+1);
 }
 
 function CloseItems() {
@@ -2386,7 +2378,7 @@ function LoadKnownTownLocations() {
 	var summarystrings = ['','','','','','','','','','','','',''];	
 	
 	for (var i = 0; i < 13; i++) {
-		for (var j = 1; j < 36; j++) {
+		for (var j = 1; j < 38; j++) {
 			if (items[i].charAt(j) === '1') {
 				switch (j) {
 					case 1:
