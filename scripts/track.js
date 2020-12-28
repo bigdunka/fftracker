@@ -2345,21 +2345,25 @@ function CloseTown() {
 function LoadKnownTownLocations() {
 	var summaryStrings = ['','','','','','','','','','','','',''];
 	
-	for (var i = 0; i < items.length; i++)
+	for (var shopId = 0; shopId < items.length; shopId++)
 	{
-		for (var j = 1; j < items[i].length; j++)
+		var foundItems = [];
+		for (var itemId = 1; itemId < items[shopId].length; itemId++)
 		{
-			if (items[i].charAt(j) === '1')
+			if (items[shopId].charAt(itemId) === '1')
 			{
-				summaryStrings[i] += Item[j].NAME + ", ";
+				foundItems.push(Item[itemId].NAME);
 			}
 		}
 
-		// TODO incorporate the Notes field
-		// TODO do something with a string join or something so this is unnecessary.
-		if (summaryStrings[i].charAt(summaryStrings[i].length - 2) === ',')
+		if (itemsnotes[shopId].length > 0)
 		{
-			summaryStrings[i] = summaryStrings[i].substring(0, summaryStrings[i].length - 2);
+			foundItems.push(itemsnotes[shopId]);
+		}
+
+		if (foundItems.length > 0)
+		{
+			summaryStrings[shopId] = foundItems.join(", ");
 		}
 	}
 	
