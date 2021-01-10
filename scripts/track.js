@@ -1288,21 +1288,6 @@ function SetModes() {
 		//document.getElementById('objectivesRequired').style.display = "";
 		document.getElementById('objectivesRequiredCount').innerHTML = modeflags.oreq;
 	}
-
-	if (modeflags.snoj) {
-		document.getElementById('offensive1').style.display = "none";
-		document.getElementById('offensive2').style.display = "none";
-		document.getElementById('offensive3').style.display = "none";
-		document.getElementById('offensive4').style.display = "none";
-		document.getElementById('offensive5').style.display = "none";
-		document.getElementById('utility1').style.display = "none";
-		document.getElementById('utility2').style.display = "none";
-		document.getElementById('utility3').style.display = "none";
-		document.getElementById('utility4').style.display = "none";
-		document.getElementById('othertd').style.display = "none";
-		document.getElementById('notes1td').style.display = "none";
-		document.getElementById('notes2td').style.display = "none";
-	} 
 	
 	if (!modeflags.ktrap) {
 		document.getElementById('trappedchestsdiv').style.display = "none";
@@ -2202,7 +2187,7 @@ function CheckItems(shopId) {
 		{
 			itemSpan.style.color = "#0F0";
 		}
-		else if (CanItemAppearInShop(itemId, modeflags.sshops, isGated))
+		else if (CanItemAppearInShop(itemId, modeflags, isGated))
 		{
 			itemSpan.style.color = "#FFF";
 		}

@@ -1,13 +1,13 @@
-function CanItemAppearInShop(itemId, sshops, isGated) {
+function CanItemAppearInShop(itemId, modeflags, isGated) {
     if (itemId < 0 || itemId >= Item.length)
     {
         return false;
     }
 
-    var maxTier = MaxTierOfShop(sshops, isGated);
+    var maxTier = MaxTierOfShop(modeflags.sshops, isGated);
 
     // Will need to add more logic here if we start tracking items which are Swild-only
-    return Item[itemId].TIER <= maxTier;
+    return Item[itemId].TIER <= maxTier && !(modeflags.snoj && Item[itemId].JP);
 }
 
 function MaxTierOfShop(sshops, isGated) {
