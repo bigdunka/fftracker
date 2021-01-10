@@ -4,9 +4,32 @@ function CanItemAppearInShop(itemId, modeflags, isGated) {
         return false;
     }
 
-    var maxTier = MaxTierOfShop(modeflags.sshops, isGated);
+    let maxTier = MaxTierOfShop(modeflags.sshops, isGated);
 
-    // Will need to add more logic here if we start tracking items which are Swild-only
+    if (modeflags.snoj && Item[itemId].JP)
+    {
+        return false;
+    }
+
+    // Sno:apples and Sno:sirens are not mutually exclusive.
+    if (modeflags.snoapples)
+    {
+        let itemName = Item[itemId].NAME;
+
+        if (itemName.endsWith("Apple") || itemName === "SomaDrop")
+        {
+            return false;
+        }
+    }
+
+    if (modeflags.snosirens)
+    {
+        if (Item[itemId].NAME === "Siren")
+        {
+            return false;
+        }
+    }
+
     return Item[itemId].TIER <= maxTier && !(modeflags.snoj && Item[itemId].JP);
 }
 
