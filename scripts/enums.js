@@ -46,8 +46,8 @@ const KeyItemCheck = {
     MAGNES: 8,
     MIST: 9,
     MT_ORDEALS: 10,
+    TOROIA: 12, // These are out of order since IDs were assigned before typos in Toroia's name were fixed.
     TOWER_ZOT: 11,
-    TOROIA: 12,
     DWARF: 13,
     FEY_CHEST: 14,
     FEY_ASURA: 15,
