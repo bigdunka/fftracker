@@ -30,7 +30,7 @@ function CanItemAppearInShop(itemId, modeflags, isGated) {
         }
     }
 
-    return Item[itemId].TIER <= maxTier && !(modeflags.snoj && Item[itemId].JP);
+    return Item[itemId].TIER <= maxTier;
 }
 
 function MaxTierOfShop(sshops, isGated) {
