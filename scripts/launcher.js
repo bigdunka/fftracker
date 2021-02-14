@@ -1,11 +1,11 @@
-var version = '200';
+var version = '205';
 
 function load_cookie() {
 	var c = document.cookie;
 	var cs = c.split(';');
 	
 	for (var co in cs) {
-		if (cs[co].indexOf('200') > -1 && cs[co].indexOf('settings') > -1) {
+		if (cs[co].indexOf('205') > -1 && cs[co].indexOf('settings') > -1) {
 			document.getElementById("remembersettings").checked = true;
 			document.getElementById("itemswitch").checked = false;
 			document.getElementById("locswitch").checked = false;

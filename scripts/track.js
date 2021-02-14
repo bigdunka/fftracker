@@ -64,6 +64,7 @@ var modeflags = {
 	crelaxed: false,
 	cmaybe: false,
 	cdistinct: 0,
+	climit: 5,
 	ccecil: true,
 	ckain: true,
 	crydia: true,
@@ -649,6 +650,9 @@ function SetModes() {
 						if (keys[k].startsWith('START')) {
 							modeflags.cstart = keys[k].substring(6);
 						}
+						if (keys[k].startsWith('PARTY')) {
+							modeflags.climit = keys[k].substring(6);
+						}
 						if (keys[k].startsWith('NO')) {
 							var cha = keys[k].substring(3).split(',');
 							for (var j in cha) {
@@ -1045,6 +1049,20 @@ function SetModes() {
 					break;
 			}
 		}
+	}
+	
+	//Limit Party
+	if (modeflags.climit < 5) {
+		document.getElementById('party4').style.visibility = 'hidden';
+	}
+	if (modeflags.climit < 4) {
+		document.getElementById('party3').style.visibility = 'hidden';
+	}
+	if (modeflags.climit < 3) {
+		document.getElementById('party2').style.visibility = 'hidden';
+	}
+	if (modeflags.climit < 2) {
+		document.getElementById('party1').style.visibility = 'hidden';
 	}
 	
 	//Exclude characters
@@ -1788,7 +1806,7 @@ function ApplyChecks(){
 	}
 	
 	//Party Members
-	for (var i = 0; i < 5; i++) {
+	for (var i = 0; i < modeflags.climit; i++) {
 		var l = '';
 		var p = 'party' + i;
 		if (partymembers[i] != -1) {
