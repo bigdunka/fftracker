@@ -17,8 +17,9 @@ var objectivenames = ['Get Cecil','Get Kain','Get Rydia','Get Tellah','Get Edwar
 
 var trappedchestcounts = [3,1,1,1,1,1,4,7,1,9];
 var trappedchestmaxcounts = [3,1,1,1,1,1,4,7,1,9];
-var currentitemlist = 0;
-var items = ['000000000000000000000000000000000000','000000000000000000000000000000000000','000000000000000000000000000000000000','000000000000000000000000000000000000','000000000000000000000000000000000000','000000000000000000000000000000000000','000000000000000000000000000000000000','000000000000000000000000000000000000','000000000000000000000000000000000000','000000000000000000000000000000000000','000000000000000000000000000000000000','000000000000000000000000000000000000','000000000000000000000000000000000000'];
+var currentShop = 0;
+// Array of checklists of items found in each shop.
+var items = ['00000000000000000000000000000000000000','00000000000000000000000000000000000000','00000000000000000000000000000000000000','00000000000000000000000000000000000000','00000000000000000000000000000000000000','00000000000000000000000000000000000000','00000000000000000000000000000000000000','00000000000000000000000000000000000000','00000000000000000000000000000000000000','00000000000000000000000000000000000000','00000000000000000000000000000000000000','00000000000000000000000000000000000000','00000000000000000000000000000000000000'];
 var itemsnotes = ['','','','','','','','','','','','',''];
 
 var partymembers = [-1,-1,-1,-1,-1];
@@ -96,6 +97,7 @@ var modeflags = {
 	snoj: false,
 	snoapples: false,
 	snosirens: false,
+	snolife: false,
 	bvanilla: false,
 	bstandard: false,
 	bunsafe: false,
@@ -239,7 +241,6 @@ function SetModes() {
 										break;
 									case 'FIENDS':
 										modeflags.ofiends = true;
-										objectives[2] = 0;
 										objectives[23] = 0;
 										objectives[24] = 0;
 										objectives[29] = 0;
@@ -802,6 +803,9 @@ function SetModes() {
 		//Shops
 		if (flagsets[fs].startsWith('S')) {
 			var flagstring = flagsets[fs].substr(1).replace(',','/');
+			while (flagstring.indexOf(',') > -1) {
+				flagstring = flagstring.replace(',','/');
+			}
 			var keys = flagstring.split('/');
 			
 			for (var k in keys) {
@@ -843,6 +847,10 @@ function SetModes() {
 					case 'NO:SIRENS':
 					case 'SIRENS':
 						modeflags.snosirens = true;
+						break;
+					case 'NO:LIFE':
+					case 'LIFE':
+						modeflags.snolife = true;
 						break;
 					case 'UNSAFE':
 						modeflags.sunsafe = true;
@@ -1306,21 +1314,6 @@ function SetModes() {
 		//document.getElementById('objectivesRequired').style.display = "";
 		document.getElementById('objectivesRequiredCount').innerHTML = modeflags.oreq;
 	}
-
-	if (modeflags.snoj) {
-		document.getElementById('offensive1').style.display = "none";
-		document.getElementById('offensive2').style.display = "none";
-		document.getElementById('offensive3').style.display = "none";
-		document.getElementById('offensive4').style.display = "none";
-		document.getElementById('offensive5').style.display = "none";
-		document.getElementById('utility1').style.display = "none";
-		document.getElementById('utility2').style.display = "none";
-		document.getElementById('utility3').style.display = "none";
-		document.getElementById('utility4').style.display = "none";
-		document.getElementById('othertd').style.display = "none";
-		document.getElementById('notes1td').style.display = "none";
-		document.getElementById('notes2td').style.display = "none";
-	} 
 	
 	if (!modeflags.ktrap) {
 		document.getElementById('trappedchestsdiv').style.display = "none";
@@ -1330,39 +1323,62 @@ function SetModes() {
 	}
 	
 	if (!modeflags.ksummon) {
-		keyitemlocations[3] = 3; //Odin
-		keyitemlocations[15] = 3; //Asura
-		keyitemlocations[16] = 3; //Leva
-		keyitemlocations[20] = 3; //Slyph
-		keyitemlocations[21] = 3; //Bahamut
+		keyitemlocations[KeyItemCheck.BARON_ODIN] = 3; //Odin
+		keyitemlocations[KeyItemCheck.FEY_ASURA] = 3; //Asura
+		keyitemlocations[KeyItemCheck.FEY_LEVIATHAN] = 3; //Leva
+		keyitemlocations[KeyItemCheck.SYLPH_CAVE] = 3; //Slyph
+		keyitemlocations[KeyItemCheck.BAHAMUT] = 3; //Bahamut
 	}
 	
 	if (!modeflags.kmoon) {
-		keyitemlocations[22] = 3; //Lunar Crystal
-		keyitemlocations[23] = 3; //Lunar Masa
-		keyitemlocations[24] = 3; //Lunar Mura
-		keyitemlocations[25] = 3; //Lunar Ribbon
-		keyitemlocations[26] = 3; //Lunar White
+		keyitemlocations[KeyItemCheck.MOON_CRYSTAL] = 3; //Lunar Crystal
+		keyitemlocations[KeyItemCheck.MOON_MASAMUNE] = 3; //Lunar Masa
+		keyitemlocations[KeyItemCheck.MOON_MURASAME] = 3; //Lunar Mura
+		keyitemlocations[KeyItemCheck.MOON_RIBBON] = 3; //Lunar Ribbon
+		keyitemlocations[KeyItemCheck.MOON_WHITE] = 3; //Lunar White
 	}
 	
 	if (modeflags.sshops == 'empty') {
 		disableitemtracker = '1';
 	}
 	
+	/* if (modeflags.snoj) {
+	}
+	
+	if (modeflags.snolife) {
+		document.getElementById('lifetd').style.cursor = "not-allowed";
+		document.getElementById('itemspan1').style.cursor = "not-allowed";
+		document.getElementById('itemspan1').onclick = function() { return false; }
+	}
+	
+	if (modeflags.snoapples) {
+		document.getElementById('appletd').style.cursor = "not-allowed";
+		document.getElementById('itemspan28').style.cursor = "not-allowed";
+		document.getElementById('itemspan29').style.cursor = "not-allowed";
+		document.getElementById('itemspan28').onclick = function() { return false; }
+		document.getElementById('itemspan29').onclick = function() { return false; }
+	}
+	
+	if (modeflags.snosirens) {
+		document.getElementById('sirentd').style.cursor = "not-allowed";
+		document.getElementById('itemspan26').style.cursor = "not-allowed";
+		document.getElementById('itemspan26').onclick = function() { return false; }
+	} */
+	
 	if (modeflags.nchars) {
-		characterlocations[2] = 3;
-		characterlocations[8] = 3;
-		characterlocations[9] = 3;
-		characterlocations[11] = 3;		
+		characterlocations[CharacterCheck.DAMCYAN] = 3;
+		characterlocations[CharacterCheck.MT_ORDEALS] = 3;
+		characterlocations[CharacterCheck.MYSIDIA] = 3;
+		characterlocations[CharacterCheck.WATERWAY] = 3;
 	}
 	
 	if (modeflags.nkey) {
-		keyitemlocations[12] = 3;
+		keyitemlocations[KeyItemCheck.TOROIA] = 3;
 	} else {
 		if (disablebosstracker === '1') {
 			document.getElementById('misttoggle').style.visibility = "hidden";
 		}
-		keyitemlocations[9] = 3;
+		keyitemlocations[KeyItemCheck.MIST] = 3;
 	}
 
 	var verticallayout = getParameterByName('v');
@@ -1388,6 +1404,13 @@ function SetModes() {
 		if (objectives[i] === 0) {
 			totalobj++;
 		}
+	}
+
+	if (modeflags.odarkmatter)
+	{
+		// Dark matter hunt takes two rows - dark matter count and objective completion.
+		// Don't need to do similar for fiends, it sets six separate objectives.
+		totalobj++;
 	}
 	
 	if (totalobj > 5) {
@@ -1430,355 +1453,355 @@ function SetModes() {
 }
 
 function ApplyChecks(){
-	var hasunderworldaccess = (keyitems[2] === true || ((keyitems[6] === true || modeflags.opushbtojump) && hookclear === true));
+	var hasunderworldaccess = (keyitems[KeyItem.MAGMA_KEY] === true || ((keyitems[KeyItem.HOOK] === true || modeflags.opushbtojump) && hookclear === true));
 	
 	// ****Key Items****
 	if (disableloctracker === '0') {
 		//Adamant Cave
-		DeactivateKeyItemLocation(0);
-		if (keyitems[6] === true && keyitems[11] === true) {
-			ActivateKeyItemLocation(0);
+		DeactivateKeyItemLocation(KeyItemCheck.ADAMANT);
+		if (keyitems[KeyItem.HOOK] === true && keyitems[KeyItem.RAT_TAIL] === true) {
+			ActivateKeyItemLocation(KeyItemCheck.ADAMANT);
 		}
 		
 		//Antlion Cave
-		ActivateKeyItemLocation(1);
+		ActivateKeyItemLocation(KeyItemCheck.ANTLION);
 		
 		//Baron Castle [King]
-		DeactivateKeyItemLocation(2);
-		if (keyitems[0] === true) {
-			ActivateKeyItemLocation(2);
+		DeactivateKeyItemLocation(KeyItemCheck.BARON_KING);
+		if (keyitems[KeyItem.BARON_KEY] === true || modeflags.opushbtojump) {
+			ActivateKeyItemLocation(KeyItemCheck.BARON_KING);
 		}
 		
 		//Baron Castle [Odin]
-		DeactivateKeyItemLocation(3);
-		if (keyitems[0] === true) {
-			ActivateKeyItemLocation(3);
+		DeactivateKeyItemLocation(KeyItemCheck.BARON_ODIN);
+		if (keyitems[KeyItem.BARON_KEY] === true || modeflags.opushbtojump) {
+			ActivateKeyItemLocation(KeyItemCheck.BARON_ODIN);
 		}
 		
 		//Town of Baron
-		ActivateKeyItemLocation(4);
+		ActivateKeyItemLocation(KeyItemCheck.BARON_INN);
 
 		//Fabul [Defend]
-		ActivateKeyItemLocation(5);
+		ActivateKeyItemLocation(KeyItemCheck.FABUL_DEFEND);
 
 		//Fabul [Yang/Slyph]
-		DeactivateKeyItemLocation(6);
+		DeactivateKeyItemLocation(KeyItemCheck.FABUL_SYLPH);
 		if (hasunderworldaccess) {
-			ActivateKeyItemLocation(6);
+			ActivateKeyItemLocation(KeyItemCheck.FABUL_SYLPH);
 		}
 
 		//Fabul [Yang/Pan]
-		DeactivateKeyItemLocation(7);
-		if (keyitems[9] === true && hasunderworldaccess) {
-			ActivateKeyItemLocation(7);
+		DeactivateKeyItemLocation(KeyItemCheck.FABUL_PAN);
+		if (keyitems[KeyItem.PAN] === true && hasunderworldaccess) {
+			ActivateKeyItemLocation(KeyItemCheck.FABUL_PAN);
 		}
 
 		//Magnes Cave
-		DeactivateKeyItemLocation(8);
-		if (keyitems[7] === true) {
-			ActivateKeyItemLocation(8);
+		DeactivateKeyItemLocation(KeyItemCheck.MAGNES);
+		if (keyitems[KeyItem.TWINHARP] === true || modeflags.opushbtojump) {
+			ActivateKeyItemLocation(KeyItemCheck.MAGNES);
 		}
 		
 		//Mist Village
-		DeactivateKeyItemLocation(9);
+		DeactivateKeyItemLocation(KeyItemCheck.MIST);
 		if (mist === true) {
-			ActivateKeyItemLocation(9);
+			ActivateKeyItemLocation(KeyItemCheck.MIST);
 		}	
 
 		//Mt Ordeals
-		ActivateKeyItemLocation(10);
+		ActivateKeyItemLocation(KeyItemCheck.MT_ORDEALS);
 		
-		if (keyitemlocations[10] === 2) {
+		if (keyitemlocations[KeyItemCheck.MT_ORDEALS] === 2) {
 			cecil = true;
 		} else {
 			cecil = false;
 		}
 
 		//Tower of Zot
-		DeactivateKeyItemLocation(11);
-		if (keyitems[5] === true) {
-			ActivateKeyItemLocation(11);
+		DeactivateKeyItemLocation(KeyItemCheck.TOWER_ZOT);
+		if (keyitems[KeyItem.EARTH_CRYSTAL] === true || modeflags.opushbtojump) {
+			ActivateKeyItemLocation(KeyItemCheck.TOWER_ZOT);
 		}	
 
-		//Troia Castle
-		ActivateKeyItemLocation(12);
+		//Toroia Castle
+		ActivateKeyItemLocation(KeyItemCheck.TOROIA);
 		
 		//Dwarf Castle
-		DeactivateKeyItemLocation(13);
+		DeactivateKeyItemLocation(KeyItemCheck.DWARF);
 		if (hasunderworldaccess) {
-			ActivateKeyItemLocation(13);
+			ActivateKeyItemLocation(KeyItemCheck.DWARF);
 		}	
 		
 		//Feymarch [Chest]
-		DeactivateKeyItemLocation(14);
+		DeactivateKeyItemLocation(KeyItemCheck.FEY_CHEST);
 		if (hasunderworldaccess) {
-			ActivateKeyItemLocation(14);
+			ActivateKeyItemLocation(KeyItemCheck.FEY_CHEST);
 		}	
 		
 		//Feymarch [Asura]
-		DeactivateKeyItemLocation(15);
+		DeactivateKeyItemLocation(KeyItemCheck.FEY_ASURA);
 		if (hasunderworldaccess) {
-			ActivateKeyItemLocation(15);
+			ActivateKeyItemLocation(KeyItemCheck.FEY_ASURA);
 		}
 
 		//Feymarch [Leviathan]
-		DeactivateKeyItemLocation(16);
+		DeactivateKeyItemLocation(KeyItemCheck.FEY_LEVIATHAN);
 		if (hasunderworldaccess) {
-			ActivateKeyItemLocation(16);
+			ActivateKeyItemLocation(KeyItemCheck.FEY_LEVIATHAN);
 		}
 		
 		//Lower Babil [Boss]
-		DeactivateKeyItemLocation(17);
+		DeactivateKeyItemLocation(KeyItemCheck.LOWER_BABIL_BOSS);
 		if (hasunderworldaccess) {
-			ActivateKeyItemLocation(17);
+			ActivateKeyItemLocation(KeyItemCheck.LOWER_BABIL_BOSS);
 		}
 		
 		//Lower Babil [Tower]
-		DeactivateKeyItemLocation(18);
-		if (keyitems[3] === true && hasunderworldaccess) {
-			ActivateKeyItemLocation(18);
+		DeactivateKeyItemLocation(KeyItemCheck.LOWER_BABIL_CANNON);
+		if (keyitems[KeyItem.TOWER_KEY] === true && hasunderworldaccess) {
+			ActivateKeyItemLocation(KeyItemCheck.LOWER_BABIL_CANNON);
 		}
 		
 		//Sealed Cave
-		DeactivateKeyItemLocation(19);
-		if (keyitems[1] === true && hasunderworldaccess) {
-			ActivateKeyItemLocation(19);
+		DeactivateKeyItemLocation(KeyItemCheck.SEALED_CAVE);
+		if (keyitems[KeyItem.LUCA_KEY] === true && hasunderworldaccess) {
+			ActivateKeyItemLocation(KeyItemCheck.SEALED_CAVE);
 		}
 		
 		//Slyph Cave
-		DeactivateKeyItemLocation(20);
-		if (keyitems[9] === true && hasunderworldaccess) {
-			ActivateKeyItemLocation(20);
+		DeactivateKeyItemLocation(KeyItemCheck.SYLPH_CAVE);
+		if (keyitems[KeyItem.PAN] === true && hasunderworldaccess) {
+			ActivateKeyItemLocation(KeyItemCheck.SYLPH_CAVE);
 		}
 		
 		//Bahamut
-		DeactivateKeyItemLocation(21);
-		if (keyitems[4] === true) {
-			ActivateKeyItemLocation(21);
+		DeactivateKeyItemLocation(KeyItemCheck.BAHAMUT);
+		if (keyitems[KeyItem.DARKNESS_CRYSTAL] === true) {
+			ActivateKeyItemLocation(KeyItemCheck.BAHAMUT);
 		}
 		
 		//Lunar [Crystal]
-		DeactivateKeyItemLocation(22);
-		if (keyitems[4] === true) {
-			ActivateKeyItemLocation(22);
+		DeactivateKeyItemLocation(KeyItemCheck.MOON_CRYSTAL);
+		if (keyitems[KeyItem.DARKNESS_CRYSTAL] === true) {
+			ActivateKeyItemLocation(KeyItemCheck.MOON_CRYSTAL);
 		}
 		
 		//Lunar [Masamune]
-		DeactivateKeyItemLocation(23);
-		if (keyitems[4] === true) {
-			ActivateKeyItemLocation(23);
+		DeactivateKeyItemLocation(KeyItemCheck.MOON_MASAMUNE);
+		if (keyitems[KeyItem.DARKNESS_CRYSTAL] === true) {
+			ActivateKeyItemLocation(KeyItemCheck.MOON_MASAMUNE);
 		}
 		
 		//Lunar [Murasame]
-		DeactivateKeyItemLocation(24);
-		if (keyitems[4] === true) {
-			ActivateKeyItemLocation(24);
+		DeactivateKeyItemLocation(KeyItemCheck.MOON_MURASAME);
+		if (keyitems[KeyItem.DARKNESS_CRYSTAL] === true) {
+			ActivateKeyItemLocation(KeyItemCheck.MOON_MURASAME);
 		}
 		
 		//Lunar [Ribbon]
-		DeactivateKeyItemLocation(25);
-		if (keyitems[4] === true) {
-			ActivateKeyItemLocation(25);
+		DeactivateKeyItemLocation(KeyItemCheck.MOON_RIBBON);
+		if (keyitems[KeyItem.DARKNESS_CRYSTAL] === true) {
+			ActivateKeyItemLocation(KeyItemCheck.MOON_RIBBON);
 		}
 		
 		//Lunar [White]
-		DeactivateKeyItemLocation(26);
-		if (keyitems[4] === true) {
-			ActivateKeyItemLocation(26);
+		DeactivateKeyItemLocation(KeyItemCheck.MOON_WHITE);
+		if (keyitems[KeyItem.DARKNESS_CRYSTAL] === true) {
+			ActivateKeyItemLocation(KeyItemCheck.MOON_WHITE);
 		}
 		
 		//Hook Route
-		DeactivateKeyItemLocation(27);
-		if ((keyitems[6] === true || modeflags.opushbtojump) && keyitems[2] === false && hookclear === false) {
-			ActivateKeyItemLocation(27);
+		DeactivateKeyItemLocation(KeyItemCheck.HOOK_ROUTE);
+		if ((keyitems[KeyItem.HOOK] === true || modeflags.opushbtojump) && keyitems[KeyItem.MAGMA_KEY] === false && hookclear === false) {
+			ActivateKeyItemLocation(KeyItemCheck.HOOK_ROUTE);
 		}
 		
 		// ****Characters****
 		
 		//Baron Castle
-		DeactivateCharacterLocation(0);
-		if (keyitems[0] === true) {
-			ActivateCharacterLocation(0);
+		DeactivateCharacterLocation(CharacterCheck.BARON_CASTLE);
+		if (keyitems[KeyItem.BARON_KEY] === true || modeflags.opushbtojump) {
+			ActivateCharacterLocation(CharacterCheck.BARON_CASTLE);
 		}
 		
 		//Town of Baron
-		ActivateCharacterLocation(1);
+		ActivateCharacterLocation(CharacterCheck.BARON_INN);
 		
 		//Damcyan
-		ActivateCharacterLocation(2);
+		ActivateCharacterLocation(CharacterCheck.DAMCYAN);
 		
 		//Eblan Cave
-		DeactivateCharacterLocation(3);
-		if (keyitems[6] === true) {
-			ActivateCharacterLocation(3);
+		DeactivateCharacterLocation(CharacterCheck.EBLAN_CAVE);
+		if (keyitems[KeyItem.HOOK] === true || modeflags.opushbtojump) {
+			ActivateCharacterLocation(CharacterCheck.EBLAN_CAVE);
 		}	
 		
 		//Giant of Babil
-		DeactivateCharacterLocation(4);
-		if (keyitems[4] === true) {
-			ActivateCharacterLocation(4);
+		DeactivateCharacterLocation(CharacterCheck.GIANT_BABIL);
+		if (keyitems[KeyItem.DARKNESS_CRYSTAL] === true) {
+			ActivateCharacterLocation(CharacterCheck.GIANT_BABIL);
 		}
 		
 		//Kaipo
-		DeactivateCharacterLocation(5);
-		if (keyitems[10] === true) {
-			ActivateCharacterLocation(5);
+		DeactivateCharacterLocation(CharacterCheck.KAIPO);
+		if (keyitems[KeyItem.SANDRUBY] === true) {
+			ActivateCharacterLocation(CharacterCheck.KAIPO);
 		}
 		
 		//Mist Village
-		DeactivateCharacterLocation(6);
-		if (keyitems[8] === true) {
-			ActivateCharacterLocation(6);
+		DeactivateCharacterLocation(CharacterCheck.MIST);
+		if (keyitems[KeyItem.PACKAGE] === true) {
+			ActivateCharacterLocation(CharacterCheck.MIST);
 		}
 		
 		//Mt Hobbs
-		ActivateCharacterLocation(7);
+		ActivateCharacterLocation(CharacterCheck.MT_HOBS);
 
 		//Mt Ordeals
-		ActivateCharacterLocation(8);
+		ActivateCharacterLocation(CharacterCheck.MT_ORDEALS);
 		
 		//Mysidia
-		ActivateCharacterLocation(9);
+		ActivateCharacterLocation(CharacterCheck.MYSIDIA);
 		
 		//Tower of Zot
-		DeactivateCharacterLocation(10);
-		if (keyitems[5] === true) {
-			ActivateCharacterLocation(10);
+		DeactivateCharacterLocation(CharacterCheck.TOWER_ZOT);
+		if (keyitems[KeyItem.EARTH_CRYSTAL] === true || modeflags.opushbtojump) {
+			ActivateCharacterLocation(CharacterCheck.TOWER_ZOT);
 		}
 		
 		//Waterway
-		ActivateCharacterLocation(11);	
+		ActivateCharacterLocation(CharacterCheck.WATERWAY);
 		
 		//Dwarf Castle
-		DeactivateCharacterLocation(12);
+		DeactivateCharacterLocation(CharacterCheck.DWARF);
 		if (hasunderworldaccess) {
-			ActivateCharacterLocation(12);
+			ActivateCharacterLocation(CharacterCheck.DWARF);
 		}
 		
-		if (characterlocations[12] === 2) {
+		if (characterlocations[CharacterCheck.DWARF] === 2) {
 			rydia = true;
 		} else {
 			rydia = false;
 		}
 
 		//Lunar Sub.
-		DeactivateCharacterLocation(13);
-		if (keyitems[4] === true) {
-			ActivateCharacterLocation(13);
+		DeactivateCharacterLocation(CharacterCheck.MOON);
+		if (keyitems[KeyItem.DARKNESS_CRYSTAL] === true) {
+			ActivateCharacterLocation(CharacterCheck.MOON);
 		}	
 
 	
 		// ****Towns/Shops****
 
 		//Agart
-		ActivateTownLocation(0);
+		ActivateTownLocation(Town.AGART);
 		
 		//Town of Baron
-		ActivateTownLocation(1);
+		ActivateTownLocation(Town.BARON);
 
 		//Eblan Cave
-		DeactivateTownLocation(2);
-		if (keyitems[6] === true) {
-			ActivateTownLocation(2);
+		DeactivateTownLocation(Town.EBLAN_CAVE);
+		if (keyitems[KeyItem.HOOK] === true || modeflags.opushbtojump) {
+			ActivateTownLocation(Town.EBLAN_CAVE);
 		}
 		
 		//Fabul
-		ActivateTownLocation(3);
+		ActivateTownLocation(Town.FABUL);
 		
 		//Kaipo
-		ActivateTownLocation(4);
+		ActivateTownLocation(Town.KAIPO);
 		
 		//Mysidia
-		ActivateTownLocation(5);
+		ActivateTownLocation(Town.MYSIDIA);
 		
 		//Silvera
-		ActivateTownLocation(6);
+		ActivateTownLocation(Town.SILVERA);
 		
-		//Troia [Item]
-		ActivateTownLocation(7);
+		//Toroia [Item]
+		ActivateTownLocation(Town.TOROIA_ITEM);
 		
-		//Troia [Pub]
-		ActivateTownLocation(8);
+		//Toroia [Pub]
+		ActivateTownLocation(Town.TOROIA_PUB);
 		
 		//Dwarf Castle
-		DeactivateTownLocation(9);
+		DeactivateTownLocation(Town.DWARF);
 		if (hasunderworldaccess) {
-			ActivateTownLocation(9);
+			ActivateTownLocation(Town.DWARF);
 		}
 		
 		//Feymarch
-		DeactivateTownLocation(10);
+		DeactivateTownLocation(Town.FEY);
 		if (hasunderworldaccess) {
-			ActivateTownLocation(10);
+			ActivateTownLocation(Town.FEY);
 		}
 		
-		//Tomara
-		DeactivateTownLocation(11);
+		//Tomra
+		DeactivateTownLocation(Town.TOMRA);
 		if (hasunderworldaccess) {
-			ActivateTownLocation(11);
+			ActivateTownLocation(Town.TOMRA);
 		}
 		
 		//Hummingway
-		DeactivateTownLocation(12);
-		if (keyitems[4] === true) {
-			ActivateTownLocation(12);
+		DeactivateTownLocation(Town.MOON);
+		if (keyitems[KeyItem.DARKNESS_CRYSTAL] === true) {
+			ActivateTownLocation(Town.MOON);
 		}
 		
 		
 		// ****Trapped Chests****
 		
 		//Castle Eblan
-		ActivateTrappedLocation(0);
+		ActivateTrappedLocation(Trap.CASTLE_EBLAN);
 
 		//Eblan Cave
-		DeactivateTrappedLocation(1);
-		if (keyitems[6] === true) {
-			ActivateTrappedLocation(1);
+		DeactivateTrappedLocation(Trap.EBLAN_CAVE);
+		if (keyitems[KeyItem.HOOK] === true || modeflags.opushbtojump) {
+			ActivateTrappedLocation(Trap.EBLAN_CAVE);
 		}
 
 		//Giant of Babil
-		DeactivateTrappedLocation(2);
-		if (keyitems[4] === true) {
-			ActivateTrappedLocation(2);
+		DeactivateTrappedLocation(Trap.GIANT_BABIL);
+		if (keyitems[KeyItem.DARKNESS_CRYSTAL] === true) {
+			ActivateTrappedLocation(Trap.GIANT_BABIL);
 		}
 
 		//Tower of Zot
-		ActivateTrappedLocation(3);
+		ActivateTrappedLocation(Trap.TOWER_ZOT);
 		
 		//Upper Babil
-		DeactivateTrappedLocation(4);
-		if (keyitems[6] === true) {
-			ActivateTrappedLocation(4);
+		DeactivateTrappedLocation(Trap.UPPER_BABIL);
+		if (keyitems[KeyItem.HOOK] === true || modeflags.opushbtojump) {
+			ActivateTrappedLocation(Trap.UPPER_BABIL);
 		}
 
 		//Feymarch
-		DeactivateTrappedLocation(5);
+		DeactivateTrappedLocation(Trap.FEY);
 		if (hasunderworldaccess) {
-			ActivateTrappedLocation(5);
+			ActivateTrappedLocation(Trap.FEY);
 		}
 
 		//Lower Babil
-		DeactivateTrappedLocation(6);
+		DeactivateTrappedLocation(Trap.LOWER_BABIL);
 		if (hasunderworldaccess) {
-			ActivateTrappedLocation(6);
+			ActivateTrappedLocation(Trap.LOWER_BABIL);
 		}
 
 		//Slyph Cave
-		DeactivateTrappedLocation(7);
+		DeactivateTrappedLocation(Trap.SYLPH_CAVE);
 		if (hasunderworldaccess) {
-			ActivateTrappedLocation(7);
+			ActivateTrappedLocation(Trap.SYLPH_CAVE);
 		}
 
 		//Lunar Path
-		DeactivateTrappedLocation(8);
-		if (keyitems[4] === true) {
-			ActivateTrappedLocation(8);
+		DeactivateTrappedLocation(Trap.MOON_PATH);
+		if (keyitems[KeyItem.DARKNESS_CRYSTAL] === true) {
+			ActivateTrappedLocation(Trap.MOON_PATH);
 		}
 
 		//Lunar Sub.
-		DeactivateTrappedLocation(9);
-		if (keyitems[4] === true) {
-			ActivateTrappedLocation(9);
+		DeactivateTrappedLocation(Trap.MOON_SUB);
+		if (keyitems[KeyItem.DARKNESS_CRYSTAL] === true) {
+			ActivateTrappedLocation(Trap.MOON_SUB);
 		}
 	}
 		
@@ -1832,7 +1855,7 @@ function ApplyChecks(){
 			//if (pkey === true && i === 17) {
 				//itemcount++;
 			//}
-			if (i != 17) {
+			if (i != KeyItem.PASS) {
 				itemcount++;
 			}
 			document.getElementById(l).style = 'background-image: url(\'images/item' + i + '_a.png\')';
@@ -1935,11 +1958,11 @@ function ApplyChecks(){
 			if (townlocations[i] === 0) {
 				document.getElementById(l).style.display = "none";
 			} else if (townlocations[i] === 1) {
-				if (items[i] === '100000000000000000000000000000000000') {
+				if (items[i] === '10000000000000000000000000000000000000') {
 					document.getElementById(l).style.display = "none";
 				} else {
 					document.getElementById(l).style.display = "block";
-					if (items[i] != '000000000000000000000000000000000000' || itemsnotes[i] != '') {
+					if (items[i] != '00000000000000000000000000000000000000' || itemsnotes[i] != '') {
 						document.getElementById(l).style.color = "#0F0";
 					} else {
 						document.getElementById(l).style.color = "#FFF";
@@ -1950,7 +1973,7 @@ function ApplyChecks(){
 				document.getElementById(l).style.display = "none";
 			}
 		} else {
-			if (items[i] === '100000000000000000000000000000000000') {
+			if (items[i] === '10000000000000000000000000000000000000') {
 				document.getElementById(l).style.display = "block";
 				document.getElementById(l).style.color = "#FFF";
 				document.getElementById(l).style.setProperty("text-decoration", "none");
@@ -2011,18 +2034,18 @@ function ApplyChecks(){
 	}
 }
 
-function SwapKeyItemLocation(i) {
-	if (keyitemlocations[i] === 1) {
-		keyitemlocations[i] = 2;
-		if (i === 27) {
+function SwapKeyItemLocation(locationId) {
+	if (keyitemlocations[locationId] === 1) {
+		keyitemlocations[locationId] = 2;
+		if (locationId === KeyItemCheck.HOOK_ROUTE) {
 			hookclear = true;
 		}
-		if (i === 13 && modeflags.gwarp) {
-			keyitemlocations[28] = 1;
+		if (locationId === KeyItemCheck.DWARF && modeflags.gwarp) {
+			keyitemlocations[KeyItemCheck.WARP_GLITCH] = 1;
 		}
-	} else if (keyitemlocations[i] === 2) {
-		keyitemlocations[i] = 1;
-		if (i === 27) {
+	} else if (keyitemlocations[locationId] === 2) {
+		keyitemlocations[locationId] = 1;
+		if (locationId === KeyItemCheck.HOOK_ROUTE) {
 			hookclear = false;
 		}
 	}
@@ -2030,73 +2053,73 @@ function SwapKeyItemLocation(i) {
 	ApplyChecks();
 }
 
-function SwapCharacterLocation(i) {
-	if (characterlocations[i] === 1) {
-		characterlocations[i] = 2;
-	} else if (characterlocations[i] === 2) {
-		characterlocations[i] = 1;
+function SwapCharacterLocation(locationId) {
+	if (characterlocations[locationId] === 1) {
+		characterlocations[locationId] = 2;
+	} else if (characterlocations[locationId] === 2) {
+		characterlocations[locationId] = 1;
 	}	
 	ApplyChecks();
 }
 
-function SwapTrappedLocation(i) {
-	if (trappedchestlocations[i] === 1) {
-		trappedchestcounts[i]--;
-		if (trappedchestcounts[i] === 0) {
-			trappedchestlocations[i] = 2;
+function SwapTrappedLocation(locationId) {
+	if (trappedchestlocations[locationId] === 1) {
+		trappedchestcounts[locationId]--;
+		if (trappedchestcounts[locationId] === 0) {
+			trappedchestlocations[locationId] = 2;
 		}
-	} else if (trappedchestlocations[i] === 2) {
-		trappedchestlocations[i] = 1;
-		trappedchestcounts[i] = trappedchestmaxcounts[i];
+	} else if (trappedchestlocations[locationId] === 2) {
+		trappedchestlocations[locationId] = 1;
+		trappedchestcounts[locationId] = trappedchestmaxcounts[locationId];
 	}
 	ApplyChecks();
 }
 
-function ActivateKeyItemLocation(i) {
-	if (keyitemlocations[i] === 0) {
-		keyitemlocations[i] = 1;
+function ActivateKeyItemLocation(locationId) {
+	if (keyitemlocations[locationId] === 0) {
+		keyitemlocations[locationId] = 1;
 	}
 }
 
-function DeactivateKeyItemLocation(i) {
-	if (keyitemlocations[i] === 1) {
-		keyitemlocations[i] = 0;
+function DeactivateKeyItemLocation(locationId) {
+	if (keyitemlocations[locationId] === 1) {
+		keyitemlocations[locationId] = 0;
 	}
 }
 
-function ActivateCharacterLocation(i) {
-	if (characterlocations[i] === 0) {
-		characterlocations[i] = 1;
+function ActivateCharacterLocation(locationId) {
+	if (characterlocations[locationId] === 0) {
+		characterlocations[locationId] = 1;
 	}
 }
 
-function DeactivateCharacterLocation(i) {
-	if (characterlocations[i] === 1) {
-		characterlocations[i] = 0;
+function DeactivateCharacterLocation(locationId) {
+	if (characterlocations[locationId] === 1) {
+		characterlocations[locationId] = 0;
 	}
 }
 
-function ActivateTownLocation(i) {
-	if (townlocations[i] === 0) {
-		townlocations[i] = 1;
+function ActivateTownLocation(locationId) {
+	if (townlocations[locationId] === 0) {
+		townlocations[locationId] = 1;
 	}
 }
 
-function DeactivateTownLocation(i) {
-	if (townlocations[i] === 1) {
-		townlocations[i] = 0;
+function DeactivateTownLocation(locationId) {
+	if (townlocations[locationId] === 1) {
+		townlocations[locationId] = 0;
 	}
 }
 
-function ActivateTrappedLocation(i) {
-	if (trappedchestlocations[i] === 0) {
-		trappedchestlocations[i] = 1;
+function ActivateTrappedLocation(locationId) {
+	if (trappedchestlocations[locationId] === 0) {
+		trappedchestlocations[locationId] = 1;
 	}
 }
 
-function DeactivateTrappedLocation(i) {
-	if (trappedchestlocations[i] === 1) {
-		trappedchestlocations[i] = 0;
+function DeactivateTrappedLocation(locationId) {
+	if (trappedchestlocations[locationId] === 1) {
+		trappedchestlocations[locationId] = 0;
 	}
 }
 
@@ -2139,9 +2162,9 @@ function ViewUncheckedTrapped() {
 	ApplyChecks();
 }
 
-function SwapBoss(i) {
-	bosses[i] = !bosses[i];
-	if (i === 0) {
+function SwapBoss(bossId) {
+	bosses[bossId] = !bosses[bossId];
+	if (bossId === 0) {
 		mist = !mist;
 	}
 	ApplyChecks();
@@ -2151,21 +2174,21 @@ function IgnoreMenuClose() {
 	menutoggle = true;
 }
 
-function SwapItem(i) {
-	keyitems[i] = !keyitems[i];
+function SwapItem(keyItemId) {
+	keyitems[keyItemId] = !keyitems[keyItemId];
 	ApplyChecks();
 }				
 
-function SwapCharacter(i) {
+function SwapCharacter(characterId) {
 	if (disablecharactertracker === '0') {
-		if (i === 99) {
+		if (characterId === 99) {
 			ignoreswap = true;
 		} else {
 			if (ignoreswap === true) {
 				ignoreswap = false;
 			} else {
-				characters[i] = !characters[i];
-				partymembers[partyswap] = i;
+				characters[characterId] = !characters[characterId];
+				partymembers[partyswap] = characterId;
 				//document.getElementById("partydiv").style.display = "block";
 				document.getElementById("characterdiv").style.display = "none";
 				ApplyChecks();
@@ -2174,83 +2197,89 @@ function SwapCharacter(i) {
 	}
 }
 
-function SwapParty(i) {
+function SwapParty(partySlot) {
 	if (disablecharactertracker === '0') {
 		if (ignoreswap === true) {
 			ignoreswap = false;
 		} else {
 			//document.getElementById("partydiv").style.display = "none";
 			document.getElementById("characterdiv").style.display = "block";
-			partyswap = i;
+			partyswap = partySlot;
 		}
 	}
 }
 
-function PartyClear(i) {
-	partymembers[i] = -1;
+function PartyClear(partySlot) {
+	partymembers[partySlot] = -1;
 	ignoreswap = true;
 	ApplyChecks();
 }
 
-function LoadItems(i) {
-	CheckItems(i);
+function LoadItems(shopId) {
+	CheckItems(shopId);
 	$('#itemModal').show();
 }
 
-function CheckItems(i) {
-	currentitemlist = i;
+function CheckItems(shopId) {
+	currentShop = shopId;
+
+	// TODO find a better place to put this!
+	const gatedShops = [Town.EBLAN_CAVE, Town.DWARF, Town.FEY, Town.TOMRA, Town.MOON];
+	var isGated = gatedShops.includes(shopId);
 	
-	for (var j = 0; j < 36; j++) {
-		if (items[i].charAt(j) == '1') {
-			document.getElementById('itemspan' + j).style.color = "#0F0";
-		} else {
-			document.getElementById('itemspan' + j).style.color = "#FFF";
+	for (var itemId = 0; itemId < 38; itemId++) {
+		// Gray out item spans which represent items that don't fit with the shop tier.
+		// Keep them clickable in case of updates to tiering or data entry errors.
+		var itemSpan = document.getElementById('itemspan' + itemId);
+
+		if (items[shopId].charAt(itemId) == '1')
+		{
+			itemSpan.style.color = "#0F0";
+		}
+		else if (CanItemAppearInShop(itemId, modeflags, isGated))
+		{
+			itemSpan.style.color = "#FFF";
+		}
+		else
+		{
+			itemSpan.style.color = "#888";
+			itemSpan.style.cursor = "not-allowed";
+			itemSpan.style.cursor = "not-allowed";
+			itemSpan.onclick = function() { return false; }
 		}
 	}
 	
-	document.getElementById("townnotes").value = itemsnotes[i];
+	document.getElementById("townnotes").value = itemsnotes[shopId];
 }
 
-function CheckItemBox(i) {
-	var l = 'itemlist' + i;
-	document.getElementById(l).checked = !document.getElementById(l).checked;
-}
-
-function CheckItemSpan(i) {
-	if (i == 0 && items[currentitemlist].charAt(0) == '0') {
-		items[currentitemlist] = '100000000000000000000000000000000000';
-		itemsnotes[currentitemlist] = '';
-		townlocations[currentitemlist] = 2;
+function CheckItemSpan(itemId) {
+	if (itemId == 0 && items[currentShop].charAt(0) == '0') {
+		// "No items, clear it and close" functionality.
+		items[currentShop] = '10000000000000000000000000000000000000';
+		itemsnotes[currentShop] = '';
+		townlocations[currentShop] = 2;
 		CloseItems();
 	} else {
-		if (items[currentitemlist].charAt(i) == '0') {
-			items[currentitemlist] = ReplaceItem(items[currentitemlist], i, '1');
+		if (items[currentShop].charAt(itemId) == '0') {
+			items[currentShop] = ReplaceItem(items[currentShop], itemId, '1');
 		} else {
-			items[currentitemlist] = ReplaceItem(items[currentitemlist], i, '0');
+			items[currentShop] = ReplaceItem(items[currentShop], itemId, '0');
 		}
-		CheckItems(currentitemlist);
+		CheckItems(currentShop);
 	}
 }
 
-function ReplaceItem(item, index, replace) {
-	var returnitem = '0';
-	for (var i = 1; i < 36; i++) {
-		if (i == index) {
-			returnitem = returnitem + replace;
-		} else {
-			returnitem = returnitem + item.charAt(i);
-		}
-	}
-    return returnitem;
+function ReplaceItem(itemString, itemId, newValue) {
+	return itemString.slice(0, itemId) + newValue + itemString.slice(itemId+1);
 }
 
 function CloseItems() {
 	if (menutoggle === false) {
-		itemsnotes[currentitemlist] = document.getElementById("townnotes").value;
-		if (items[currentitemlist] === 1) {
-			townlocations[currentitemlist] = 2;
+		itemsnotes[currentShop] = document.getElementById("townnotes").value;
+		if (items[currentShop] === 1) {
+			townlocations[currentShop] = 2;
 		} else {
-			townlocations[currentitemlist] = 1;
+			townlocations[currentShop] = 1;
 		}
 		$('#itemModal').hide();
 		ApplyChecks();
@@ -2258,21 +2287,6 @@ function CloseItems() {
 		menutoggle = false;
 	}
 }
-
-/* function LoadFlags() {
-	if (disablelocationtracker === '0') {
-		$('#flagsModal').show();
-	}
-}
-
-function CloseFlags() {
-	if (menutoggle === false) {
-		$('#flagsModal').hide();
-		CloseFlagDetail();
-	} else {
-		menutoggle = false;
-	}	
-} */
 
 function SetObjectives() {
 	if (disableobjectivetracker === '0') {
@@ -2344,25 +2358,6 @@ function SetObjective(i) {
 	$('#objectiveModal').hide();
 }
 
-/* function ExpandFlags(i) {
-	document.getElementById('flagsselectdiv').style.display = 'none';
-	document.getElementById('flagdetail' + i).style.display = 'block';
-}
-
-function CloseFlagDetail() {
-	document.getElementById('flagdetail0').style.display = 'none';
-	document.getElementById('flagdetail1').style.display = 'none';
-	document.getElementById('flagdetail2').style.display = 'none';
-	document.getElementById('flagdetail3').style.display = 'none';
-	document.getElementById('flagdetail4').style.display = 'none';
-	document.getElementById('flagdetail5').style.display = 'none';
-	document.getElementById('flagdetail6').style.display = 'none';
-	document.getElementById('flagdetail7').style.display = 'none';
-	document.getElementById('flagdetail8').style.display = 'none';
-	document.getElementById('flagdetail9').style.display = 'none';
-	document.getElementById('flagsselectdiv').style.display = 'block';
-} */
-
 function CloseBoss() {
 	if (menutoggle === false) {
 		$('#bossModal').hide();
@@ -2385,204 +2380,44 @@ function CloseTown() {
 }
 
 function LoadKnownTownLocations() {
-	var agart = '';
-	var baron = '';
-	var eblan = '';
-	var fabul = '';
-	var kaipo = '';
-	var mysidia = '';
-	var silvera = '';
-	var troiaitem = '';
-	var troiapub = '';
-	var dwarf = '';
-	var feymarch = '';
-	var tomara = '';
-	var hummingway = '';
+	var summaryStrings = ['','','','','','','','','','','','',''];
 	
-	var summarystrings = ['','','','','','','','','','','','',''];	
-	
-	for (var i = 0; i < 13; i++) {
-		for (var j = 1; j < 36; j++) {
-			if (items[i].charAt(j) === '1') {
-				switch (j) {
-					case 1:
-						summarystrings[i] += 'Life, ';
-						break;
-					case 2:
-						summarystrings[i] += 'Cure1, ';
-						break;
-					case 3:
-						summarystrings[i] += 'Cure2, ';
-						break;
-					case 4:
-						summarystrings[i] += 'Cure3, ';
-						break;
-					case 5:
-						summarystrings[i] += 'Ether1, ';
-						break;
-					case 6:
-						summarystrings[i] += 'Ether2, ';
-						break;
-					case 7:
-						summarystrings[i] += 'Tent, ';
-						break;
-					case 8:
-						summarystrings[i] += 'Cabin, ';
-						break;
-					case 9:
-						summarystrings[i] += 'Bomb, ';
-						break;
-					case 10:
-						summarystrings[i] += 'Notus, ';
-						break;
-					case 11:
-						summarystrings[i] += 'ThorRage, ';
-						break;
-					case 12:
-						summarystrings[i] += 'Vampire, ';
-						break;
-					case 13:
-						summarystrings[i] += 'Kamikaze, ';
-						break;
-					case 14:
-						summarystrings[i] += 'BigBomb, ';
-						break;
-					case 15:
-						summarystrings[i] += 'Boreas, ';
-						break;
-					case 16:
-						summarystrings[i] += 'ZeusRage, ';
-						break;
-					case 17:
-						summarystrings[i] += 'FireBomb, ';
-						break;
-					case 18:
-						summarystrings[i] += 'Blizzard, ';
-						break;
-					case 19:
-						summarystrings[i] += 'Lit-Bolt, ';
-						break;
-					case 20:
-						summarystrings[i] += 'GaiaDrum, ';
-						break;
-					case 21:
-						summarystrings[i] += 'Stardust, ';
-						break;
-					case 22:
-						summarystrings[i] += 'Grimoire, ';
-						break;
-					case 23:
-						summarystrings[i] += 'HrGlass1, ';
-						break;
-					case 24:
-						summarystrings[i] += 'HrGlass2, ';
-						break;
-					case 25:
-						summarystrings[i] += 'HrGlass3, ';
-						break;
-					case 26:
-						summarystrings[i] += 'StarVeil, ';
-						break;
-					case 27:
-						summarystrings[i] += 'MoonVeil, ';
-						break;
-					case 28:
-						summarystrings[i] += 'Exit, ';
-						break;
-					case 29:
-						summarystrings[i] += 'Illusion, ';
-						break;
-					case 30:
-						summarystrings[i] += 'Coffin, ';
-						break;
-					case 31:
-						summarystrings[i] += 'Siren, ';
-						break;
-					case 32:
-						summarystrings[i] += 'Bacchus, ';
-						break;
-					case 33:
-						summarystrings[i] += 'SilkWeb, ';
-						break;
-					case 34:
-						summarystrings[i] += 'Pass, ';
-						break;
-					case 35:
-						summarystrings[i] += 'Other, ';
-						break;
-				}
+	for (var shopId = 0; shopId < items.length; shopId++)
+	{
+		var foundItems = [];
+		for (var itemId = 1; itemId < items[shopId].length; itemId++)
+		{
+			if (items[shopId].charAt(itemId) === '1')
+			{
+				foundItems.push(Item[itemId].NAME);
 			}
 		}
-		if (summarystrings[i].charAt(summarystrings[i].length - 2) === ',') {
-			summarystrings[i] = summarystrings[i].substring(0, summarystrings[i].length - 2);
+
+		if (itemsnotes[shopId].length > 0)
+		{
+			foundItems.push(itemsnotes[shopId]);
+		}
+
+		if (foundItems.length > 0)
+		{
+			summaryStrings[shopId] = foundItems.join(", ");
 		}
 	}
 	
-	document.getElementById('townlistlocation1').innerHTML = summarystrings[0];
-	document.getElementById('townlistlocation2').innerHTML = summarystrings[1];
-	document.getElementById('townlistlocation3').innerHTML = summarystrings[2];
-	document.getElementById('townlistlocation4').innerHTML = summarystrings[3];
-	document.getElementById('townlistlocation5').innerHTML = summarystrings[4];
-	document.getElementById('townlistlocation6').innerHTML = summarystrings[5];
-	document.getElementById('townlistlocation7').innerHTML = summarystrings[6];
-	document.getElementById('townlistlocation8').innerHTML = summarystrings[7];
-	document.getElementById('townlistlocation9').innerHTML = summarystrings[8];
-	document.getElementById('townlistlocation10').innerHTML = summarystrings[9];
-	document.getElementById('townlistlocation11').innerHTML = summarystrings[10];
-	document.getElementById('townlistlocation12').innerHTML = summarystrings[11];
-	document.getElementById('townlistlocation13').innerHTML = summarystrings[12];
+	document.getElementById('townlistlocation1').innerHTML = summaryStrings[0];
+	document.getElementById('townlistlocation2').innerHTML = summaryStrings[1];
+	document.getElementById('townlistlocation3').innerHTML = summaryStrings[2];
+	document.getElementById('townlistlocation4').innerHTML = summaryStrings[3];
+	document.getElementById('townlistlocation5').innerHTML = summaryStrings[4];
+	document.getElementById('townlistlocation6').innerHTML = summaryStrings[5];
+	document.getElementById('townlistlocation7').innerHTML = summaryStrings[6];
+	document.getElementById('townlistlocation8').innerHTML = summaryStrings[7];
+	document.getElementById('townlistlocation9').innerHTML = summaryStrings[8];
+	document.getElementById('townlistlocation10').innerHTML = summaryStrings[9];
+	document.getElementById('townlistlocation11').innerHTML = summaryStrings[10];
+	document.getElementById('townlistlocation12').innerHTML = summaryStrings[11];
+	document.getElementById('townlistlocation13').innerHTML = summaryStrings[12];
 	
-}
-
-function AddTownLocation(locationdata, i) {
-
-	if (locationdata.length > 0) {
-		locationdata += ', ';
-	}
-	
-	switch(i) {
-		case 0:
-			locationdata += 'Agart';
-			break;
-		case 1:
-			locationdata += 'Town of Baron';
-			break;
-		case 2:
-			locationdata += 'Eblan Cave';
-			break;
-		case 3:
-			locationdata += 'Fabul';
-			break;
-		case 4:
-			locationdata += 'Kaipo';
-			break;
-		case 5:
-			locationdata += 'Mysidia';
-			break;
-		case 6:
-			locationdata += 'Silvera';
-			break;
-		case 7:
-			locationdata += 'Troia [Item]';
-			break;
-		case 8:
-			locationdata += 'Troia [Pub]';
-			break;
-		case 9:
-			locationdata += 'Dwarf Castle';
-			break;
-		case 10:
-			locationdata += 'Feymarch';
-			break;
-		case 11:
-			locationdata += 'Tomara';
-			break;
-		case 12:
-			locationdata += 'Hummingway';
-			break;
-	}
-	
-	return locationdata;
 }
 
 function ToggleMist() {
@@ -2601,30 +2436,30 @@ function ToggleMist() {
 
 function WarpGlitch() {
 	if (ignorewarp === false) {		
-		keyitemlocations[19] = 2;
-		keyitemlocations[28] = 2;
+		keyitemlocations[KeyItemCheck.SEALED_CAVE] = 2;
+		keyitemlocations[KeyItemCheck.WARP_GLITCH] = 2;
 		ApplyChecks();
 	}
 	ignorewarp = false;
 }
 
 function ClearWarpGlitch() {
-	keyitemlocations[28] = 2;
+	keyitemlocations[KeyItemCheck.WARP_GLITCH] = 2;
 	ignorewarp = true;
 	ApplyChecks();
 }
 
-function DMTicker(x) {
-	dmcount += x;
+function DMTicker(delta) {
+	dmcount += delta;
 	if (dmcount < 0) { dmcount = 0 };
 	if (dmcount > 30) { dmcount = 30 };
 	document.getElementById('dmcountspan').innerHTML = dmcount;
 }
 
-function HighlightClear(x) {
-	document.getElementById('partyClear' + x).style.backgroundColor = "rgb(255,255,255,1)";
+function HighlightClear(partySlot) {
+	document.getElementById('partyClear' + partySlot).style.backgroundColor = "rgb(255,255,255,1)";
 }
 
-function UnhighlightClear(x) {
-	document.getElementById('partyClear' + x).style.backgroundColor = "rgb(255,255,255,.3)";
+function UnhighlightClear(partySlot) {
+	document.getElementById('partyClear' + partySlot).style.backgroundColor = "rgb(255,255,255,.3)";
 }
