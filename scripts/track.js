@@ -2235,17 +2235,20 @@ function CheckItems(shopId) {
 		if (items[shopId].charAt(itemId) == '1')
 		{
 			itemSpan.style.color = "#0F0";
+			itemSpan.style.cursor = "pointer";
+			itemSpan.style.cursor = "pointer";
 		}
 		else if (CanItemAppearInShop(itemId, modeflags, isGated))
 		{
 			itemSpan.style.color = "#FFF";
+			itemSpan.style.cursor = "pointer";
+			itemSpan.style.cursor = "pointer";
 		}
 		else
 		{
 			itemSpan.style.color = "#888";
 			itemSpan.style.cursor = "not-allowed";
 			itemSpan.style.cursor = "not-allowed";
-			itemSpan.onclick = function() { return false; }
 		}
 	}
 	
