@@ -49,6 +49,7 @@ var modeflags = {
 	ofiends: false,
 	odarkmatter: false,
 	oquests: false,
+	ogatedquests: false,
 	oboss: false,
 	ochar: false,
 	oreq: '',
@@ -261,6 +262,9 @@ function SetModes() {
 								switch (randomquests[l]) {
 									case 'QUEST':
 										modeflags.oquests = true;
+										break;
+									case 'GATED_QUEST':
+										modeflags.ogatedquests = true;
 										break;
 									case 'BOSS':
 										modeflags.oboss = true;
@@ -1289,10 +1293,17 @@ function SetModes() {
 		includedCharacters += 'FuSoYa ';
 	} 
 	
-	if (modeflags.oquests === true || modeflags.oboss === true || modeflags.ochar === true) {
-		if (modeflags.oquests === false) {
+	if (modeflags.oquests === true || modeflags.oboss === true || modeflags.ochar === true || modeflags.ogatedquests === true) {
+		if (modeflags.oquests === false && modeflags.ogatedquests === false) {
 			document.getElementById('objectivecategoryquestsspan').style.textDecoration = "line-through";
 			document.getElementById('objectivecategoryquestsspan').style.cursor = "no-drop";
+		}
+
+		if (modeflags.oquests === false && modeflags.ogatedquests === true) {
+			var ungatedQuests = document.getElementById('objectivesquestsdiv').querySelectorAll('.notgated');
+			let fragment = document.createDocumentFragment();
+			fragment.textContent = ' ';
+			fragment.firstChild.replaceWith(...ungatedQuests);
 		}
 		
 		if (modeflags.oboss === false) {
@@ -1306,6 +1317,7 @@ function SetModes() {
 		}
 	} else {
 		modeflags.oquests = true;
+		modeflags.ogatedquests = true;
 		modeflags.oboss = true;
 		modeflags.ochar = true;
 	}
@@ -2340,7 +2352,7 @@ function CloseObjectives() {
 }
 
 function LoadObjectiveDetail(i) {
-	if (i === 0 && modeflags.oquests === true) {
+	if (i === 0 && (modeflags.oquests === true || modeflags.ogatedquests === true)) {
 		document.getElementById('objectivesquestsdiv').style.display = '';
 		document.getElementById('objectivesbossdiv').style.display = 'none';
 		document.getElementById('objectivescharacterdiv').style.display = 'none';
