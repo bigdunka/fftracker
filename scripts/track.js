@@ -260,6 +260,7 @@ function SetModes() {
 							for (var l in randomquests) {
 								switch (randomquests[l]) {
 									case 'QUEST':
+									case 'GATED_QUEST':
 										modeflags.oquests = true;
 										break;
 									case 'BOSS':
@@ -608,6 +609,7 @@ function SetModes() {
 		if (flagsets[fs].startsWith('C')) {
 			var flagstring = flagsets[fs].substr(1);
 			var keys = flagstring.split('/');
+			var anystart = false;
 			
 			for (var k in keys) {
 				switch (keys[k]) {
@@ -649,7 +651,10 @@ function SetModes() {
 							modeflags.cdistinct = keys[k].substring(9);
 						}
 						if (keys[k].startsWith('START')) {
-							modeflags.cstart = keys[k].substring(6);
+							if (keys[k].substring(6) === 'ANY') {
+								anystart = true;
+							}
+							//modeflags.cstart = keys[k].substring(6);
 						}
 						if (keys[k].startsWith('PARTY')) {
 							modeflags.climit = keys[k].substring(6);
@@ -659,40 +664,40 @@ function SetModes() {
 							for (var j in cha) {
 								switch (cha[j]) {
 									case 'CECIL':
-										modeflags.ccecil = false;
+										modeflags.ccecil = (anystart === true ? true : false);
 										break;
 									case 'KAIN':
-										modeflags.ckain = false;
+										modeflags.ckain = (anystart === true ? true : false);
 										break;
 									case 'RYDIA':
-										modeflags.crydia = false;
+										modeflags.crydia = (anystart === true ? true : false);
 										break;
 									case 'TELLAH':
-										modeflags.ctellah = false;
+										modeflags.ctellah = (anystart === true ? true : false);
 										break;
 									case 'EDWARD':
-										modeflags.cedward = false;
+										modeflags.cedward = (anystart === true ? true : false);
 										break;
 									case 'ROSA':
-										modeflags.crosa = false;
+										modeflags.crosa = (anystart === true ? true : false);
 										break;
 									case 'YANG':
-										modeflags.cyang = false;
+										modeflags.cyang = (anystart === true ? true : false);
 										break;
 									case 'PALOM':
-										modeflags.cpalom = false;
+										modeflags.cpalom = (anystart === true ? true : false);
 										break;
 									case 'POROM':
-										modeflags.cporom = false;
+										modeflags.cporom = (anystart === true ? true : false);
 										break;
 									case 'CID':
-										modeflags.ccid = false;
+										modeflags.ccid = (anystart === true ? true : false);
 										break;
 									case 'EDGE':
-										modeflags.cedge = false;
+										modeflags.cedge = (anystart === true ? true : false);
 										break;
 									case 'FUSOYA':
-										modeflags.cfusoya = false;
+										modeflags.cfusoya = (anystart === true ? true : false);
 										break;
 								}
 							}
@@ -1136,7 +1141,7 @@ function SetModes() {
 	}
 	
 	//Starting character
-	if (modeflags.cstart != '') {
+	/* if (modeflags.cstart != '') {
 		switch (modeflags.cstart) {
 			case 'CECIL':
 				SwapCharacter(0);
@@ -1199,7 +1204,7 @@ function SetModes() {
 				//document.getElementById('characterStart').innerHTML = 'FuSoYa';
 				break;
 		}
-	}
+	} */
 	
 	switch (overridestarting) {
 		case 'CECIL':
