@@ -64,6 +64,7 @@ var modeflags = {
 	cstandard: false,
 	crelaxed: false,
 	cmaybe: false,
+	chero: false,
 	cdistinct: 0,
 	climit: 5,
 	ccecil: true,
@@ -622,6 +623,9 @@ function SetModes() {
 					case 'RELAXED':
 						modeflags.crelaxed = true;
 						break;
+					case 'HERO':
+						modeflags.chero = true;
+						break;
 					case 'MAYBE':
 						modeflags.cmaybe = true;
 						break;
@@ -1138,6 +1142,10 @@ function SetModes() {
 		document.getElementById('character11').style.opacity = '0.2';
 		document.getElementById('character11_x').style.visibility = 'visible';
 		excludedCharacters += 'FuSoYa ';
+	}
+	
+	if (!modeflags.chero) {
+		document.getElementById('heroHeaderDiv').style.display = 'none';
 	}
 	
 	//Starting character

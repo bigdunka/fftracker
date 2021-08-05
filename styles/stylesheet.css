@@ -284,3 +284,10 @@ text-align: right;
 	height: 20px;
 	text-align: center;
 }
+
+.heroHeader {
+    position: absolute;
+    top: 2px;
+    left: 24px;
+    font-weight: bold;
+}
