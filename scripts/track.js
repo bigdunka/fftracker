@@ -1146,6 +1146,8 @@ function SetModes() {
 	
 	if (!modeflags.chero) {
 		document.getElementById('heroHeaderDiv').style.display = 'none';
+	} else {
+		document.getElementById('party0').classList.add('hero');
 	}
 	
 	//Starting character

@@ -224,6 +224,10 @@ input:checked + .slider:before {
 	border-radius: 15px;
 }
 
+.partyPortrait.hero {
+	border-color: orangered;
+}
+
 .partyClear {
 text-align: right;
     width: 16px;
@@ -287,7 +291,7 @@ text-align: right;
 
 .heroHeader {
     position: absolute;
-    top: 2px;
+    top: 5px;
     left: 24px;
-    font-weight: bold;
+	color: orangered;
 }
