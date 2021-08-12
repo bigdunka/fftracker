@@ -295,3 +295,15 @@ text-align: right;
     left: 24px;
 	color: orangered;
 }
+
+.mysteryFlags {
+    font-size: 14px;
+    font-weight: bold;
+	height: 20px;
+	text-align: center;
+	cursor: pointer;
+}
+
+.mysteryToggleSpan {
+	width: 100px;
+}
