@@ -1388,7 +1388,7 @@ function SetFlagOptions() {
 		document.getElementById('townModalInner').style.left = "34px";
 		document.getElementById('townModalInner').style.top = "460px";
 		document.getElementById('bossModalInner').style.left = "34px";
-		document.getElementById('mysteryModal').style.left = "34px";
+		document.getElementById('mysteryModalInner').style.left = "34px";
 		
 	}
 	
@@ -1407,12 +1407,12 @@ function SetFlagOptions() {
 		totalobj++;
 	}
 	
-	if (totalobj > 5) {
-		var adjustedheightcount = (20 * (totalobj - 5));
+	if (totalobj > 4) {
+		var adjustedheightcount = (20 * (totalobj - 4));
 		document.getElementById('objectivelistdiv').style.height = (adjustedheightcount + 100) + "px";
 		if (verticallayout === '1' && disablelocationtracker === '0') {
 			window.resizeTo(516, 978 + adjustedheightcount);
-			document.getElementById('trackingtable').style.top =  430 + adjustedheightcount + "px";
+			document.getElementById('trackingtable').style.top =  430 + (isMystery ? 20 : 0) + adjustedheightcount + "px";
 		} else {
 			window.resizeTo(946, 518 + adjustedheightcount);
 		}
