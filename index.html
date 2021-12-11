@@ -2,8 +2,8 @@
 	<body onload="load_cookie();" bgcolor="#000063">
 		<head>
 			<title>FFIV Free Enterprise Tracker Launcher - Created by BigDunka</title>
-			<link rel="stylesheet" href="./styles/stylesheet.css?v=212">
-			<script src="./scripts/launcher.js?v=212"></script>
+			<link rel="stylesheet" href="./styles/stylesheet.css?v=213">
+			<script src="./scripts/launcher.js?v=213"></script>
 			<script type="text/javascript" src="./scripts/jquery-3.3.1.js"></script>
 			<script type="text/javascript" src="./scripts/jquery.powertip.js"></script>
 			<script type="text/javascript" src="./scripts/bootstrap.min.js"></script>
@@ -27,7 +27,7 @@
 		
 		<div style="float: left; width: 400px; font-size: 18px;">
 			<img src="./images/ffivfebanner.png" style="width: 380px"><br>
-			<div style="font-size: 20px; color: white; margin: 8px 20px 0px 0px;">Final Fantasy IV: Free Enterprise Tracker<span style="font-size: 15px;"> V2.1.2</span><br>Configured for version 4.4.X</div><br><br>
+			<div style="font-size: 20px; color: white; margin: 8px 20px 0px 0px;">Final Fantasy IV: Free Enterprise Tracker<span style="font-size: 15px;"> V2.1.3</span><br>Configured for version 4.4.X</div><br><br>
 			<span style="text-decoration: underline;">Free Enterprise Home</span><br>
 			Visit the official site: <a href="http://ff4fe.com/" target="_blank">FF IV FE Official Site</a>
 			<br><br>
@@ -49,10 +49,6 @@
 		</div>
 		
 		<div style="width: 624px; float: left; margin-left: 40px;">
-			<div style="width: 100%; color: white; font-size: 20px; background: #55555561; border: #0f0; border-width: 2px; border-style: solid; padding: 5px;">
-				<center>We've updated our URL! Please bookmark the new URL: <a href="https://ff4fetracker.dunka.net">https://ff4fetracker.dunka.net</a> and update your default tracker settings!</center>
-			</div>
-			<br>
 			<center><span style="font-size: 22px;">V&nbsp&nbsp&nbsp&nbspPaste Your Flags Here&nbsp&nbsp&nbsp&nbspV</span></center>
 			<textarea style="width: 100%; height: 50px; box-shadow: 0 0 4px 2px rgba(255, 255, 255, 1.0); margin-top: 8px;" placeholder="Paste Flags Here" id="flags" ></textarea><br><br>
 
@@ -63,9 +59,10 @@
 						<span style="font-size: 22px; text-decoration: underline;">Ladder</span><br>
 						<input type="button" value="Fuwario " onclick="loadflags('O1:quest_forge/2:quest_tradepink/3:quest_pass/win:crystal Kmain/trap Pkey Crelaxed/start:fusoya/j:abilities Twildish Sstandard/no:j Bstandard/alt:gauntlet Nchars/key/bosses Etoggle/noexp Gwarp/life/sylph -kit:freedom -supersmith -vanilla:fusoya');" style="width: 240px; text-align: center; font-size: 16px; font-family: 'AgencyFB', sans-serif; font-weight: bold;" />
 						<input type="button" value="Supermarket Sweep" onclick="loadflags('Orandom:3,gated_quest/req:all/win:crystal Kmain Pshop Crelaxed/j:abilities Twild Swild/free/no:apples Bstandard/whyburn Nnone Etoggle Glife/sylph -spoon');" style="width: 240px; text-align: center; font-size: 16px; font-family: 'AgencyFB', sans-serif; font-weight: bold;" /><br><br>
-						<input type="button" value="Fabul Gauntlet Mk II" onclick="loadflags('Orandom:5,gated_quest/win:crystal Kmain/summon/moon Pkey Cstandard/distinct:7/j:abilities/nodupes/bye Tpro Spro/sell:quarter Bstandard/alt:gauntlet Nchars/key Etoggle Glife/sylph -kit:basic -noadamants');" style="width: 240px; text-align: center; font-size: 16px; font-family: 'AgencyFB', sans-serif; font-weight: bold;" />
-						<input type="button" value="Giant%" onclick="loadflags('Omode:classicgiant/win:game Kmain/moon Pnone Cstandard Twild/no:j Scabins/free Bstandard/whichburn Nnone Etoggle/no:jdrops Gdupe/mp/warp/life/sylph -kit:basic -noadamants -spoon -supersmith');" style="width: 240px; text-align: center; font-size: 16px; font-family: 'AgencyFB', sans-serif; font-weight: bold;" /><br><br>
-						<input type="button" value="Mystery" onclick="loadflags('Mystery');" style="width: 240px; text-align: center; font-size: 16px; font-family: 'AgencyFB', sans-serif; font-weight: bold;" /><br><span style="font-size: 14px;">NOTE: Mystery mode is still being tested, please report any issues, thank you!</span><br><br>
+						<input type="button" value="CHero" onclick="loadflags('O1:quest_forge/2:quest_toroiatreasury/random:2/req:all/win:crystal Kmain/summon/moon Pkey Crelaxed/no:fusoya/j:abilities/nekkie/hero Tpro Sstandard Bstandard/alt:gauntlet/whichburn Nchars/key Etoggle Glife/sylph -kit:freedom -kit2:random -noadamants');" style="width: 240px; text-align: center; font-size: 16px; font-family: 'AgencyFB', sans-serif; font-weight: bold;" />
+						<input type="button" value="10/10" onclick="loadflags('O1:quest_magnes/2:quest_baroncastle/3:quest_zot/4:quest_sealedcave/5:quest_ribbonaltar/6:quest_cavebahamut/7:quest_dwarfcastle/8:quest_lowerbabil/random:2,gated_quest/req:all/win:crystal Kmain/summon/moon Pkey Cstandard/start:any/no:cecil,fusoya/j:abilities/nodupes/party:4 Twildish Sstandard/no:j Bstandard/alt:gauntlet Nchars Etoggle Glife/sylph -kit:better -spoon');" style="width: 240px; text-align: center; font-size: 16px; font-family: 'AgencyFB', sans-serif; font-weight: bold;" /><br><br>
+						<input type="button" value="Hop Til You Shop" onclick="loadflags('O1:quest_murasamealtar/2:quest_crystalaltar/3:quest_whitealtar/4:quest_ribbonaltar/5:quest_masamunealtar/req:4/win:game Kmain/moon/unsafe Pkey Cstandard/distinct:5/j:abilities/nekkie Twildish/money Swild Bstandard/alt:gauntlet/whichburn Nchars Etoggle/noexp/no:jdrops Gmp/warp/life/sylph -kit:better -kit2:money -kit3:money -spoon -supersmith -vanilla:traps -pushbtojump');" style="width: 240px; text-align: center; font-size: 16px; font-family: 'AgencyFB', sans-serif; font-weight: bold;" />
+						<input type="button" value="Mystery" onclick="loadflags('Mystery');" style="width: 240px; text-align: center; font-size: 16px; font-family: 'AgencyFB', sans-serif; font-weight: bold;" /><br><br>
 						
 						<span style="font-size: 22px; text-decoration: underline;">Misc</span><br>
 						<input type="button" value="Highw4y to the Zemus Zone" onclick="loadflags('O1:quest_forge/2:quest_cavebahamut/3:boss_wyvern/random:2,gated_quest,boss/req:4/win:crystal Kmain/moon Pkey Cstandard/maybe/start:any/no:fusoya/j:abilities/nodupes/hero Tpro Sstandard/no:j Bstandard/alt:gauntlet/whichburn Nchars/key Etoggle Gnone -kit:freedom -noadamants');" style="width: 240px; text-align: center; font-size: 16px; font-family: 'AgencyFB', sans-serif; font-weight: bold;" />
