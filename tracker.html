@@ -14,6 +14,7 @@
 			<script src="./scripts/tracking_interface.js"></script>
 
 			<script type="text/javascript">
+			let ti = new tracking_interface();
 			let ki_map = {
 			  0x00: KeyItem.PACKAGE,
 			  0x01: KeyItem.SANDRUBY,
@@ -71,14 +72,14 @@
       // Define this function to set KIs. slot is the docced index at
 			// http://wiki.ff4fe.com/doku.php?id=developer_integration
 			// value is true or false
-			function auto_set_ki(slot, value) {
+			ti.auto_set_ki = (slot, value) => {
 			  keyitems[ki_map[slot]] = value;
 			}
 
 			// Define this function to set KI locations, slot is the docced index at
 			// http://wiki.ff4fe.com/doku.php?id=developer_integration
 			// value is true or false
-			function auto_set_loc_ki(slot, value) {
+			ti.auto_set_loc_ki = (slot, value) => {
 			  if (ki_location_map[slot] !== undefined) {
 					if (keyitemlocations[ki_location_map[slot]] !== 0 &&
 						keyitemlocations[ki_location_map[slot]] !== 3) {
@@ -88,18 +89,18 @@
 								keyitemlocations[ki_location_map[slot]] = 1;
 						}
 					}
+					else {
+
+					}
 				}
-			// Give the state update function here if you have one, don't know why just setting it didn't work
-			set_auto_update_func(ApplyChecks);
+			// Set the state update function here if you have one
+			ti.auto_update_func = ApplyChecks;
 
-			</script>
-
-			<script type="text/javascript">
 				$(document).ready(function(){
 					SetModes();
 					ApplyChecks();
 					// Gotta get connected to get started
-					getConnected();
+					ti.getConnected();
 				});
 			</script>
 			<script async src="https://www.googletagmanager.com/gtag/js?id=UA-121466364-1"></script>
