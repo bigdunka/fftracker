@@ -58,7 +58,7 @@ function tracking_interface() {
            }
            module.auto_update_func()
      },
-     (err) => { console.log("bleh" + err) })
+     (err) => { /* console.log("bleh" + err) */ })
    }
 
    module.auto_set_ki = (a,b) => {}

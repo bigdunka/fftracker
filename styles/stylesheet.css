@@ -75,6 +75,7 @@ hr {
   display: inline-block;
   width: 52px;
   height: 24px;
+  float: right;
 }
 
 /* Hide default HTML checkbox */

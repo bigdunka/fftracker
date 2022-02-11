@@ -48,7 +48,7 @@ function create_network(parent, isReact = true) {
                 return;
             }
 
-            socket = await snes.connect('ws://localhost:8080');
+            socket = await snes.connect('ws://localhost:' + autotrackingport);
             socket.onclose = socket_onclose;
 
             parent.log('Connected to websocket');
@@ -87,9 +87,14 @@ function create_network(parent, isReact = true) {
                       device.attached = i;
                     }
                     updateState();
+					autotrackingerror = false;
+					flagautotrackingerror(autotrackingerror);
                 }
             } catch (error) {
                 parent.log(`Could not attach to device: ${error}`);
+				autotrackingmessage = `Could not attach to device: ${error}`
+				autotrackingerror = true;
+				flagautotrackingerror(autotrackingerror);
                 /* Set to 1 to signal a reconnect to socket_onclose */
                 device.state = 1;
                 device.attached = -1;
@@ -98,6 +103,9 @@ function create_network(parent, isReact = true) {
             }
         }
         catch (error) {
+			autotrackingmessage = `Could not attach to device: ${error}`
+			autotrackingerror = true;
+			flagautotrackingerror(autotrackingerror);
             parent.log(`Could not connect to the websocket, retrying: ${error}`);
             device.state = 0;
             device.attached = -1;

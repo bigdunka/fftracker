@@ -59,6 +59,7 @@ var modeflags = {
 	kmoon: false,
 	ktrap: false,
 	kunsafe: false,
+	knofree: false,
 	pshop: false,
 	pkey: false,
 	pchests: false,
@@ -67,6 +68,7 @@ var modeflags = {
 	crelaxed: false,
 	cmaybe: false,
 	chero: false,
+	cnofree: false,
 	cdistinct: 0,
 	climit: 5,
 	ccecil: true,
@@ -107,8 +109,6 @@ var modeflags = {
 	baltgauntlet: false,
 	bwhyburn: false,
 	bwhichburn: false,
-	nchars: false,
-	nkey: false,
 	nbosses: false,
 	eencounters: 'evanilla',
 	ekeepdoors: false,
@@ -148,6 +148,10 @@ var disablelocationtracker = '0';
 var disablebosstracker = '0';
 var disablecharactertracker = '0';
 var disableobjectivetracker = '0';
+var enableautotracking = '0';
+var autotrackingport = '0';
+var autotrackingmessage = '';
+var autotrackingerror = false;
 
 var partyswap = 0;
 var ignoreswap = false;
@@ -189,6 +193,13 @@ function SetModes() {
 	disablecharactertracker = getParameterByName('h');
 	
 	disableobjectivetracker = getParameterByName('o');
+	
+	if (getParameterByName('a').startsWith('1')) {
+		enableautotracking = '1';
+		autotrackingport = getParameterByName('a').substr(1);
+	} else {
+		document.getElementById('autotrackingdiv').style.display = "none";
+	}
 	
 	if (disableloctracker === '1') {
 		keyitemlocations = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1];
@@ -605,6 +616,9 @@ function SetModes() {
 						case 'UNSAFE':
 							modeflags.kunsafe = true;
 							break;
+						case 'NOFREE':
+							modeflags.knofree = true;
+							break;
 					}
 				}
 			}
@@ -652,6 +666,9 @@ function SetModes() {
 							break;
 						case 'MAYBE':
 							modeflags.cmaybe = true;
+							break;
+						case 'NOFREE':
+							modeflags.cnofree = true;
 							break;
 						case 'J:SPELLS':
 							modeflags.cjspells = true;
@@ -916,26 +933,6 @@ function SetModes() {
 							break;
 						case 'WHICHBURN':
 							modeflags.bwhichburn = true;
-							break;
-					}
-				}
-			}
-			
-			//Challenges
-			if (flagsets[fs].startsWith('N')) {
-				var flagstring = flagsets[fs].substr(1);
-				var keys = flagstring.split('/');
-				
-				for (var k in keys) {
-					switch (keys[k]) {
-						case 'CHARS':
-							modeflags.nchars = true;
-							break;
-						case 'KEY':
-							modeflags.nkey = true;
-							break;
-						case 'BOSSES':
-							modeflags.nbosses = true;
 							break;
 					}
 				}
@@ -1357,14 +1354,14 @@ function SetFlagOptions() {
 		document.getElementById('itemspan26').onclick = function() { return false; }
 	} */
 	
-	if (modeflags.nchars) {
+	if (modeflags.cnofree) {
 		characterlocations[CharacterCheck.DAMCYAN] = 3;
 		characterlocations[CharacterCheck.MT_ORDEALS] = 3;
 		characterlocations[CharacterCheck.MYSIDIA] = 3;
 		characterlocations[CharacterCheck.WATERWAY] = 3;
 	}
 	
-	if (modeflags.nkey) {
+	if (modeflags.knofree) {
 		keyitemlocations[KeyItemCheck.TOROIA] = 3;
 	} else {
 		if (disablebosstracker === '1') {
@@ -2374,8 +2371,8 @@ function ViewMystery() {
 	document.getElementById('mystery_ktrap').checked = modeflags.ktrap;
 	document.getElementById('mystery_chero').checked = modeflags.chero;
 	document.getElementById('mystery_climit').value = modeflags.climit;
-	document.getElementById('mystery_nchars').checked = modeflags.nchars;
-	document.getElementById('mystery_nkey').checked = modeflags.nkey;
+	document.getElementById('mystery_nchars').checked = modeflags.cnofree;
+	document.getElementById('mystery_nkey').checked = modeflags.knofree;
 	document.getElementById('mystery_gwarp').checked = modeflags.gwarp;
 	document.getElementById('mystery_oexpnokeybonus').checked = modeflags.oexpnokeybonus;
 	document.getElementById('mystery_opushbtojump').checked = modeflags.opushbtojump;
@@ -2496,9 +2493,9 @@ function CloseMystery() {
 		
 		modeflags.chero = document.getElementById('mystery_chero').checked;
 		modeflags.climit = document.getElementById('mystery_climit').value;
-		modeflags.nchars = document.getElementById('mystery_nchars').checked;
+		modeflags.cnofree = document.getElementById('mystery_nchars').checked;
 				
-		if (modeflags.nchars) {
+		if (modeflags.cnofree) {
 			characterlocations[CharacterCheck.DAMCYAN] = 3;
 			characterlocations[CharacterCheck.MT_ORDEALS] = 3;
 			characterlocations[CharacterCheck.MYSIDIA] = 3;
@@ -2510,9 +2507,9 @@ function CloseMystery() {
 			characterlocations[CharacterCheck.WATERWAY] = 0;			
 		}
 		
-		modeflags.nkey = document.getElementById('mystery_nkey').checked;
+		modeflags.knofree = document.getElementById('mystery_nkey').checked;
 		
-		if (modeflags.nkey) {
+		if (modeflags.knofree) {
 			keyitemlocations[KeyItemCheck.TOROIA] = 3;
 			keyitemlocations[KeyItemCheck.MIST] = 0;
 			if (disablebosstracker === '1') {
@@ -2642,4 +2639,20 @@ function HighlightClear(partySlot) {
 
 function UnhighlightClear(partySlot) {
 	document.getElementById('partyClear' + partySlot).style.backgroundColor = "rgb(255,255,255,.3)";
+}
+
+function showautotrackingstatus() {
+	document.getElementById('autotrackingdiv').innerHTML = autotrackingmessage;
+}
+
+function resetautotrackingstatus() {
+	document.getElementById('autotrackingdiv').innerHTML = "(?)";
+}
+
+function flagautotrackingerror(x) {
+	if (x == true) {
+		document.getElementById('autotrackingdiv').style.color = "#F00";
+	} else {
+		document.getElementById('autotrackingdiv').style.color = "#CCC";
+	}	
 }
