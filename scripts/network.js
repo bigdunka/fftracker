@@ -29,7 +29,7 @@ function create_network(parent, isReact = true) {
         snes.clearBusy();
 
         if (device.state !== 0) {
-            setTimeout(onConnect, 1000);
+            setTimeout(onConnect, 2000);
             parent.log('Trying to reconnect');
         }
 
@@ -110,7 +110,7 @@ function create_network(parent, isReact = true) {
             device.state = 0;
             device.attached = -1;
             updateState();
-            setTimeout(onConnect, 2000);
+            setTimeout(onConnect, 4000);
         }
     }
 

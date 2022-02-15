@@ -66,10 +66,31 @@
 				0x0038: KeyItemCheck.MOON_WHITE
 			}
 
-			let ki_trap_map = {
-      // It looks like Dunka's tracker does traps in groups, not in singulars? it's unclear
+      function resetObjectives() {
+				for (let i=4; i < 98; i++) {
+					objectives[i] = 2;
+				}
 			}
-      // Define this function to set KIs. slot is the docced index at
+      // In an enabling framework, i think you have to do them all at once
+      ti.auto_set_live_objectives = (values) => {
+				resetObjectives();
+				for (let i=0; i < values.length; i++) {
+				  let objectiveIndex = objectivenames.indexOf(values[i]);
+				  objectives[objectiveIndex+4] = 0;
+				}
+				SetObjectives();
+			}
+
+			ti.auto_set_objective = (slot, value) => {
+				// for objectives, the 'slot' is the text of the objective
+				let index = objectivenames.indexOf(slot);
+				if (index > -1) {
+					objectives[index+4] = value ? 0 : 1; // Reverse values of expected
+					checkOffObjective(index+4); // Then use this to get the image to update right
+				}
+			}
+
+			// Define this function to set KIs. slot is the docced index at
 			// http://wiki.ff4fe.com/doku.php?id=developer_integration
 			// value is true or false
 			ti.auto_set_ki = (slot, value) => {
@@ -103,7 +124,6 @@
 				if (enableautotracking == '1') {
 					ti.getConnected();
 				}
-				
 			});
 			</script>
 			<script async src="https://www.googletagmanager.com/gtag/js?id=UA-121466364-1"></script>

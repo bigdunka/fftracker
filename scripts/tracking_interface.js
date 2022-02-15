@@ -1,28 +1,96 @@
 function tracking_interface() {
-  let network_kis;
   let timerID;
+  let objectiveTimerID;
   let module = {};
+
+  module.network_objectives = null;
+  module.network_kis = null;
   module.auto_update_func = () => {};
 
   module.getConnected = getConnected
   function getConnected() {
-    network_kis = create_network(console, isReact=false);
-    network_kis.onConnect().then(
-      () => { this.timerID = setInterval( keep_updating_kis, 100) },
-      () => {console.log("Failure") }
+    module.network_kis = new create_network(console, isReact=false);
+    module.network_kis.onConnect().then(
+      () => { this.timerID = setInterval( module.keep_updating_kis, 100) },
+      () => {console.log("Failure on KI connection") }
+    );
+    module.network_objectives = new create_network(console, isReact=false);
+    module.network_objectives.onConnect().then(
+      () => { setTimeout(module.get_objectives_from_metadata, 1000);
+              this.objectiveTimerID = setInterval( module.keep_updating_objectives, 1000) },
+      () => {console.log("Failure on objectives connection") }
     );
   }
+
   module.disconnect = disconnect
   function disconnect() {
-    if (timerID) {
+    if (this.timerID) {
       clearInterval(timerID);
     }
-    network_kis.disconnect();
+    if (this.objectiveTimerID) {
+      clearInterval(objectiveTimerID);
+    }
+    module.network_kis.disconnect();
+    module.network_objective.disconnect();
+  }
+
+  module.auto_set_live_objectives = (values) => {}
+  module.set_live_objectives = set_live_objectives;
+  function set_live_objectives(){
+    module.auto_set_live_objectives(module.objectives);
+  }
+
+  module.objectives = null;
+  module.get_objectives_from_metadata = get_objectives_from_metadata;
+  function get_objectives_from_metadata() {
+    module.network_objectives.snes.send(module.network_objectives.snes.create_message("Info")
+  ).then((out) => {
+     let infoArray = JSON.parse(out.data).Results;
+     let filename = infoArray[2];
+     return filename;
+   }).then((filename) => {
+     return module.network_objectives.snes.getFile(
+       module.network_objectives.snes.create_message("GetFile",[filename]))
+   }).then((metadata) => {
+     module.objectives = JSON.parse(metadata).objectives;
+     module.set_live_objectives();
+     return;
+   });
+  }
+  module.keep_updating_objectives = keep_updating_objectives;
+  function keep_updating_objectives() {
+    if (!module.objectives) {
+      return;
+    }
+    let count = module.objectives.length.toString(16);
+    module.network_objectives.snes.send(JSON.stringify({
+       "Opcode" : "GetAddress",
+       "Space" : "SNES",
+       "Operands": ["0xF51520", count]
+    })).then(
+      (event) => {
+       return event.data.arrayBuffer()
+     }).then(
+       (ab) => {
+         let objectiveFlags = new Uint8Array(ab);
+         for (let i=0; i < module.objectives.length; i++) {
+            module.set_objective(module.objectives[i], !!objectiveFlags[i]);
+         }
+         module.auto_update_func();
+       },
+       (err) => { /* console.log("bleh" + err) */ });
+  }
+
+  module.auto_set_objective = (a,b) => {}
+  module.set_objective = set_objective
+  function set_objective(index, truth=True) {
+    module.auto_set_objective(index, truth);
+    //console.log("lki:" + index + ":" + truth);
   }
 
   module.keep_updating_kis = keep_updating_kis
   function keep_updating_kis() {
-    network_kis.snes.send(JSON.stringify({
+    module.network_kis.snes.send(JSON.stringify({
        "Opcode" : "GetAddress",
        "Space" : "SNES",
        "Operands": ["0xF51500", "20"]
@@ -58,7 +126,7 @@ function tracking_interface() {
            }
            module.auto_update_func()
      },
-     (err) => { /* console.log("bleh" + err) */ })
+     (err) => { /* console.log("bleh" + err) */ });
    }
 
    module.auto_set_ki = (a,b) => {}
