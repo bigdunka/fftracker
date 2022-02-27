@@ -115,6 +115,12 @@
 					}
 				}
 			// Set the state update function here if you have one
+      function AutoTrackerErrorHandler(msg) {
+				autotrackingmessage = msg;
+				autotrackingerror = !ti.status();
+				flagautotrackingerror(autotrackingerror);
+			}
+
 			ti.auto_update_func = ApplyChecks;
 
 			$(document).ready(function(){
@@ -122,7 +128,7 @@
 				ApplyChecks();
 				// Gotta get connected to get started
 				if (enableautotracking == '1') {
-					ti.getConnected();
+					ti.getConnected(autotrackingport, AutoTrackerErrorHandler);
 				}
 			});
 			</script>

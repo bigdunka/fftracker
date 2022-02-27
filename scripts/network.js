@@ -1,4 +1,4 @@
-function create_network(parent, isReact = true) {
+function create_network(parent, port, messagehandler, isReact = true) {
     const snes = new usb2snes();
 
     let socket = null;
@@ -48,7 +48,7 @@ function create_network(parent, isReact = true) {
                 return;
             }
 
-            socket = await snes.connect('ws://localhost:' + autotrackingport);
+            socket = await snes.connect('ws://localhost:' + port);
             socket.onclose = socket_onclose;
 
             parent.log('Connected to websocket');
@@ -87,26 +87,27 @@ function create_network(parent, isReact = true) {
                       device.attached = i;
                     }
                     updateState();
-					autotrackingerror = false;
-					flagautotrackingerror(autotrackingerror);
                 }
             } catch (error) {
-                parent.log(`Could not attach to device: ${error}`);
-				autotrackingmessage = `Could not attach to device: ${error}`
-				autotrackingerror = true;
-				flagautotrackingerror(autotrackingerror);
+                const message = `Could not attach to device: ${error}`;
+                parent.log(message);
                 /* Set to 1 to signal a reconnect to socket_onclose */
-                device.state = 1;
+                if (messagehandler) {
+                  messagehandler(message);
+                }
+        				device.state = 1;
                 device.attached = -1;
                 updateState();
                 socket.close();
             }
         }
         catch (error) {
-			autotrackingmessage = `Could not attach to device: ${error}`
-			autotrackingerror = true;
-			flagautotrackingerror(autotrackingerror);
-            parent.log(`Could not connect to the websocket, retrying: ${error}`);
+            const message = `Could not attach to device: ${error}`;
+            parent.log(message);
+            if (messagehandler) {
+              messagehandler(message);
+            }
+            /* Set to 1 to signal a reconnect to socket_onclose */
             device.state = 0;
             device.attached = -1;
             updateState();
@@ -116,6 +117,11 @@ function create_network(parent, isReact = true) {
 
     async function disconnect() {
       disconnecting = true;
+      const message = `Intentional disconnect`;
+      parent.log(message);
+      if (messagehandler) {
+        messagehandler(message);
+      }
       device.state = 0;
       device.attached = -1;
       socket.close();
@@ -130,7 +136,7 @@ function create_network(parent, isReact = true) {
         }
     }
 
-    return { onConnect , disconnect,  snes };
+    return { onConnect , disconnect,  snes, device };
 }
 
 // Probably not needed, but left here just in case

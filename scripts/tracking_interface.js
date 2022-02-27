@@ -7,14 +7,25 @@ function tracking_interface() {
   module.network_kis = null;
   module.auto_update_func = () => {};
 
+  module.status = status
+  function status() {
+    if ((module.network_kis && module.network_kis.device && module.network_kis.device.attached > -1)
+       && (module.network_objectives && module.network_objectives.device && module.network_objectives.device.attached > -1)) {
+         return true;
+    }
+    return false;
+  }
+
   module.getConnected = getConnected
-  function getConnected() {
-    module.network_kis = new create_network(console, isReact=false);
+  function getConnected(port, errorhandler) {
+    port = port || 8080;
+    console.log;
+    module.network_kis = new create_network(console, port, errorhandler, isReact=false);
     module.network_kis.onConnect().then(
       () => { this.timerID = setInterval( module.keep_updating_kis, 100) },
       () => {console.log("Failure on KI connection") }
     );
-    module.network_objectives = new create_network(console, isReact=false);
+    module.network_objectives = new create_network(console, port, errorhandler, isReact=false);
     module.network_objectives.onConnect().then(
       () => { setTimeout(module.get_objectives_from_metadata, 1000);
               this.objectiveTimerID = setInterval( module.keep_updating_objectives, 1000) },
@@ -40,9 +51,33 @@ function tracking_interface() {
     module.auto_set_live_objectives(module.objectives);
   }
 
+
+
   module.objectives = null;
+  module.flags = null; // WARNING: Flags will be <hidden> on a mystery seed
   module.get_objectives_from_metadata = get_objectives_from_metadata;
   function get_objectives_from_metadata() {
+      module.network_objectives.snes.send(JSON.stringify({
+         "Opcode" : "GetAddress",
+         "Space" : "SNES",
+         "Operands": ["0x1FF000", '400']
+      })).then(
+        (event) => {
+         return event.data.arrayBuffer()
+       }).then(
+       (metadata) => {
+         let x = new Uint8Array(metadata);
+         let bytes = x[0] + 256 * x[1];
+         let meta = new TextDecoder("utf-8").decode(x.slice(4,bytes+4));
+         module.objectives = JSON.parse(meta).objectives;
+         module.flags = JSON.parse(meta).flags.toUpperCase();
+         module.set_live_objectives();
+         return;
+     });
+  }
+
+  module.get_objectives_from_file_metadata = get_objectives_from_file_metadata;
+  function get_objectives_from_file_metadata() {
     module.network_objectives.snes.send(module.network_objectives.snes.create_message("Info")
   ).then((out) => {
      let infoArray = JSON.parse(out.data).Results;
@@ -53,6 +88,7 @@ function tracking_interface() {
        module.network_objectives.snes.create_message("GetFile",[filename]))
    }).then((metadata) => {
      module.objectives = JSON.parse(metadata).objectives;
+     module.flags = JSON.parse(metadata).flags.toUpperCase();
      module.set_live_objectives();
      return;
    });
