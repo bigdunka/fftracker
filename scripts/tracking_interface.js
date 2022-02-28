@@ -19,9 +19,10 @@ function tracking_interface() {
     console.log;
     module.network = new create_network(console, port, errorhandler, isReact=false);
     module.network.onConnect().then(
-      () => { setTimeout(module.get_objectives_from_metadata, 1000);
-              this.timerID = setInterval( module.keep_updating_kis, 100) },
-      () => {console.log("Failure on connection") }
+        () => { module.get_objectives_from_metadata(); })
+      .then(
+        () => { this.timerID = setInterval( module.keep_updating_kis, 100); },
+        () => { console.log("Failure on connection"); }
     );
   }
 
@@ -42,8 +43,8 @@ function tracking_interface() {
   module.objectives = null;
   module.flags = null; // WARNING: Flags will be <hidden> on a mystery seed
   module.get_objectives_from_metadata = get_objectives_from_metadata;
-  function get_objectives_from_metadata() {
-      module.network_objectives.snes.send(JSON.stringify({
+  async function get_objectives_from_metadata() {
+      return module.network.snes.send(JSON.stringify({
          "Opcode" : "GetAddress",
          "Space" : "SNES",
          "Operands": ["0x1FF000", '400']
@@ -55,6 +56,7 @@ function tracking_interface() {
          let x = new Uint8Array(metadata);
          let bytes = x[0] + 256 * x[1];
          let meta = new TextDecoder("utf-8").decode(x.slice(4,bytes+4));
+         console.log(meta.objective);
          module.objectives = JSON.parse(meta).objectives;
          module.flags = JSON.parse(meta).flags.toUpperCase();
          module.set_live_objectives();
@@ -65,14 +67,14 @@ function tracking_interface() {
   // This can handle arbitrary length objectives, but doesn't appear to work on emulators
   module.get_objectives_from_file_metadata = get_objectives_from_file_metadata;
   function get_objectives_from_file_metadata() {
-    module.network_objectives.snes.send(module.network_objectives.snes.create_message("Info")
+    module.network.snes.send(module.network.snes.create_message("Info")
   ).then((out) => {
      let infoArray = JSON.parse(out.data).Results;
      let filename = infoArray[2];
      return filename;
    }).then((filename) => {
-     return module.network_objectives.snes.getFile(
-       module.network_objectives.snes.create_message("GetFile",[filename]))
+     return module.network.snes.getFile(
+       module.network.snes.create_message("GetFile",[filename]))
    }).then((metadata) => {
      module.objectives = JSON.parse(metadata).objectives;
      module.flags = JSON.parse(metadata).flags.toUpperCase();
@@ -88,7 +90,7 @@ function tracking_interface() {
       return;
     }
     let count = module.objectives.length.toString(16);
-    module.network_objectives.snes.send(JSON.stringify({
+    module.network.snes.send(JSON.stringify({
        "Opcode" : "GetAddress",
        "Space" : "SNES",
        "Operands": ["0xF51520", count]
