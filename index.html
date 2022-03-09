@@ -2,8 +2,8 @@
 	<body onload="load_cookie();" bgcolor="#000063">
 		<head>
 			<title>FFIV Free Enterprise Tracker Launcher - Created by BigDunka</title>
-			<link rel="stylesheet" href="./styles/stylesheet.css?v=220">
-			<script src="./scripts/launcher.js?v=220"></script>
+			<link rel="stylesheet" href="./styles/stylesheet.css?v=221">
+			<script src="./scripts/launcher.js?v=221"></script>
 			<script type="text/javascript" src="./scripts/jquery-3.3.1.js"></script>
 			<script type="text/javascript" src="./scripts/jquery.powertip.js"></script>
 			<script type="text/javascript" src="./scripts/bootstrap.min.js"></script>
@@ -27,7 +27,7 @@
 		
 		<div style="float: left; width: 400px; font-size: 18px;">
 			<img src="./images/ffivfebanner.png" style="width: 380px"><br>
-			<div style="font-size: 20px; color: white; margin: 8px 20px 0px 0px;">Final Fantasy IV: Free Enterprise Tracker<span style="font-size: 15px;"> V2.2.0</span><br>Configured for version 4.5.X</div><br><br>
+			<div style="font-size: 20px; color: white; margin: 8px 20px 0px 0px;">Final Fantasy IV: Free Enterprise Tracker<span style="font-size: 15px;"> V2.2.1</span><br>Configured for version 4.5.X</div><br><br>
 			<span style="text-decoration: underline;">Free Enterprise Home</span><br>
 			Visit the official site: <a href="http://ff4fe.com/" target="_blank">FF IV FE Official Site</a>
 			<br><br>
@@ -56,18 +56,19 @@
 				<div style=" padding: 10px;">
 					<center>
 						<span style="font-size: 28px; text-decoration: underline;">Presets</span><br><br>
-						<span style="font-size: 22px; text-decoration: underline;">Ladder</span><br>
-						<input type="button" value="Supermarket Sweep" onclick="loadflags('Orandom:4,boss/req:3/win:crystal Kmain Pshop Crelaxed/j:abilities Twild Swild/free/no:apples Bstandard/whyburn Etoggle Glife/sylph -spoon');" style="width: 240px; text-align: center; font-size: 16px; font-family: 'AgencyFB', sans-serif; font-weight: bold;" />
-						<input type="button" value="Push B 2 Jump " onclick="loadflags('O1:quest_forge/2:quest_tradepink/random:1,quest,char/req:all/win:crystal Kmain/summon/moon Pkey Cstandard/j:abilities Twildish Sstandard Bstandard/alt:gauntlet Nchars Etoggle Glife/sylph -kit:basic -kit2:trap -spoon -supersmith -pushbtojump');" style="width: 240px; text-align: center; font-size: 16px; font-family: 'AgencyFB', sans-serif; font-weight: bold;" /><br><br>
-						<input type="button" value="Adamant Cup - Group" onclick="loadflags('Orandom:7,tough_quest/req:7/win:crystal Kmain/summon/moon Pkey Cstandard/nofree/restrict:cecil,fusoya/j:abilities/nekkie/party:4 Twildish/maxtier:7 Sstandard Bstandard/alt:gauntlet Etoggle Glife/sylph/backrow -kit:better -spoon');" style="width: 240px; text-align: center; font-size: 16px; font-family: 'AgencyFB', sans-serif; font-weight: bold;" />
-						<input type="button" value="Adamant Cup - Bracket" onclick="loadflags('Orandom:7,tough_quest/req:7/win:crystal Kmain/summon/moon Pkey Crelaxed/nofree/no:cecil,fusoya/j:abilities/nekkie/party:4 Tpro/maxtier:6 Sstandard/sell:quarter Bstandard/alt:gauntlet Etoggle Glife/sylph -kit:basic -spoon -smith:alt');" style="width: 240px; text-align: center; font-size: 16px; font-family: 'AgencyFB', sans-serif; font-weight: bold;" /><br><br>
+						<!-- <span style="font-size: 22px; text-decoration: underline;">Ladder</span><br> -->
+						<input type="button" value="Supermarket Sweep" onclick="loadflags('Orandom:4,boss/req:3/win:crystal Kmain Pshop Crelaxed/j:abilities Twild Swild/free/no:apples Bstandard/whyburn Etoggle Glife/sylph/backrow -spoon');" style="width: 240px; text-align: center; font-size: 16px; font-family: 'AgencyFB', sans-serif; font-weight: bold;" />
+						<input type="button" value="Push B 2 Jump " onclick="loadflags('O1:quest_forge/2:quest_tradepink/random:1,quest,char/req:all/win:crystal Kmain/summon/moon Pkey Cstandard/nofree/j:abilities Twildish Sstandard Bstandard/alt:gauntlet Etoggle Glife/sylph/backrow -kit:basic -kit2:trap -spoon -pushbtojump');" style="width: 240px; text-align: center; font-size: 16px; font-family: 'AgencyFB', sans-serif; font-weight: bold;" /><br><br>
+						<input type="button" value="Fuwario" onclick="loadflags('O1:quest_forge/2:quest_tradepink/3:quest_pass/win:crystal Kmain/trap/nofree Pkey Crelaxed/nofree/start:fusoya/j:abilities Twildish Sstandard/no:j Bstandard/nofree/alt:gauntlet Etoggle/noexp Gwarp/life/sylph/backrow -kit:freedom -vanilla:fusoya');" style="width: 240px; text-align: center; font-size: 16px; font-family: 'AgencyFB', sans-serif; font-weight: bold;" />
 						<input type="button" value="Mystery" onclick="loadflags('Mystery');" style="width: 240px; text-align: center; font-size: 16px; font-family: 'AgencyFB', sans-serif; font-weight: bold;" /><br><br>
+						<input type="button" value="Adamant Cup Group" onclick="loadflags('Orandom:7,tough_quest/req:7/win:crystal Kmain/summon/moon Pkey Cstandard/nofree/restrict:cecil,fusoya/j:abilities/nekkie/party:4 Twildish/maxtier:7 Sstandard Bstandard/alt:gauntlet Etoggle Glife/sylph/backrow -kit:better -spoon');" style="width: 240px; text-align: center; font-size: 16px; font-family: 'AgencyFB', sans-serif; font-weight: bold;" />
+						<input type="button" value="Adamant Cup Bracket" onclick="loadflags('Orandom:7,tough_quest/req:7/win:crystal Kmain/summon/moon Pkey Crelaxed/nofree/no:cecil,fusoya/j:abilities/nekkie/party:4 Tpro/maxtier:6 Sstandard/sell:quarter Bstandard/alt:gauntlet Etoggle Glife/sylph -kit:basic -spoon -smith:alt');" style="width: 240px; text-align: center; font-size: 16px; font-family: 'AgencyFB', sans-serif; font-weight: bold;" /><br><br>
 						
-						<span style="font-size: 22px; text-decoration: underline;">Misc</span><br>
+						<!-- <span style="font-size: 22px; text-decoration: underline;">Misc</span><br>
 						<input type="button" value="Highw4y to the Zemus Zone" onclick="loadflags('O1:quest_forge/2:quest_cavebahamut/3:boss_wyvern/random:2,gated_quest,boss/req:4/win:crystal Kmain/moon Pkey Cstandard/maybe/start:any/no:fusoya/j:abilities/nodupes/hero Tpro Sstandard/no:j Bstandard/alt:gauntlet/whichburn Nchars/key Etoggle Gnone -kit:freedom -noadamants');" style="width: 240px; text-align: center; font-size: 16px; font-family: 'AgencyFB', sans-serif; font-weight: bold;" />
 						<input type="button" value="Underground Racing Club Season 2" onclick="loadflags('O1:quest_forge/2:quest_tradepink/3:quest_mistcave/4:quest_waterfall/5:quest_antlionnest/6:quest_fabul/random:2,quest/req:7/win:crystal Kmain/summon/moon Pkey Cstandard/maybe/j:abilities/bye Tstandard/sparse:80 Spro/quarter Bstandard/alt:gauntlet Nchars/key Etoggle/no:sirens Glife/sylph -kit:basic -spoon -vanilla:agility');" style="width: 240px; text-align: center; font-size: 16px; font-family: 'AgencyFB', sans-serif; font-weight: bold;" /><br><br>
 						<input type="button" value="Mysidian Jumping Club Season 2" onclick="loadflags('O1:quest_magma/2:quest_tradepink/random:2,quest,char/req:all/win:crystal Kmain/summon/moon/unsafe Pkey Cstandard/j:abilities/nodupes Twildish Sstandard/quarter Bstandard/unsafe/alt:gauntlet Nchars Etoggle Glife/sylph -kit:basic -spoon -pushbtojump');" style="width: 240px; text-align: center; font-size: 16px; font-family: 'AgencyFB', sans-serif; font-weight: bold;" />
-						<input type="button" value="Lunar Racing Club Season 2" onclick="loadflags('O1:quest_ribbonaltar/2:quest_masamunealtar/random:2/win:crystal Kmain/summon/moon/unsafe Pkey Cstandard/distinct:7/j:abilities/nodupes Tpro/junk Scabins/free Bstandard/alt:gauntlet Nchars/key Etoggle Glife/sylph -kit:loaded -noadamants');" style="width: 240px; text-align: center; font-size: 16px; font-family: 'AgencyFB', sans-serif; font-weight: bold;" /><br><br>
+						<input type="button" value="Lunar Racing Club Season 2" onclick="loadflags('O1:quest_ribbonaltar/2:quest_masamunealtar/random:2/win:crystal Kmain/summon/moon/unsafe Pkey Cstandard/distinct:7/j:abilities/nodupes Tpro/junk Scabins/free Bstandard/alt:gauntlet Nchars/key Etoggle Glife/sylph -kit:loaded -noadamants');" style="width: 240px; text-align: center; font-size: 16px; font-family: 'AgencyFB', sans-serif; font-weight: bold;" /><br><br> -->
 						Have more presets that you'd want added? Send me a DM on Discord @ BigDunka#8354
 					</center>
 				</div>
