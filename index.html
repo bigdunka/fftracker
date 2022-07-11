@@ -2,8 +2,8 @@
 	<body onload="load_cookie();" bgcolor="#000063">
 		<head>
 			<title>FFIV Free Enterprise Tracker Launcher - Created by BigDunka</title>
-			<link rel="stylesheet" href="./styles/stylesheet.css?v=222">
-			<script src="./scripts/launcher.js?v=222"></script>
+			<link rel="stylesheet" href="./styles/stylesheet.css?v=223">
+			<script src="./scripts/launcher.js?v=223"></script>
 			<script type="text/javascript" src="./scripts/jquery-3.3.1.js"></script>
 			<script type="text/javascript" src="./scripts/jquery.powertip.js"></script>
 			<script type="text/javascript" src="./scripts/bootstrap.min.js"></script>
@@ -24,7 +24,7 @@
 		
 		<div style="float: left; width: 400px; font-size: 18px;">
 			<img src="./images/ffivfebanner.png" style="width: 380px"><br>
-			<div style="font-size: 20px; color: white; margin: 8px 20px 0px 0px;">Final Fantasy IV: Free Enterprise Tracker<span style="font-size: 15px;"> V2.2.2</span><br>Configured for version 4.5.X</div><br><br>
+			<div style="font-size: 20px; color: white; margin: 8px 20px 0px 0px;">Final Fantasy IV: Free Enterprise Tracker<span style="font-size: 15px;"> V2.2.3</span><br>Configured for version 4.5.X</div><br><br>
 			<span style="text-decoration: underline;">Free Enterprise Home</span><br>
 			Visit the official site: <a href="http://ff4fe.com/" target="_blank">FF IV FE Official Site</a>
 			<br><br>
@@ -54,12 +54,12 @@
 					<center>
 						<span style="font-size: 28px; text-decoration: underline;">Presets</span><br><br>
 						<!-- <span style="font-size: 22px; text-decoration: underline;">Ladder</span><br> -->
-						<input type="button" value="Ladder Standard" onclick="loadflags('Orandom:5,tough_quest/req:4/win:crystal Kmain/summon/moon Pkey Cstandard/nofree/maybe/restrict:cecil,fusoya/j:abilities/nekkie Twildish Sstandard Bstandard/alt:gauntlet Etoggle Gwarp/life/sylph/backrow -kit:better -noadamants -spoon');" style="width: 240px; text-align: center; font-size: 16px; font-family: 'AgencyFB', sans-serif; font-weight: bold;" />
-						<input type="button" value="Ladder Hard" onclick="loadflags('O1:quest_forge/random:4,tough_quest/req:4/win:crystal Kmain/summon/moon/nofree Pkey Cstandard/nofree/maybe/start:any/no:fusoya/j:abilities Tpro Sstandard Bstandard/alt:gauntlet Etoggle Glife/sylph/backrow -kit:basic -noadamants -spoon -smith:alt');" style="width: 240px; text-align: center; font-size: 16px; font-family: 'AgencyFB', sans-serif; font-weight: bold;" /><br><br>
+						<input type="button" value="Ladder Standard" onclick="loadflags('Orandom:7,tough_quest/req:6/win:crystal Kmain/summon/moon Pkey Cstandard/nofree/j:abilities/nekkie Twildish Sstandard Bstandard/alt:gauntlet Etoggle Gwarp/life/sylph/backrow -kit:better -noadamants -spoon');" style="width: 240px; text-align: center; font-size: 16px; font-family: 'AgencyFB', sans-serif; font-weight: bold;" />
+						<input type="button" value="ZZ5" onclick="loadflags('O1:boss_golbez/2:boss_fabulgauntlet/random:6,boss/req:7/win:crystal Kmain/summon/moon/force:hook Pkey Crelaxed/noearned/distinct:7/start:any/no:fusoya/j:abilities/nekkie/nodupes Twildish Sstandard Bstandard/alt:gauntlet Etoggle Gwarp/life/sylph/backrow -kit:basic -kit2:freedom -noadamants -spoon -smith:super');" style="width: 240px; text-align: center; font-size: 16px; font-family: 'AgencyFB', sans-serif; font-weight: bold;" /><br><br>
 						<input type="button" value="Falcon%" onclick="loadflags('O1:quest_falcon/req:all/win:game Kmain/nofree/force:hook Pnone Cstandard/nofree/no:fusoya/j:abilities Tpro Sstandard/sell:quarter Bstandard/alt:gauntlet Etoggle Gwarp/life/sylph/backrow -kit:basic -noadamants -spoon');" style="width: 240px; text-align: center; font-size: 16px; font-family: 'AgencyFB', sans-serif; font-weight: bold;" />
+						<input type="button" value="Giant%" onclick="loadflags('Omode:classicgiant/win:game Kmain/moon Pnone Cstandard Twild/no:j Scabins/free Bstandard/whichburn Nnone Etoggle/no:jdrops Gdupe/mp/warp/life/sylph -kit:basic -noadamants -spoon -supersmith');" style="width: 240px; text-align: center; font-size: 16px; font-family: 'AgencyFB', sans-serif; font-weight: bold;" /><br><br>
+						<input type="button" value="Supermarket Sweep" onclick="loadflags('Orandom:4,tough_quest,boss/req:3/win:crystal Kmain Pshop Crelaxed/j:abilities Twild Swild/free/no:apples Bstandard/whyburn Etoggle Glife/sylph/backrow -spoon');" style="width: 240px; text-align: center; font-size: 16px; font-family: 'AgencyFB', sans-serif; font-weight: bold;" />
 						<input type="button" value="Mystery" onclick="loadflags('Mystery');" style="width: 240px; text-align: center; font-size: 16px; font-family: 'AgencyFB', sans-serif; font-weight: bold;" /><br><br>
-						<input type="button" value="Adamant Cup Group" onclick="loadflags('Orandom:7,tough_quest/req:7/win:crystal Kmain/summon/moon Pkey Cstandard/nofree/restrict:cecil,fusoya/j:abilities/nekkie/party:4 Twildish/maxtier:7 Sstandard Bstandard/alt:gauntlet Etoggle Glife/sylph/backrow -kit:better -spoon');" style="width: 240px; text-align: center; font-size: 16px; font-family: 'AgencyFB', sans-serif; font-weight: bold;" />
-						<input type="button" value="Adamant Cup Bracket" onclick="loadflags('Orandom:7,tough_quest/req:7/win:crystal Kmain/summon/moon Pkey Crelaxed/nofree/no:cecil,fusoya/j:abilities/nekkie/party:4 Tpro/maxtier:6 Sstandard/sell:quarter Bstandard/alt:gauntlet Etoggle Glife/sylph -kit:basic -spoon -smith:alt');" style="width: 240px; text-align: center; font-size: 16px; font-family: 'AgencyFB', sans-serif; font-weight: bold;" /><br><br>
 						
 						<!-- <span style="font-size: 22px; text-decoration: underline;">Misc</span><br>
 						<input type="button" value="Highw4y to the Zemus Zone" onclick="loadflags('O1:quest_forge/2:quest_cavebahamut/3:boss_wyvern/random:2,gated_quest,boss/req:4/win:crystal Kmain/moon Pkey Cstandard/maybe/start:any/no:fusoya/j:abilities/nodupes/hero Tpro Sstandard/no:j Bstandard/alt:gauntlet/whichburn Nchars/key Etoggle Gnone -kit:freedom -noadamants');" style="width: 240px; text-align: center; font-size: 16px; font-family: 'AgencyFB', sans-serif; font-weight: bold;" />
