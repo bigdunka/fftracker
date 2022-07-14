@@ -698,8 +698,9 @@ function SetModes() {
 							if (keys[k].startsWith('START')) {
 								if (keys[k].substring(6) === 'ANY') {
 									anystart = true;
+								} else {
+									modeflags.cstart = keys[k].substring(6);
 								}
-								//modeflags.cstart = keys[k].substring(6);
 							}
 							if (keys[k].startsWith('PARTY')) {
 								modeflags.climit = keys[k].substring(6);
@@ -709,40 +710,40 @@ function SetModes() {
 								for (var j in cha) {
 									switch (cha[j]) {
 										case 'CECIL':
-											modeflags.ccecil = (anystart === true ? true : false);
+											modeflags.ccecil = (anystart === true || modeflags.cstart == cha[j] ? true : false);
 											break;
 										case 'KAIN':
-											modeflags.ckain = (anystart === true ? true : false);
+											modeflags.ckain = (anystart === true || modeflags.cstart == cha[j] ? true : false);
 											break;
 										case 'RYDIA':
-											modeflags.crydia = (anystart === true ? true : false);
+											modeflags.crydia = (anystart === true || modeflags.cstart == cha[j] ? true : false);
 											break;
 										case 'TELLAH':
-											modeflags.ctellah = (anystart === true ? true : false);
+											modeflags.ctellah = (anystart === true || modeflags.cstart == cha[j] ? true : false);
 											break;
 										case 'EDWARD':
-											modeflags.cedward = (anystart === true ? true : false);
+											modeflags.cedward = (anystart === true || modeflags.cstart == cha[j] ? true : false);
 											break;
 										case 'ROSA':
-											modeflags.crosa = (anystart === true ? true : false);
+											modeflags.crosa = (anystart === true || modeflags.cstart == cha[j] ? true : false);
 											break;
 										case 'YANG':
-											modeflags.cyang = (anystart === true ? true : false);
+											modeflags.cyang = (anystart === true || modeflags.cstart == cha[j] ? true : false);
 											break;
 										case 'PALOM':
-											modeflags.cpalom = (anystart === true ? true : false);
+											modeflags.cpalom = (anystart === true || modeflags.cstart == cha[j] ? true : false);
 											break;
 										case 'POROM':
-											modeflags.cporom = (anystart === true ? true : false);
+											modeflags.cporom = (anystart === true || modeflags.cstart == cha[j] ? true : false);
 											break;
 										case 'CID':
-											modeflags.ccid = (anystart === true ? true : false);
+											modeflags.ccid = (anystart === true || modeflags.cstart == cha[j] ? true : false);
 											break;
 										case 'EDGE':
-											modeflags.cedge = (anystart === true ? true : false);
+											modeflags.cedge = (anystart === true || modeflags.cstart == cha[j] ? true : false);
 											break;
 										case 'FUSOYA':
-											modeflags.cfusoya = (anystart === true ? true : false);
+											modeflags.cfusoya = (anystart === true || modeflags.cstart == cha[j] ? true : false);
 											break;
 									}
 								}
