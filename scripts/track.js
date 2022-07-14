@@ -69,6 +69,7 @@ var modeflags = {
 	cmaybe: false,
 	chero: false,
 	cnofree: false,
+	cnoearned: false,
 	cdistinct: 0,
 	climit: 5,
 	ccecil: true,
@@ -669,6 +670,9 @@ function SetModes() {
 							break;
 						case 'NOFREE':
 							modeflags.cnofree = true;
+							break;
+						case 'NOEARNED':
+							modeflags.cnoearned = true;
 							break;
 						case 'J:SPELLS':
 							modeflags.cjspells = true;
@@ -1360,6 +1364,20 @@ function SetFlagOptions() {
 		characterlocations[CharacterCheck.MT_ORDEALS] = 3;
 		characterlocations[CharacterCheck.MYSIDIA] = 3;
 		characterlocations[CharacterCheck.WATERWAY] = 3;
+	}
+	
+	if (modeflags.cnoearned) {
+		characterlocations[CharacterCheck.MIST] = 3;
+		characterlocations[CharacterCheck.KAIPO] = 3;
+		characterlocations[CharacterCheck.MT_HOBS] = 3;
+		characterlocations[CharacterCheck.BARON_CASTLE] = 3;
+		characterlocations[CharacterCheck.BARON_INN] = 3;
+		characterlocations[CharacterCheck.TOWER_ZOT] = 3;
+		characterlocations[CharacterCheck.DWARF] = 3;
+		characterlocations[CharacterCheck.EBLAN_CAVE] = 3;
+		characterlocations[CharacterCheck.MOON] = 3;
+		characterlocations[CharacterCheck.GIANT_BABIL] = 3;
+		
 	}
 	
 	if (modeflags.knofree) {
