@@ -2,10 +2,10 @@
 	<body bgcolor="#000063">
 		<head>
 			<title>FFIV Free Enterprise Tracker - Created by BigDunka</title>
-			<link rel="stylesheet" href="./styles/stylesheet.css?v=225">
-			<script src="./scripts/enums.js?v=225"></script>
-			<script src="./scripts/items.js?v=225"></script>
-			<script src="./scripts/track.js?v=225"></script>
+			<link rel="stylesheet" href="./styles/stylesheet.css?v=226">
+			<script src="./scripts/enums.js?v=226"></script>
+			<script src="./scripts/items.js?v=226"></script>
+			<script src="./scripts/track.js?v=226"></script>
 			<script type="text/javascript" src="./scripts/jquery-3.3.1.js"></script>
 			<script type="text/javascript" src="./scripts/jquery.powertip.js"></script>
 			<link rel="stylesheet" type="text/css" href="./styles/jquery.powertip.css" />
@@ -66,10 +66,32 @@
 				0x0038: KeyItemCheck.MOON_WHITE
 			}
 
-			let ki_trap_map = {
-      // It looks like Dunka's tracker does traps in groups, not in singulars? it's unclear
+			function resetObjectives() {
+				for (let i=4; i < 98; i++) {
+					objectives[i] = 2;
+				}
 			}
-      // Define this function to set KIs. slot is the docced index at
+			
+			// In an enabling framework, i think you have to do them all at once
+			ti.auto_set_live_objectives = (values) => {
+				resetObjectives();
+				for (let i=0; i < values.length; i++) {
+				  let objectiveIndex = objectivenames.indexOf(values[i]);
+				  objectives[objectiveIndex+4] = 0;
+				}
+				SetObjectives();
+			}
+
+			ti.auto_set_objective = (slot, value) => {
+				// for objectives, the 'slot' is the text of the objective
+				let index = objectivenames.indexOf(slot);
+				if (index > -1) {
+					objectives[index+4] = value ? 0 : 1; // Reverse values of expected
+					checkOffObjective(index+4); // Then use this to get the image to update right
+				}
+			}
+
+			// Define this function to set KIs. slot is the docced index at
 			// http://wiki.ff4fe.com/doku.php?id=developer_integration
 			// value is true or false
 			ti.auto_set_ki = (slot, value) => {
@@ -94,6 +116,12 @@
 					}
 				}
 			// Set the state update function here if you have one
+			function AutoTrackerErrorHandler(msg) {
+				autotrackingmessage = msg;
+				autotrackingerror = !ti.status();
+				flagautotrackingerror(autotrackingerror);
+			}
+
 			ti.auto_update_func = ApplyChecks;
 
 			$(document).ready(function(){
@@ -101,9 +129,8 @@
 				ApplyChecks();
 				// Gotta get connected to get started
 				if (enableautotracking == '1') {
-					ti.getConnected();
+					ti.getConnected(autotrackingport, AutoTrackerErrorHandler);
 				}
-				
 			});
 			</script>
 			<script async src="https://www.googletagmanager.com/gtag/js?id=UA-121466364-1"></script>
@@ -854,40 +881,40 @@
 		<div class="modal fade" id="bossModal" aria-hidden="true" onclick="CloseBoss();" style="width: 100%; height: 100%; background-color: rgba(51, 51, 51, 0.6); z-index: 2; position: absolute; top: 0px; left: 0px;">
 			<div id="bossModalInner" onclick="IgnoreMenuClose();" style="position: absolute; top: 20px; z-index: 3; left: 0px; background: url(./images/itemmenu.png); width: 404px; height: 386px; font-size: 18px; padding: 10px;">
 				<span onclick="CloseBoss();" class="clickablediv">[X] Close</span><br><br>
-				<span id="bossmodal0" onclick="SwapBoss(0);" class="bossmodalspan clickablediv" >Mist Dragon</span>
-				<span id="bossmodal1" onclick="SwapBoss(1);" class="bossmodalspan clickablediv" >Baron Soldiers</span>
-				<span id="bossmodal2" onclick="SwapBoss(2);" class="bossmodalspan clickablediv" >Octomamm</span><br>
 				<span id="bossmodal3" onclick="SwapBoss(3);" class="bossmodalspan clickablediv" >Antlion</span>
-				<span id="bossmodal4" onclick="SwapBoss(4);" class="bossmodalspan clickablediv" >Waterhag</span>
-				<span id="bossmodal5" onclick="SwapBoss(5);" class="bossmodalspan clickablediv" >Mom Bomb</span><br>
-				<span id="bossmodal6" onclick="SwapBoss(6);" class="bossmodalspan clickablediv" >Fabul Gauntlet</span>
-				<span id="bossmodal7" onclick="SwapBoss(7);" class="bossmodalspan clickablediv" >Milon</span>
-				<span id="bossmodal8" onclick="SwapBoss(8);" class="bossmodalspan clickablediv" >MilonZ</span><br>
-				<span id="bossmodal9" onclick="SwapBoss(9);" class="bossmodalspan clickablediv" >Dark Knight Cecil</span>
-				<span id="bossmodal10" onclick="SwapBoss(10);" class="bossmodalspan clickablediv" >Baron Guards</span>
-				<span id="bossmodal11" onclick="SwapBoss(11);" class="bossmodalspan clickablediv" >Yang</span><br>
-				<span id="bossmodal12" onclick="SwapBoss(12);" class="bossmodalspan clickablediv" >Baigan</span>
-				<span id="bossmodal13" onclick="SwapBoss(13);" class="bossmodalspan clickablediv" >Kainazzo</span>
-				<span id="bossmodal14" onclick="SwapBoss(14);" class="bossmodalspan clickablediv" >Dark Elf</span><br>
-				<span id="bossmodal15" onclick="SwapBoss(15);" class="bossmodalspan clickablediv" >Magus Sisters</span>
-				<span id="bossmodal16" onclick="SwapBoss(16);" class="bossmodalspan clickablediv" >Valvalis</span>
-				<span id="bossmodal17" onclick="SwapBoss(17);" class="bossmodalspan clickablediv" >Calcabrina</span><br>
-				<span id="bossmodal18" onclick="SwapBoss(18);" class="bossmodalspan clickablediv" >Golbez</span>
-				<span id="bossmodal19" onclick="SwapBoss(19);" class="bossmodalspan clickablediv" >Dr Lugae</span>
-				<span id="bossmodal20" onclick="SwapBoss(20);" class="bossmodalspan clickablediv" >Dark Imps</span><br>
-				<span id="bossmodal21" onclick="SwapBoss(21);" class="bossmodalspan clickablediv" >K & Q Eblan</span>
-				<span id="bossmodal22" onclick="SwapBoss(22);" class="bossmodalspan clickablediv" >Rubicant</span>
-				<span id="bossmodal23" onclick="SwapBoss(23);" class="bossmodalspan clickablediv" >Evil Wall</span><br>
-				<span id="bossmodal24" onclick="SwapBoss(24);" class="bossmodalspan clickablediv" >Elementals</span>
-				<span id="bossmodal25" onclick="SwapBoss(25);" class="bossmodalspan clickablediv" >CPU</span>
-				<span id="bossmodal26" onclick="SwapBoss(26);" class="bossmodalspan clickablediv" >Odin</span><br>
 				<span id="bossmodal27" onclick="SwapBoss(27);" class="bossmodalspan clickablediv" >Asura</span>
-				<span id="bossmodal28" onclick="SwapBoss(28);" class="bossmodalspan clickablediv" >Leviathan</span>
-				<span id="bossmodal29" onclick="SwapBoss(29);" class="bossmodalspan clickablediv" >Bahamut</span><br>
-				<span id="bossmodal30" onclick="SwapBoss(30);" class="bossmodalspan clickablediv" >Pale Dim</span>
-				<span id="bossmodal31" onclick="SwapBoss(31);" class="bossmodalspan clickablediv" >Lunar Dragons</span>
-				<span id="bossmodal32" onclick="SwapBoss(32);" class="bossmodalspan clickablediv" >Plague</span><br>
+				<span id="bossmodal29" onclick="SwapBoss(29);" class="bossmodalspan clickablediv" >Bahamut</span>
+				<span id="bossmodal12" onclick="SwapBoss(12);" class="bossmodalspan clickablediv" >Baigan</span>
+				<span id="bossmodal1" onclick="SwapBoss(1);" class="bossmodalspan clickablediv" >Baron Soldiers</span>
+				<span id="bossmodal17" onclick="SwapBoss(17);" class="bossmodalspan clickablediv" >Calbrena</span>
+				<span id="bossmodal25" onclick="SwapBoss(25);" class="bossmodalspan clickablediv" >CPU</span>
+				<span id="bossmodal9" onclick="SwapBoss(9);" class="bossmodalspan clickablediv" >D.Knight</span>
+				<span id="bossmodal31" onclick="SwapBoss(31);" class="bossmodalspan clickablediv" >D.Lunars</span>
+				<span id="bossmodal0" onclick="SwapBoss(0);" class="bossmodalspan clickablediv" >D.Mist</span>
+				<span id="bossmodal14" onclick="SwapBoss(14);" class="bossmodalspan clickablediv" >Dark Elf</span>
+				<span id="bossmodal20" onclick="SwapBoss(20);" class="bossmodalspan clickablediv" >Dark Imps</span>
+				<span id="bossmodal19" onclick="SwapBoss(19);" class="bossmodalspan clickablediv" >Dr. Lugae</span>
+				<span id="bossmodal24" onclick="SwapBoss(24);" class="bossmodalspan clickablediv" >Elements</span>
+				<span id="bossmodal23" onclick="SwapBoss(23);" class="bossmodalspan clickablediv" >EvilWall</span>
+				<span id="bossmodal6" onclick="SwapBoss(6);" class="bossmodalspan clickablediv" >Fabul Gauntlet</span>
+				<span id="bossmodal18" onclick="SwapBoss(18);" class="bossmodalspan clickablediv" >Golbez</span>
+				<span id="bossmodal10" onclick="SwapBoss(10);" class="bossmodalspan clickablediv" >Guards</span>
+				<span id="bossmodal21" onclick="SwapBoss(21);" class="bossmodalspan clickablediv" >K & Q Eblan</span>
+				<span id="bossmodal13" onclick="SwapBoss(13);" class="bossmodalspan clickablediv" >Kainazzo</span>
+				<span id="bossmodal11" onclick="SwapBoss(11);" class="bossmodalspan clickablediv" >Karate</span>
+				<span id="bossmodal28" onclick="SwapBoss(28);" class="bossmodalspan clickablediv" >Leviatan</span>
+				<span id="bossmodal15" onclick="SwapBoss(15);" class="bossmodalspan clickablediv" >Magus Sisters</span>
+				<span id="bossmodal7" onclick="SwapBoss(7);" class="bossmodalspan clickablediv" >Milon</span>
+				<span id="bossmodal8" onclick="SwapBoss(8);" class="bossmodalspan clickablediv" >Milon Z.</span>
+				<span id="bossmodal5" onclick="SwapBoss(5);" class="bossmodalspan clickablediv" >MomBomb</span>
+				<span id="bossmodal2" onclick="SwapBoss(2);" class="bossmodalspan clickablediv" >Octomamm</span>
+				<span id="bossmodal26" onclick="SwapBoss(26);" class="bossmodalspan clickablediv" >Odin</span>
 				<span id="bossmodal33" onclick="SwapBoss(33);" class="bossmodalspan clickablediv" >Ogopogo</span>
+				<span id="bossmodal32" onclick="SwapBoss(32);" class="bossmodalspan clickablediv" >Plague</span>
+				<span id="bossmodal30" onclick="SwapBoss(30);" class="bossmodalspan clickablediv" >Pale Dim</span>
+				<span id="bossmodal22" onclick="SwapBoss(22);" class="bossmodalspan clickablediv" >Rubicant</span>
+				<span id="bossmodal16" onclick="SwapBoss(16);" class="bossmodalspan clickablediv" >Valvalis</span>
+				<span id="bossmodal4" onclick="SwapBoss(4);" class="bossmodalspan clickablediv" >Waterhag</span>
 				<span id="bossmodal34" onclick="SwapBoss(34);" class="bossmodalspan clickablediv" >Wyvern</span>
 			</div>
 		</div>
