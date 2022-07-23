@@ -2,10 +2,10 @@
 	<body bgcolor="#000063">
 		<head>
 			<title>FFIV Free Enterprise Tracker - Created by BigDunka</title>
-			<link rel="stylesheet" href="./styles/stylesheet.css?v=226">
-			<script src="./scripts/enums.js?v=226"></script>
-			<script src="./scripts/items.js?v=226"></script>
-			<script src="./scripts/track.js?v=226"></script>
+			<link rel="stylesheet" href="./styles/stylesheet.css?v=227">
+			<script src="./scripts/enums.js?v=227"></script>
+			<script src="./scripts/items.js?v=227"></script>
+			<script src="./scripts/track.js?v=227"></script>
 			<script type="text/javascript" src="./scripts/jquery-3.3.1.js"></script>
 			<script type="text/javascript" src="./scripts/jquery.powertip.js"></script>
 			<link rel="stylesheet" type="text/css" href="./styles/jquery.powertip.css" />
@@ -727,194 +727,43 @@
 			</div>
 		</div>
 
-		<!-- <div class="modal fade" id="flagsModal" aria-hidden="true" onclick="CloseFlags();" style="width: 100%; height: 100%; background-color: rgba(51, 51, 51, 0.6); z-index: 2; position: absolute; top: 0px; left: 0px; overflow-y: scroll;">
-			<div id="flagsModalInner" onclick="IgnoreMenuClose();" style="position: absolute; top: 20px; z-index: 2; left: 450px; background: url(./images/itemmenu.png); width: 404px; height: 386px; font-size: 18px; padding: 10px; overflow: scroll;">
-				<div id="flagsselectdiv">
-					<span onclick="CloseFlags();" class="clickablediv">[X] Close</span><br><br>
-					<span>Click Category to Expand for Details</span><br><br>
-					<span onclick="CloseFlags(); LoadObjectives();" class="clickablediv">Objectives</span><br>
-					<span onclick="ExpandFlags(0);" class="clickablediv">Key Items</span><br>
-					<span onclick="ExpandFlags(1);" class="clickablediv">Pass</span><br>
-					<span onclick="ExpandFlags(2);" class="clickablediv">Characters</span><br>
-					<span onclick="ExpandFlags(3);" class="clickablediv">Treasures</span><br>
-					<span onclick="ExpandFlags(4);" class="clickablediv">Shops</span><br>
-					<span onclick="ExpandFlags(5);" class="clickablediv">Bosses</span><br>
-					<span onclick="ExpandFlags(6);" class="clickablediv">Challenges</span><br>
-					<span onclick="ExpandFlags(7);" class="clickablediv">Encounters</span><br>
-					<span onclick="ExpandFlags(8);" class="clickablediv">Glitches</span><br>
-					<span onclick="ExpandFlags(9);" class="clickablediv">Other</span><br>
-				</div>
-				<div id="flagdetail0" style="display: none">
-					<span onclick="CloseFlagDetail();" class="clickablediv">[X] Close</span><br><br>
-					<span><u>Key Items</u></span><br><br>
-					<span id="keyitemsKvanilla" style="display: block"><b>Kvanilla - No key item randomization</b></span>
-					<span id="keyitemsKmain" style="display: none"><b>Kmain - Randomized Key Items</b> - The locations of key items are shuffled amongst each other.</span>
-					<span id="keyitemsKsummon" style="display: none"><b>Ksummon - Mix with summon quest rewards</b> - Key items may be awarded by the Sylphs, the king and queen of the Feymarch, Odin's throne, and Cave Bahamut.</span>
-					<span id="keyitemsKmoon" style="display: none"><b>Kmoon - Mix with moon boss rewards</b> - Key items may be awarded by the bosses of the Lunar Subterrane.</span>
-					<span id="keyitemsKtrap" style="display: none"><b>Ktrap - Mix with trapped chests</b> - Key items may be awarded by trapped chest rewards.</span>
-					<span id="keyitemsKunsafe" style="display: none"><b>Kunsafe - No safety checks</b> - Normally, you are guaranteed a path to the underworld that does not require first going to the moon. This flag removes that check.</span>
-				</div>
-				<div id="flagdetail1" style="display: none">
-					<span onclick="CloseFlagDetail();" class="clickablediv">[X] Close</span><br><br>
-					<span><u>Pass</u></span><br><br>
-					<span id="passPshop" style="display: none"><b>Pshop - Include Pass in a shop</b></span>
-					<span id="passPkey" style="display: none"><b>Pkey - Include Pass as a key item</b></span>
-					<span id="passPchests" style="display: none"><b>Pchests - Include Pass in treasure chests</b> - Passes are placed in three random treasure chests (not on the moon).</span>
-				</div>
-				<div id="flagdetail2" style="display: none">
-					<span onclick="CloseFlagDetail();" class="clickablediv">[X] Close</span><br><br>
-					<span><u>Characters</u></span><br><br>
-					<span id="charactersCvanilla" style="display: none"><b>Cvanilla - No character randomization</b></span>
-					<span id="charactersCstandard" style="display: none"><b>Cstandard - Randomize characters</b> - Characters join your party in the same locations as the original game, but the character you meet there is randomized.</span>
-					<span id="charactersCrelaxed" style="display: none"><b>Crelaxed - Randomize characters (relaxed)</b> - Unlike the standard randomization, characters are equally likely to appear in any position.</span>
-					<span id="charactersCmaybe" style="display: none"><b>Cmaybe - Characters not guaranteed to appear</b> - Normally, the randomizer will try to include every eligible character in the game at least once. This flag removes that logic, meaning some eligible characters may not appear.</span>
-					<span id="charactersCdistinct" style="display: none"><b>Cdistinct - <span id="charactersCdistinctCount">X</span> distinct characters</b></span>
-					<span id="charactersExcluded" style="display: none"><b>Excluded Characters</b> - <span id="charactersExcludedList"></span></span>
-					<span id="charactersSpecific" style="display: none"><b>Specific Character</b> - <span id="charactersSpecificList"></span></span>
-					<span id="charactersStarting" style="display: none"><b>Starting Character</b> - <span id="characterStart"></span></span>
-					<span id="charactersCJspells" style="display: none"><b>Cj:spells - Characters learn J-spells</b> - White mages will learn Armor, Shell, and Dispel. All mages learn spells at the levels they would in FF4j.</span>
-					<span id="charactersCJabilities" style="display: none"><b>Cj:abilities - Characters have J-commands</b> - Characters retain the battle commands from FF4j that were removed in FF4us.</span>
-					<span id="charactersCnodupes" style="display: none"><b>Cnodupes - Duplicate characters not allowed</b> - If a duplicate character tries to join your party, instead nothing happens.</span>
-					<span id="charactersCbye" style="display: none"><b>Cbye - Dismissed characters are irretrievable</b> - Dismissed characters cannot be retrieved.</span>
-					<span id="charactersCpermajoin" style="display: none"><b>Cpermajoin - Characters can't be dismissed</b> - You have the choice of whether to accept each new party member, but once your party is full, you cannot recruit anyone else.</span>
-					<span id="charactersCpermadeath" style="display: none"><b>Cpermadeath - Permadeath</b> - Party members that are "swoon" at the end of any battle are permanently removed from the game.</span>
-					<span id="charactersCpermadeader" style="display: none"><b>Cpermadeader - Permadeader</b> - Party members that are swoon or stone at the end of any battle are permanently removed from the game.</span>
-				</div>
-				<div id="flagdetail3" style="display: none">
-					<span onclick="CloseFlagDetail();" class="clickablediv">[X] Close</span><br><br>
-					<span><u>Treasures</u></span><br><br>
-					<span id="treasuresTvanilla" style="display: none"><b>Tvanilla - No chest randomization</b></span>
-					<span id="treasuresTshuffle" style="display: none"><b>Tshuffle - Shuffle chests</b> - Treasure contents are the same as in original FF4, but their positions are shuffled. This randomization is weighted so that overworld treasures tend to remain in the overworld, and similarly for underworld/moon treasures.</span>
-					<span id="treasuresTstandard" style="display: none"><b>Tstandard - Standard chest randomization</b> - A basic randomization, allowing items of reasonable strength to appear. Items are equally likely to appear in any chest regardless of location.</span>
-					<span id="treasuresTpro" style="display: none"><b>Tpro - Pro chest randomization</b> - A skill-testing randomization, limiting the strength of available items, and weighted to favor stronger items in later-game and infrequently-visited areas.</span>
-					<span id="treasuresTwild" style="display: none"><b>Twild - Wild chest randomization</b> - An unrestricted randomization, allowing equal chance for items to appear in any chest, including the most powerful items.</span>
-					<span id="treasuresTwildish" style="display: none"><b>Twildish - Wild-ish chest randomization</b> - Allows items of any strength to appear, including the most powerful items, but uses location-based weighting like the pro randomization.</span>
-					<span id="treasuresTempty" style="display: none"><b>Tempty - Chests are empty</b></span>
-					<span id="treasuresTsparse" style="display: none"><b>Tsparse - Sparse Options</b> - Only <span id="tsparsecount">XX</span>% of chests are filled.</span>
-					<span id="treasuresTnoj" style="display: none"><b>Tno:j - No J-Items in chests</b></span>
-					<span id="treasuresTjunk" style="display: none"><b>Tjunk - Keep junk</b> - Normally, poor-quality items in chests are replaced with an equivalent amount of GP to reduce inventory bloat. Enable this flag if you want to keep them as items.</span>
-				</div>
-				<div id="flagdetail4" style="display: none">
-					<span onclick="CloseFlagDetail();" class="clickablediv">[X] Close</span><br><br>
-					<span><u>Shops</u></span><br><br>
-					<span id="shopsSvanilla" style="display: none"><b>Svanilla - No shop randomization</b></span>
-					<span id="shopsSshuffle" style="display: none"><b>Sshuffle - Shuffle shops</b> - The same items are available for sale in shops as in original FF4, but their locations are shuffled. This randomization is weighted so that overworld shop items tend to remain on the overworld, and similarly for underworld/moon shops.</span>
-					<span id="shopsSstandard" style="display: none"><b>Sstandard - Standard shop randomization</b> - A basic randomization, allowing items of moderate strength to appear in shops, and weighted to place stronger items in later-game shops.</span>
-					<span id="shopsSpro" style="display: none"><b>Spro - Pro shop randomization</b> - A skill-testing randomization, limiting the strength of available items, and weighted to place stronger items in shops gated behind key items.</span>
-					<span id="shopsSwild" style="display: none"><b>Swild - Wild shop randomization</b> - An unrestricted randomization, allowing equal chance for items to appear in any shop, including the most powerful items.</span>
-					<span id="shopsScabins" style="display: none"><b>Scabins - Shops sell only cabins</b></span>
-					<span id="shopsSempty" style="display: none"><b>Sempty - Shops sell nothing</b></span>
-					<span id="shopsSunsafe" style="display: none"><b>Sunsafe - No safety checks</b> - Normally, the randomizer guarantees Cure2 potions, Life potions and StarVeils are readily available, and that Cure3 potions are available in seeds without white mages. This flag removes those checks.</span>
-					<span id="shopsSfree" style="display: none"><b>Sfree - Shop items are free</b></span>
-					<span id="shopsSquarter" style="display: none"><b>Squarter - Items sell for 1/4 price</b></span>
-					<span id="shopsSnoj" style="display: none"><b>Sno:j - No J-items in shops</b></span>
-					<span id="shopsSnoapples" style="display: none"><b>Sno:apples - No Apples/Soma Drops in shops</b></span>
-					<span id="shopsSnosirens" style="display: none"><b>Sno:sirens - No Sirens in shops</b></span>
-				</div>
-				<div id="flagdetail5" style="display: none">
-					<span onclick="CloseFlagDetail();" class="clickablediv">[X] Close</span><br><br>
-					<span><u>Bosses</u></span><br><br>
-					<span id="bossesBvanilla" style="display: none"><b>Bvanilla - No boss randomization</b></span>
-					<span id="bossesBstandard" style="display: none"><b>Bstandard - Randomize bosses</b> - The positions of bosses are shuffled. Boss stats are roughly scaled to match the battle it's replacing.</span>
-					<span id="bossesBunsafe" style="display: none"><b>Bunsafe - No safety checks</b> - Normally, you are guaranteed a path to the underworld that does not require defeating the most difficult bosses. This flag removes that check.</span>
-					<span id="bossesBaltgauntlet" style="display: none"><b>Balt:gauntlet - Alt Gauntlet</b> - Replaces the Fabul Gauntlet boss with five unscaled normal enemy encounters from the nearby area.</span>
-					<span id="bossesBwhyburn" style="display: none"><b>Bwhyburn - Disable Wyvern's opening MegaNuke</b></span>
-					<span id="bossesBwhichburn" style="display: none"><b>Bwhichburn - Replace Wyvern's opening MegaNuke with random attack</b> - Usually, what you get is better than a MegaNuke. Usually.</span>
-				</div>
-				<div id="flagdetail6" style="display: none">
-					<span onclick="CloseFlagDetail();" class="clickablediv">[X] Close</span><br><br>
-					<span><u>Challenges</u></span><br><br>
-					<span id="challengesNchars" style="display: none"><b>Nchars - No Free Characters</b> - Characters will not join your party in the Watery Pass, Damcyan, Mysidia, or Mt. Ordeals.</span>
-					<span id="challengesNkey" style="display: none"><b>Nkey - No Free Key Item</b> - Edward in Toroia will not give you a key item. Instead, a key item may be earned from Rydia's mom in Mist, who will appear after you have found and defeated the Mist Dragon.</span>
-					<span id="challengesNbosses" style="display: none"><b>Nbosses - No Free Bosses</b> - All boss battle enemies have the "boss bit" set. The alternate win conditions are removed from the D.Knight, Karate, K/Q.Eblan, and WaterHag fights.</span>
-				</div>
-				<div id="flagdetail7" style="display: none">
-					<span onclick="CloseFlagDetail();" class="clickablediv">[X] Close</span><br><br>
-					<span><u>Encounters</u></span><br><br>
-					<span id="encountersEvanilla" style="display: none"><b>Evanilla - Original encounter rate</b></span>
-					<span id="encountersEtoggle" style="display: none"><b>Etoggle - Random encounters can be toggled</b> - Encounters can be enabled/disabled from the in-game Custom menu.</span>
-					<span id="encountersEreduce" style="display: none"><b>Ereduce - Random encounters reduced by 50%</b></span>
-					<span id="encountersEnoencounters" style="display: none"><b>Enoencounters - No random encounters</b></span>
-					<span id="encountersEkeepdoors" style="display: none"><b>Ekeep:doors - Preserve TrapDoor fights</b> - Prevents the above encounter rate setting from applying to the TrapDoor fights in the Sealed Cave.</span>
-					<span id="encountersEkeepbehemoths" style="display: none"><b>Ekeep:behemoths - Preserve forced Behemoth fights</b> - Prevents the above encounter rate setting from applying to the forced Behemoth fights in Cave Bahamut.</span>
-					<span id="encountersEdanger" style="display: none"><b>Edanger - Keep dangerous encounters</b> - Back attacks and "Surprised!" encounters will still occur, even when encounters are disabled via Etoggle or Enoencounters.</span>
-					<span id="encountersEnosirens" style="display: none"><b>Eno:sirens - Remove Sirens from drop/sneak tables</b></span>
-					<span id="encountersEnojdrops" style="display: none"><b>Eno:jdrops - Use US version drop/sneak tables</b></span>
-					<span id="encountersEcantrun" style="display: none"><b>Ecantrun - Can't run from battles</b></span>
-					<span id="encountersEnoexp" style="display: none"><b>Enoexp - No EXP for random encounters</b> - Bosses and trapped chest fights still award EXP.</span>
-				</div>
-				<div id="flagdetail8" style="display: none">
-					<span onclick="CloseFlagDetail();" class="clickablediv">[X] Close</span><br><br>
-					<span><u>Glitches</u></span><br><br>
-					<span id="glitchesGdupe" style="display: none"><b>Gdupe - Allow item duplication</b></span>
-					<span id="glitchesGmp" style="display: none"><b>Gmp - Allow MP underflow</b></span>
-					<span id="glitchesGwarp" style="display: none"><b>Gwarp - Allow Dwarf Castle warp</b></span>
-					<span id="glitchesGlife" style="display: none"><b>Glife - Allow Life glitch</b></span>
-					<span id="glitchesGG64" style="display: none"><b>G64 - Allow 64-floor glitch</b></span>
-				</div>
-				<div id="flagdetail9" style="display: none">
-					<span onclick="CloseFlagDetail();" class="clickablediv">[X] Close</span><br><br>
-					<span><u>Other</u></span><br><br>
-					<span id="otherkitminimal" style="display: none"><b>-kit:minimal - Minimal starter kit</b> - You begin the game with just a few basic utility potions and items.</span>
-					<span id="otherkitbasic" style="display: none"><b>-kit:basic - Basic starter kit</b> - You begin the game with an assortment of basic utility potions and items.</span>
-					<span id="otherkitbetter" style="display: none"><b>-kit:better - Better starter kit</b> - You begin the game with an assortment of basic utility potions and items, and a few extra special-use combat items for sticky situations.</span>
-					<span id="otherkiloaded" style="display: none"><b>-kit:loaded - Loaded starter kit</b> - You begin the game with a wide array of utility potions and items.</span>
-					<span id="otherkitspitball" style="display: none"><b>-kit:spitball - "Spitball" starter kit</b> - You begin the game with a randomized subset of the item types found in the "loaded" starter kit (though the quantities you receive of each may exceed what you would get in the loaded kit).</span>
-					<span id="othernoadamants" style="display: none"><b>-noadamants - No Adamant Armor</b> - Adamant Armors are not available. Trading the Pink Tail in the Adamant Grotto instead grants a strong item.</span>
-					<span id="othervintage" style="display: none"><b>-vintage - Vintage Battlefield</b> - Enables the April Fools Day 2019 mode.</span>
-					<span id="otherspoon" style="display: none"><b>-spoon - Edward can equip the Spoon</b></span>
-					<span id="othervanillafusoya" style="display: none"><b>-vanilla:fusoya - Vintage FuSoYa</b> - By default, Free Enterprise runs with the "FuSoYa Challenge", where FuSoYa begins with 500 HP and a collection of low-level spells, and each boss defeated grants him 100 HP and three random additional spells. This flag disables that challenge and restores vanilla's FuSoYa behavior, where he joins with 1900 HP and his full spellset.</span>
-					<span id="othervanillaagility" style="display: none"><b>-vanilla:agility - Vanilla agility anchoring</b> - FF4 scales the speed of combat based on the agility stat of your party's "agility anchor". In Free Enterprise, the anchor is always the first occupied party slot (in the sequence of middle, top, bottom, top-middle, bottom-middle). However, in vanilla FF4, if Cecil is in the party, then he is the agility anchor, regardless of position. Enabling this flag will restore that behavior, making the first Cecil in your party the anchor, if present.</span>
-					<span id="othervanillahobs" style="display: none"><b>-vanilla:hobs - Vanilla Hobs spell</b> - By default, instead of learning Fire1 at Mt. Hobs, Rydia will learn a random summon (other than Leviatan and Bahamut). This flag removes that behavior.</span>
-
-					<span id="otherexpsplit" style="display: none"><b>-exp:split - Split EXP distribution</b> - Normally in Free Enterprise, earned EXP is not divided among the party, and each member receives the full amount. Set this flag to restore the original FF4 EXP distribution scheme (ie. earned EXP is divided among the surviving party members).</span>
-					<span id="otherexpnoboost" style="display: none"><b>-exp:noboost - No low-level EXP boost</b> - Normally in Free Enterprise, in a full party, low-level party members (at least 5 levels below the median level) earn double EXP. Set this flag to remove this bonus.</span>
-					<span id="otherexpnokeybonus" style="display: none"><b>-exp:nokeybonus - No EXP bonus after 10 key items</b> - By default in Free Enterprise, once 10 key items have been collected, earned EXP is doubled. Set this flag to remove this bonus.</span>
-
-					<span id="othervanillafashion" style="display: none"><b>-vanilla:fashion - Vanilla fashion</b> - To help distinguish duplicate characters, Free Enterprise randomizes the battle palettes of each character. Enabling this flag preserves each character's original battle colors.</span>
-					<span id="othervanillatraps" style="display: none"><b>-vanilla:traps - Vanilla trapped chest locations</b> - By default, trapped chests (ie. those with Monsters!) are relocated randomly within the same dungeon/area. This flag forces trapped chests to remain in their original positions.</span>
-					<span id="othervanillaz" style="display: none"><b>-vanilla:z - Vanilla Z Sprite</b> - Free Enterprise replaces Zeromus' battle sprite with a random sprite. (Its battle behavior and stats are unchanged.) Enable this flag to preserve Zeromus' original battle sprite.</span>
-				</div>
-			</div>
-		</div>	-->
-
 		<div class="modal fade" id="bossModal" aria-hidden="true" onclick="CloseBoss();" style="width: 100%; height: 100%; background-color: rgba(51, 51, 51, 0.6); z-index: 2; position: absolute; top: 0px; left: 0px;">
 			<div id="bossModalInner" onclick="IgnoreMenuClose();" style="position: absolute; top: 20px; z-index: 3; left: 0px; background: url(./images/itemmenu.png); width: 404px; height: 386px; font-size: 18px; padding: 10px;">
 				<span onclick="CloseBoss();" class="clickablediv">[X] Close</span><br><br>
-				<span id="bossmodal3" onclick="SwapBoss(3);" class="bossmodalspan clickablediv" >Antlion</span>
-				<span id="bossmodal27" onclick="SwapBoss(27);" class="bossmodalspan clickablediv" >Asura</span>
-				<span id="bossmodal29" onclick="SwapBoss(29);" class="bossmodalspan clickablediv" >Bahamut</span>
-				<span id="bossmodal12" onclick="SwapBoss(12);" class="bossmodalspan clickablediv" >Baigan</span>
-				<span id="bossmodal1" onclick="SwapBoss(1);" class="bossmodalspan clickablediv" >Baron Soldiers</span>
-				<span id="bossmodal17" onclick="SwapBoss(17);" class="bossmodalspan clickablediv" >Calbrena</span>
-				<span id="bossmodal25" onclick="SwapBoss(25);" class="bossmodalspan clickablediv" >CPU</span>
-				<span id="bossmodal9" onclick="SwapBoss(9);" class="bossmodalspan clickablediv" >D.Knight</span>
-				<span id="bossmodal31" onclick="SwapBoss(31);" class="bossmodalspan clickablediv" >D.Lunars</span>
 				<span id="bossmodal0" onclick="SwapBoss(0);" class="bossmodalspan clickablediv" >D.Mist</span>
-				<span id="bossmodal14" onclick="SwapBoss(14);" class="bossmodalspan clickablediv" >Dark Elf</span>
-				<span id="bossmodal20" onclick="SwapBoss(20);" class="bossmodalspan clickablediv" >Dark Imps</span>
-				<span id="bossmodal19" onclick="SwapBoss(19);" class="bossmodalspan clickablediv" >Dr. Lugae</span>
-				<span id="bossmodal24" onclick="SwapBoss(24);" class="bossmodalspan clickablediv" >Elements</span>
-				<span id="bossmodal23" onclick="SwapBoss(23);" class="bossmodalspan clickablediv" >EvilWall</span>
+				<span id="bossmodal1" onclick="SwapBoss(1);" class="bossmodalspan clickablediv" >Baron Soldiers</span>
+				<span id="bossmodal2" onclick="SwapBoss(2);" class="bossmodalspan clickablediv" >Octomamm</span>
+				<span id="bossmodal3" onclick="SwapBoss(3);" class="bossmodalspan clickablediv" >Antlion</span>
+				<span id="bossmodal4" onclick="SwapBoss(4);" class="bossmodalspan clickablediv" >Waterhag</span>
+				<span id="bossmodal5" onclick="SwapBoss(5);" class="bossmodalspan clickablediv" >MomBomb</span>
 				<span id="bossmodal6" onclick="SwapBoss(6);" class="bossmodalspan clickablediv" >Fabul Gauntlet</span>
-				<span id="bossmodal18" onclick="SwapBoss(18);" class="bossmodalspan clickablediv" >Golbez</span>
-				<span id="bossmodal10" onclick="SwapBoss(10);" class="bossmodalspan clickablediv" >Guards</span>
-				<span id="bossmodal21" onclick="SwapBoss(21);" class="bossmodalspan clickablediv" >K & Q Eblan</span>
-				<span id="bossmodal13" onclick="SwapBoss(13);" class="bossmodalspan clickablediv" >Kainazzo</span>
-				<span id="bossmodal11" onclick="SwapBoss(11);" class="bossmodalspan clickablediv" >Karate</span>
-				<span id="bossmodal28" onclick="SwapBoss(28);" class="bossmodalspan clickablediv" >Leviatan</span>
-				<span id="bossmodal15" onclick="SwapBoss(15);" class="bossmodalspan clickablediv" >Magus Sisters</span>
 				<span id="bossmodal7" onclick="SwapBoss(7);" class="bossmodalspan clickablediv" >Milon</span>
 				<span id="bossmodal8" onclick="SwapBoss(8);" class="bossmodalspan clickablediv" >Milon Z.</span>
-				<span id="bossmodal5" onclick="SwapBoss(5);" class="bossmodalspan clickablediv" >MomBomb</span>
-				<span id="bossmodal2" onclick="SwapBoss(2);" class="bossmodalspan clickablediv" >Octomamm</span>
-				<span id="bossmodal26" onclick="SwapBoss(26);" class="bossmodalspan clickablediv" >Odin</span>
-				<span id="bossmodal33" onclick="SwapBoss(33);" class="bossmodalspan clickablediv" >Ogopogo</span>
-				<span id="bossmodal32" onclick="SwapBoss(32);" class="bossmodalspan clickablediv" >Plague</span>
-				<span id="bossmodal30" onclick="SwapBoss(30);" class="bossmodalspan clickablediv" >Pale Dim</span>
-				<span id="bossmodal22" onclick="SwapBoss(22);" class="bossmodalspan clickablediv" >Rubicant</span>
+				<span id="bossmodal9" onclick="SwapBoss(9);" class="bossmodalspan clickablediv" >D.Knight</span>
+				<span id="bossmodal10" onclick="SwapBoss(10);" class="bossmodalspan clickablediv" >Guards</span>
+				<span id="bossmodal11" onclick="SwapBoss(11);" class="bossmodalspan clickablediv" >Karate</span>
+				<span id="bossmodal12" onclick="SwapBoss(12);" class="bossmodalspan clickablediv" >Baigan</span>
+				<span id="bossmodal13" onclick="SwapBoss(13);" class="bossmodalspan clickablediv" >Kainazzo</span>
+				<span id="bossmodal14" onclick="SwapBoss(14);" class="bossmodalspan clickablediv" >Dark Elf</span>
+				<span id="bossmodal15" onclick="SwapBoss(15);" class="bossmodalspan clickablediv" >Magus Sisters</span>
 				<span id="bossmodal16" onclick="SwapBoss(16);" class="bossmodalspan clickablediv" >Valvalis</span>
-				<span id="bossmodal4" onclick="SwapBoss(4);" class="bossmodalspan clickablediv" >Waterhag</span>
+				<span id="bossmodal17" onclick="SwapBoss(17);" class="bossmodalspan clickablediv" >Calbrena</span>
+				<span id="bossmodal18" onclick="SwapBoss(18);" class="bossmodalspan clickablediv" >Golbez</span>
+				<span id="bossmodal19" onclick="SwapBoss(19);" class="bossmodalspan clickablediv" >Dr. Lugae</span>
+				<span id="bossmodal20" onclick="SwapBoss(20);" class="bossmodalspan clickablediv" >Dark Imps</span>
+				<span id="bossmodal21" onclick="SwapBoss(21);" class="bossmodalspan clickablediv" >K & Q Eblan</span>
+				<span id="bossmodal22" onclick="SwapBoss(22);" class="bossmodalspan clickablediv" >Rubicant</span>
+				<span id="bossmodal23" onclick="SwapBoss(23);" class="bossmodalspan clickablediv" >EvilWall</span>
+				<span id="bossmodal24" onclick="SwapBoss(24);" class="bossmodalspan clickablediv" >Elements</span>
+				<span id="bossmodal25" onclick="SwapBoss(25);" class="bossmodalspan clickablediv" >CPU</span>
+				<span id="bossmodal26" onclick="SwapBoss(26);" class="bossmodalspan clickablediv" >Odin</span>
+				<span id="bossmodal27" onclick="SwapBoss(27);" class="bossmodalspan clickablediv" >Asura</span>
+				<span id="bossmodal28" onclick="SwapBoss(28);" class="bossmodalspan clickablediv" >Leviatan</span>
+				<span id="bossmodal29" onclick="SwapBoss(29);" class="bossmodalspan clickablediv" >Bahamut</span>
+				<span id="bossmodal30" onclick="SwapBoss(30);" class="bossmodalspan clickablediv" >Pale Dim</span>
+				<span id="bossmodal31" onclick="SwapBoss(31);" class="bossmodalspan clickablediv" >D.Lunars</span>
+				<span id="bossmodal32" onclick="SwapBoss(32);" class="bossmodalspan clickablediv" >Plague</span>
+				<span id="bossmodal33" onclick="SwapBoss(33);" class="bossmodalspan clickablediv" >Ogopogo</span>
 				<span id="bossmodal34" onclick="SwapBoss(34);" class="bossmodalspan clickablediv" >Wyvern</span>
 			</div>
 		</div>

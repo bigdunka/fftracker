@@ -1688,7 +1688,7 @@ function ApplyChecks(){
 			ActivateCharacterLocation(CharacterCheck.DWARF);
 		}
 		
-		if (characterlocations[CharacterCheck.DWARF] === 2) {
+		if (characterlocations[CharacterCheck.DWARF] === 2 || keyitemlocations[KeyItemCheck.DWARF] === 2) {
 			rydia = true;
 		} else {
 			rydia = false;
