@@ -1908,7 +1908,7 @@ function ApplyChecks(){
 				document.getElementById(l).style.display = "none";
 			}
 		} else {
-			if (keyitemlocations[i] === 2 && i != 28) {
+			if ((keyitemlocations[i] === 2 || keyitemlocations[i] === 4) && i != 28) {
 				document.getElementById(l).style.display = "block";
 				//document.getElementById(l).style.color = "#FFF";
 				document.getElementById(l).style.setProperty("text-decoration", "none");
@@ -2046,14 +2046,14 @@ function ApplyChecks(){
 
 function SwapKeyItemLocation(locationId) {
 	if (keyitemlocations[locationId] === 1) {
-		keyitemlocations[locationId] = 2;
+		keyitemlocations[locationId] = (enableautotracking === '0' ? 2 : 4);
 		if (locationId === KeyItemCheck.HOOK_ROUTE) {
 			hookclear = true;
 		}
 		if (locationId === KeyItemCheck.DWARF && modeflags.gwarp) {
 			keyitemlocations[KeyItemCheck.WARP_GLITCH] = 1;
 		}
-	} else if (keyitemlocations[locationId] === 2) {
+	} else if (keyitemlocations[locationId] === 2 || keyitemlocations[locationId] === 4) {
 		keyitemlocations[locationId] = 1;
 		if (locationId === KeyItemCheck.HOOK_ROUTE) {
 			hookclear = false;

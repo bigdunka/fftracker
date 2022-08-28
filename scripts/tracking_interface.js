@@ -154,7 +154,9 @@ function tracking_interface() {
                let index = (i * 8 + b) - 0x14*8;
                if (index > (0x5D)) continue;
                let truth = !!(memory[i] & (1 << b));
+			   if (keyitemlocations[ki_location_map[index + 0x20]] != 4) {
                set_loc_ki(index + 0x20, truth);
+			   }
              }
            }
            if (module.objectives) {
