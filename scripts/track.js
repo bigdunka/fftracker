@@ -1116,69 +1116,69 @@ function SetFlagOptions() {
 		document.getElementById('party1').style.visibility = 'hidden';
 	}
 	
-	//Exclude characters
-	if (!modeflags.ccecil) {
-		document.getElementById('character0').style.opacity = '0.2';
-		document.getElementById('character0_x').style.visibility = 'visible';
-		excludedCharacters += 'Cecil ';
-	}
-	if (!modeflags.ckain) {
-		document.getElementById('character1').style.opacity = '0.2';
-		document.getElementById('character1_x').style.visibility = 'visible';
-		excludedCharacters += 'Kain ';
-	}
-	if (!modeflags.crydia) {
-		document.getElementById('character2').style.opacity = '0.2';
-		document.getElementById('character2_x').style.visibility = 'visible';
-		excludedCharacters += 'Rydia ';
-	}
-	if (!modeflags.ctellah) {
-		document.getElementById('character3').style.opacity = '0.2';
-		document.getElementById('character3_x').style.visibility = 'visible';
-		excludedCharacters += 'Tellah ';
-	}
-	if (!modeflags.cedward) {
-		document.getElementById('character4').style.opacity = '0.2';
-		document.getElementById('character4_x').style.visibility = 'visible';
-		excludedCharacters += 'Edward ';
-	}
-	if (!modeflags.crosa) {
-		document.getElementById('character5').style.opacity = '0.2';
-		document.getElementById('character5_x').style.visibility = 'visible';
-		excludedCharacters += 'Rosa ';
-	}
-	if (!modeflags.cyang) {
-		document.getElementById('character6').style.opacity = '0.2';
-		document.getElementById('character6_x').style.visibility = 'visible';
-		excludedCharacters += 'Yang ';
-	}
-	if (!modeflags.cpalom) {
-		document.getElementById('character7').style.opacity = '0.2';
-		document.getElementById('character7_x').style.visibility = 'visible';
-		excludedCharacters += 'Palom ';
-	}
-	if (!modeflags.cporom) {
-		document.getElementById('character8').style.opacity = '0.2';
-		document.getElementById('character8_x').style.visibility = 'visible';
-		excludedCharacters += 'Porom ';
-	}
-	if (!modeflags.ccid) {
-		document.getElementById('character9').style.opacity = '0.2';
-		document.getElementById('character9_x').style.visibility = 'visible';
-		excludedCharacters += 'Cid ';
-	}
-	if (!modeflags.cedge) {
-		document.getElementById('character10').style.opacity = '0.2';
-		document.getElementById('character10_x').style.visibility = 'visible';
-		excludedCharacters += 'Edge ';
-	}
-	if (!modeflags.cfusoya) {
-		document.getElementById('character11').style.opacity = '0.2';
-		document.getElementById('character11_x').style.visibility = 'visible';
-		excludedCharacters += 'FuSoYa ';
-	}
-	
 	if (!modeflags.chero) {
+		//Exclude characters
+		if (!modeflags.ccecil) {
+			document.getElementById('character0').style.opacity = '0.2';
+			document.getElementById('character0_x').style.visibility = 'visible';
+			excludedCharacters += 'Cecil ';
+		}
+		if (!modeflags.ckain) {
+			document.getElementById('character1').style.opacity = '0.2';
+			document.getElementById('character1_x').style.visibility = 'visible';
+			excludedCharacters += 'Kain ';
+		}
+		if (!modeflags.crydia) {
+			document.getElementById('character2').style.opacity = '0.2';
+			document.getElementById('character2_x').style.visibility = 'visible';
+			excludedCharacters += 'Rydia ';
+		}
+		if (!modeflags.ctellah) {
+			document.getElementById('character3').style.opacity = '0.2';
+			document.getElementById('character3_x').style.visibility = 'visible';
+			excludedCharacters += 'Tellah ';
+		}
+		if (!modeflags.cedward) {
+			document.getElementById('character4').style.opacity = '0.2';
+			document.getElementById('character4_x').style.visibility = 'visible';
+			excludedCharacters += 'Edward ';
+		}
+		if (!modeflags.crosa) {
+			document.getElementById('character5').style.opacity = '0.2';
+			document.getElementById('character5_x').style.visibility = 'visible';
+			excludedCharacters += 'Rosa ';
+		}
+		if (!modeflags.cyang) {
+			document.getElementById('character6').style.opacity = '0.2';
+			document.getElementById('character6_x').style.visibility = 'visible';
+			excludedCharacters += 'Yang ';
+		}
+		if (!modeflags.cpalom) {
+			document.getElementById('character7').style.opacity = '0.2';
+			document.getElementById('character7_x').style.visibility = 'visible';
+			excludedCharacters += 'Palom ';
+		}
+		if (!modeflags.cporom) {
+			document.getElementById('character8').style.opacity = '0.2';
+			document.getElementById('character8_x').style.visibility = 'visible';
+			excludedCharacters += 'Porom ';
+		}
+		if (!modeflags.ccid) {
+			document.getElementById('character9').style.opacity = '0.2';
+			document.getElementById('character9_x').style.visibility = 'visible';
+			excludedCharacters += 'Cid ';
+		}
+		if (!modeflags.cedge) {
+			document.getElementById('character10').style.opacity = '0.2';
+			document.getElementById('character10_x').style.visibility = 'visible';
+			excludedCharacters += 'Edge ';
+		}
+		if (!modeflags.cfusoya) {
+			document.getElementById('character11').style.opacity = '0.2';
+			document.getElementById('character11_x').style.visibility = 'visible';
+			excludedCharacters += 'FuSoYa ';
+		}		
+		
 		document.getElementById('heroHeaderDiv').style.display = 'none';
 		document.getElementById('party0').classList.remove('hero');
 	} else {
