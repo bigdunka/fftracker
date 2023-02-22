@@ -1332,6 +1332,11 @@ function SetFlagOptions() {
 		keyitemlocations[KeyItemCheck.MOON_WHITE] = 3; //Lunar White
 	}
 	
+	if (modeflags.ktrap && !modeflags.kmoon) {
+		trappedchestlocations[9] = 2;
+	}
+	
+	
 	if (modeflags.sshops == 'empty') {
 		disableitemtracker = '1';
 	}
