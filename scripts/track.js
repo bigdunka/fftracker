@@ -612,6 +612,7 @@ function SetModes() {
 							modeflags.kmoon = true;
 							break;
 						case 'TRAP':
+						case 'MIAB':
 							modeflags.ktrap = true;
 							break;
 						case 'UNSAFE':
