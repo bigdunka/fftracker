@@ -90,7 +90,7 @@ function launch() {
 	
 	if (document.getElementById("remembersettings").checked == true) {
 		var settings = "i-" + itemtracking + "|c-" + loctracking + "|b-" + bosstracking + "|l-" + locationtracking + "|v-" + verticallayout + "|h-" + charactertracking + "|o-" + objectivetracking + "|a-" + autotracking + autotrackingport + '|ver=' + version;
-		document.cookie = "settings=" + settings + "; expires=Sat, 1 Jan 2023 12:00:00 UTC";
+		document.cookie = "settings=" + settings + "; expires=Sat, 1 Jan 2033 12:00:00 UTC";
 	} else {
 		document.cookie = "settings=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
 	}	
