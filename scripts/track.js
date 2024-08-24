@@ -267,12 +267,18 @@ function SetModes() {
 								for (var j in mode) {
 									switch (mode[j]) {
 										case 'CLASSICFORGE':
+											//If autotracking is being used, do not apply, as the objectives will auto-fill for it
 											modeflags.oforge = true;
-											objectives[0] = 0;
+											if (enableautotracking === '0') {
+												objectives[0] = 0;
+											}
 											break;
 										case 'CLASSICGIANT':
+											//If autotracking is being used, do not apply, as the objectives will auto-fill for it
 											modeflags.ogiant = true;
-											objectives[1] = 0;
+											if (enableautotracking === '0') {
+												objectives[1] = 0;
+											}
 											break;
 										case 'FIENDS':
 											modeflags.ofiends = true;
@@ -307,6 +313,14 @@ function SetModes() {
 										default:
 											if (randomquests[l].startsWith('RANDOM')) {
 												modeflags.orandomcount = randomquests[l].substring(7);
+												//If we are ignoring modes because of autotracking, need to add them back in here
+												if (modeflags.oforge === true && enableautotracking === '1') {
+													modeflags.orandomcount++;
+												}
+												if (modeflags.ogiant === true && enableautotracking === '1') {
+													modeflags.orandomcount++;
+												}
+												
 												for (var j = 0; j < modeflags.orandomcount; j++) {
 													objectives[90 + j] = 0;
 												}
